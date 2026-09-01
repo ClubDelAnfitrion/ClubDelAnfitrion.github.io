@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club del Anfitrión — Vinoteca en Bell Ville</title>
+<meta name="description" content="Club del Anfitrión: vinoteca boutique en Bell Ville, Córdoba. Vinos, picadas, reservas y experiencias para compartir.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          "wine-black": "#140b0c",
+          "wine-dark": "#1e1114",
+          "wine-panel": "#26161a",
+          "burgundy": "#5c1128",
+          "garnet": "#7c1f2f",
+          "garnet-light": "#9c3244",
+          "gold": "#c9a24b",
+          "gold-soft": "#e6cf9c",
+          "cream": "#efe6d8",
+          "stone": "#b4a293",
+        },
+        fontFamily: {
+          display: ['"Fraunces"', "serif"],
+          sans: ['"Inter"', "sans-serif"],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #140b0c;
+    background-image:
+      radial-gradient(ellipse 90% 60% at 15% -10%, rgba(124,31,47,0.35), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 100% 0%, rgba(201,162,75,0.08), transparent 55%);
+  }
+  .hairline { background: linear-gradient(90deg, transparent, rgba(201,162,75,0.55), transparent); height: 1px; }
+  .label-serif { font-family: "Fraunces", serif; font-style: italic; }
+  .fade-in { animation: fadeIn 0.9s ease-out both; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .fade-in { animation: none; }
+  }
+  ::selection { background: #c9a24b; color: #140b0c; }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #7c1f2f; border-radius: 4px; }
+  input:focus, textarea:focus, button:focus-visible, a:focus-visible {
+    outline: 2px solid #c9a24b;
+    outline-offset: 2px;
+  }
+  .vine-divider { width: 100%; height: 28px; }
+  #toast-container { position: fixed; top: 1.25rem; right: 1.25rem; z-index: 100; display: flex; flex-direction: column; gap: 0.6rem; }
+  .toast { min-width: 260px; max-width: 340px; }
+  .product-grid-enter { animation: fadeIn 0.5s ease-out both; }
+</style>
+</head>
+
+<body class="font-sans text-cream antialiased selection:bg-gold selection:text-wine-black">
+
+<div id="toast-container" aria-live="polite"></div>
+
+<header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300 border-b border-transparent">
+  <nav class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-20">
+    <a href="#inicio" class="flex items-center gap-3 group">
+      <span class="flex h-10 w-10 items-center justify-center rounded-full border border-gold/60 text-gold group-hover:border-gold transition-colors">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M6 3h12l-1 8a5 5 0 0 1-10 0L6 3Z"/>
+          <path d="M12 14v6M8 20h8"/>
+        </svg>
+      </span>
+      <span class="font-display text-xl tracking-tight text-cream">Club <span class="italic text-gold-soft">del Anfitrión</span></span>
+    </a>
+
+    <ul class="hidden md:flex items-center gap-9 text-sm text-stone">
+      <li><a href="#inicio" class="hover:text-gold-soft transition-colors">Inicio</a></li>
+      <li><a href="#quienes-somos" class="hover:text-gold-soft transition-colors">Quiénes somos</a></li>
+      <li><a href="#ubicacion" class="hover:text-gold-soft transition-colors">Ubicación y horarios</a></li>
+      <li><a href="#reservas" class="hover:text-gold-soft transition-colors">Reservas</a></li>
+      <li><a href="#productos" class="hover:text-gold-soft transition-colors">Nuestros productos</a></li>
+    </ul>
+
+    <a href="#reservas" class="hidden md:inline-flex items-center rounded-full border border-gold px-5 py-2 text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors">
+      Reservar mesa
+    </a>
+
+    <button id="menu-toggle" class="md:hidden text-cream" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+      <svg id="icon-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg id="icon-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="hidden"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="md:hidden hidden bg-wine-black/97 border-t border-gold/20">
+    <ul class="flex flex-col px-6 py-4 gap-4 text-stone text-base">
+      <li><a href="#inicio" class="block py-1 hover:text-gold-soft">Inicio</a></li>
+      <li><a href="#quienes-somos" class="block py-1 hover:text-gold-soft">Quiénes somos</a></li>
+      <li><a href="#ubicacion" class="block py-1 hover:text-gold-soft">Ubicación y horarios</a></li>
+      <li><a href="#reservas" class="block py-1 hover:text-gold-soft">Reservas</a></li>
+      <li><a href="#productos" class="block py-1 hover:text-gold-soft">Nuestros productos</a></li>
+    </ul>
+  </div>
+</header>
+
+<section id="inicio" class="relative min-h-screen flex items-end overflow-hidden">
+  <div class="absolute inset-0">
+    <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=2400&auto=format&fit=crop"
+         alt="Barricas de roble en la bodega del Club del Anfitrión"
+         class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-wine-black via-wine-black/80 to-wine-black/40"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-wine-black/70 via-transparent to-wine-black/30"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto w-full px-6 lg:px-10 pb-24 pt-40">
+    <p class="label-serif text-gold-soft text-lg mb-5 fade-in">Vinoteca boutique — Bell Ville, Córdoba</p>
+    <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.05] max-w-3xl fade-in" style="animation-delay:.1s">
+      El buen vino se comparte, <span class="italic text-gold-soft">no se guarda</span>.
+    </h1>
+    <p class="mt-6 max-w-xl text-stone text-lg leading-relaxed fade-in" style="animation-delay:.2s">
+      Más de veinte años eligiendo vinos de bodegas pequeñas, picadas para armar sobre la mesa
+      y un espacio pensado para recibir como se debe. Esto es Club del Anfitrión.
+    </p>
+
+    <div class="mt-10 flex flex-col sm:flex-row gap-4 fade-in" style="animation-delay:.3s">
+      <a href="#reservas" class="inline-flex justify-center items-center rounded-full bg-gold px-8 py-3.5 text-wine-black font-medium hover:bg-gold-soft transition-colors">
+        Reservar una mesa
+      </a>
+      <a href="#productos" class="inline-flex justify-center items-center rounded-full border border-cream/30 px-8 py-3.5 text-cream hover:border-gold hover:text-gold-soft transition-colors">
+        Explorar el catálogo
+      </a>
+    </div>
+  </div>
+
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-stone/70 animate-bounce hidden sm:block">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+  </div>
+</section>
+
+<section id="quienes-somos" class="relative py-28 lg:py-36">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-16 items-start">
+    <div class="lg:col-span-4">
+      <p class="label-serif text-gold-soft text-lg mb-4">Quiénes somos</p>
+      <h2 class="font-display text-4xl sm:text-5xl leading-tight">Una historia que empezó boca en boca</h2>
+    </div>
+
+    <div class="lg:col-span-7 lg:col-start-6 space-y-6 text-stone text-lg leading-relaxed">
+      <p>
+        Club del Anfitrión nació como un proyecto de familia: llevar vinos distintos, de bodegas
+        chicas y boutique, a la mesa de quien sabía apreciarlos. Sin grandes carteles, sin
+        intermediarios — solo el boca en boca de quienes confiaban en nuestra selección y en
+        el trato personal del servicio a domicilio.
+      </p>
+      <p>
+        Con los años fuimos sumando bodegas de mayor trayectoria, nuevas líneas de productos y,
+        sobre todo, una manera de entender el oficio: no se trata solo de vender una botella,
+        sino de resolver lo que necesita un buen anfitrión. Una picada bien armada, el asado
+        listo para la parrilla, la tabla y el cuchillo adecuados, los mates para el día después.
+      </p>
+      <p>
+        Hoy, con más de veinte años de trayectoria, abrimos un espacio pensado para vivir el
+        vino de otra manera: degustaciones, cenas temáticas y encuentros para compartir —
+        siempre con la misma pasión por la tierra, la vid y la gente que se sienta a la mesa.
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-24 max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="hairline"></div>
+    <div class="grid sm:grid-cols-3 gap-10 mt-14 text-center sm:text-left">
+      <div>
+        <p class="font-display text-4xl text-gold-soft">+20</p>
+        <p class="mt-2 text-stone text-sm">años eligiendo vinos de bodegas boutique</p>
+      </div>
+      <div>
+        <p class="font-display text-4xl text-gold-soft">100%</p>
+        <p class="mt-2 text-stone text-sm">trato personal, de anfitrión a anfitrión</p>
+      </div>
+      <div>
+        <p class="font-display text-4xl text-gold-soft">Bell Ville</p>
+        <p class="mt-2 text-stone text-sm">un espacio propio para degustar y compartir</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ubicacion" class="relative py-28 lg:py-36 bg-wine-dark/60 border-y border-gold/10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <p class="label-serif text-gold-soft text-lg mb-4">Ubicación y horarios</p>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-xl mb-16">Te esperamos en el corazón de Bell Ville</h2>
+
+    <div class="grid lg:grid-cols-2 gap-10 items-stretch">
+      <div class="rounded-2xl overflow-hidden border border-gold/15 min-h-[380px]">
+        <iframe
+          class="w-full h-full min-h-[380px]"
+          src="https://www.google.com/maps?q=-32.6303804,-62.7044654&hl=es&z=17&output=embed"
+          title="Ubicación de Club del Anfitrión en Bell Ville, Córdoba"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+      <div class="rounded-2xl border border-gold/15 bg-wine-panel/60 p-8 sm:p-10 flex flex-col justify-between">
+        <div>
+          <div class="flex items-start gap-4 mb-8">
+            <svg class="text-gold shrink-0 mt-1" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <div>
+              <p class="text-cream font-medium">Dirección</p>
+              <p class="text-stone mt-1">Córdoba 1300, Bell Ville, Córdoba, Argentina</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 mb-8">
+            <svg class="text-gold shrink-0 mt-1" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+            <div>
+              <p class="text-cream font-medium">Teléfono / WhatsApp</p>
+              <p class="text-stone mt-1" id="phone-display">+54 9 3537 51-3148</p>
+              <p class="text-xs text-stone/60 mt-1">Escribinos directo por WhatsApp o llamanos a este número.</p>
+            </div>
+          </div>
+
+          <p class="text-cream font-medium mb-3">Horario de atención</p>
+          <ul id="schedule-list" class="divide-y divide-gold/10 text-sm"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reservas" class="relative py-28 lg:py-36">
+  <div class="max-w-4xl mx-auto px-6 lg:px-10">
+    <p class="label-serif text-gold-soft text-lg mb-4 text-center">Sistema de reservas</p>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4">Reservá tu mesa</h2>
+    <p class="text-stone text-center max-w-lg mx-auto mb-14">
+      Completá tus datos y te contactaremos por WhatsApp para confirmar la disponibilidad.
+    </p>
+
+    <form id="reservation-form" novalidate class="rounded-2xl border border-gold/15 bg-wine-panel/50 p-8 sm:p-12 grid sm:grid-cols-2 gap-6">
+      <div class="sm:col-span-2">
+        <label for="res-nombre" class="block text-sm text-stone mb-2">Nombre completo</label>
+        <input type="text" id="res-nombre" name="nombre" required
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
+               placeholder="Ej: María Fernández">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div>
+        <label for="res-telefono" class="block text-sm text-stone mb-2">Teléfono de contacto</label>
+        <input type="tel" id="res-telefono" name="telefono" required
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
+               placeholder="Ej: 3537 400000">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div>
+        <label for="res-personas" class="block text-sm text-stone mb-2">Cantidad de personas</label>
+        <input type="number" id="res-personas" name="personas" min="1" max="40" required
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
+               placeholder="Ej: 4">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div>
+        <label for="res-fecha" class="block text-sm text-stone mb-2">Fecha</label>
+        <input type="date" id="res-fecha" name="fecha" required
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div>
+        <label for="res-horario" class="block text-sm text-stone mb-2">Horario preferido</label>
+        <input type="time" id="res-horario" name="horario" required
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div class="sm:col-span-2 pt-4">
+        <button type="submit" id="res-submit-btn"
+                class="w-full inline-flex justify-center items-center gap-2 rounded-full bg-gold px-8 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1s-.8 1-.9 1.2c-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10 9.4 9.4 8 9.1 7.4c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4C6.7 7.7 6 8.4 6 9.8s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4Z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+          Reservar ahora
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section id="productos" class="relative py-28 lg:py-36 bg-wine-dark/60 border-t border-gold/10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <p class="label-serif text-gold-soft text-lg mb-4">Nuestros productos y delicias</p>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14">Lo que va a haber sobre tu mesa</h2>
+
+    <div id="products-loading" class="text-stone text-center py-16">Cargando catálogo…</div>
+    <div id="products-empty" class="hidden text-stone text-center py-16">
+      Todavía no hay productos cargados. Muy pronto vas a ver acá nuestra selección.
+    </div>
+    <div id="products-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+  </div>
+</section>
+
+<footer class="relative bg-wine-black border-t border-gold/10 pt-20 pb-10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 grid sm:grid-cols-3 gap-12">
+    <div>
+      <p class="font-display text-2xl mb-3">Club <span class="italic text-gold-soft">del Anfitrión</span></p>
+      <p class="text-stone text-sm leading-relaxed">Vinoteca boutique en Bell Ville, Córdoba. Vinos, picadas y experiencias para compartir alrededor de la mesa.</p>
+    </div>
+
+    <div>
+      <p class="text-cream font-medium mb-3">Enlaces</p>
+      <ul class="text-stone text-sm space-y-2">
+        <li><a href="#inicio" class="hover:text-gold-soft">Inicio</a></li>
+        <li><a href="#quienes-somos" class="hover:text-gold-soft">Quiénes somos</a></li>
+        <li><a href="#ubicacion" class="hover:text-gold-soft">Ubicación y horarios</a></li>
+        <li><a href="#reservas" class="hover:text-gold-soft">Reservas</a></li>
+        <li><a href="#productos" class="hover:text-gold-soft">Nuestros productos</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-cream font-medium mb-3">Aviso legal</p>
+      <p class="text-stone text-sm leading-relaxed">La venta y consumo de bebidas alcohólicas está prohibida para menores de 18 años. Bebé con moderación.</p>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 mt-14">
+    <div class="hairline"></div>
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8">
+      <p class="text-stone/60 text-xs">© <span id="year"></span> Club del Anfitrión. Todos los derechos reservados.</p>
+      <button id="admin-open-btn" class="text-stone/40 hover:text-gold-soft text-xs tracking-wide transition-colors">Admin</button>
+    </div>
+  </div>
+</footer>
+
+<button id="cart-fab" class="hidden fixed bottom-6 right-6 bg-gold text-wine-black w-14 h-14 rounded-full shadow-[0_0_15px_rgba(201,162,75,0.4)] z-[75] flex items-center justify-center hover:scale-105 transition-transform">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+  <span id="cart-badge" class="absolute -top-1 -right-1 bg-garnet-light text-white text-[10px] font-bold w-6 h-6 flex items-center justify-center rounded-full">0</span>
+</button>
+
+<div id="cart-overlay" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[80]"></div>
+<div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-wine-panel border-l border-gold/20 z-[85] transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+  <div class="p-6 border-b border-gold/10 flex justify-between items-center bg-wine-dark">
+    <h3 class="font-display text-2xl text-cream flex items-center gap-2">Tu Carrito 🍷</h3>
+    <button id="cart-close" class="text-stone hover:text-gold-soft transition-colors" aria-label="Cerrar carrito">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin flex flex-col">
+    </div>
+  <div class="p-6 border-t border-gold/10 bg-wine-dark/80">
+    <div class="flex justify-between items-center mb-5">
+      <span class="text-cream font-medium">Total estimado:</span>
+      <span id="cart-total" class="text-gold-soft font-display text-3xl">$0</span>
+    </div>
+    <button id="cart-checkout-btn" class="w-full rounded-full bg-gold px-6 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors flex items-center justify-center gap-2 text-lg">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1s-.8 1-.9 1.2c-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10 9.4 9.4 8 9.1 7.4c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4C6.7 7.7 6 8.4 6 9.8s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4Z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+      Pedir por WhatsApp
+    </button>
+  </div>
+</div>
+
+<div id="product-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
+  <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
+    <button id="product-modal-close" class="absolute top-4 right-4 z-10 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
+      <img id="detail-img" src="" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80"></div>
+    </div>
+    <div class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
+      <h3 id="detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
+      <p id="detail-price" class="text-gold-soft font-display text-3xl mb-6"></p>
+      <div class="hairline mb-6"></div>
+      <p id="detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap"></p>
+    </div>
+  </div>
+</div>
+
+<div id="admin-login-modal" class="hidden fixed inset-0 z-[90] items-center justify-center bg-black/80 backdrop-blur-sm px-6">
+  <div class="w-full max-w-sm rounded-2xl border border-gold/20 bg-wine-panel p-8 relative">
+    <button id="admin-login-close" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <p class="label-serif text-gold-soft text-lg mb-1">Acceso restringido</p>
+    <h3 class="font-display text-2xl mb-6">Panel de administración</h3>
+
+    <form id="admin-login-form" novalidate class="space-y-4">
+      <div>
+        <label for="admin-user" class="block text-sm text-stone mb-2">Usuario</label>
+        <input type="text" id="admin-user" autocomplete="off"
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+      </div>
+      <div>
+        <label for="admin-pass" class="block text-sm text-stone mb-2">Contraseña</label>
+        <input type="password" id="admin-pass" autocomplete="off"
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+      </div>
+      <div class="flex items-center gap-2 pt-1 pb-2">
+        <input type="checkbox" id="admin-remember" class="w-4 h-4 rounded border-gold/40 bg-wine-black/60 accent-gold cursor-pointer">
+        <label for="admin-remember" class="text-sm text-stone cursor-pointer select-none">Recordar este dispositivo</label>
+      </div>
+      <p id="admin-login-error" class="hidden text-garnet-light text-sm"></p>
+      <button type="submit" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">
+        Ingresar
+      </button>
+    </form>
+  </div>
+</div>
+
+<div id="admin-panel-modal" class="hidden fixed inset-0 z-[90] items-start sm:items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-10 overflow-y-auto">
+  <div class="w-full max-w-2xl rounded-2xl border border-gold/20 bg-wine-panel p-8 sm:p-10 relative my-auto">
+    <button id="admin-panel-close" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar panel">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <p class="label-serif text-gold-soft text-lg mb-1">Panel interno</p>
+    <h3 class="font-display text-2xl mb-8">Gestionar productos</h3>
+
+    <div class="mb-10">
+      <p class="text-cream font-medium mb-4">Productos publicados</p>
+      <div id="admin-products-list" class="space-y-3 max-h-64 overflow-y-auto pr-1 scrollbar-thin"></div>
+      <p id="admin-products-empty" class="hidden text-stone text-sm">Todavía no hay productos cargados.</p>
+    </div>
+
+    <div class="hairline mb-10"></div>
+
+    <p id="product-form-title" class="text-cream font-medium mb-6">Cargar nuevo producto</p>
+
+    <form id="product-form" novalidate class="space-y-6">
+      <div>
+        <label for="prod-titulo" class="block text-sm text-stone mb-2">Título del producto</label>
+        <input type="text" id="prod-titulo" required
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
+               placeholder="Ej: Malbec Reserva 2021">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div>
+        <label for="prod-descripcion" class="block text-sm text-stone mb-2">Descripción completa (marca, año, notas, volumen)</label>
+        <textarea id="prod-descripcion" rows="4" required
+                  class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
+                  placeholder="Ej: Bodega Luigi Bosca, cosecha 2021, notas a frutos rojos maduros y roble sutil. 750 cm³."></textarea>
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div>
+        <label for="prod-precio" class="block text-sm text-stone mb-2">Precio de venta</label>
+        <input type="number" id="prod-precio" min="0" step="0.01" required
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
+               placeholder="Ej: 15000">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div>
+        <label for="prod-imagen" class="block text-sm text-stone mb-2">Imagen del producto (PNG o JPG)</label>
+        <input type="file" id="prod-imagen" accept=".png,.jpg,.jpeg,image/png,image/jpeg" required
+               class="w-full text-stone text-sm file:mr-4 file:rounded-full file:border-0 file:bg-gold file:text-wine-black file:px-5 file:py-2.5 file:font-medium file:cursor-pointer hover:file:bg-gold-soft transition-colors">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+        <div id="prod-imagen-preview" class="hidden mt-4">
+          <img id="prod-imagen-preview-img" class="h-28 w-28 object-cover rounded-lg border border-gold/20" alt="Previsualización de la imagen">
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button type="submit" id="product-submit-btn"
+                class="flex-1 rounded-full bg-gold px-8 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
+          Publicar producto
+        </button>
+        <button type="button" id="product-cancel-edit-btn"
+                class="hidden sm:w-auto rounded-full border border-stone/30 px-8 py-4 text-stone hover:border-gold hover:text-gold-soft transition-colors">
+          Cancelar edición
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  // ============================================================
+  // FIREBASE — inicialización
+  // ============================================================
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, onSnapshot,
+    query, orderBy, serverTimestamp,
+    doc, updateDoc, deleteDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyALsNxhMyC-GSQULpcj3CpwbDr81alvC0M",
+    authDomain: "clubdelanfitrion-8a6f1.firebaseapp.com",
+    projectId: "clubdelanfitrion-8a6f1",
+    storageBucket: "clubdelanfitrion-8a6f1.firebasestorage.app",
+    messagingSenderId: "187086724994",
+    appId: "1:187086724994:web:59e14efb3c355bd794b99b",
+    measurementId: "G-2DN0H1022S"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const productsCollection = collection(db, "productos");
+
+  // ============================================================
+  // CLOUDINARY — configuración
+  // ============================================================
+  const CLOUDINARY_CLOUD_NAME = "wb9mhrpv";
+  const CLOUDINARY_UPLOAD_PRESET = "ClubDelAnfitrion";
+  const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+
+  async function uploadImageToCloudinary(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+    const response = await fetch(CLOUDINARY_UPLOAD_URL, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("No se pudo subir la imagen a Cloudinary.");
+    }
+
+    const data = await response.json();
+    if (!data.secure_url) {
+      throw new Error("Cloudinary no devolvió una URL válida.");
+    }
+    return data.secure_url;
+  }
+
+  // ============================================================
+  // NEGOCIO — datos de contacto
+  // ============================================================
+  const WHATSAPP_NUMBER = "5493537513148";
+
+  // ============================================================
+  // UTILIDADES — toasts
+  // ============================================================
+  function showToast(message, type = "success") {
+    const container = document.getElementById("toast-container");
+    const toast = document.createElement("div");
+    const isSuccess = type === "success";
+    toast.className = `toast fade-in flex items-start gap-3 rounded-xl border px-4 py-3.5 shadow-lg backdrop-blur-sm ${
+      isSuccess
+        ? "bg-wine-panel border-gold/40 text-cream"
+        : "bg-wine-panel border-garnet-light/60 text-cream"
+    }`;
+    toast.innerHTML = `
+      <span class="mt-0.5 shrink-0 ${isSuccess ? "text-gold" : "text-garnet-light"}">
+        ${isSuccess
+          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>'
+          : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>'}
+      </span>
+      <p class="text-sm leading-snug">${message}</p>
+    `;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.transition = "opacity .4s ease";
+      toast.style.opacity = "0";
+      setTimeout(() => toast.remove(), 400);
+    }, 4200);
+  }
+
+  function setFieldError(inputEl, message) {
+    const errorEl = inputEl.parentElement.querySelector(".error-msg");
+    if (message) {
+      inputEl.classList.add("border-garnet-light");
+      inputEl.classList.remove("border-gold/20");
+      if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.classList.remove("hidden");
+      }
+    } else {
+      inputEl.classList.remove("border-garnet-light");
+      inputEl.classList.add("border-gold/20");
+      if (errorEl) {
+        errorEl.textContent = "";
+        errorEl.classList.add("hidden");
+      }
+    }
+  }
+
+  // ============================================================
+  // NAVBAR
+  // ============================================================
+  const navbar = document.getElementById("navbar");
+  function updateNavbarState() {
+    if (window.scrollY > 24) {
+      navbar.classList.add("bg-wine-black/95", "backdrop-blur-sm", "border-gold/10");
+    } else {
+      navbar.classList.remove("bg-wine-black/95", "backdrop-blur-sm", "border-gold/10");
+    }
+  }
+  updateNavbarState();
+  window.addEventListener("scroll", updateNavbarState, { passive: true });
+
+  const menuToggle = document.getElementById("menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const iconOpen = document.getElementById("icon-open");
+  const iconClose = document.getElementById("icon-close");
+  menuToggle.addEventListener("click", () => {
+    const isHidden = mobileMenu.classList.contains("hidden");
+    mobileMenu.classList.toggle("hidden");
+    iconOpen.classList.toggle("hidden");
+    iconClose.classList.toggle("hidden");
+    menuToggle.setAttribute("aria-expanded", String(isHidden));
+  });
+  mobileMenu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      mobileMenu.classList.add("hidden");
+      iconOpen.classList.remove("hidden");
+      iconClose.classList.add("hidden");
+      menuToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  // ============================================================
+  // HORARIOS
+  // ============================================================
+  const schedule = [
+    { day: "Lunes", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
+    { day: "Martes", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
+    { day: "Miércoles", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
+    { day: "Jueves", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
+    { day: "Viernes", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
+    { day: "Sábado", hours: ["9:00 – 13:00", "16:30 – 20:30"] },
+    { day: "Domingo", hours: ["10:30 – 12:30"] },
+  ];
+
+  const scheduleList = document.getElementById("schedule-list");
+  const todayIndex = (new Date().getDay() + 6) % 7; 
+  schedule.forEach((item, index) => {
+    const li = document.createElement("li");
+    const isToday = index === todayIndex;
+    li.className = `flex items-center justify-between py-2.5 ${isToday ? "text-gold-soft" : "text-stone"}`;
+    li.innerHTML = `
+      <span class="${isToday ? "font-medium" : ""}">${item.day}${isToday ? " · hoy" : ""}</span>
+      <span class="text-right">${item.hours.join(" / ")}</span>
+    `;
+    scheduleList.appendChild(li);
+  });
+
+  // ============================================================
+  // RESERVAS
+  // ============================================================
+  const reservationForm = document.getElementById("reservation-form");
+  const resSubmitBtn = document.getElementById("res-submit-btn");
+
+  function validateReservationForm(data) {
+    let isValid = true;
+    const nombreEl = document.getElementById("res-nombre");
+    if (!data.nombre.trim() || data.nombre.trim().length < 3) { setFieldError(nombreEl, "Ingresá tu nombre completo."); isValid = false; } else setFieldError(nombreEl, null);
+    
+    const telefonoEl = document.getElementById("res-telefono");
+    if (data.telefono.replace(/\D/g, "").length < 8) { setFieldError(telefonoEl, "Ingresá un teléfono válido."); isValid = false; } else setFieldError(telefonoEl, null);
+    
+    const personasEl = document.getElementById("res-personas");
+    if (!Number(data.personas) || Number(data.personas) < 1) { setFieldError(personasEl, "Indicá cuántas personas asisten."); isValid = false; } else setFieldError(personasEl, null);
+    
+    const fechaEl = document.getElementById("res-fecha");
+    if (!data.fecha) { setFieldError(fechaEl, "Elegí una fecha."); isValid = false; } else setFieldError(fechaEl, null);
+    
+    const horarioEl = document.getElementById("res-horario");
+    if (!data.horario) { setFieldError(horarioEl, "Elegí un horario."); isValid = false; } else setFieldError(horarioEl, null);
+    
+    return isValid;
+  }
+
+  reservationForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = {
+      nombre: document.getElementById("res-nombre").value,
+      telefono: document.getElementById("res-telefono").value,
+      personas: document.getElementById("res-personas").value,
+      fecha: document.getElementById("res-fecha").value,
+      horario: document.getElementById("res-horario").value,
+    };
+
+    if (!validateReservationForm(data)) { showToast("Revisá los campos marcados.", "error"); return; }
+    resSubmitBtn.disabled = true;
+    resSubmitBtn.classList.add("opacity-60", "cursor-not-allowed");
+
+    try {
+      const [year, month, day] = data.fecha.split("-");
+      const mensaje = `¡Hola! Quiero reservar una mesa en Club del Anfitrión.%0A%0A*Nombre:* ${data.nombre}%0A*Teléfono:* ${data.telefono}%0A*Personas:* ${data.personas}%0A*Fecha:* ${day}/${month}/${year}%0A*Horario:* ${data.horario} hs%0A%0AQuedo atento/a. ¡Gracias!`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, "_blank", "noopener,noreferrer");
+      showToast("¡Listo! Te llevamos a WhatsApp para confirmar.", "success");
+      reservationForm.reset();
+    } catch (e) {
+      showToast("Ocurrió un error. Intentá nuevamente.", "error");
+    } finally {
+      resSubmitBtn.disabled = false;
+      resSubmitBtn.classList.remove("opacity-60", "cursor-not-allowed");
+    }
+  });
+
+  // ============================================================
+  // CATÁLOGO Y FUNCIONES GLOBALES (MODAL, COMPARTIR, PEDIR)
+  // ============================================================
+  const productsGrid = document.getElementById("products-grid");
+  const productsLoading = document.getElementById("products-loading");
+  const productsEmpty = document.getElementById("products-empty");
+
+  function formatPrice(value) {
+    return Number(value).toLocaleString("es-AR", { style: "currency", currency: "ARS", minimumFractionDigits: 0 });
+  }
+
+  window.openProductDetail = (id) => {
+    const prod = latestProducts.find(p => p.id === id);
+    if (!prod) return;
+    document.getElementById("detail-img").src = prod.imagenUrl;
+    document.getElementById("detail-title").textContent = prod.titulo;
+    document.getElementById("detail-price").textContent = formatPrice(prod.precio);
+    document.getElementById("detail-desc").textContent = prod.descripcion;
+    
+    document.getElementById("product-modal").classList.remove("hidden");
+    document.getElementById("product-modal").classList.add("flex");
+    document.body.style.overflow = "hidden";
+  };
+
+  document.getElementById("product-modal-close").addEventListener("click", () => {
+    document.getElementById("product-modal").classList.add("hidden");
+    document.getElementById("product-modal").classList.remove("flex");
+    document.body.style.overflow = "";
+  });
+
+  window.orderDirect = (id) => {
+    const prod = latestProducts.find(p => p.id === id);
+    if(!prod) return;
+    const msg = `¡Hola! Quiero encargar este producto de la vinoteca:%0A%0A*${prod.titulo}*%0APrecio: ${formatPrice(prod.precio)}%0A%0A¿Tienen disponibilidad?`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+  };
+
+  window.shareProduct = (id) => {
+    const prod = latestProducts.find(p => p.id === id);
+    if(!prod) return;
+    if (navigator.share) {
+      navigator.share({
+        title: prod.titulo,
+        text: `Mirá este vino excelente en Club del Anfitrión: ${prod.titulo}`,
+        url: window.location.href.split('#')[0] + '#productos'
+      }).catch(err => console.log('Error al compartir', err));
+    } else {
+      showToast("Tu navegador no soporta la función de compartir.", "error");
+    }
+  };
+
+  function renderProductCard(product) {
+    const card = document.createElement("article");
+    card.className = "product-grid-enter rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col group relative";
+    
+    const shortDesc = product.descripcion.length > 75 ? product.descripcion.substring(0, 75) + '...' : product.descripcion;
+
+    card.innerHTML = `
+      <div class="aspect-[4/5] overflow-hidden bg-wine-black cursor-pointer relative" onclick="window.openProductDetail('${product.id}')">
+        <img src="${product.imagenUrl}" alt="${product.titulo}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+      </div>
+      <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
+        <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openProductDetail('${product.id}')">${product.titulo}</h3>
+        <p class="text-stone text-sm leading-relaxed flex-1">${shortDesc}</p>
+        <p class="mt-4 text-gold-soft font-display text-2xl mb-5">${formatPrice(product.precio)}</p>
+        
+        <div class="flex flex-col gap-2.5 mt-auto">
+          <button onclick="window.orderDirect('${product.id}')" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors tracking-wide shadow-md shadow-gold/20 flex items-center justify-center gap-2 uppercase text-sm">
+            <span>¡Lo quiero!</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          
+          <div class="flex gap-2">
+            <button onclick="window.addToCart('${product.id}')" class="flex-1 rounded-full border border-gold/40 px-3 py-2 text-gold-soft hover:bg-gold/15 hover:border-gold transition-colors flex items-center justify-center gap-1.5 text-xs font-medium">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Al carrito
+            </button>
+            <button onclick="window.shareProduct('${product.id}')" class="flex-1 rounded-full border border-cream/20 px-3 py-2 text-cream hover:bg-cream/10 transition-colors flex items-center justify-center gap-1.5 text-xs font-medium">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              Compartir
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    return card;
+  }
+
+  // ============================================================
+  // SISTEMA DE CARRITO DE COMPRAS
+  // ============================================================
+  let cart = JSON.parse(localStorage.getItem('clubCart')) || [];
+  const cartFab = document.getElementById("cart-fab");
+  const cartBadge = document.getElementById("cart-badge");
+  const cartPanel = document.getElementById("cart-panel");
+  const cartOverlay = document.getElementById("cart-overlay");
+  const cartItemsContainer = document.getElementById("cart-items");
+  const cartTotalEl = document.getElementById("cart-total");
+
+  function saveCart() { localStorage.setItem('clubCart', JSON.stringify(cart)); }
+
+  function updateCartUI() {
+    const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+    cartBadge.textContent = totalItems;
+    
+    if(totalItems > 0) {
+      cartFab.classList.remove("hidden");
+    } else {
+      cartFab.classList.add("hidden");
+      if(!cartPanel.classList.contains("translate-x-full")) toggleCart(); 
+    }
+
+    cartItemsContainer.innerHTML = '';
+    let totalPrecio = 0;
+
+    if(cart.length === 0) {
+      cartItemsContainer.innerHTML = '<p class="text-stone text-center mt-10">Tu carrito está vacío.</p>';
+    } else {
+      cart.forEach(item => {
+        const prod = latestProducts.find(p => p.id === item.id);
+        if(prod) {
+          totalPrecio += prod.precio * item.qty;
+          const itemEl = document.createElement("div");
+          itemEl.className = "flex items-center gap-4 bg-wine-black/40 p-3 rounded-xl border border-gold/10";
+          itemEl.innerHTML = `
+            <img src="${prod.imagenUrl}" class="w-16 h-16 object-cover rounded-lg border border-gold/15">
+            <div class="flex-1 min-w-0">
+              <p class="text-cream text-sm font-medium truncate">${prod.titulo}</p>
+              <p class="text-gold-soft text-xs mt-1">${formatPrice(prod.precio)} c/u</p>
+              <div class="flex items-center gap-3 mt-2">
+                <button onclick="window.updateCartQty('${item.id}', -1)" class="w-6 h-6 rounded bg-wine-panel text-stone hover:text-gold border border-gold/20 flex items-center justify-center">-</button>
+                <span class="text-cream text-sm font-medium w-4 text-center">${item.qty}</span>
+                <button onclick="window.updateCartQty('${item.id}', 1)" class="w-6 h-6 rounded bg-wine-panel text-stone hover:text-gold border border-gold/20 flex items-center justify-center">+</button>
+              </div>
+            </div>
+            <button onclick="window.removeFromCart('${item.id}')" class="text-garnet-light/70 hover:text-garnet-light p-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          `;
+          cartItemsContainer.appendChild(itemEl);
+        }
+      });
+    }
+    cartTotalEl.textContent = formatPrice(totalPrecio);
+  }
+
+  window.addToCart = (id) => {
+    const existing = cart.find(item => item.id === id);
+    if (existing) { existing.qty += 1; } 
+    else { cart.push({ id, qty: 1 }); }
+    saveCart();
+    updateCartUI();
+    showToast("¡Vino agregado al carrito! 🍷", "success");
+    cartFab.classList.add("scale-110");
+    setTimeout(() => cartFab.classList.remove("scale-110"), 200);
+  };
+
+  window.updateCartQty = (id, delta) => {
+    const existing = cart.find(item => item.id === id);
+    if(existing) {
+      existing.qty += delta;
+      if(existing.qty <= 0) cart = cart.filter(i => i.id !== id);
+      saveCart(); updateCartUI();
+    }
+  };
+
+  window.removeFromCart = (id) => {
+    cart = cart.filter(i => i.id !== id);
+    saveCart(); updateCartUI();
+  };
+
+  function toggleCart() {
+    const isHidden = cartPanel.classList.contains("translate-x-full");
+    if(isHidden) {
+      cartOverlay.classList.remove("hidden");
+      cartPanel.classList.remove("translate-x-full");
+      document.body.style.overflow = "hidden";
+    } else {
+      cartOverlay.classList.add("hidden");
+      cartPanel.classList.add("translate-x-full");
+      document.body.style.overflow = "";
+    }
+  }
+
+  cartFab.addEventListener("click", toggleCart);
+  document.getElementById("cart-close").addEventListener("click", toggleCart);
+  cartOverlay.addEventListener("click", toggleCart);
+
+  document.getElementById("cart-checkout-btn").addEventListener("click", () => {
+    if(cart.length === 0) return;
+    let msg = `¡Hola! Quiero hacer un pedido en *Club del Anfitrión*.%0A%0A*Mi carrito:*%0A`;
+    let totalPrecio = 0;
+    cart.forEach(item => {
+      const prod = latestProducts.find(p => p.id === item.id);
+      if(prod) {
+        msg += `> ${item.qty}x ${prod.titulo} (${formatPrice(prod.precio * item.qty)})%0A`;
+        totalPrecio += prod.precio * item.qty;
+      }
+    });
+    msg += `%0A*Total:* ${formatPrice(totalPrecio)}%0A%0A¡Muchas gracias!`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+  });
+
+  // ============================================================
+  // SINCRONIZACIÓN FIRESTORE
+  // ============================================================
+  const productsQuery = query(productsCollection, orderBy("creadoEn", "desc"));
+  let latestProducts = [];
+  let editingProductId = null;
+  let editingImagenUrl = null;
+
+  onSnapshot(
+    productsQuery,
+    (snapshot) => {
+      productsLoading.classList.add("hidden");
+      latestProducts = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+
+      if (snapshot.empty) {
+        productsGrid.innerHTML = "";
+        productsEmpty.classList.remove("hidden");
+      } else {
+        productsEmpty.classList.add("hidden");
+        productsGrid.innerHTML = "";
+        latestProducts.forEach((product) => {
+          if (product.titulo && product.imagenUrl) productsGrid.appendChild(renderProductCard(product));
+        });
+      }
+      renderAdminProductsList(latestProducts);
+      updateCartUI(); 
+      if (editingProductId && !latestProducts.some((product) => product.id === editingProductId)) exitEditMode();
+    },
+    (error) => {
+      productsLoading.classList.add("hidden");
+      productsEmpty.classList.remove("hidden");
+      productsEmpty.textContent = "No pudimos cargar el catálogo en este momento.";
+      showToast("No se pudo conectar con el catálogo de productos.", "error");
+    }
+  );
+
+  // ============================================================
+  // ADMIN — CREDENCIALES, SESIÓN (PERSISTENCIA 5 MIN) Y LOGIN
+  // ============================================================
+  const ADMIN_USERNAME = "clubdelanfitrion";
+  const ADMIN_PASSWORD = "clubdelanfitrion";
+  const ADMIN_SESSION_KEY = "club_admin_session_expiry";
+  const SESSION_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutos
+
+  const adminOpenBtn = document.getElementById("admin-open-btn");
+  const adminLoginModal = document.getElementById("admin-login-modal");
+  const adminPanelModal = document.getElementById("admin-panel-modal");
+
+  function openModal(modalEl) {
+    modalEl.classList.remove("hidden");
+    modalEl.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(modalEl) {
+    modalEl.classList.add("hidden");
+    modalEl.classList.remove("flex");
+    document.body.style.overflow = "";
+  }
+
+  // Verificar si hay sesión activa
+  function checkAdminSession() {
+    const expiry = localStorage.getItem(ADMIN_SESSION_KEY);
+    if (expiry && Date.now() < parseInt(expiry, 10)) {
+      extendAdminSession();
+      return true;
+    }
+    localStorage.removeItem(ADMIN_SESSION_KEY);
+    return false;
+  }
+
+  function extendAdminSession() {
+    if(localStorage.getItem(ADMIN_SESSION_KEY)) {
+      localStorage.setItem(ADMIN_SESSION_KEY, (Date.now() + SESSION_TIMEOUT_MS).toString());
+    }
+  }
+
+  // Renovar sesión al interactuar con el panel
+  adminPanelModal.addEventListener("click", extendAdminSession);
+  adminPanelModal.addEventListener("keyup", extendAdminSession);
+
+  adminOpenBtn.addEventListener("click", () => {
+    if (checkAdminSession()) {
+      openModal(adminPanelModal);
+    } else {
+      document.getElementById("admin-login-error").classList.add("hidden");
+      document.getElementById("admin-login-form").reset();
+      openModal(adminLoginModal);
+    }
+  });
+
+  document.getElementById("admin-login-close").addEventListener("click", () => closeModal(adminLoginModal));
+  document.getElementById("admin-panel-close").addEventListener("click", () => {
+    closeModal(adminPanelModal);
+    exitEditMode();
+  });
+
+  document.getElementById("admin-login-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const user = document.getElementById("admin-user").value.trim();
+    const pass = document.getElementById("admin-pass").value;
+    const remember = document.getElementById("admin-remember").checked;
+
+    if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
+      if (remember) {
+        localStorage.setItem(ADMIN_SESSION_KEY, (Date.now() + SESSION_TIMEOUT_MS).toString());
+      } else {
+        localStorage.removeItem(ADMIN_SESSION_KEY);
+      }
+      closeModal(adminLoginModal);
+      openModal(adminPanelModal);
+      document.getElementById("admin-login-error").classList.add("hidden");
+    } else {
+      const errorEl = document.getElementById("admin-login-error");
+      errorEl.textContent = "Usuario o contraseña incorrectos.";
+      errorEl.classList.remove("hidden");
+    }
+  });
+
+  // ============================================================
+  // ADMIN — LISTADO Y GESTIÓN
+  // ============================================================
+  const adminProductsList = document.getElementById("admin-products-list");
+  const adminProductsEmpty = document.getElementById("admin-products-empty");
+
+  function renderAdminProductsList(products) {
+    if (!products.length) {
+      adminProductsList.innerHTML = "";
+      adminProductsEmpty.classList.remove("hidden");
+      return;
+    }
+    adminProductsEmpty.classList.add("hidden");
+    adminProductsList.innerHTML = "";
+
+    products.forEach((product) => {
+      const row = document.createElement("div");
+      row.className = "flex items-center gap-4 rounded-xl border border-gold/10 bg-wine-black/40 p-3";
+      row.innerHTML = `
+        <img src="${product.imagenUrl}" alt="${product.titulo}" class="h-14 w-14 rounded-lg object-cover shrink-0 border border-gold/15">
+        <div class="min-w-0 flex-1">
+          <p class="text-cream text-sm font-medium truncate">${product.titulo}</p>
+          <p class="text-stone text-xs mt-0.5">${formatPrice(product.precio)}</p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" data-action="edit" class="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-soft hover:bg-gold hover:text-wine-black transition-colors">Editar</button>
+          <button type="button" data-action="delete" class="rounded-full border border-garnet-light/50 px-3 py-1.5 text-xs text-garnet-light hover:bg-garnet-light hover:text-wine-black transition-colors">Eliminar</button>
+        </div>
+      `;
+      row.querySelector('[data-action="edit"]').addEventListener("click", () => startEditProduct(product));
+      row.querySelector('[data-action="delete"]').addEventListener("click", () => confirmDeleteProduct(product));
+      adminProductsList.appendChild(row);
+    });
+  }
+
+  const productFormTitle = document.getElementById("product-form-title");
+  const productCancelEditBtn = document.getElementById("product-cancel-edit-btn");
+  const imagenInput = document.getElementById("prod-imagen");
+  const imagenPreview = document.getElementById("prod-imagen-preview");
+  const imagenPreviewImg = document.getElementById("prod-imagen-preview-img");
+  const productForm = document.getElementById("product-form");
+  const productSubmitBtn = document.getElementById("product-submit-btn");
+
+  function startEditProduct(product) {
+    editingProductId = product.id;
+    editingImagenUrl = product.imagenUrl;
+    document.getElementById("prod-titulo").value = product.titulo || "";
+    document.getElementById("prod-descripcion").value = product.descripcion || "";
+    document.getElementById("prod-precio").value = product.precio || "";
+    imagenInput.value = "";
+    imagenPreviewImg.src = product.imagenUrl;
+    imagenPreview.classList.remove("hidden");
+    setFieldError(imagenInput, null);
+    productFormTitle.textContent = `Editando: ${product.titulo}`;
+    productSubmitBtn.textContent = "Guardar cambios";
+    productCancelEditBtn.classList.remove("hidden");
+    document.getElementById("prod-titulo").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function exitEditMode() {
+    editingProductId = null;
+    editingImagenUrl = null;
+    productForm.reset();
+    imagenPreview.classList.add("hidden");
+    productFormTitle.textContent = "Cargar nuevo producto";
+    productSubmitBtn.textContent = "Publicar producto";
+    productCancelEditBtn.classList.add("hidden");
+    ["prod-titulo", "prod-descripcion", "prod-precio", "prod-imagen"].forEach(id => setFieldError(document.getElementById(id), null));
+  }
+
+  async function confirmDeleteProduct(product) {
+    if (!window.confirm(`¿Eliminar "${product.titulo}" del catálogo?`)) return;
+    try {
+      await deleteDoc(doc(db, "productos", product.id));
+      showToast("Producto eliminado.", "success");
+      if (editingProductId === product.id) exitEditMode();
+    } catch (e) {
+      showToast("No se pudo eliminar.", "error");
+    }
+  }
+
+  productCancelEditBtn.addEventListener("click", exitEditMode);
+  imagenInput.addEventListener("change", () => {
+    const file = imagenInput.files[0];
+    if (!file) { imagenPreview.classList.add("hidden"); return; }
+    if (!["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
+      setFieldError(imagenInput, "Solo PNG o JPG.");
+      imagenInput.value = "";
+      imagenPreview.classList.add("hidden");
+      return;
+    }
+    setFieldError(imagenInput, null);
+    imagenPreviewImg.src = URL.createObjectURL(file);
+    imagenPreview.classList.remove("hidden");
+  });
+
+  productForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const titulo = document.getElementById("prod-titulo").value.trim();
+    const descripcion = document.getElementById("prod-descripcion").value.trim();
+    const precio = document.getElementById("prod-precio").value;
+    const file = imagenInput.files[0];
+    const isEditing = Boolean(editingProductId);
+
+    let isValid = true;
+    if (!titulo) { setFieldError(document.getElementById("prod-titulo"), "Obligatorio."); isValid = false; } else setFieldError(document.getElementById("prod-titulo"), null);
+    if (!descripcion) { setFieldError(document.getElementById("prod-descripcion"), "Obligatorio."); isValid = false; } else setFieldError(document.getElementById("prod-descripcion"), null);
+    if (!precio || Number(precio) <= 0) { setFieldError(document.getElementById("prod-precio"), "Inválido."); isValid = false; } else setFieldError(document.getElementById("prod-precio"), null);
+    if (!file && !isEditing) { setFieldError(imagenInput, "Obligatorio."); isValid = false; } else if(file) setFieldError(imagenInput, null);
+
+    if (!isValid) return;
+    productSubmitBtn.disabled = true;
+
+    try {
+      let imagenUrl = editingImagenUrl;
+      if (file) {
+        productSubmitBtn.textContent = "Subiendo imagen…";
+        imagenUrl = await uploadImageToCloudinary(file);
+      }
+      if (isEditing) {
+        productSubmitBtn.textContent = "Guardando cambios…";
+        await updateDoc(doc(db, "productos", editingProductId), { titulo, descripcion, precio: Number(precio), imagenUrl });
+        showToast("Actualizado correctamente.", "success");
+      } else {
+        productSubmitBtn.textContent = "Guardando producto…";
+        await addDoc(productsCollection, { titulo, descripcion, precio: Number(precio), imagenUrl, creadoEn: serverTimestamp() });
+        showToast("Publicado correctamente.", "success");
+      }
+      exitEditMode();
+      closeModal(adminPanelModal);
+    } catch (e) {
+      showToast("Error al guardar.", "error");
+    } finally {
+      productSubmitBtn.disabled = false;
+      productSubmitBtn.textContent = editingProductId ? "Guardar cambios" : "Publicar producto";
+    }
+  });
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
