@@ -73,14 +73,8 @@
 <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300 border-b border-transparent">
   <nav class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-20">
     <a href="#inicio" class="flex items-center gap-3 group">
-      <span class="flex h-10 w-10 items-center justify-center rounded-full border border-gold/60 text-gold group-hover:border-gold transition-colors">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
-          <path d="M6 3h12l-1 8a5 5 0 0 1-10 0L6 3Z"/>
-          <path d="M12 14v6M8 20h8"/>
-        </svg>
-      </span>
-      <span class="font-display text-xl tracking-tight text-cream">Club <span class="italic text-gold-soft">del Anfitrión</span></span>
-    </a>
+      <img src="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg" alt="Club del Anfitrión Logo" class="h-12 w-auto object-contain">
+      </a>
 
     <ul class="hidden md:flex items-center gap-9 text-sm text-stone">
       <li><a href="#inicio" class="hover:text-gold-soft transition-colors">Inicio</a></li>
@@ -113,9 +107,9 @@
 
 <section id="inicio" class="relative min-h-screen flex items-end overflow-hidden">
   <div class="absolute inset-0">
-    <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=2400&auto=format&fit=crop"
-         alt="Barricas de roble en la bodega del Club del Anfitrión"
-         class="w-full h-full object-cover">
+    <video autoplay loop muted playsinline class="w-full h-full object-cover pointer-events-none">
+      <source src="https://res.cloudinary.com/wb9mhrpv/video/upload/v1788314247/znnhuckfctwg1d5p8ddw.mp4" type="video/mp4">
+    </video>
     <div class="absolute inset-0 bg-gradient-to-t from-wine-black via-wine-black/80 to-wine-black/40"></div>
     <div class="absolute inset-0 bg-gradient-to-r from-wine-black/70 via-transparent to-wine-black/30"></div>
   </div>
@@ -296,7 +290,7 @@
 <section id="productos" class="relative py-28 lg:py-36 bg-wine-dark/60 border-t border-gold/10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4">Nuestros productos y delicias</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14">Lo que va a haber sobre tu mesa</h2>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14">Nuestros productos son:</h2>
 
     <div id="products-loading" class="text-stone text-center py-16">Cargando catálogo…</div>
     <div id="products-empty" class="hidden text-stone text-center py-16">
