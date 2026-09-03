@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -63,11 +64,63 @@
   #toast-container { position: fixed; top: 1.25rem; right: 1.25rem; z-index: 100; display: flex; flex-direction: column; gap: 0.6rem; }
   .toast { min-width: 260px; max-width: 340px; }
   .product-grid-enter { animation: fadeIn 0.5s ease-out both; }
+/* Estilos para el contenedor y botón de WhatsApp */
+.whatsapp-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.whatsapp-float {
+    width: 58px;
+    height: 58px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.whatsapp-float:hover {
+    background-color: #20ba5a;
+    transform: scale(1.1);
+}
+
+.wa-tooltip {
+    background-color: #1c1917;
+    color: #f5f5f4;
+    border: 1px solid #d4af37;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.wa-tooltip.hidden {
+    display: none;
+}
 </style>
+<meta property="og:site_name" content="Club del Anfitrión">
+<meta property="og:title" content="Club del Anfitrión - Vinoteca en Bell Ville">
+<meta property="og:description" content="Vinos distintos, de bodegas chicas y boutique, directo a tu mesa.">
+<meta property="og:image" content="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg">
+<meta property="og:type" content="website">
+<meta name="description" content="Vinoteca en Bell Ville. Encontrá vinos exclusivos, boutique y artesanales. Reservá tu mesa o consultá nuestro catálogo.">
+<meta name="keywords" content="vinoteca, vinos, Bell Ville, Club del Anfitrión, bodegas boutique, reservas">
+<link rel="icon" type="image/x-icon" href="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg">
 </head>
 
 <body class="font-sans text-cream antialiased selection:bg-gold selection:text-wine-black">
-
 <div id="toast-container" aria-live="polite"></div>
 
 <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300 border-b border-transparent">
@@ -78,6 +131,7 @@
 
     <ul class="hidden md:flex items-center gap-9 text-sm text-stone">
       <li><a href="#inicio" class="hover:text-gold-soft transition-colors">Inicio</a></li>
+      <li><a href="#galeria" class="hover:text-gold-soft transition-colors">Galería</a></li>
       <li><a href="#quienes-somos" class="hover:text-gold-soft transition-colors">Quiénes somos</a></li>
       <li><a href="#ubicacion" class="hover:text-gold-soft transition-colors">Ubicación y horarios</a></li>
       <li><a href="#reservas" class="hover:text-gold-soft transition-colors">Reservas</a></li>
@@ -97,6 +151,7 @@
   <div id="mobile-menu" class="md:hidden hidden bg-wine-black/97 border-t border-gold/20">
     <ul class="flex flex-col px-6 py-4 gap-4 text-stone text-base">
       <li><a href="#inicio" class="block py-1 hover:text-gold-soft">Inicio</a></li>
+      <li><a href="#galeria" class="block py-1 hover:text-gold-soft">Galería</a></li>
       <li><a href="#quienes-somos" class="block py-1 hover:text-gold-soft">Quiénes somos</a></li>
       <li><a href="#ubicacion" class="block py-1 hover:text-gold-soft">Ubicación y horarios</a></li>
       <li><a href="#reservas" class="block py-1 hover:text-gold-soft">Reservas</a></li>
@@ -108,7 +163,7 @@
 <section id="inicio" class="relative min-h-screen flex items-end overflow-hidden">
   <div class="absolute inset-0">
     <video autoplay loop muted playsinline class="w-full h-full object-cover pointer-events-none">
-      <source src="https://res.cloudinary.com/wb9mhrpv/video/upload/v1788314247/znnhuckfctwg1d5p8ddw.mp4" type="video/mp4">
+      <source src="https://res.cloudinary.com/wb9mhrpv/video/upload/v1788444563/cix5wbrrsduaxtnjgxn2.mp4" type="video/mp4">
     </video>
     <div class="absolute inset-0 bg-gradient-to-t from-wine-black via-wine-black/80 to-wine-black/40"></div>
     <div class="absolute inset-0 bg-gradient-to-r from-wine-black/70 via-transparent to-wine-black/30"></div>
@@ -136,6 +191,74 @@
 
   <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-stone/70 animate-bounce hidden sm:block">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+  </div>
+</section>
+
+<!-- APARTADO DE GALERÍA DE IMÁGENES Y VIDEOS -->
+<section id="galeria" class="relative py-28 lg:py-36 bg-wine-dark/40 border-b border-gold/10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <p class="label-serif text-gold-soft text-lg mb-4 text-center">Recorrido visual</p>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4">Así es nuestro local por fuera y por dentro</h2>
+    <p class="text-stone text-center max-w-xl mx-auto mb-16">
+      Conocé cada rincón del espacio y a quienes te reciben siempre con la mejor copa.
+    </p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- (foto o video 1) -->
+      <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
+        <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
+          <video src="https://res.cloudinary.com/wb9mhrpv/video/upload/v1788397451/vxpyjhopwarrwgskk5gi.mp4" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
+        </div>
+        <div class="p-5">
+          <p class="text-cream font-medium">Local por fuera</p>
+          <p class="text-stone text-xs mt-1">Fachada principal.</p>
+        </div>
+      </div>
+
+      <!-- (foto o video 2) -->
+      <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
+        <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
+          <img src="https://i.postimg.cc/4dbknkLZ/Whats-App-Image-2026-09-02-at-22-10-20.jpg" alt="Interior del local" class="w-full h-full object-cover">
+        </div>
+        <div class="p-5">
+          <p class="text-cream font-medium">El salón por dentro</p>
+          <p class="text-stone text-xs mt-1">Espacio cálido y ambientado.</p>
+        </div>
+      </div>
+
+      <!-- (foto o video 3) -->
+      <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
+        <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
+          <img src="https://i.postimg.cc/FRyg3XB3/images.jpg" alt="Video o foto del dueño" class="w-full h-full object-cover">
+        </div>
+        <div class="p-5">
+          <p class="text-cream font-medium">Atención personalizada</p>
+          <p class="text-stone text-xs mt-1">Muy buena atencion por parte del dueño.</p>
+        </div>
+      </div>
+
+      <!-- (foto o video 4) -->
+      <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
+        <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
+          <img src="https://i.postimg.cc/qRCznBhp/AHRPTWk87b-Festy6Gu-WHPdhku7he-Gz-GZv-F-c3J9rk5Lpv25NM1Pez-PFC9l-MOc7AIw-O22m-K6Ton-Bkim-Il-O6oz-Rn.jpg" alt="Detalles de la vinoteca" class="w-full h-full object-cover">
+        </div>
+        <div class="p-5">
+          <p class="text-cream font-medium">Detalles únicos</p>
+          <p class="text-stone text-xs mt-1">Etiquetas y selección.</p>
+        </div>
+      </div>
+
+      <!-- (foto o video 5) -->
+      <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
+        <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
+          <img src="https://i.postimg.cc/JnSVDJSL/caca.jpg" alt="Momentos compartidos" class="w-full h-full object-cover">
+        </div>
+        <div class="p-5">
+          <p class="text-cream font-medium">Momentos para compartir</p>
+          <p class="text-stone text-xs mt-1">Picadas y charlas.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1157,6 +1280,27 @@
 
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
+<!-- Botón Flotante de WhatsApp con Cartel -->
+<div class="whatsapp-container">
+    <div id="wa-tooltip" class="wa-tooltip hidden">
+        ¿Necesitás ayuda? Escribinos por WhatsApp 🍷
+    </div>
+    <a href="https://wa.me/5493537513148?text=%C2%A1Hola!%20Quiero%20hacer%20una%20consulta%20o%20reserva" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       aria-label="Contactar por WhatsApp">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+    </a>
+</div>
 
+<script>
+  setTimeout(() => {
+    const tooltip = document.getElementById('wa-tooltip');
+    if (tooltip) tooltip.classList.remove('hidden');
+  }, 5000);
+</script>
 </body>
 </html>
