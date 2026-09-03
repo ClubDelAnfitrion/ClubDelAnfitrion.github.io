@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://clubdelanfitrion.github.io/sitemap.xml
