@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -437,6 +436,19 @@
   </div>
 </section>
 
+<section id="promociones" class="relative py-28 lg:py-36">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <p class="label-serif text-gold-soft text-lg mb-4">Promociones vigentes</p>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14">nuestras promociones vigentes hoy en dia:</h2>
+
+    <div id="promos-loading" class="text-stone text-center py-16">Cargando promociones…</div>
+    <div id="promos-empty" class="hidden text-stone text-center py-16">
+      Todavía no hay promociones cargadas. Muy pronto vas a ver acá nuestras ofertas.
+    </div>
+    <div id="promos-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+  </div>
+</section>
+
 <footer class="relative bg-wine-black border-t border-gold/10 pt-20 pb-10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 grid sm:grid-cols-3 gap-12">
     <div>
@@ -511,6 +523,24 @@
       <p id="detail-price" class="text-gold-soft font-display text-3xl mb-6"></p>
       <div class="hairline mb-6"></div>
       <p id="detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap"></p>
+    </div>
+  </div>
+</div>
+
+<div id="promo-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
+  <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
+    <button id="promo-modal-close" class="absolute top-4 right-4 z-10 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
+      <img id="promo-detail-img" src="" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80"></div>
+    </div>
+    <div class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
+      <h3 id="promo-detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
+      <p id="promo-detail-price" class="text-gold-soft font-display text-3xl mb-6"></p>
+      <div class="hairline mb-6"></div>
+      <p id="promo-detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap"></p>
     </div>
   </div>
 </div>
@@ -610,6 +640,82 @@
         </button>
       </div>
     </form>
+
+    <div class="hairline my-10"></div>
+
+    <p class="label-serif text-gold-soft text-lg mb-1">Panel interno</p>
+    <h3 class="font-display text-2xl mb-8">Gestionar promociones</h3>
+
+    <div class="mb-10">
+      <p class="text-cream font-medium mb-4">Promociones publicadas</p>
+      <div id="admin-promos-list" class="space-y-3 max-h-64 overflow-y-auto pr-1 scrollbar-thin"></div>
+      <p id="admin-promos-empty" class="hidden text-stone text-sm">Todavía no hay promociones cargadas.</p>
+    </div>
+
+    <div class="hairline mb-10"></div>
+
+    <p id="promo-form-title" class="text-cream font-medium mb-6">Cargar nueva promoción</p>
+
+    <form id="promo-form" novalidate class="space-y-6">
+      <div>
+        <label for="promo-titulo" class="block text-sm text-stone mb-2">Título de la promoción</label>
+        <input type="text" id="promo-titulo" required
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
+               placeholder="Ej: 2x1 en picadas los jueves">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div>
+        <label for="promo-descripcion" class="block text-sm text-stone mb-2">Descripción de la promoción</label>
+        <textarea id="promo-descripcion" rows="4" required
+                  class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
+                  placeholder="Ej: Válido todos los jueves de 20 a 23 hs, no acumulable con otras promos."></textarea>
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm text-stone mb-2">¿La promoción tiene precio?</label>
+        <div class="flex gap-3">
+          <button type="button" id="promo-precio-si-btn"
+                  class="flex-1 rounded-full border border-gold bg-gold text-wine-black px-4 py-2.5 text-sm font-medium transition-colors">
+            Contiene precio
+          </button>
+          <button type="button" id="promo-precio-no-btn"
+                  class="flex-1 rounded-full border border-gold/30 text-stone px-4 py-2.5 text-sm font-medium hover:border-gold hover:text-gold-soft transition-colors">
+            No contiene precio
+          </button>
+        </div>
+      </div>
+
+      <div id="promo-precio-wrapper">
+        <label for="promo-precio" class="block text-sm text-stone mb-2">Precio</label>
+        <input type="number" id="promo-precio" min="0" step="0.01"
+               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
+               placeholder="Ej: 8000">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      </div>
+
+      <div>
+        <label for="promo-imagen" class="block text-sm text-stone mb-2">Imagen de la promoción (PNG o JPG)</label>
+        <input type="file" id="promo-imagen" accept=".png,.jpg,.jpeg,image/png,image/jpeg" required
+               class="w-full text-stone text-sm file:mr-4 file:rounded-full file:border-0 file:bg-gold file:text-wine-black file:px-5 file:py-2.5 file:font-medium file:cursor-pointer hover:file:bg-gold-soft transition-colors">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+        <div id="promo-imagen-preview" class="hidden mt-4">
+          <img id="promo-imagen-preview-img" class="h-28 w-28 object-cover rounded-lg border border-gold/20" alt="Previsualización de la imagen">
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button type="submit" id="promo-submit-btn"
+                class="flex-1 rounded-full bg-gold px-8 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
+          Publicar promoción
+        </button>
+        <button type="button" id="promo-cancel-edit-btn"
+                class="hidden sm:w-auto rounded-full border border-stone/30 px-8 py-4 text-stone hover:border-gold hover:text-gold-soft transition-colors">
+          Cancelar edición
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -637,6 +743,7 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const productsCollection = collection(db, "productos");
+  const promosCollection = collection(db, "promociones");
 
   // ============================================================
   // CLOUDINARY — configuración
@@ -922,6 +1029,91 @@
   }
 
   // ============================================================
+  // PROMOCIONES — CATÁLOGO Y FUNCIONES GLOBALES
+  // ============================================================
+  const promosGrid = document.getElementById("promos-grid");
+  const promosLoading = document.getElementById("promos-loading");
+  const promosEmpty = document.getElementById("promos-empty");
+
+  window.openPromoDetail = (id) => {
+    const promo = latestPromos.find(p => p.id === id);
+    if (!promo) return;
+    document.getElementById("promo-detail-img").src = promo.imagenUrl;
+    document.getElementById("promo-detail-title").textContent = promo.titulo;
+    document.getElementById("promo-detail-price").textContent = promo.tienePrecio ? formatPrice(promo.precio) : "";
+    document.getElementById("promo-detail-desc").textContent = promo.descripcion;
+
+    document.getElementById("promo-modal").classList.remove("hidden");
+    document.getElementById("promo-modal").classList.add("flex");
+    document.body.style.overflow = "hidden";
+  };
+
+  document.getElementById("promo-modal-close").addEventListener("click", () => {
+    document.getElementById("promo-modal").classList.add("hidden");
+    document.getElementById("promo-modal").classList.remove("flex");
+    document.body.style.overflow = "";
+  });
+
+  window.orderPromoDirect = (id) => {
+    const promo = latestPromos.find(p => p.id === id);
+    if(!promo) return;
+    const precioLinea = promo.tienePrecio ? `%0APrecio: ${formatPrice(promo.precio)}` : "";
+    const msg = `¡Hola! Me interesa esta promoción de la vinoteca:%0A%0A*${promo.titulo}*${precioLinea}%0A%0A¿Sigue vigente?`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+  };
+
+  window.sharePromo = (id) => {
+    const promo = latestPromos.find(p => p.id === id);
+    if(!promo) return;
+    if (navigator.share) {
+      navigator.share({
+        title: promo.titulo,
+        text: `Mirá esta promoción en Club del Anfitrión: ${promo.titulo}`,
+        url: window.location.href.split('#')[0] + '#promociones'
+      }).catch(err => console.log('Error al compartir', err));
+    } else {
+      showToast("Tu navegador no soporta la función de compartir.", "error");
+    }
+  };
+
+  function renderPromoCard(promo) {
+    const card = document.createElement("article");
+    card.className = "product-grid-enter rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col group relative";
+
+    const shortDesc = promo.descripcion.length > 75 ? promo.descripcion.substring(0, 75) + '...' : promo.descripcion;
+    const priceHtml = promo.tienePrecio
+      ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-5">${formatPrice(promo.precio)}</p>`
+      : `<p class="mt-4 mb-5"></p>`;
+
+    card.innerHTML = `
+      <div class="aspect-[4/5] overflow-hidden bg-wine-black cursor-pointer relative" onclick="window.openPromoDetail('${promo.id}')">
+        <img src="${promo.imagenUrl}" alt="${promo.titulo}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+      </div>
+      <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
+        <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openPromoDetail('${promo.id}')">${promo.titulo}</h3>
+        <p class="text-stone text-sm leading-relaxed flex-1">${shortDesc}</p>
+        ${priceHtml}
+
+        <div class="flex flex-col gap-2.5 mt-auto">
+          <button onclick="window.orderPromoDirect('${promo.id}')" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors tracking-wide shadow-md shadow-gold/20 flex items-center justify-center gap-2 uppercase text-sm">
+            <span>¡Me interesa!</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+
+          <div class="flex gap-2">
+            <button onclick="window.sharePromo('${promo.id}')" class="flex-1 rounded-full border border-cream/20 px-3 py-2 text-cream hover:bg-cream/10 transition-colors flex items-center justify-center gap-1.5 text-xs font-medium">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              Compartir
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    return card;
+  }
+
+  // ============================================================
   // SISTEMA DE CARRITO DE COMPRAS
   // ============================================================
   let cart = JSON.parse(localStorage.getItem('clubCart')) || [];
@@ -1072,6 +1264,38 @@
     }
   );
 
+  const promosQuery = query(promosCollection, orderBy("creadoEn", "desc"));
+  let latestPromos = [];
+  let editingPromoId = null;
+  let editingPromoImagenUrl = null;
+
+  onSnapshot(
+    promosQuery,
+    (snapshot) => {
+      promosLoading.classList.add("hidden");
+      latestPromos = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+
+      if (snapshot.empty) {
+        promosGrid.innerHTML = "";
+        promosEmpty.classList.remove("hidden");
+      } else {
+        promosEmpty.classList.add("hidden");
+        promosGrid.innerHTML = "";
+        latestPromos.forEach((promo) => {
+          if (promo.titulo && promo.imagenUrl) promosGrid.appendChild(renderPromoCard(promo));
+        });
+      }
+      renderAdminPromosList(latestPromos);
+      if (editingPromoId && !latestPromos.some((promo) => promo.id === editingPromoId)) exitPromoEditMode();
+    },
+    (error) => {
+      promosLoading.classList.add("hidden");
+      promosEmpty.classList.remove("hidden");
+      promosEmpty.textContent = "No pudimos cargar las promociones en este momento.";
+      showToast("No se pudo conectar con las promociones.", "error");
+    }
+  );
+
   // ============================================================
   // ADMIN — CREDENCIALES, SESIÓN (PERSISTENCIA 5 MIN) Y LOGIN
   // ============================================================
@@ -1130,6 +1354,7 @@
   document.getElementById("admin-panel-close").addEventListener("click", () => {
     closeModal(adminPanelModal);
     exitEditMode();
+    exitPromoEditMode();
   });
 
   document.getElementById("admin-login-form").addEventListener("submit", (event) => {
@@ -1155,7 +1380,7 @@
   });
 
   // ============================================================
-  // ADMIN — LISTADO Y GESTIÓN
+  // ADMIN — LISTADO Y GESTIÓN DE PRODUCTOS
   // ============================================================
   const adminProductsList = document.getElementById("admin-products-list");
   const adminProductsEmpty = document.getElementById("admin-products-empty");
@@ -1292,6 +1517,180 @@
     }
   });
 
+  // ============================================================
+  // ADMIN — LISTADO Y GESTIÓN DE PROMOCIONES
+  // ============================================================
+  const adminPromosList = document.getElementById("admin-promos-list");
+  const adminPromosEmpty = document.getElementById("admin-promos-empty");
+
+  function renderAdminPromosList(promos) {
+    if (!promos.length) {
+      adminPromosList.innerHTML = "";
+      adminPromosEmpty.classList.remove("hidden");
+      return;
+    }
+    adminPromosEmpty.classList.add("hidden");
+    adminPromosList.innerHTML = "";
+
+    promos.forEach((promo) => {
+      const row = document.createElement("div");
+      row.className = "flex items-center gap-4 rounded-xl border border-gold/10 bg-wine-black/40 p-3";
+      row.innerHTML = `
+        <img src="${promo.imagenUrl}" alt="${promo.titulo}" class="h-14 w-14 rounded-lg object-cover shrink-0 border border-gold/15">
+        <div class="min-w-0 flex-1">
+          <p class="text-cream text-sm font-medium truncate">${promo.titulo}</p>
+          <p class="text-stone text-xs mt-0.5">${promo.tienePrecio ? formatPrice(promo.precio) : "Sin precio"}</p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" data-action="edit" class="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-soft hover:bg-gold hover:text-wine-black transition-colors">Editar</button>
+          <button type="button" data-action="delete" class="rounded-full border border-garnet-light/50 px-3 py-1.5 text-xs text-garnet-light hover:bg-garnet-light hover:text-wine-black transition-colors">Eliminar</button>
+        </div>
+      `;
+      row.querySelector('[data-action="edit"]').addEventListener("click", () => startEditPromo(promo));
+      row.querySelector('[data-action="delete"]').addEventListener("click", () => confirmDeletePromo(promo));
+      adminPromosList.appendChild(row);
+    });
+  }
+
+  const promoFormTitle = document.getElementById("promo-form-title");
+  const promoCancelEditBtn = document.getElementById("promo-cancel-edit-btn");
+  const promoImagenInput = document.getElementById("promo-imagen");
+  const promoImagenPreview = document.getElementById("promo-imagen-preview");
+  const promoImagenPreviewImg = document.getElementById("promo-imagen-preview-img");
+  const promoForm = document.getElementById("promo-form");
+  const promoSubmitBtn = document.getElementById("promo-submit-btn");
+  const promoPrecioSiBtn = document.getElementById("promo-precio-si-btn");
+  const promoPrecioNoBtn = document.getElementById("promo-precio-no-btn");
+  const promoPrecioWrapper = document.getElementById("promo-precio-wrapper");
+  const promoPrecioInput = document.getElementById("promo-precio");
+
+  let promoTienePrecio = true;
+
+  function setPromoTienePrecio(value) {
+    promoTienePrecio = value;
+    if (value) {
+      promoPrecioSiBtn.classList.add("bg-gold", "text-wine-black", "border-gold");
+      promoPrecioSiBtn.classList.remove("text-stone", "border-gold/30");
+      promoPrecioNoBtn.classList.remove("bg-gold", "text-wine-black", "border-gold");
+      promoPrecioNoBtn.classList.add("text-stone", "border-gold/30");
+      promoPrecioWrapper.classList.remove("hidden");
+    } else {
+      promoPrecioNoBtn.classList.add("bg-gold", "text-wine-black", "border-gold");
+      promoPrecioNoBtn.classList.remove("text-stone", "border-gold/30");
+      promoPrecioSiBtn.classList.remove("bg-gold", "text-wine-black", "border-gold");
+      promoPrecioSiBtn.classList.add("text-stone", "border-gold/30");
+      promoPrecioWrapper.classList.add("hidden");
+      setFieldError(promoPrecioInput, null);
+    }
+  }
+
+  promoPrecioSiBtn.addEventListener("click", () => setPromoTienePrecio(true));
+  promoPrecioNoBtn.addEventListener("click", () => setPromoTienePrecio(false));
+
+  function startEditPromo(promo) {
+    editingPromoId = promo.id;
+    editingPromoImagenUrl = promo.imagenUrl;
+    document.getElementById("promo-titulo").value = promo.titulo || "";
+    document.getElementById("promo-descripcion").value = promo.descripcion || "";
+    setPromoTienePrecio(Boolean(promo.tienePrecio));
+    promoPrecioInput.value = promo.tienePrecio ? (promo.precio || "") : "";
+    promoImagenInput.value = "";
+    promoImagenPreviewImg.src = promo.imagenUrl;
+    promoImagenPreview.classList.remove("hidden");
+    setFieldError(promoImagenInput, null);
+    promoFormTitle.textContent = `Editando: ${promo.titulo}`;
+    promoSubmitBtn.textContent = "Guardar cambios";
+    promoCancelEditBtn.classList.remove("hidden");
+    document.getElementById("promo-titulo").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function exitPromoEditMode() {
+    editingPromoId = null;
+    editingPromoImagenUrl = null;
+    promoForm.reset();
+    promoImagenPreview.classList.add("hidden");
+    promoFormTitle.textContent = "Cargar nueva promoción";
+    promoSubmitBtn.textContent = "Publicar promoción";
+    promoCancelEditBtn.classList.add("hidden");
+    setPromoTienePrecio(true);
+    ["promo-titulo", "promo-descripcion", "promo-precio", "promo-imagen"].forEach(id => setFieldError(document.getElementById(id), null));
+  }
+
+  async function confirmDeletePromo(promo) {
+    if (!window.confirm(`¿Eliminar "${promo.titulo}" de las promociones?`)) return;
+    try {
+      await deleteDoc(doc(db, "promociones", promo.id));
+      showToast("Promoción eliminada.", "success");
+      if (editingPromoId === promo.id) exitPromoEditMode();
+    } catch (e) {
+      showToast("No se pudo eliminar.", "error");
+    }
+  }
+
+  promoCancelEditBtn.addEventListener("click", exitPromoEditMode);
+  promoImagenInput.addEventListener("change", () => {
+    const file = promoImagenInput.files[0];
+    if (!file) { promoImagenPreview.classList.add("hidden"); return; }
+    if (!["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
+      setFieldError(promoImagenInput, "Solo PNG o JPG.");
+      promoImagenInput.value = "";
+      promoImagenPreview.classList.add("hidden");
+      return;
+    }
+    setFieldError(promoImagenInput, null);
+    promoImagenPreviewImg.src = URL.createObjectURL(file);
+    promoImagenPreview.classList.remove("hidden");
+  });
+
+  promoForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const titulo = document.getElementById("promo-titulo").value.trim();
+    const descripcion = document.getElementById("promo-descripcion").value.trim();
+    const precio = promoPrecioInput.value;
+    const file = promoImagenInput.files[0];
+    const isEditing = Boolean(editingPromoId);
+
+    let isValid = true;
+    if (!titulo) { setFieldError(document.getElementById("promo-titulo"), "Obligatorio."); isValid = false; } else setFieldError(document.getElementById("promo-titulo"), null);
+    if (!descripcion) { setFieldError(document.getElementById("promo-descripcion"), "Obligatorio."); isValid = false; } else setFieldError(document.getElementById("promo-descripcion"), null);
+    if (promoTienePrecio && (!precio || Number(precio) <= 0)) { setFieldError(promoPrecioInput, "Inválido."); isValid = false; } else setFieldError(promoPrecioInput, null);
+    if (!file && !isEditing) { setFieldError(promoImagenInput, "Obligatorio."); isValid = false; } else if(file) setFieldError(promoImagenInput, null);
+
+    if (!isValid) return;
+    promoSubmitBtn.disabled = true;
+
+    try {
+      let imagenUrl = editingPromoImagenUrl;
+      if (file) {
+        promoSubmitBtn.textContent = "Subiendo imagen…";
+        imagenUrl = await uploadImageToCloudinary(file);
+      }
+      const promoData = {
+        titulo,
+        descripcion,
+        tienePrecio: promoTienePrecio,
+        precio: promoTienePrecio ? Number(precio) : null,
+        imagenUrl
+      };
+      if (isEditing) {
+        promoSubmitBtn.textContent = "Guardando cambios…";
+        await updateDoc(doc(db, "promociones", editingPromoId), promoData);
+        showToast("Actualizado correctamente.", "success");
+      } else {
+        promoSubmitBtn.textContent = "Guardando promoción…";
+        await addDoc(promosCollection, { ...promoData, creadoEn: serverTimestamp() });
+        showToast("Publicado correctamente.", "success");
+      }
+      exitPromoEditMode();
+      closeModal(adminPanelModal);
+    } catch (e) {
+      showToast("Error al guardar.", "error");
+    } finally {
+      promoSubmitBtn.disabled = false;
+      promoSubmitBtn.textContent = editingPromoId ? "Guardar cambios" : "Publicar promoción";
+    }
+  });
+
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 <!-- Botón Flotante de WhatsApp con Cartel -->
@@ -1313,8 +1712,13 @@
 <script>
   setTimeout(() => {
     const tooltip = document.getElementById('wa-tooltip');
-    if (tooltip) tooltip.classList.remove('hidden');
-  }, 5000);
+    if (tooltip) {
+      tooltip.classList.remove('hidden');
+      setTimeout(() => {
+        tooltip.classList.add('hidden');
+      }, 5000);
+    }
+  }, 3000);
 </script>
 </body>
 </html>
