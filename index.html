@@ -63,6 +63,8 @@
   .toast { min-width: 260px; max-width: 340px; }
   .product-grid-enter { animation: fadeIn 0.5s ease-out both; }
 
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
   .whatsapp-container {
       position: fixed;
       bottom: 24px;
@@ -451,25 +453,69 @@
       <p class="text-stone text-sm" id="auth-profile-email"></p>
       <button id="auth-signout-btn" class="mt-4 rounded-full border border-gold/40 px-4 py-2 text-sm text-gold-soft">Cerrar sesión</button>
     </div>
-    <div id="auth-fields" class="space-y-4">
-      <button id="auth-google-btn" type="button" class="w-full rounded-full border border-gold/30 px-5 py-3 text-cream hover:border-gold">Continuar con Google</button>
-      <div class="hairline"></div>
-      <label class="block text-sm text-stone">Nombre (solo para crear cuenta)
-        <input id="auth-name" type="text" autocomplete="name" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream" placeholder="Tu nombre">
-      </label>
-      <label class="block text-sm text-stone">Correo electrónico
-        <input id="auth-email" type="email" autocomplete="email" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream" placeholder="tu@correo.com" required>
-      </label>
-      <label class="block text-sm text-stone">Contraseña
-        <input id="auth-password" type="password" autocomplete="current-password" minlength="6" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream" placeholder="Mínimo 6 caracteres">
-      </label>
-      <div class="grid grid-cols-2 gap-3">
-        <button id="auth-login-btn" type="button" class="rounded-full bg-gold px-4 py-3 text-wine-black font-medium">Ingresar</button>
-        <button id="auth-register-btn" type="button" class="rounded-full border border-gold/40 px-4 py-3 text-gold-soft">Crear cuenta</button>
+    <div id="auth-fields">
+      <!-- Vista: iniciar sesión -->
+      <div id="auth-login-view" class="space-y-5">
+        <button id="auth-google-btn" type="button" class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-white border border-gray-300 px-5 py-3.5 text-[15px] font-medium text-gray-800 shadow-sm hover:bg-gray-100 hover:shadow active:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed transition-colors">
+          <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          <span id="auth-google-label">Iniciar sesión con Google</span>
+        </button>
+        <div class="flex items-center gap-3 text-xs text-stone" role="separator">
+          <span class="hairline flex-1"></span>
+          <span>O continuá con tu correo electrónico</span>
+          <span class="hairline flex-1"></span>
+        </div>
+        <form id="auth-login-form" novalidate class="space-y-4">
+          <div>
+            <label for="auth-email" class="block text-sm text-stone">Correo electrónico</label>
+            <input id="auth-email" type="email" autocomplete="email" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold" placeholder="tu@correo.com" required>
+          </div>
+          <div>
+            <label for="auth-password" class="block text-sm text-stone">Contraseña</label>
+            <input id="auth-password" type="password" autocomplete="current-password" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold" placeholder="Tu contraseña" required>
+          </div>
+          <button id="auth-login-btn" type="submit" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors disabled:opacity-60 disabled:cursor-not-allowed">Iniciar sesión</button>
+        </form>
+        <p class="text-xs text-stone text-center">¿No tenés cuenta? <button id="auth-show-register" type="button" class="text-gold-soft underline">Registrate</button></p>
+        <p class="text-center"><button id="auth-reset-btn" type="button" class="text-xs text-stone underline hover:text-gold-soft disabled:opacity-60">¿Olvidaste tu contraseña?</button></p>
       </div>
-      <button id="auth-reset-btn" type="button" class="text-sm text-stone underline">Olvidé mi contraseña</button>
+      <!-- Vista: registro -->
+      <div id="auth-register-view" class="hidden space-y-5">
+        <form id="auth-register-form" novalidate class="space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="auth-reg-nombre" class="block text-sm text-stone">Nombre</label>
+              <input id="auth-reg-nombre" type="text" autocomplete="given-name" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold" required>
+            </div>
+            <div>
+              <label for="auth-reg-apellido" class="block text-sm text-stone">Apellido</label>
+              <input id="auth-reg-apellido" type="text" autocomplete="family-name" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold" required>
+            </div>
+          </div>
+          <div>
+            <label for="auth-reg-email" class="block text-sm text-stone">Correo electrónico</label>
+            <input id="auth-reg-email" type="email" autocomplete="email" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold" placeholder="tu@correo.com" required>
+          </div>
+          <div>
+            <label for="auth-reg-password" class="block text-sm text-stone">Contraseña</label>
+            <input id="auth-reg-password" type="password" autocomplete="new-password" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold" required>
+          </div>
+          <button id="auth-register-btn" type="submit" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors disabled:opacity-60 disabled:cursor-not-allowed">Crear cuenta</button>
+        </form>
+        <p class="text-xs text-stone text-center">¿Ya tenés cuenta? <button id="auth-show-login" type="button" class="text-gold-soft underline">Iniciá sesión</button></p>
+      </div>
     </div>
-    <p id="auth-message" role="status" class="mt-4 text-sm text-gold-soft"></p>
+    <p id="auth-message" role="status" aria-live="polite" class="mt-4 text-sm text-gold-soft"></p>
+  </div>
+</div>
+
+<!-- CONFIRMACIÓN DE REGISTRO -->
+<div id="register-success-modal" class="hidden fixed inset-0 z-[120] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="register-success-title">
+  <div class="w-full max-w-md rounded-2xl border border-gold/30 bg-wine-panel p-8 text-center">
+    <h3 id="register-success-title" class="font-display text-3xl text-gold-soft mb-4">¡Registro exitoso! 🍷</h3>
+    <p id="register-success-text" class="text-cream text-base leading-relaxed mb-4"></p>
+    <p id="register-success-warning" class="hidden text-stone text-xs leading-relaxed mb-4"></p>
+    <button id="register-success-btn" type="button" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Entendido</button>
   </div>
 </div>
 
@@ -686,7 +732,28 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <p class="label-serif text-gold-soft text-lg mb-1">Panel interno</p>
-    <h3 class="font-display text-2xl mb-8">Gestión de la Vinoteca</h3>
+    <h3 class="font-display text-2xl mb-2">Gestión de la Vinoteca</h3>
+    <p id="admin-session-timer" class="text-stone text-xs mb-6" aria-live="off"></p>
+
+    <!-- Autorización real de escritura (Firebase Auth + custom claim admin) -->
+    <div id="admin-fb-box" class="mb-8 rounded-xl border border-gold/20 bg-wine-black/30 p-4">
+      <p class="text-cream font-medium text-sm mb-1">Autorización de escritura (Firebase)</p>
+      <p id="admin-fb-status" class="text-stone text-xs mb-3" role="status">No conectada.</p>
+      <form id="admin-fb-form" novalidate class="grid sm:grid-cols-2 gap-3">
+        <div>
+          <label for="admin-fb-email" class="block text-xs text-stone mb-1">Correo de la cuenta de administrador</label>
+          <input type="email" id="admin-fb-email" autocomplete="off" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm placeholder:text-stone/50 focus:border-gold">
+        </div>
+        <div>
+          <label for="admin-fb-pass" class="block text-xs text-stone mb-1">Contraseña de esa cuenta</label>
+          <input type="password" id="admin-fb-pass" autocomplete="off" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm placeholder:text-stone/50 focus:border-gold">
+        </div>
+        <div class="sm:col-span-2 flex gap-3">
+          <button type="submit" id="admin-fb-connect-btn" class="rounded-full bg-gold px-5 py-2 text-wine-black text-sm font-medium hover:bg-gold-soft transition-colors disabled:opacity-60">Conectar</button>
+          <button type="button" id="admin-fb-signout-btn" class="hidden rounded-full border border-stone/30 px-5 py-2 text-stone text-sm">Desconectar</button>
+        </div>
+      </form>
+    </div>
 
     <p class="text-stone text-sm mb-8">La gestión de solicitudes de compra está disponible en la página interna de pedidos.</p>
     <a href="pedidos_admin_club_del_anfitrion.html" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full border border-gold/40 px-5 py-3 text-gold-soft text-sm mb-8 hover:bg-gold hover:text-wine-black">Abrir gestión de pedidos ↗</a>
@@ -694,7 +761,9 @@
     <!-- Gestión Productos -->
     <div class="mb-10">
       <p class="text-cream font-medium mb-4">Productos publicados</p>
-      <div id="admin-products-list" class="space-y-3 max-h-48 overflow-y-auto pr-1 scrollbar-thin"></div>
+      <label for="admin-products-search" class="sr-only">Buscar productos por nombre</label>
+      <input type="search" id="admin-products-search" placeholder="Buscar producto por nombre…" class="mb-3 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm placeholder:text-stone/50 focus:border-gold">
+      <div id="admin-products-list" class="space-y-3 max-h-80 overflow-y-auto pr-1 scrollbar-thin"></div>
     </div>
 
     <p id="product-form-title" class="text-cream font-medium mb-6">Cargar nuevo producto</p>
@@ -730,7 +799,22 @@
     <!-- Gestión Promociones -->
     <div class="mb-10">
       <p class="text-cream font-medium mb-4">Promociones publicadas</p>
-      <div id="admin-promos-list" class="space-y-3 max-h-48 overflow-y-auto pr-1 scrollbar-thin"></div>
+      <div class="grid sm:grid-cols-2 gap-3 mb-3">
+        <div>
+          <label for="admin-promos-search" class="sr-only">Buscar promociones por título</label>
+          <input type="search" id="admin-promos-search" placeholder="Buscar promoción por título…" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm placeholder:text-stone/50 focus:border-gold">
+        </div>
+        <div>
+          <label for="admin-promos-filter" class="sr-only">Filtrar promociones por estado</label>
+          <select id="admin-promos-filter" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm placeholder:text-stone/50 focus:border-gold">
+            <option value="todas">Todas</option>
+            <option value="vigentes">Vigentes</option>
+            <option value="programadas">Programadas (aún no publicadas)</option>
+            <option value="vencidas">Vencidas</option>
+          </select>
+        </div>
+      </div>
+      <div id="admin-promos-list" class="space-y-3 max-h-80 overflow-y-auto pr-1 scrollbar-thin"></div>
     </div>
 
     <p id="promo-form-title" class="text-cream font-medium mb-6">Cargar nueva promoción</p>
@@ -772,18 +856,30 @@
   </div>
 </div>
 
+<!-- CONFIRMACIÓN DE ELIMINACIÓN (ADMIN) -->
+<div id="admin-confirm-modal" class="hidden fixed inset-0 z-[130] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6" role="alertdialog" aria-modal="true" aria-labelledby="admin-confirm-text">
+  <div class="w-full max-w-sm rounded-2xl border border-gold/30 bg-wine-panel p-7 text-center">
+    <p id="admin-confirm-text" class="text-cream text-base leading-relaxed mb-2">¿Estás seguro de que querés eliminar este elemento? Esta acción no se puede deshacer.</p>
+    <p id="admin-confirm-name" class="text-gold-soft text-sm mb-6 break-words"></p>
+    <div class="flex gap-3">
+      <button type="button" id="admin-confirm-cancel" class="flex-1 rounded-full border border-stone/30 px-5 py-3 text-stone hover:text-cream">Cancelar</button>
+      <button type="button" id="admin-confirm-ok" class="flex-1 rounded-full bg-garnet px-5 py-3 text-cream font-medium hover:bg-garnet-light transition-colors disabled:opacity-60">Eliminar</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
   import {
     getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword,
     signInWithEmailAndPassword, sendPasswordResetEmail, updateProfile,
-    onAuthStateChanged, signOut
+    onAuthStateChanged, signOut, getAdditionalUserInfo
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
   import {
     getFirestore, collection, addDoc, onSnapshot,
     query, orderBy, serverTimestamp,
-    doc, updateDoc, deleteDoc, getDocs
+    doc, updateDoc, deleteDoc, getDocs, getDoc, setDoc, where
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -800,6 +896,7 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
+  googleProvider.setCustomParameters({ prompt: "select_account" }); // permite elegir la cuenta de Google
 
   // EmailJS: bienvenida. La recuperación segura de contraseña la gestiona Firebase.
   const EMAILJS_PUBLIC_KEY = "MgfqJouhVvsy4VAab";
@@ -1012,11 +1109,14 @@
 
     const codigoRetiro = Math.floor(100000 + Math.random() * 900000).toString();
     let totalPrecio = 0;
-    const itemsComprados = cart.map(item => {
+    const itemsComprados = [];
+    cart.forEach(item => {
       const prod = latestProducts.find(p => p.id === item.id);
-      totalPrecio += (prod ? prod.precio : 0) * item.qty;
-      return { titulo: prod ? prod.titulo : 'Producto', qty: item.qty };
+      if (!prod) return; // producto eliminado del catálogo: no se registra en el pedido
+      totalPrecio += prod.precio * item.qty;
+      itemsComprados.push({ titulo: prod.titulo, qty: item.qty });
     });
+    if (itemsComprados.length === 0) { showToast("Los productos de tu carrito ya no están disponibles.", "error"); return; }
 
     const nuevoPedido = {
       nombre,
@@ -1027,11 +1127,13 @@
       items: itemsComprados,
       total: totalPrecio,
       estado: "no retirado",
+      uid: auth.currentUser ? auth.currentUser.uid : null, // permite que cada cliente consulte solo sus pedidos
       creadoEn: serverTimestamp()
     };
 
     try {
-      await addDoc(ordersCollection, nuevoPedido);
+      const orderRef = await addDoc(ordersCollection, nuevoPedido);
+      rememberOrderId(orderRef.id);
       checkoutModal.classList.add("hidden");
       checkoutModal.classList.remove("flex");
       checkoutForm.reset();
@@ -1046,6 +1148,7 @@
       const successModal = document.getElementById("order-success-modal");
       successModal.classList.remove("hidden");
       successModal.classList.add("flex");
+      loadMyPurchases(document.getElementById("filter-dni").value.trim());
     } catch (err) {
       showToast("Error al registrar la compra en Firebase.", "error");
     }
@@ -1121,6 +1224,7 @@
   onSnapshot(query(productsCollection, orderBy("creadoEn", "desc")), (snapshot) => {
     productsLoading.classList.add("hidden");
     latestProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    renderAdminProducts();
     if (snapshot.empty) productsEmpty.classList.remove("hidden");
     else {
       productsEmpty.classList.add("hidden");
@@ -1136,14 +1240,17 @@
 
   // Promociones con vigencia mensual
   let latestPromos = [];
+  let allPromos = []; // todas las promociones (sin filtrar por fecha de publicación) para el panel admin
   const promosGrid = document.getElementById("promos-grid");
   const promosLoading = document.getElementById("promos-loading");
   const promosEmpty = document.getElementById("promos-empty");
 
   onSnapshot(query(promosCollection, orderBy("creadoEn", "desc")), (snapshot) => {
     promosLoading.classList.add("hidden");
-    const today = new Date().toISOString().split('T')[0];
-    latestPromos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })).filter(promo => {
+    const today = todayLocalISO(); // fecha local (antes se usaba UTC y el día cambiaba a las 21:00 en Argentina)
+    allPromos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    renderAdminPromos();
+    latestPromos = allPromos.filter(promo => {
       if (promo.publicarDesde && promo.publicarDesde > today) return false;
       return true;
     });
@@ -1176,146 +1283,622 @@
     }
   });
 
-  // Apartado Mis Compras & Borrado por antigüedad (3 días)
+  // Apartado Mis Compras: muestra solo los pedidos propios (de la cuenta iniciada y de este dispositivo).
   const myPurchasesContainer = document.getElementById("my-purchases-container");
   const filterDniInput = document.getElementById("filter-dni");
   const filterDniBtn = document.getElementById("filter-dni-btn");
+  const MY_ORDER_IDS_KEY = "clubMyOrderIds";
+  let purchasesRequest = 0;
+
+  function getMyOrderIds() {
+    try {
+      const list = JSON.parse(localStorage.getItem(MY_ORDER_IDS_KEY) || "[]");
+      return Array.isArray(list) ? list.filter(id => typeof id === "string") : [];
+    } catch (_) { return []; }
+  }
+  function rememberOrderId(id) {
+    try {
+      const ids = getMyOrderIds().filter(x => x !== id);
+      ids.unshift(id);
+      localStorage.setItem(MY_ORDER_IDS_KEY, JSON.stringify(ids.slice(0, 50)));
+    } catch (_) { /* almacenamiento no disponible */ }
+  }
+
+  async function fetchMyOrders() {
+    const byId = new Map();
+    const user = auth.currentUser;
+    if (user) {
+      const snap = await getDocs(query(ordersCollection, where("uid", "==", user.uid)));
+      snap.forEach(d => byId.set(d.id, { id: d.id, ...d.data() }));
+    }
+    const deviceIds = getMyOrderIds().filter(id => !byId.has(id));
+    const results = await Promise.allSettled(deviceIds.map(id => getDoc(doc(db, "pedidos", id))));
+    results.forEach(r => {
+      if (r.status === "fulfilled" && r.value.exists()) byId.set(r.value.id, { id: r.value.id, ...r.value.data() });
+    });
+    return [...byId.values()];
+  }
 
   async function loadMyPurchases(searchDni = "") {
+    const request = ++purchasesRequest;
     try {
-      const snap = await getDocs(ordersCollection);
+      let orders = await fetchMyOrders();
+      if (request !== purchasesRequest) return; // llegó una consulta más reciente
       const now = Date.now();
-      const threeDaysMs = 3 * 24 * 60 * 60 * 12 * 1000; // 3 días
-
-      let orders = [];
-      snap.forEach(docSnap => {
-        const data = { id: docSnap.id, ...docSnap.data() };
-        // Expirar si pasan 3 días sin retirar
-        if (data.creadoEn && (now - data.creadoEn.toMillis() > 3 * 24 * 60 * 60 * 1000) && data.estado === "no retirado") {
-          updateDoc(doc(db, "pedidos", data.id), { estado: "cancelado (no retirado)" });
-          data.estado = "cancelado (no retirado)";
-        }
-        orders.push(data);
+      const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
+      orders = orders.map(o => {
+        // Vista únicamente: un pedido sin retirar pasados 3 días se muestra como cancelado (no se escribe en la base).
+        const vencido = o.creadoEn && o.creadoEn.toMillis && (now - o.creadoEn.toMillis() > threeDaysMs) && o.estado === "no retirado";
+        return vencido ? { ...o, estado: "cancelado (no retirado)" } : o;
       });
+      orders.sort((a, b) => ((b.creadoEn && b.creadoEn.toMillis ? b.creadoEn.toMillis() : now) - (a.creadoEn && a.creadoEn.toMillis ? a.creadoEn.toMillis() : now)));
 
-      if (searchDni) {
-        orders = orders.filter(o => o.dni === searchDni || o.codigoRetiro === searchDni);
-      }
+      if (searchDni) orders = orders.filter(o => o.dni === searchDni || o.codigoRetiro === searchDni);
 
       if (orders.length === 0) {
-        myPurchasesContainer.innerHTML = '<p class="text-stone text-center py-8">No se encontraron compras con ese DNI o código.</p>';
+        myPurchasesContainer.innerHTML = searchDni
+          ? '<p class="text-stone text-center py-8">No se encontraron compras con ese DNI o código.</p>'
+          : '<p class="text-stone text-center py-8">No hay compras registradas en este dispositivo o con ese DNI.</p>';
         return;
       }
 
       myPurchasesContainer.innerHTML = "";
       orders.forEach(ord => {
+        const estado = String(ord.estado || "");
         const div = document.createElement("div");
         div.className = "bg-wine-panel/60 border border-gold/15 rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4";
         div.innerHTML = `
           <div>
             <div class="flex items-center gap-3 mb-1">
-              <span class="text-gold-soft font-display text-xl">Código: ${ord.codigoRetiro}</span>
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium ${ord.estado === 'retirado' ? 'bg-emerald-900/50 text-emerald-300' : 'bg-gold/20 text-gold-soft'}">${ord.estado.toUpperCase()}</span>
+              <span class="text-gold-soft font-display text-xl">Código: ${escapeHtml(ord.codigoRetiro)}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium ${estado === 'retirado' ? 'bg-emerald-900/50 text-emerald-300' : 'bg-gold/20 text-gold-soft'}">${escapeHtml(estado.toUpperCase())}</span>
             </div>
-            <p class="text-cream text-sm">Comprador: <strong>${ord.nombre}</strong> (DNI: ${ord.dni})</p>
-            <p class="text-stone text-xs mt-1">Método de pago: ${ord.metodoPago}</p>
+            <p class="text-cream text-sm">Comprador: <strong>${escapeHtml(ord.nombre)}</strong> (DNI: ${escapeHtml(ord.dni)})</p>
+            <p class="text-stone text-xs mt-1">Método de pago: ${escapeHtml(ord.metodoPago)}</p>
             <p class="text-stone text-xs">Total: ${formatPrice(ord.total)}</p>
           </div>
         `;
         myPurchasesContainer.appendChild(div);
       });
     } catch (e) {
-      console.error(e);
+      console.error("[mis compras]", e.code || "", e.message || e);
+      if (request === purchasesRequest) myPurchasesContainer.innerHTML = '<p class="text-stone text-center py-8">No pudimos cargar tus compras en este momento. Intentá de nuevo en unos minutos.</p>';
     }
   }
 
   filterDniBtn.addEventListener("click", () => loadMyPurchases(filterDniInput.value.trim()));
 
-  // Panel Admin de Pedidos y Gestión
+  // ===== Panel Admin de Pedidos y Gestión =====
+  // Acceso del panel (compuerta de interfaz, existente). NO es una protección real de Firestore:
+  // la autorización real de escritura depende de Firebase Auth + reglas (ver "Autorización de escritura").
   const ADMIN_USERNAME = "clubdelanfitrion";
   const ADMIN_PASSWORD = "clubdelanfitrion";
   const ADMIN_SESSION_KEY = "club_admin_session_expiry";
+  const ADMIN_SESSION_MS = 5 * 60 * 1000; // 5 minutos exactos desde el inicio de sesión
+  const ADMIN_EXPIRED_MSG = "Tu sesión expiró. Volvé a ingresar los datos para iniciar sesión";
+
+  const showEl = (el) => { el.classList.remove("hidden"); el.classList.add("flex"); };
+  const hideEl = (el) => { el.classList.add("hidden"); el.classList.remove("flex"); };
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+  function todayLocalISO() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+  function formatISODate(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+    return m ? `${m[3]}/${m[2]}/${m[1]}` : (iso || "");
+  }
+
+  const adminLoginModal = document.getElementById("admin-login-modal");
+  const adminPanelModal = document.getElementById("admin-panel-modal");
+  const adminLoginError = document.getElementById("admin-login-error");
+  const adminTimerEl = document.getElementById("admin-session-timer");
+  const adminConfirmModal = document.getElementById("admin-confirm-modal");
+  let adminNoticePending = false;
+
+  // --- Sesión con marca temporal absoluta (no depende de que la pestaña siga abierta) ---
+  function getAdminExpiry() {
+    let best = 0;
+    [() => localStorage, () => sessionStorage].forEach((getStore) => {
+      try {
+        const n = Number(getStore().getItem(ADMIN_SESSION_KEY));
+        if (Number.isFinite(n) && n > best) best = n;
+      } catch (_) { /* almacenamiento no disponible */ }
+    });
+    return best;
+  }
+  function isAdminSessionValid() {
+    const exp = getAdminExpiry();
+    const now = Date.now();
+    // Un vencimiento más lejano que la duración máxima no es legítimo (valor alterado o de una versión anterior).
+    return exp > now && exp - now <= ADMIN_SESSION_MS + 1000;
+  }
+  function clearAdminSession() {
+    try { localStorage.removeItem(ADMIN_SESSION_KEY); } catch (_) {}
+    try { sessionStorage.removeItem(ADMIN_SESSION_KEY); } catch (_) {}
+  }
+  function startAdminSession(remember) {
+    clearAdminSession();
+    const exp = String(Date.now() + ADMIN_SESSION_MS);
+    // "Recordar": localStorage (sobrevive al cierre del navegador, pero igual vence a los 5 min).
+    // Sin recordar: sessionStorage (se pierde al cerrar la pestaña) y también vence a los 5 min.
+    try { (remember ? localStorage : sessionStorage).setItem(ADMIN_SESSION_KEY, exp); } catch (error) { console.warn("[admin] No se pudo guardar la sesión.", error); }
+  }
+
+  function openAdminLogin() {
+    document.getElementById("admin-user").value = "";
+    document.getElementById("admin-pass").value = "";
+    if (adminNoticePending) {
+      adminLoginError.textContent = ADMIN_EXPIRED_MSG;
+      adminLoginError.classList.remove("hidden");
+      adminNoticePending = false;
+    } else {
+      adminLoginError.classList.add("hidden");
+    }
+    showEl(adminLoginModal);
+  }
+  function openAdminPanel() {
+    showEl(adminPanelModal);
+    renderAdminProducts();
+    renderAdminPromos();
+    updateAdminTimer();
+  }
+
+  function expireAdminSession(showLogin) {
+    clearAdminSession();
+    adminNoticePending = true;
+    hideEl(adminPanelModal);
+    hideEl(adminConfirmModal);
+    pendingDelete = null;
+    resetProductForm();
+    resetPromoForm();
+    document.getElementById("admin-fb-pass").value = "";
+    // Invalida también la autorización real: cierra la sesión de Firebase del administrador.
+    if (adminAuth.currentUser) signOut(adminAuth).catch((error) => console.warn("[admin] signOut", error));
+    adminTimerEl.textContent = "";
+    if (showLogin) openAdminLogin();
+  }
+  function enforceAdminSession() {
+    if (isAdminSessionValid()) return true;
+    const panelOpen = !adminPanelModal.classList.contains("hidden");
+    if (panelOpen || getAdminExpiry() > 0 || adminAuth.currentUser) expireAdminSession(panelOpen);
+    return false;
+  }
+  function requireAdminSession() {
+    if (enforceAdminSession()) return true;
+    showToast(ADMIN_EXPIRED_MSG, "error");
+    return false;
+  }
+  function updateAdminTimer() {
+    const remaining = getAdminExpiry() - Date.now();
+    if (remaining <= 0) { adminTimerEl.textContent = ""; return; }
+    const total = Math.ceil(remaining / 1000);
+    adminTimerEl.textContent = `Sesión del panel: vence en ${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
+  }
+
+  setInterval(() => {
+    if (!enforceAdminSession()) return;
+    if (!adminPanelModal.classList.contains("hidden")) updateAdminTimer();
+  }, 1000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) enforceAdminSession(); });
+  window.addEventListener("focus", enforceAdminSession);
+  window.addEventListener("storage", (e) => { if (e.key === ADMIN_SESSION_KEY) enforceAdminSession(); });
 
   document.getElementById("admin-open-btn").addEventListener("click", () => {
-    if (localStorage.getItem(ADMIN_SESSION_KEY)) {
-      document.getElementById("admin-panel-modal").classList.remove("hidden");
-      document.getElementById("admin-panel-modal").classList.add("flex");
-    } else {
-      document.getElementById("admin-login-modal").classList.remove("hidden");
-      document.getElementById("admin-login-modal").classList.add("flex");
-    }
+    if (enforceAdminSession()) openAdminPanel();
+    else openAdminLogin();
   });
-
-  document.getElementById("admin-login-close").addEventListener("click", () => document.getElementById("admin-login-modal").classList.add("hidden"));
-  document.getElementById("admin-panel-close").addEventListener("click", () => document.getElementById("admin-panel-modal").classList.add("hidden"));
+  document.getElementById("admin-login-close").addEventListener("click", () => hideEl(adminLoginModal));
+  document.getElementById("admin-panel-close").addEventListener("click", () => hideEl(adminPanelModal));
 
   document.getElementById("admin-login-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const u = document.getElementById("admin-user").value;
     const p = document.getElementById("admin-pass").value;
     if (u === ADMIN_USERNAME && p === ADMIN_PASSWORD) {
-      localStorage.setItem(ADMIN_SESSION_KEY, (Date.now() + 300000).toString());
-      document.getElementById("admin-login-modal").classList.add("hidden");
-      document.getElementById("admin-panel-modal").classList.remove("hidden");
-      document.getElementById("admin-panel-modal").classList.add("flex");
+      startAdminSession(document.getElementById("admin-remember").checked);
+      adminNoticePending = false;
+      adminLoginError.classList.add("hidden");
+      document.getElementById("admin-user").value = "";
+      document.getElementById("admin-pass").value = "";
+      hideEl(adminLoginModal);
+      openAdminPanel();
     } else {
-      document.getElementById("admin-login-error").textContent = "Credenciales incorrectas.";
-      document.getElementById("admin-login-error").classList.remove("hidden");
+      adminLoginError.textContent = "Credenciales incorrectas.";
+      adminLoginError.classList.remove("hidden");
     }
   });
 
-  // Carga de Productos Admin
+  // --- Autorización real de escritura: Firebase Auth (instancia separada) + custom claim "admin" ---
+  // Segunda instancia con nombre propio: mantiene la sesión del administrador separada de la de los clientes.
+  const adminApp = initializeApp(firebaseConfig, "admin");
+  const adminAuth = getAuth(adminApp);
+  const adminDb = getFirestore(adminApp);
+  const adminProductsCol = collection(adminDb, "productos");
+  const adminPromosCol = collection(adminDb, "promociones");
+
+  const adminFbStatus = document.getElementById("admin-fb-status");
+  const adminFbForm = document.getElementById("admin-fb-form");
+  const adminFbConnectBtn = document.getElementById("admin-fb-connect-btn");
+  const adminFbSignoutBtn = document.getElementById("admin-fb-signout-btn");
+  let adminHasClaim = false;
+
+  onAuthStateChanged(adminAuth, async (user) => {
+    adminHasClaim = false;
+    if (user && !isAdminSessionValid()) { signOut(adminAuth).catch(() => {}); return; }
+    if (!user) {
+      adminFbStatus.textContent = "No conectada. Será necesaria cuando las reglas seguras de Firestore estén activas.";
+      adminFbForm.classList.remove("hidden");
+      adminFbSignoutBtn.classList.add("hidden");
+      return;
+    }
+    try {
+      const token = await user.getIdTokenResult();
+      adminHasClaim = token.claims.admin === true;
+    } catch (error) { console.warn("[admin] No se pudo leer el token.", error); }
+    adminFbStatus.textContent = adminHasClaim
+      ? `Conectada como ${user.email}. Permisos de administrador verificados por Firebase.`
+      : `Conectada como ${user.email}, pero esta cuenta NO tiene el permiso de administrador (custom claim "admin").`;
+    adminFbForm.classList.add("hidden");
+    adminFbSignoutBtn.classList.remove("hidden");
+  });
+
+  adminFbForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!requireAdminSession()) return;
+    const email = document.getElementById("admin-fb-email").value.trim();
+    const pass = document.getElementById("admin-fb-pass").value;
+    if (!email || !pass) { adminFbStatus.textContent = "Ingresá el correo y la contraseña de la cuenta de administrador."; return; }
+    adminFbConnectBtn.disabled = true;
+    adminFbStatus.textContent = "Conectando…";
+    try {
+      await signInWithEmailAndPassword(adminAuth, email, pass);
+    } catch (error) {
+      console.error("[admin] Conexión Firebase:", error.code, error.message);
+      adminFbStatus.textContent = authErrorMessage(error);
+    } finally {
+      document.getElementById("admin-fb-pass").value = "";
+      adminFbConnectBtn.disabled = false;
+    }
+  });
+  adminFbSignoutBtn.addEventListener("click", () => signOut(adminAuth).catch((error) => console.warn("[admin] signOut", error)));
+
+  function adminWriteErrorMessage(error) {
+    const code = error && error.code;
+    if (code === "permission-denied") return "Firestore rechazó la operación. Conectá la cuenta de administrador de Firebase (sección de arriba) e intentá de nuevo.";
+    if (code === "unavailable" || code === "auth/network-request-failed") return "Error de conexión. Revisá tu internet e intentá de nuevo.";
+    if (error && /subir la imagen/i.test(error.message || "")) return "No se pudo subir la imagen. Revisá tu conexión e intentá de nuevo.";
+    return "No se pudo completar la operación. Intentá de nuevo.";
+  }
+
+  // --- Listados administrativos (leen de los snapshots públicos ya existentes) ---
+  function buildAdminRow(kind, item, metaLines, badge) {
+    const row = document.createElement("div");
+    row.className = "flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-gold/15 bg-wine-black/40 p-3";
+    row.dataset.id = item.id;
+    const top = document.createElement("div");
+    top.className = "flex items-center gap-3 min-w-0 flex-1";
+    const img = document.createElement("img");
+    img.className = "h-14 w-14 shrink-0 rounded-lg object-cover border border-gold/15 bg-wine-black";
+    img.alt = "";
+    img.loading = "lazy";
+    if (item.imagenUrl) img.src = item.imagenUrl;
+    const info = document.createElement("div");
+    info.className = "min-w-0 flex-1";
+    const title = document.createElement("p");
+    title.className = "text-cream text-sm font-medium truncate";
+    title.textContent = item.titulo || "(sin título)";
+    info.appendChild(title);
+    metaLines.forEach((line) => {
+      const p = document.createElement("p");
+      p.className = "text-stone text-xs truncate";
+      p.textContent = line;
+      info.appendChild(p);
+    });
+    if (badge) {
+      const b = document.createElement("span");
+      b.className = "inline-block mt-1 rounded-full bg-gold/20 px-2 py-0.5 text-[10px] font-medium text-gold-soft";
+      b.textContent = badge;
+      info.appendChild(b);
+    }
+    top.append(img, info);
+    const actions = document.createElement("div");
+    actions.className = "flex gap-2 shrink-0";
+    const edit = document.createElement("button");
+    edit.type = "button";
+    edit.dataset.action = `edit-${kind}`;
+    edit.className = "rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-soft hover:bg-gold hover:text-wine-black transition-colors";
+    edit.textContent = "Editar";
+    const del = document.createElement("button");
+    del.type = "button";
+    del.dataset.action = `delete-${kind}`;
+    del.className = "rounded-full border border-garnet-light/60 px-3 py-1.5 text-xs text-red-300 hover:bg-garnet hover:text-cream transition-colors";
+    del.textContent = "Eliminar";
+    actions.append(edit, del);
+    row.append(top, actions);
+    return row;
+  }
+  function shorten(text, max) {
+    const t = String(text || "").replace(/\s+/g, " ").trim();
+    return t.length > max ? `${t.slice(0, max)}…` : t;
+  }
+  function promoStatus(promo, today) {
+    if (promo.publicarDesde && promo.publicarDesde > today) return "Programada";
+    if (promo.vigencia && promo.vigencia < today) return "Vencida";
+    return "Vigente";
+  }
+
+  const adminProductsList = document.getElementById("admin-products-list");
+  const adminPromosList = document.getElementById("admin-promos-list");
+  const adminProductsSearch = document.getElementById("admin-products-search");
+  const adminPromosSearch = document.getElementById("admin-promos-search");
+  const adminPromosFilter = document.getElementById("admin-promos-filter");
+
+  function renderAdminProducts() {
+    const term = adminProductsSearch.value.trim().toLowerCase();
+    adminProductsList.innerHTML = "";
+    const items = latestProducts.filter((p) => !term || String(p.titulo || "").toLowerCase().includes(term));
+    if (items.length === 0) {
+      adminProductsList.innerHTML = `<p class="text-stone text-sm py-3">${latestProducts.length === 0 ? "Todavía no hay productos publicados." : "Ningún producto coincide con la búsqueda."}</p>`;
+      return;
+    }
+    items.forEach((p) => {
+      const meta = [formatPrice(p.precio || 0)];
+      if (p.descripcion) meta.push(shorten(p.descripcion, 70));
+      const fecha = p.creadoEn && p.creadoEn.toDate ? p.creadoEn.toDate().toLocaleDateString("es-AR") : "";
+      if (fecha) meta.push(`Publicado: ${fecha}`);
+      adminProductsList.appendChild(buildAdminRow("producto", p, meta, ""));
+    });
+  }
+  function renderAdminPromos() {
+    const term = adminPromosSearch.value.trim().toLowerCase();
+    const filter = adminPromosFilter.value;
+    const today = todayLocalISO();
+    adminPromosList.innerHTML = "";
+    const items = allPromos.filter((p) => {
+      if (term && !String(p.titulo || "").toLowerCase().includes(term)) return false;
+      const st = promoStatus(p, today);
+      if (filter === "vigentes") return st === "Vigente";
+      if (filter === "programadas") return st === "Programada";
+      if (filter === "vencidas") return st === "Vencida";
+      return true;
+    });
+    if (items.length === 0) {
+      adminPromosList.innerHTML = `<p class="text-stone text-sm py-3">${allPromos.length === 0 ? "Todavía no hay promociones publicadas." : "Ninguna promoción coincide con la búsqueda o el filtro."}</p>`;
+      return;
+    }
+    items.forEach((p) => {
+      const meta = [];
+      if (p.precio) meta.push(formatPrice(p.precio));
+      if (p.descripcion) meta.push(shorten(p.descripcion, 70));
+      meta.push(`Vigencia hasta: ${formatISODate(p.vigencia) || "—"}${p.publicarDesde ? ` · Publicar desde: ${formatISODate(p.publicarDesde)}` : ""}`);
+      adminPromosList.appendChild(buildAdminRow("promo", p, meta, promoStatus(p, today)));
+    });
+  }
+  adminProductsSearch.addEventListener("input", renderAdminProducts);
+  adminPromosSearch.addEventListener("input", renderAdminPromos);
+  adminPromosFilter.addEventListener("change", renderAdminPromos);
+
+  // --- Vista previa de imagen y formularios (crear y editar) ---
+  function setImagePreview(prefix, url) {
+    const box = document.getElementById(`${prefix}-imagen-preview`);
+    const img = document.getElementById(`${prefix}-imagen-preview-img`);
+    if (url) { img.src = url; box.classList.remove("hidden"); }
+    else { img.removeAttribute("src"); box.classList.add("hidden"); }
+  }
+  ["prod", "promo"].forEach((prefix) => {
+    document.getElementById(`${prefix}-imagen`).addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) setImagePreview(prefix, URL.createObjectURL(file));
+      else setImagePreview(prefix, prefix === "prod" ? (currentProductImage() || "") : (currentPromoImage() || ""));
+    });
+  });
+
   const productForm = document.getElementById("product-form");
+  const promoForm = document.getElementById("promo-form");
+  let editingProductId = null;
+  let editingPromoId = null;
+  let savingProduct = false;
+  let savingPromo = false;
+  const currentProductImage = () => { const p = latestProducts.find((x) => x.id === editingProductId); return p ? p.imagenUrl : ""; };
+  const currentPromoImage = () => { const p = allPromos.find((x) => x.id === editingPromoId); return p ? p.imagenUrl : ""; };
+
+  function resetProductForm() {
+    editingProductId = null;
+    productForm.reset();
+    setImagePreview("prod", "");
+    document.getElementById("product-form-title").textContent = "Cargar nuevo producto";
+    document.getElementById("product-submit-btn").textContent = "Publicar producto";
+    document.getElementById("product-cancel-edit-btn").classList.add("hidden");
+  }
+  function resetPromoForm() {
+    editingPromoId = null;
+    promoForm.reset();
+    setImagePreview("promo", "");
+    document.getElementById("promo-form-title").textContent = "Cargar nueva promoción";
+    document.getElementById("promo-submit-btn").textContent = "Publicar promoción";
+    document.getElementById("promo-cancel-edit-btn").classList.add("hidden");
+  }
+  document.getElementById("product-cancel-edit-btn").addEventListener("click", resetProductForm);
+  document.getElementById("promo-cancel-edit-btn").addEventListener("click", resetPromoForm);
+
+  function startEditProduct(id) {
+    const p = latestProducts.find((x) => x.id === id);
+    if (!p) { showToast("Ese producto ya no existe.", "error"); return; }
+    editingProductId = id;
+    document.getElementById("prod-titulo").value = p.titulo || "";
+    document.getElementById("prod-descripcion").value = p.descripcion || "";
+    document.getElementById("prod-precio").value = p.precio ?? "";
+    document.getElementById("prod-imagen").value = "";
+    setImagePreview("prod", p.imagenUrl || "");
+    document.getElementById("product-form-title").textContent = "Editar producto";
+    document.getElementById("product-submit-btn").textContent = "Guardar cambios";
+    document.getElementById("product-cancel-edit-btn").classList.remove("hidden");
+    productForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("prod-titulo").focus({ preventScroll: true });
+  }
+  function startEditPromo(id) {
+    const p = allPromos.find((x) => x.id === id);
+    if (!p) { showToast("Esa promoción ya no existe.", "error"); return; }
+    editingPromoId = id;
+    document.getElementById("promo-titulo").value = p.titulo || "";
+    document.getElementById("promo-descripcion").value = p.descripcion || "";
+    document.getElementById("promo-vigencia").value = p.vigencia || "";
+    document.getElementById("promo-publicar-desde").value = p.publicarDesde || "";
+    document.getElementById("promo-precio").value = p.precio ?? "";
+    document.getElementById("promo-imagen").value = "";
+    setImagePreview("promo", p.imagenUrl || "");
+    document.getElementById("promo-form-title").textContent = "Editar promoción";
+    document.getElementById("promo-submit-btn").textContent = "Guardar cambios";
+    document.getElementById("promo-cancel-edit-btn").classList.remove("hidden");
+    promoForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("promo-titulo").focus({ preventScroll: true });
+  }
+
+  // --- Eliminación con confirmación ---
+  let pendingDelete = null;
+  function askDelete(kind, id) {
+    const item = (kind === "producto" ? latestProducts : allPromos).find((x) => x.id === id);
+    if (!item) { showToast("Ese elemento ya no existe.", "error"); return; }
+    pendingDelete = { kind, id };
+    document.getElementById("admin-confirm-name").textContent = item.titulo || "";
+    showEl(adminConfirmModal);
+    document.getElementById("admin-confirm-cancel").focus();
+  }
+  function closeDeleteConfirm() { hideEl(adminConfirmModal); pendingDelete = null; }
+  document.getElementById("admin-confirm-cancel").addEventListener("click", closeDeleteConfirm);
+  adminConfirmModal.addEventListener("click", (e) => { if (e.target === adminConfirmModal) closeDeleteConfirm(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !adminConfirmModal.classList.contains("hidden")) closeDeleteConfirm(); });
+  document.getElementById("admin-confirm-ok").addEventListener("click", async () => {
+    if (!pendingDelete) return;
+    if (!requireAdminSession()) return;
+    const { kind, id } = pendingDelete;
+    const okBtn = document.getElementById("admin-confirm-ok");
+    okBtn.disabled = true;
+    try {
+      await deleteDoc(doc(adminDb, kind === "producto" ? "productos" : "promociones", id));
+      showToast(kind === "producto" ? "Producto eliminado." : "Promoción eliminada.");
+      if (kind === "producto" && editingProductId === id) resetProductForm();
+      if (kind === "promo" && editingPromoId === id) resetPromoForm();
+    } catch (error) {
+      console.error("[admin] eliminar", error.code, error.message);
+      showToast(adminWriteErrorMessage(error), "error");
+    } finally {
+      okBtn.disabled = false;
+      closeDeleteConfirm();
+    }
+  });
+
+  adminProductsList.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn || !requireAdminSession()) return;
+    const id = btn.closest("[data-id]").dataset.id;
+    if (btn.dataset.action === "edit-producto") startEditProduct(id);
+    else if (btn.dataset.action === "delete-producto") askDelete("producto", id);
+  });
+  adminPromosList.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn || !requireAdminSession()) return;
+    const id = btn.closest("[data-id]").dataset.id;
+    if (btn.dataset.action === "edit-promo") startEditPromo(id);
+    else if (btn.dataset.action === "delete-promo") askDelete("promo", id);
+  });
+
+  // --- Carga y edición de Productos ---
   productForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (savingProduct) return;
+    if (!requireAdminSession()) return;
     const titulo = document.getElementById("prod-titulo").value;
     const descripcion = document.getElementById("prod-descripcion").value;
     const precio = document.getElementById("prod-precio").value;
     const file = document.getElementById("prod-imagen").files[0];
-    if (!titulo || !precio || !file) { showToast("Completá todos los campos.", "error"); return; }
-    
+    const editing = editingProductId !== null;
+    if (!titulo.trim() || precio === "" || (!editing && !file)) { showToast("Completá todos los campos.", "error"); return; }
+
+    savingProduct = true;
+    const submitBtn = document.getElementById("product-submit-btn");
+    const label = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Guardando…";
     try {
-      const imagenUrl = await uploadImageToCloudinary(file);
-      await addDoc(productsCollection, { titulo, descripcion, precio: Number(precio), imagenUrl, creadoEn: serverTimestamp() });
-      showToast("Producto publicado correctamente.");
-      productForm.reset();
-    } catch(err) {
-      showToast("Error al publicar.", "error");
+      if (editing) {
+        const data = { titulo, descripcion, precio: Number(precio) };
+        if (file) data.imagenUrl = await uploadImageToCloudinary(file);
+        await updateDoc(doc(adminDb, "productos", editingProductId), data);
+        showToast("Producto actualizado correctamente.");
+        resetProductForm();
+      } else {
+        const imagenUrl = await uploadImageToCloudinary(file);
+        await addDoc(adminProductsCol, { titulo, descripcion, precio: Number(precio), imagenUrl, creadoEn: serverTimestamp() });
+        showToast("Producto publicado correctamente.");
+        resetProductForm();
+      }
+    } catch (err) {
+      console.error("[admin] producto", err.code, err.message);
+      showToast(adminWriteErrorMessage(err), "error"); // se conservan los datos del formulario
+      submitBtn.textContent = label;
+    } finally {
+      savingProduct = false;
+      submitBtn.disabled = false;
     }
   });
 
-  // Carga de Promociones Admin
-  const promoForm = document.getElementById("promo-form");
+  // --- Carga y edición de Promociones ---
   promoForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (savingPromo) return;
+    if (!requireAdminSession()) return;
     const titulo = document.getElementById("promo-titulo").value;
     const descripcion = document.getElementById("promo-descripcion").value;
     const vigencia = document.getElementById("promo-vigencia").value;
     const publicarDesde = document.getElementById("promo-publicar-desde").value;
     const precio = document.getElementById("promo-precio").value;
     const file = document.getElementById("promo-imagen").files[0];
-    if (!titulo || !vigencia || !file) { showToast("Completá los campos obligatorios.", "error"); return; }
+    const editing = editingPromoId !== null;
+    if (!titulo.trim() || !vigencia || (!editing && !file)) { showToast("Completá los campos obligatorios.", "error"); return; }
 
+    savingPromo = true;
+    const submitBtn = document.getElementById("promo-submit-btn");
+    const label = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Guardando…";
     try {
-      const imagenUrl = await uploadImageToCloudinary(file);
-      await addDoc(promosCollection, {
+      const fields = {
         titulo,
         descripcion,
         vigencia,
         publicarDesde: publicarDesde || null,
-        precio: precio ? Number(precio) : null,
-        imagenUrl,
-        creadoEn: serverTimestamp()
-      });
-      showToast("Promoción publicada correctamente.");
-      promoForm.reset();
-    } catch(err) {
-      showToast("Error al publicar promoción.", "error");
+        precio: precio ? Number(precio) : null
+      };
+      if (editing) {
+        if (file) fields.imagenUrl = await uploadImageToCloudinary(file);
+        await updateDoc(doc(adminDb, "promociones", editingPromoId), fields);
+        showToast("Promoción actualizada correctamente.");
+        resetPromoForm();
+      } else {
+        const imagenUrl = await uploadImageToCloudinary(file);
+        await addDoc(adminPromosCol, { ...fields, imagenUrl, creadoEn: serverTimestamp() });
+        showToast("Promoción publicada correctamente.");
+        resetPromoForm();
+      }
+    } catch (err) {
+      console.error("[admin] promoción", err.code, err.message);
+      showToast(adminWriteErrorMessage(err), "error"); // se conservan los datos del formulario
+      submitBtn.textContent = label;
+    } finally {
+      savingPromo = false;
+      submitBtn.disabled = false;
     }
   });
 
+  enforceAdminSession(); // al cargar: una sesión vencida no se puede recuperar recargando
 
-  // Autenticación Firebase: Google, correo/contraseña, perfil y recuperación.
+
+  // ===== Autenticación Firebase: Google, correo/contraseña, perfil y recuperación =====
   const authModal = document.getElementById("auth-modal");
   const authMessage = document.getElementById("auth-message");
   const authFields = document.getElementById("auth-fields");
@@ -1323,97 +1906,260 @@
   const authStatus = document.getElementById("auth-status");
   const authEmail = document.getElementById("auth-email");
   const authPassword = document.getElementById("auth-password");
-  const authName = document.getElementById("auth-name");
   const authOpenBtn = document.getElementById("auth-open-btn");
+  const authLoginView = document.getElementById("auth-login-view");
+  const authRegisterView = document.getElementById("auth-register-view");
+  const authLoginForm = document.getElementById("auth-login-form");
+  const authRegisterForm = document.getElementById("auth-register-form");
+  const authGoogleBtn = document.getElementById("auth-google-btn");
+  const authGoogleLabel = document.getElementById("auth-google-label");
+  const registerSuccessModal = document.getElementById("register-success-modal");
+  const GOOGLE_LABEL = "Iniciar sesión con Google";
+  let authBusy = false;
+  let registering = false;
+  let resetCooldownUntil = 0;
 
+  function setAuthMessage(text, isError = false) {
+    authMessage.textContent = text;
+    authMessage.className = `mt-4 text-sm ${isError ? "text-red-300" : "text-gold-soft"}`;
+  }
+  function setAuthBusy(busy) {
+    authBusy = busy;
+    authFields.setAttribute("aria-busy", busy ? "true" : "false");
+    authFields.querySelectorAll("button").forEach((b) => { b.disabled = busy; });
+  }
+  function showAuthView(view) {
+    authLoginView.classList.toggle("hidden", view !== "login");
+    authRegisterView.classList.toggle("hidden", view !== "register");
+    authStatus.textContent = view === "register" ? "Completá tus datos para crear tu cuenta." : "Ingresá o creá tu cuenta para continuar.";
+    setAuthMessage("");
+  }
   function openAuthModal() {
     authModal.classList.remove("hidden");
     authModal.classList.add("flex");
-    authMessage.textContent = "";
+    if (!auth.currentUser) showAuthView("login");
+    else setAuthMessage("");
   }
   function closeAuthModal() {
     authModal.classList.add("hidden");
     authModal.classList.remove("flex");
   }
+  const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
   function authErrorMessage(error) {
     const messages = {
       "auth/invalid-email": "El correo electrónico no es válido.",
       "auth/user-not-found": "No existe una cuenta con ese correo.",
       "auth/wrong-password": "La contraseña es incorrecta.",
       "auth/invalid-credential": "Correo o contraseña incorrectos.",
-      "auth/email-already-in-use": "Ese correo ya tiene una cuenta.",
+      "auth/missing-password": "Ingresá tu contraseña.",
+      "auth/user-disabled": "Esta cuenta está deshabilitada.",
+      "auth/email-already-in-use": "Ese correo ya tiene una cuenta. Podés iniciar sesión.",
       "auth/weak-password": "La contraseña debe tener al menos 6 caracteres.",
-      "auth/popup-closed-by-user": "Se cerró la ventana de Google antes de terminar."
+      "auth/too-many-requests": "Demasiados intentos. Esperá unos minutos e intentá de nuevo.",
+      "auth/network-request-failed": "Error de conexión. Revisá tu internet e intentá de nuevo.",
+      "auth/popup-closed-by-user": "Se cerró la ventana de Google antes de terminar.",
+      "auth/cancelled-popup-request": "Se canceló el inicio de sesión con Google.",
+      "auth/popup-blocked": "El navegador bloqueó la ventana de Google. Permití las ventanas emergentes para este sitio e intentá de nuevo.",
+      "auth/unauthorized-domain": "El acceso con Google no está habilitado para este dominio todavía (auth/unauthorized-domain).",
+      "auth/operation-not-allowed": "El acceso con Google no está habilitado en el sitio todavía (auth/operation-not-allowed).",
+      "auth/account-exists-with-different-credential": "Ya existe una cuenta con ese correo creada con otro método de acceso."
     };
-    return messages[error.code] || "No se pudo completar la operación. Revisá los datos e intentá nuevamente.";
+    return messages[error && error.code] || `No se pudo completar la operación. Revisá los datos e intentá nuevamente.${error && error.code ? ` (${error.code})` : ""}`;
   }
 
   authOpenBtn.addEventListener("click", openAuthModal);
   document.getElementById("auth-close-btn").addEventListener("click", closeAuthModal);
   authModal.addEventListener("click", e => { if (e.target === authModal) closeAuthModal(); });
+  document.getElementById("auth-show-register").addEventListener("click", () => {
+    const typed = authEmail.value.trim();
+    if (typed) document.getElementById("auth-reg-email").value = typed;
+    showAuthView("register");
+    document.getElementById("auth-reg-nombre").focus();
+  });
+  document.getElementById("auth-show-login").addEventListener("click", () => {
+    const typed = document.getElementById("auth-reg-email").value.trim();
+    if (typed && !authEmail.value) authEmail.value = typed;
+    showAuthView("login");
+    authEmail.focus();
+  });
 
-  async function sendWelcomeEmail(user) {
-    if (!window.emailjs || !user.email) return;
+  // --- Perfil en Firestore (colección "usuarios", documento = uid). Nunca sobrescribe uno existente. ---
+  function splitDisplayName(displayName) {
+    const parts = String(displayName || "").trim().split(/\s+/).filter(Boolean);
+    return { nombre: parts[0] || "", apellido: parts.slice(1).join(" ") };
+  }
+  async function ensureUserProfile(user, { nombre, apellido }) {
     try {
-      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_WELCOME_TEMPLATE_ID, {
-        to_email: user.email,
-        to_name: user.displayName || user.email.split("@")[0],
-        user_email: user.email,
-        message: "¡Bienvenido/a a Club del Anfitrión! Gracias por crear tu cuenta."
-      });
+      const ref = doc(db, "usuarios", user.uid);
+      const snap = await getDoc(ref);
+      if (snap.exists()) return true;
+      await setDoc(ref, { nombre, apellido, email: user.email || "", creadoEn: serverTimestamp() });
+      return true;
     } catch (error) {
-      console.warn("No se pudo enviar el correo de bienvenida. Revisá las variables configuradas en la plantilla EmailJS.", error);
+      console.warn("[perfil] No se pudo guardar el perfil:", error.code || error.message);
+      return false;
     }
   }
 
-  document.getElementById("auth-google-btn").addEventListener("click", async () => {
-    authMessage.textContent = "";
+  // --- Correo de bienvenida (plantilla 2 de EmailJS: to_name, email_titulo, email_mensaje) ---
+  async function sendWelcomeEmail({ email, nombre }) {
+    if (!window.emailjs || !email) return false;
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_WELCOME_TEMPLATE_ID, {
+        to_email: email,
+        user_email: email,
+        to_name: nombre || email.split("@")[0],
+        email_titulo: "¡Te damos la bienvenida a Club del Anfitrión!",
+        email_mensaje: "Gracias por registrarte. Ya sos parte de nuestra comunidad: vas a ser de los primeros en enterarte de las novedades, promociones y degustaciones de Club del Anfitrión. ¡Brindemos por lo que viene!"
+      });
+      return true;
+    } catch (error) {
+      console.warn("[email] No se pudo enviar el correo de bienvenida:", error && (error.text || error.message || error));
+      return false;
+    }
+  }
+
+  // --- Google (un único flujo: popup, invocado directamente desde el clic para no ser bloqueado) ---
+  authGoogleBtn.addEventListener("click", async () => {
+    if (authBusy) return;
+    setAuthBusy(true);
+    authGoogleLabel.textContent = "Conectando con Google...";
+    setAuthMessage("Conectando con Google...");
+    try {
+      const result = await signInWithPopup(auth, googleProvider); // Firebase confirmó la autenticación
+      const isNew = !!(getAdditionalUserInfo(result) || {}).isNewUser;
+      const { nombre, apellido } = splitDisplayName(result.user.displayName);
+      await ensureUserProfile(result.user, { nombre, apellido });
       closeAuthModal();
-      showToast("Sesión iniciada correctamente.");
-    } catch (error) { authMessage.textContent = authErrorMessage(error); }
+      showToast("Iniciaste sesión correctamente.");
+      if (isNew) {
+        sendWelcomeEmail({ email: result.user.email, nombre }).then((ok) => {
+          if (!ok) showToast("Tu cuenta se creó, pero no pudimos enviar el correo de bienvenida.", "error");
+        });
+      }
+    } catch (error) {
+      console.error("[auth] Google:", error.code, error.message);
+      setAuthMessage(authErrorMessage(error), true);
+    } finally {
+      authGoogleLabel.textContent = GOOGLE_LABEL;
+      setAuthBusy(false);
+    }
   });
 
-  document.getElementById("auth-register-btn").addEventListener("click", async () => {
-    authMessage.textContent = "";
+  // --- Registro con correo y contraseña ---
+  authRegisterForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (authBusy) return;
+    const nombre = document.getElementById("auth-reg-nombre").value.trim();
+    const apellido = document.getElementById("auth-reg-apellido").value.trim();
+    const email = document.getElementById("auth-reg-email").value.trim();
+    const password = document.getElementById("auth-reg-password").value;
+    if (!nombre || !apellido) { setAuthMessage("Ingresá tu nombre y tu apellido.", true); return; }
+    if (!isValidEmail(email)) { setAuthMessage("Ingresá un correo electrónico válido.", true); return; }
+    if (!password) { setAuthMessage("Ingresá una contraseña.", true); return; }
+
+    setAuthBusy(true);
+    registering = true; // evita que el listener de sesión muestre al usuario como logueado durante el alta
+    setAuthMessage("Creando tu cuenta...");
+    let credential;
+    try {
+      credential = await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error("[auth] Registro:", error.code, error.message);
+      registering = false;
+      setAuthBusy(false);
+      setAuthMessage(authErrorMessage(error), true);
+      return;
+    }
+
+    // A partir de acá Firebase confirmó el registro: lo demás no puede deshacerlo.
+    const user = credential.user;
+    const warnings = [];
+    try { await updateProfile(user, { displayName: `${nombre} ${apellido}` }); }
+    catch (error) { console.warn("[auth] updateProfile:", error.code || error.message); }
+    if (!(await ensureUserProfile(user, { nombre, apellido }))) warnings.push("No pudimos guardar los datos de tu perfil por el momento.");
+    if (!(await sendWelcomeEmail({ email: user.email, nombre }))) warnings.push("No pudimos enviarte el correo de bienvenida.");
+    try { await signOut(auth); }
+    catch (error) { console.error("[auth] signOut tras registro:", error.code || error.message); }
+    registering = false;
+    renderAuthState(auth.currentUser);
+    loadMyPurchases(document.getElementById("filter-dni").value.trim());
+    authRegisterForm.reset();
+    authEmail.value = email;
+    authPassword.value = "";
+    setAuthBusy(false);
+    closeAuthModal();
+    showRegisterSuccess(nombre, warnings);
+  });
+
+  function showRegisterSuccess(nombre, warnings) {
+    document.getElementById("register-success-text").textContent = `Usuario registrado con éxito. ¡Te damos la bienvenida, ${nombre}! Ya podés estar atento a todas las novedades de Club del Anfitrión`;
+    const warn = document.getElementById("register-success-warning");
+    if (warnings.length) { warn.textContent = warnings.join(" "); warn.classList.remove("hidden"); }
+    else { warn.textContent = ""; warn.classList.add("hidden"); }
+    registerSuccessModal.classList.remove("hidden");
+    registerSuccessModal.classList.add("flex");
+    document.getElementById("register-success-btn").focus();
+  }
+  document.getElementById("register-success-btn").addEventListener("click", () => {
+    registerSuccessModal.classList.add("hidden");
+    registerSuccessModal.classList.remove("flex");
+    openAuthModal(); // vuelve al formulario de inicio de sesión (si la sesión sigue activa muestra el perfil real)
+    if (!auth.currentUser) authPassword.focus();
+  });
+
+  // --- Inicio de sesión con correo ---
+  authLoginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (authBusy) return;
     const email = authEmail.value.trim();
-    const password = authPassword.value;
-    const name = authName.value.trim();
-    if (!name) { authMessage.textContent = "Ingresá tu nombre para crear la cuenta."; return; }
+    if (!isValidEmail(email)) { setAuthMessage("Ingresá un correo electrónico válido.", true); return; }
+    if (!authPassword.value) { setAuthMessage("Ingresá tu contraseña.", true); return; }
+    setAuthBusy(true);
+    setAuthMessage("Iniciando sesión...");
     try {
-      const credential = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(credential.user, { displayName: name });
-      await sendWelcomeEmail({ email: credential.user.email, displayName: name });
-      authMessage.textContent = "Cuenta creada correctamente.";
-    } catch (error) { authMessage.textContent = authErrorMessage(error); }
-  });
-
-  document.getElementById("auth-login-btn").addEventListener("click", async () => {
-    authMessage.textContent = "";
-    try {
-      await signInWithEmailAndPassword(auth, authEmail.value.trim(), authPassword.value);
+      await signInWithEmailAndPassword(auth, email, authPassword.value);
+      authPassword.value = "";
       closeAuthModal();
-      showToast("Sesión iniciada correctamente.");
-    } catch (error) { authMessage.textContent = authErrorMessage(error); }
+      showToast("Iniciaste sesión correctamente.");
+    } catch (error) {
+      console.error("[auth] Login:", error.code, error.message);
+      setAuthMessage(authErrorMessage(error), true);
+    } finally { setAuthBusy(false); }
   });
 
+  // --- Restablecer contraseña (correo oficial de Firebase con enlace seguro) ---
   document.getElementById("auth-reset-btn").addEventListener("click", async () => {
-    authMessage.textContent = "";
+    if (authBusy) return;
     const email = authEmail.value.trim();
-    if (!email) { authMessage.textContent = "Escribí tu correo para recibir el enlace de recuperación."; return; }
+    if (!email) { setAuthMessage("Escribí tu correo para recibir el enlace de recuperación.", true); return; }
+    if (!isValidEmail(email)) { setAuthMessage("Ingresá un correo electrónico válido.", true); return; }
+    if (Date.now() < resetCooldownUntil) { setAuthMessage("Ya enviamos las instrucciones. Esperá unos segundos antes de pedirlas de nuevo.", true); return; }
+    setAuthBusy(true);
     try {
       await sendPasswordResetEmail(auth, email);
-      authMessage.textContent = "Si existe una cuenta con ese correo, Firebase enviará las instrucciones de recuperación.";
-    } catch (error) { authMessage.textContent = authErrorMessage(error); }
+      resetCooldownUntil = Date.now() + 30000;
+      setAuthMessage("Si existe una cuenta con ese correo, Firebase enviará las instrucciones de recuperación.");
+    } catch (error) {
+      console.error("[auth] Reset:", error.code, error.message);
+      if (error.code === "auth/user-not-found") { resetCooldownUntil = Date.now() + 30000; setAuthMessage("Si existe una cuenta con ese correo, Firebase enviará las instrucciones de recuperación."); }
+      else setAuthMessage(authErrorMessage(error), true);
+    } finally { setAuthBusy(false); }
   });
 
   document.getElementById("auth-signout-btn").addEventListener("click", async () => {
-    await signOut(auth);
-    authMessage.textContent = "Cerraste sesión.";
+    try {
+      await signOut(auth);
+      showAuthView("login");
+      setAuthMessage("Cerraste sesión.");
+    } catch (error) {
+      console.error("[auth] signOut:", error.code, error.message);
+      setAuthMessage("No se pudo cerrar la sesión. Intentá de nuevo.", true);
+    }
   });
 
-  onAuthStateChanged(auth, user => {
+  function renderAuthState(user) {
     if (user) {
       authOpenBtn.textContent = user.displayName ? user.displayName.split(" ")[0] : "Mi cuenta";
       authStatus.textContent = "Sesión iniciada";
@@ -1423,10 +2169,16 @@
       authFields.classList.add("hidden");
     } else {
       authOpenBtn.textContent = "Ingresar/registrarse";
-      authStatus.textContent = "Ingresá o creá tu cuenta para continuar.";
+      authStatus.textContent = authRegisterView.classList.contains("hidden") ? "Ingresá o creá tu cuenta para continuar." : "Completá tus datos para crear tu cuenta.";
       authProfile.classList.add("hidden");
       authFields.classList.remove("hidden");
     }
+  }
+
+  onAuthStateChanged(auth, user => {
+    if (registering) return; // el registro gestiona su propio cierre de sesión y actualización de la interfaz
+    renderAuthState(user);
+    loadMyPurchases(document.getElementById("filter-dni").value.trim());
   });
 
   document.getElementById("year").textContent = new Date().getFullYear();
