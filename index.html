@@ -59,76 +59,72 @@
     outline: 2px solid #c9a24b;
     outline-offset: 2px;
   }
-  .vine-divider { width: 100%; height: 28px; }
   #toast-container { position: fixed; top: 1.25rem; right: 1.25rem; z-index: 100; display: flex; flex-direction: column; gap: 0.6rem; }
   .toast { min-width: 260px; max-width: 340px; }
   .product-grid-enter { animation: fadeIn 0.5s ease-out both; }
-/* Estilos para el contenedor y botón de WhatsApp */
-.whatsapp-container {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
 
-.whatsapp-float {
-    width: 58px;
-    height: 58px;
-    background-color: #25d366;
-    color: #FFF;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-    text-decoration: none;
-}
-
-.whatsapp-float:hover {
-    background-color: #20ba5a;
-    transform: scale(1.1);
-}
-
-.wa-tooltip {
-    background-color: #1c1917;
-    color: #f5f5f4;
-    border: 1px solid #d4af37;
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    animation: fadeIn 0.4s ease-in-out;
-}
-
-.wa-tooltip.hidden {
-    display: none;
-}
+  .whatsapp-container {
+      position: fixed;
+      bottom: 24px;
+      right: 90px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+  }
+  .whatsapp-float {
+      width: 52px;
+      height: 52px;
+      background-color: #25d366;
+      color: #FFF;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      text-decoration: none;
+  }
+  .whatsapp-float:hover {
+      background-color: #20ba5a;
+      transform: scale(1.1);
+  }
+  .wa-tooltip {
+      background-color: #1c1917;
+      color: #f5f5f4;
+      border: 1px solid #d4af37;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      animation: fadeIn 0.4s ease-in-out;
+      transition: opacity 0.4s ease;
+  }
+  .wa-tooltip.hidden {
+      display: none;
+      opacity: 0;
+  }
 </style>
+
 <meta property="og:site_name" content="Club del Anfitrión">
 <meta property="og:title" content="Club del Anfitrión - Vinoteca en Bell Ville">
 <meta property="og:description" content="Vinos distintos, de bodegas chicas y boutique, directo a tu mesa.">
 <meta property="og:image" content="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg">
 <meta property="og:type" content="website">
-<meta name="description" content="Vinoteca en Bell Ville. Encontrá vinos exclusivos, boutique y artesanales. Reservá tu mesa o consultá nuestro catálogo.">
-<meta name="keywords" content="vinoteca, vinos, Bell Ville, Club del Anfitrión, bodegas boutique, reservas">
+<meta name="description" content="Vinoteca en Bell Ville. Encontrá vinos exclusivos, boutique y artesanales. Reservá tu mesa, hacé tus pedidos online y consultá nuestro catálogo.">
+<meta name="keywords" content="vinoteca, vinos, Bell Ville, Club del Anfitrión, bodegas boutique, reservas, picadas">
 
-<!-- Datos estructurados JSON-LD (Para sacar "GitHub") -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Club del Anfitrión",
   "alternateName": ["Club del Anfitrion", "El Club del Anfitrión"],
-  "url": "https://elclubdelanfitrion.github.io/"
+  "url": "https://clubdelanfitrion.github.io/"
 }
 </script>
 
-<!-- Favicon correcto para Google -->
 <link rel="icon" type="image/jpeg" sizes="48x48" href="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg">
 <link rel="apple-touch-icon" href="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg">
 </head>
@@ -140,20 +136,22 @@
   <nav class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-20">
     <a href="#inicio" class="flex items-center gap-3 group">
       <img src="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg" alt="Club del Anfitrión Logo" class="h-12 w-auto object-contain">
-      </a>
+    </a>
 
-    <ul class="hidden md:flex items-center gap-9 text-sm text-stone">
+    <ul class="hidden md:flex items-center gap-7 text-sm text-stone">
       <li><a href="#inicio" class="hover:text-gold-soft transition-colors">Inicio</a></li>
       <li><a href="#galeria" class="hover:text-gold-soft transition-colors">Galería</a></li>
       <li><a href="#quienes-somos" class="hover:text-gold-soft transition-colors">Quiénes somos</a></li>
       <li><a href="#ubicacion" class="hover:text-gold-soft transition-colors">Ubicación y horarios</a></li>
       <li><a href="#reservas" class="hover:text-gold-soft transition-colors">Reservas</a></li>
       <li><a href="#productos" class="hover:text-gold-soft transition-colors">Nuestros productos</a></li>
+      <li><a href="#mis-compras" class="hover:text-gold-soft transition-colors font-medium text-gold-soft">Mis compras</a></li>
     </ul>
 
     <a href="#reservas" class="hidden md:inline-flex items-center rounded-full border border-gold px-5 py-2 text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors">
       Reservar mesa
     </a>
+    <button id="auth-open-btn" class="inline-flex items-center rounded-full border border-gold/50 px-4 py-2 text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors" type="button">Ingresar/registrarse</button>
 
     <button id="menu-toggle" class="md:hidden text-cream" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
       <svg id="icon-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -169,6 +167,7 @@
       <li><a href="#ubicacion" class="block py-1 hover:text-gold-soft">Ubicación y horarios</a></li>
       <li><a href="#reservas" class="block py-1 hover:text-gold-soft">Reservas</a></li>
       <li><a href="#productos" class="block py-1 hover:text-gold-soft">Nuestros productos</a></li>
+      <li><a href="#mis-compras" class="block py-1 text-gold-soft font-medium">Mis compras</a></li>
     </ul>
   </div>
 </header>
@@ -201,13 +200,8 @@
       </a>
     </div>
   </div>
-
-  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-stone/70 animate-bounce hidden sm:block">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-  </div>
 </section>
 
-<!-- APARTADO DE GALERÍA DE IMÁGENES Y VIDEOS -->
 <section id="galeria" class="relative py-28 lg:py-36 bg-wine-dark/40 border-b border-gold/10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4 text-center">Recorrido visual</p>
@@ -217,7 +211,6 @@
     </p>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- (foto o video 1) -->
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
           <video src="https://res.cloudinary.com/wb9mhrpv/video/upload/v1788397451/vxpyjhopwarrwgskk5gi.mp4" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
@@ -228,7 +221,6 @@
         </div>
       </div>
 
-      <!-- (foto o video 2) -->
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
           <img src="https://i.postimg.cc/4dbknkLZ/Whats-App-Image-2026-09-02-at-22-10-20.jpg" alt="Interior del local" class="w-full h-full object-cover">
@@ -239,18 +231,16 @@
         </div>
       </div>
 
-      <!-- (foto o video 3) -->
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
-          <img src="https://i.postimg.cc/FRyg3XB3/images.jpg" alt="Video o foto del dueño" class="w-full h-full object-cover">
+          <img src="https://i.postimg.cc/FRyg3XB3/images.jpg" alt="Atención personalizada" class="w-full h-full object-cover">
         </div>
         <div class="p-5">
           <p class="text-cream font-medium">Atención personalizada</p>
-          <p class="text-stone text-xs mt-1">Muy buena atencion por parte del dueño.</p>
+          <p class="text-stone text-xs mt-1">Muy buena atención por parte del dueño.</p>
         </div>
       </div>
 
-      <!-- (foto o video 4) -->
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
           <img src="https://i.postimg.cc/qRCznBhp/AHRPTWk87b-Festy6Gu-WHPdhku7he-Gz-GZv-F-c3J9rk5Lpv25NM1Pez-PFC9l-MOc7AIw-O22m-K6Ton-Bkim-Il-O6oz-Rn.jpg" alt="Detalles de la vinoteca" class="w-full h-full object-cover">
@@ -261,7 +251,6 @@
         </div>
       </div>
 
-      <!-- (foto o video 5) -->
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
           <img src="https://i.postimg.cc/JnSVDJSL/caca.jpg" alt="Momentos compartidos" class="w-full h-full object-cover">
@@ -302,24 +291,6 @@
       </p>
     </div>
   </div>
-
-  <div class="mt-24 max-w-7xl mx-auto px-6 lg:px-10">
-    <div class="hairline"></div>
-    <div class="grid sm:grid-cols-3 gap-10 mt-14 text-center sm:text-left">
-      <div>
-        <p class="font-display text-4xl text-gold-soft">+20</p>
-        <p class="mt-2 text-stone text-sm">años eligiendo vinos de bodegas boutique</p>
-      </div>
-      <div>
-        <p class="font-display text-4xl text-gold-soft">100%</p>
-        <p class="mt-2 text-stone text-sm">trato personal, de anfitrión a anfitrión</p>
-      </div>
-      <div>
-        <p class="font-display text-4xl text-gold-soft">Bell Ville</p>
-        <p class="mt-2 text-stone text-sm">un espacio propio para degustar y compartir</p>
-      </div>
-    </div>
-  </div>
 </section>
 
 <section id="ubicacion" class="relative py-28 lg:py-36 bg-wine-dark/60 border-y border-gold/10">
@@ -353,7 +324,6 @@
             <div>
               <p class="text-cream font-medium">Teléfono / WhatsApp</p>
               <p class="text-stone mt-1" id="phone-display">+54 9 3537 51-3148</p>
-              <p class="text-xs text-stone/60 mt-1">Escribinos directo por WhatsApp o llamanos a este número.</p>
             </div>
           </div>
 
@@ -415,7 +385,6 @@
       <div class="sm:col-span-2 pt-4">
         <button type="submit" id="res-submit-btn"
                 class="w-full inline-flex justify-center items-center gap-2 rounded-full bg-gold px-8 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1s-.8 1-.9 1.2c-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10 9.4 9.4 8 9.1 7.4c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4C6.7 7.7 6 8.4 6 9.8s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4Z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
           Reservar ahora
         </button>
       </div>
@@ -439,7 +408,7 @@
 <section id="promociones" class="relative py-28 lg:py-36">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4">Promociones vigentes</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14">nuestras promociones vigentes hoy en dia:</h2>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14">Nuestras promociones vigentes hoy en día:</h2>
 
     <div id="promos-loading" class="text-stone text-center py-16">Cargando promociones…</div>
     <div id="promos-empty" class="hidden text-stone text-center py-16">
@@ -448,6 +417,61 @@
     <div id="promos-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
   </div>
 </section>
+
+<!-- APARTADO MIS COMPRAS -->
+<section id="mis-compras" class="relative py-28 lg:py-36 bg-wine-dark/60 border-t border-gold/10">
+  <div class="max-w-4xl mx-auto px-6 lg:px-10">
+    <p class="label-serif text-gold-soft text-lg mb-4 text-center">Seguimiento de pedidos</p>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4">Mis compras</h2>
+    <p class="text-stone text-center max-w-lg mx-auto mb-12">
+      Consultá el estado de tus pedidos recientes y tu código de retiro ingresando tu DNI o buscándolo en este dispositivo.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-3 mb-10 max-w-lg mx-auto">
+      <input type="text" id="filter-dni" placeholder="Ingresá tu DNI para buscar..." class="flex-1 rounded-full bg-wine-black/60 border border-gold/20 px-5 py-3 text-cream placeholder:text-stone/50 focus:border-gold text-sm">
+      <button id="filter-dni-btn" class="rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors text-sm">Buscar compras</button>
+    </div>
+
+    <div id="my-purchases-container" class="space-y-4">
+      <p class="text-stone text-center py-8">No hay compras registradas en este dispositivo o con ese DNI.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- AUTENTICACIÓN DE USUARIOS -->
+<div id="auth-modal" class="hidden fixed inset-0 z-[110] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6 overflow-y-auto">
+  <div class="w-full max-w-md rounded-2xl border border-gold/20 bg-wine-panel p-7 sm:p-8 relative my-auto">
+    <button id="auth-close-btn" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">✕</button>
+    <p class="label-serif text-gold-soft text-lg mb-1">Tu cuenta</p>
+    <h3 class="font-display text-3xl mb-2">Club del Anfitrión</h3>
+    <p id="auth-status" class="text-stone text-sm mb-6">Ingresá o creá tu cuenta para continuar.</p>
+    <div id="auth-profile" class="hidden mb-5 rounded-xl border border-gold/20 p-4">
+      <p class="text-cream font-medium" id="auth-profile-name"></p>
+      <p class="text-stone text-sm" id="auth-profile-email"></p>
+      <button id="auth-signout-btn" class="mt-4 rounded-full border border-gold/40 px-4 py-2 text-sm text-gold-soft">Cerrar sesión</button>
+    </div>
+    <div id="auth-fields" class="space-y-4">
+      <button id="auth-google-btn" type="button" class="w-full rounded-full border border-gold/30 px-5 py-3 text-cream hover:border-gold">Continuar con Google</button>
+      <div class="hairline"></div>
+      <label class="block text-sm text-stone">Nombre (solo para crear cuenta)
+        <input id="auth-name" type="text" autocomplete="name" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream" placeholder="Tu nombre">
+      </label>
+      <label class="block text-sm text-stone">Correo electrónico
+        <input id="auth-email" type="email" autocomplete="email" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream" placeholder="tu@correo.com" required>
+      </label>
+      <label class="block text-sm text-stone">Contraseña
+        <input id="auth-password" type="password" autocomplete="current-password" minlength="6" class="mt-1 w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream" placeholder="Mínimo 6 caracteres">
+      </label>
+      <div class="grid grid-cols-2 gap-3">
+        <button id="auth-login-btn" type="button" class="rounded-full bg-gold px-4 py-3 text-wine-black font-medium">Ingresar</button>
+        <button id="auth-register-btn" type="button" class="rounded-full border border-gold/40 px-4 py-3 text-gold-soft">Crear cuenta</button>
+      </div>
+      <button id="auth-reset-btn" type="button" class="text-sm text-stone underline">Olvidé mi contraseña</button>
+    </div>
+    <p id="auth-message" role="status" class="mt-4 text-sm text-gold-soft"></p>
+  </div>
+</div>
 
 <footer class="relative bg-wine-black border-t border-gold/10 pt-20 pb-10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 grid sm:grid-cols-3 gap-12">
@@ -460,10 +484,12 @@
       <p class="text-cream font-medium mb-3">Enlaces</p>
       <ul class="text-stone text-sm space-y-2">
         <li><a href="#inicio" class="hover:text-gold-soft">Inicio</a></li>
+        <li><a href="#galeria" class="hover:text-gold-soft">Galería</a></li>
         <li><a href="#quienes-somos" class="hover:text-gold-soft">Quiénes somos</a></li>
         <li><a href="#ubicacion" class="hover:text-gold-soft">Ubicación y horarios</a></li>
         <li><a href="#reservas" class="hover:text-gold-soft">Reservas</a></li>
         <li><a href="#productos" class="hover:text-gold-soft">Nuestros productos</a></li>
+        <li><a href="#mis-compras" class="hover:text-gold-soft">Mis compras</a></li>
       </ul>
     </div>
 
@@ -495,20 +521,98 @@
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
   </div>
-  <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin flex flex-col">
-    </div>
+  <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin flex flex-col"></div>
   <div class="p-6 border-t border-gold/10 bg-wine-dark/80">
     <div class="flex justify-between items-center mb-5">
       <span class="text-cream font-medium">Total estimado:</span>
       <span id="cart-total" class="text-gold-soft font-display text-3xl">$0</span>
     </div>
     <button id="cart-checkout-btn" class="w-full rounded-full bg-gold px-6 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors flex items-center justify-center gap-2 text-lg">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1s-.8 1-.9 1.2c-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10 9.4 9.4 8 9.1 7.4c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4C6.7 7.7 6 8.4 6 9.8s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4Z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
-      Pedir por WhatsApp
+      Finalizar compra
     </button>
   </div>
 </div>
 
+<!-- MODAL DE CHECKOUT LOCAL -->
+<div id="checkout-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6 overflow-y-auto">
+  <div class="w-full max-w-md rounded-2xl border border-gold/20 bg-wine-panel p-6 sm:p-8 relative my-auto">
+    <button id="checkout-modal-close" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <p class="label-serif text-gold-soft text-lg mb-1">Casi listo</p>
+    <h3 class="font-display text-2xl mb-6">Finalizar tu pedido</h3>
+
+    <form id="checkout-form" novalidate class="space-y-4">
+      <div>
+        <label for="chk-nombre" class="block text-sm text-stone mb-1.5">Nombre completo</label>
+        <input type="text" id="chk-nombre" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Ej: Juan Benítez">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1"></p>
+      </div>
+      <div>
+        <label for="chk-dni" class="block text-sm text-stone mb-1.5">DNI (para retiro en local)</label>
+        <input type="text" id="chk-dni" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Ej: 35123456">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1"></p>
+      </div>
+      <div>
+        <label for="chk-telefono" class="block text-sm text-stone mb-1.5">Número de teléfono</label>
+        <input type="tel" id="chk-telefono" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Ej: 3537400000">
+        <p class="error-msg hidden text-garnet-light text-xs mt-1"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm text-stone mb-2">Método de pago</label>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
+            <input type="radio" name="metodo-pago" value="Mercado Pago" checked class="accent-gold">
+            <span class="text-cream">🔵 Mercado Pago</span>
+          </label>
+          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
+            <input type="radio" name="metodo-pago" value="Transferencia" class="accent-gold">
+            <span class="text-cream">🏦 Transferencia</span>
+          </label>
+          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
+            <input type="radio" name="metodo-pago" value="Mercado Pago QR" class="accent-gold">
+            <span class="text-cream">📱 MP QR</span>
+          </label>
+          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
+            <input type="radio" name="metodo-pago" value="Tarjeta de crédito" class="accent-gold">
+            <span class="text-cream">💳 Crédito</span>
+          </label>
+          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
+            <input type="radio" name="metodo-pago" value="Tarjeta de débito" class="accent-gold">
+            <span class="text-cream">💳 Débito</span>
+          </label>
+          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
+            <input type="radio" name="metodo-pago" value="Efectivo" class="accent-gold">
+            <span class="text-cream">💵 Efectivo</span>
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" id="confirm-order-btn" class="w-full mt-4 rounded-full bg-gold px-6 py-3.5 text-wine-black font-medium hover:bg-gold-soft transition-colors text-base">
+        Confirmar compra
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL DE ÉXITO Y CÓDIGO DE RETIRO -->
+<div id="order-success-modal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
+  <div class="w-full max-w-md rounded-2xl border border-gold/30 bg-wine-panel p-8 text-center relative">
+    <h3 class="font-display text-3xl text-gold-soft mb-2">¡Pedido realizado! 🍷</h3>
+    <p id="success-items-summary" class="text-stone text-sm mb-4"></p>
+    <div class="bg-wine-black/60 border border-gold/20 rounded-xl p-4 my-4">
+      <p class="text-xs text-stone mb-1">Tu código de retiro:</p>
+      <p id="success-code-display" class="font-display text-3xl text-cream tracking-wider font-bold"></p>
+    </div>
+    <p class="text-stone text-xs leading-relaxed mb-6">Decí este código o tu DNI a la persona que te reciba en el local para retirar tu compra.</p>
+    <button id="success-close-btn" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">
+      Entendido
+    </button>
+  </div>
+</div>
+
+<!-- MODAL DETALLE DE PRODUCTO -->
 <div id="product-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
     <button id="product-modal-close" class="absolute top-4 right-4 z-10 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
@@ -522,11 +626,13 @@
       <h3 id="detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
       <p id="detail-price" class="text-gold-soft font-display text-3xl mb-6"></p>
       <div class="hairline mb-6"></div>
-      <p id="detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap"></p>
+      <p id="detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap mb-6"></p>
+      <div id="detail-actions" class="flex gap-3"></div>
     </div>
   </div>
 </div>
 
+<!-- MODAL DETALLE DE PROMOCIÓN -->
 <div id="promo-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
     <button id="promo-modal-close" class="absolute top-4 right-4 z-10 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
@@ -540,11 +646,13 @@
       <h3 id="promo-detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
       <p id="promo-detail-price" class="text-gold-soft font-display text-3xl mb-6"></p>
       <div class="hairline mb-6"></div>
-      <p id="promo-detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap"></p>
+      <p id="promo-detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap mb-6"></p>
+      <div id="promo-detail-actions"></div>
     </div>
   </div>
 </div>
 
+<!-- PANEL ADMIN -->
 <div id="admin-login-modal" class="hidden fixed inset-0 z-[90] items-center justify-center bg-black/80 backdrop-blur-sm px-6">
   <div class="w-full max-w-sm rounded-2xl border border-gold/20 bg-wine-panel p-8 relative">
     <button id="admin-login-close" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">
@@ -556,22 +664,18 @@
     <form id="admin-login-form" novalidate class="space-y-4">
       <div>
         <label for="admin-user" class="block text-sm text-stone mb-2">Usuario</label>
-        <input type="text" id="admin-user" autocomplete="off"
-               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+        <input type="text" id="admin-user" autocomplete="off" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
       </div>
       <div>
         <label for="admin-pass" class="block text-sm text-stone mb-2">Contraseña</label>
-        <input type="password" id="admin-pass" autocomplete="off"
-               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+        <input type="password" id="admin-pass" autocomplete="off" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
       </div>
       <div class="flex items-center gap-2 pt-1 pb-2">
         <input type="checkbox" id="admin-remember" class="w-4 h-4 rounded border-gold/40 bg-wine-black/60 accent-gold cursor-pointer">
         <label for="admin-remember" class="text-sm text-stone cursor-pointer select-none">Recordar este dispositivo</label>
       </div>
       <p id="admin-login-error" class="hidden text-garnet-light text-sm"></p>
-      <button type="submit" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">
-        Ingresar
-      </button>
+      <button type="submit" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Ingresar</button>
     </form>
   </div>
 </div>
@@ -582,152 +686,104 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <p class="label-serif text-gold-soft text-lg mb-1">Panel interno</p>
-    <h3 class="font-display text-2xl mb-8">Gestionar productos</h3>
+    <h3 class="font-display text-2xl mb-8">Gestión de la Vinoteca</h3>
 
+    <p class="text-stone text-sm mb-8">La gestión de solicitudes de compra está disponible en la página interna de pedidos.</p>
+    <a href="pedidos_admin_club_del_anfitrion.html" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full border border-gold/40 px-5 py-3 text-gold-soft text-sm mb-8 hover:bg-gold hover:text-wine-black">Abrir gestión de pedidos ↗</a>
+
+    <!-- Gestión Productos -->
     <div class="mb-10">
       <p class="text-cream font-medium mb-4">Productos publicados</p>
-      <div id="admin-products-list" class="space-y-3 max-h-64 overflow-y-auto pr-1 scrollbar-thin"></div>
-      <p id="admin-products-empty" class="hidden text-stone text-sm">Todavía no hay productos cargados.</p>
+      <div id="admin-products-list" class="space-y-3 max-h-48 overflow-y-auto pr-1 scrollbar-thin"></div>
     </div>
 
-    <div class="hairline mb-10"></div>
-
     <p id="product-form-title" class="text-cream font-medium mb-6">Cargar nuevo producto</p>
-
     <form id="product-form" novalidate class="space-y-6">
       <div>
         <label for="prod-titulo" class="block text-sm text-stone mb-2">Título del producto</label>
-        <input type="text" id="prod-titulo" required
-               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
-               placeholder="Ej: Malbec Reserva 2021">
+        <input type="text" id="prod-titulo" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
         <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
-
       <div>
-        <label for="prod-descripcion" class="block text-sm text-stone mb-2">Descripción completa (marca, año, notas, volumen)</label>
-        <textarea id="prod-descripcion" rows="4" required
-                  class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
-                  placeholder="Ej: Bodega Luigi Bosca, cosecha 2021, notas a frutos rojos maduros y roble sutil. 750 cm³."></textarea>
+        <label for="prod-descripcion" class="block text-sm text-stone mb-2">Descripción completa</label>
+        <textarea id="prod-descripcion" rows="3" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold"></textarea>
         <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
-
       <div>
-        <label for="prod-precio" class="block text-sm text-stone mb-2">Precio de venta</label>
-        <input type="number" id="prod-precio" min="0" step="0.01" required
-               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
-               placeholder="Ej: 15000">
+        <label for="prod-precio" class="block text-sm text-stone mb-2">Precio</label>
+        <input type="number" id="prod-precio" min="0" step="0.01" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
         <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
-
       <div>
-        <label for="prod-imagen" class="block text-sm text-stone mb-2">Imagen del producto (PNG o JPG)</label>
-        <input type="file" id="prod-imagen" accept=".png,.jpg,.jpeg,image/png,image/jpeg" required
-               class="w-full text-stone text-sm file:mr-4 file:rounded-full file:border-0 file:bg-gold file:text-wine-black file:px-5 file:py-2.5 file:font-medium file:cursor-pointer hover:file:bg-gold-soft transition-colors">
-        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
-        <div id="prod-imagen-preview" class="hidden mt-4">
-          <img id="prod-imagen-preview-img" class="h-28 w-28 object-cover rounded-lg border border-gold/20" alt="Previsualización de la imagen">
-        </div>
+        <label for="prod-imagen" class="block text-sm text-stone mb-2">Imagen</label>
+        <input type="file" id="prod-imagen" accept=".png,.jpg,.jpeg,image/png,image/jpeg" class="w-full text-stone text-sm">
+        <div id="prod-imagen-preview" class="hidden mt-4"><img id="prod-imagen-preview-img" class="h-24 w-24 object-cover rounded-lg border border-gold/20"></div>
       </div>
-
-      <div class="flex flex-col sm:flex-row gap-3">
-        <button type="submit" id="product-submit-btn"
-                class="flex-1 rounded-full bg-gold px-8 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
-          Publicar producto
-        </button>
-        <button type="button" id="product-cancel-edit-btn"
-                class="hidden sm:w-auto rounded-full border border-stone/30 px-8 py-4 text-stone hover:border-gold hover:text-gold-soft transition-colors">
-          Cancelar edición
-        </button>
+      <div class="flex gap-3">
+        <button type="submit" id="product-submit-btn" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Publicar producto</button>
+        <button type="button" id="product-cancel-edit-btn" class="hidden rounded-full border border-stone/30 px-6 py-3 text-stone">Cancelar</button>
       </div>
     </form>
 
     <div class="hairline my-10"></div>
 
-    <p class="label-serif text-gold-soft text-lg mb-1">Panel interno</p>
-    <h3 class="font-display text-2xl mb-8">Gestionar promociones</h3>
-
+    <!-- Gestión Promociones -->
     <div class="mb-10">
       <p class="text-cream font-medium mb-4">Promociones publicadas</p>
-      <div id="admin-promos-list" class="space-y-3 max-h-64 overflow-y-auto pr-1 scrollbar-thin"></div>
-      <p id="admin-promos-empty" class="hidden text-stone text-sm">Todavía no hay promociones cargadas.</p>
+      <div id="admin-promos-list" class="space-y-3 max-h-48 overflow-y-auto pr-1 scrollbar-thin"></div>
     </div>
 
-    <div class="hairline mb-10"></div>
-
     <p id="promo-form-title" class="text-cream font-medium mb-6">Cargar nueva promoción</p>
-
     <form id="promo-form" novalidate class="space-y-6">
       <div>
         <label for="promo-titulo" class="block text-sm text-stone mb-2">Título de la promoción</label>
-        <input type="text" id="promo-titulo" required
-               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
-               placeholder="Ej: 2x1 en picadas los jueves">
+        <input type="text" id="promo-titulo" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
         <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
-
       <div>
-        <label for="promo-descripcion" class="block text-sm text-stone mb-2">Descripción de la promoción</label>
-        <textarea id="promo-descripcion" rows="4" required
-                  class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
-                  placeholder="Ej: Válido todos los jueves de 20 a 23 hs, no acumulable con otras promos."></textarea>
+        <label for="promo-descripcion" class="block text-sm text-stone mb-2">Descripción</label>
+        <textarea id="promo-descripcion" rows="3" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold"></textarea>
         <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
-
-      <div>
-        <label class="block text-sm text-stone mb-2">¿La promoción tiene precio?</label>
-        <div class="flex gap-3">
-          <button type="button" id="promo-precio-si-btn"
-                  class="flex-1 rounded-full border border-gold bg-gold text-wine-black px-4 py-2.5 text-sm font-medium transition-colors">
-            Contiene precio
-          </button>
-          <button type="button" id="promo-precio-no-btn"
-                  class="flex-1 rounded-full border border-gold/30 text-stone px-4 py-2.5 text-sm font-medium hover:border-gold hover:text-gold-soft transition-colors">
-            No contiene precio
-          </button>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label for="promo-vigencia" class="block text-sm text-stone mb-2">Fecha límite de vigencia</label>
+          <input type="date" id="promo-vigencia" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
+        </div>
+        <div>
+          <label for="promo-publicar-desde" class="block text-sm text-stone mb-2">Publicar desde (Fecha)</label>
+          <input type="date" id="promo-publicar-desde" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
         </div>
       </div>
-
-      <div id="promo-precio-wrapper">
-        <label for="promo-precio" class="block text-sm text-stone mb-2">Precio</label>
-        <input type="number" id="promo-precio" min="0" step="0.01"
-               class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream placeholder:text-stone/50 focus:border-gold"
-               placeholder="Ej: 8000">
-        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
-      </div>
-
       <div>
-        <label for="promo-imagen" class="block text-sm text-stone mb-2">Imagen de la promoción (PNG o JPG)</label>
-        <input type="file" id="promo-imagen" accept=".png,.jpg,.jpeg,image/png,image/jpeg" required
-               class="w-full text-stone text-sm file:mr-4 file:rounded-full file:border-0 file:bg-gold file:text-wine-black file:px-5 file:py-2.5 file:font-medium file:cursor-pointer hover:file:bg-gold-soft transition-colors">
-        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
-        <div id="promo-imagen-preview" class="hidden mt-4">
-          <img id="promo-imagen-preview-img" class="h-28 w-28 object-cover rounded-lg border border-gold/20" alt="Previsualización de la imagen">
-        </div>
+        <label for="promo-precio" class="block text-sm text-stone mb-2">Precio (Opcional)</label>
+        <input type="number" id="promo-precio" min="0" step="0.01" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
       </div>
-
-      <div class="flex flex-col sm:flex-row gap-3">
-        <button type="submit" id="promo-submit-btn"
-                class="flex-1 rounded-full bg-gold px-8 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
-          Publicar promoción
-        </button>
-        <button type="button" id="promo-cancel-edit-btn"
-                class="hidden sm:w-auto rounded-full border border-stone/30 px-8 py-4 text-stone hover:border-gold hover:text-gold-soft transition-colors">
-          Cancelar edición
-        </button>
+      <div>
+        <label for="promo-imagen" class="block text-sm text-stone mb-2">Imagen</label>
+        <input type="file" id="promo-imagen" accept=".png,.jpg,.jpeg,image/png,image/jpeg" class="w-full text-stone text-sm">
+        <div id="promo-imagen-preview" class="hidden mt-4"><img id="promo-imagen-preview-img" class="h-24 w-24 object-cover rounded-lg border border-gold/20"></div>
+      </div>
+      <div class="flex gap-3">
+        <button type="submit" id="promo-submit-btn" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Publicar promoción</button>
+        <button type="button" id="promo-cancel-edit-btn" class="hidden rounded-full border border-stone/30 px-6 py-3 text-stone">Cancelar</button>
       </div>
     </form>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="module">
-  // ============================================================
-  // FIREBASE — inicialización
-  // ============================================================
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import {
+    getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword,
+    signInWithEmailAndPassword, sendPasswordResetEmail, updateProfile,
+    onAuthStateChanged, signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
   import {
     getFirestore, collection, addDoc, onSnapshot,
     query, orderBy, serverTimestamp,
-    doc, updateDoc, deleteDoc
+    doc, updateDoc, deleteDoc, getDocs
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -742,12 +798,19 @@
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
+
+  // EmailJS: bienvenida. La recuperación segura de contraseña la gestiona Firebase.
+  const EMAILJS_PUBLIC_KEY = "MgfqJouhVvsy4VAab";
+  const EMAILJS_SERVICE_ID = "service_9erujyh";
+  const EMAILJS_WELCOME_TEMPLATE_ID = "template_kigebma";
+  const EMAILJS_RESET_TEMPLATE_ID = "template_z4op0ra"; // Requiere backend para enviar un enlace Firebase seguro.
+  if (window.emailjs) window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
   const productsCollection = collection(db, "productos");
   const promosCollection = collection(db, "promociones");
+  const ordersCollection = collection(db, "pedidos");
 
-  // ============================================================
-  // CLOUDINARY — configuración
-  // ============================================================
   const CLOUDINARY_CLOUD_NAME = "wb9mhrpv";
   const CLOUDINARY_UPLOAD_PRESET = "ClubDelAnfitrion";
   const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
@@ -756,112 +819,48 @@
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-
-    const response = await fetch(CLOUDINARY_UPLOAD_URL, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error("No se pudo subir la imagen a Cloudinary.");
-    }
-
+    const response = await fetch(CLOUDINARY_UPLOAD_URL, { method: "POST", body: formData });
+    if (!response.ok) throw new Error("No se pudo subir la imagen.");
     const data = await response.json();
-    if (!data.secure_url) {
-      throw new Error("Cloudinary no devolvió una URL válida.");
-    }
     return data.secure_url;
   }
 
-  // ============================================================
-  // NEGOCIO — datos de contacto
-  // ============================================================
   const WHATSAPP_NUMBER = "5493537513148";
 
-  // ============================================================
-  // UTILIDADES — toasts
-  // ============================================================
   function showToast(message, type = "success") {
     const container = document.getElementById("toast-container");
     const toast = document.createElement("div");
     const isSuccess = type === "success";
-    toast.className = `toast fade-in flex items-start gap-3 rounded-xl border px-4 py-3.5 shadow-lg backdrop-blur-sm ${
-      isSuccess
-        ? "bg-wine-panel border-gold/40 text-cream"
-        : "bg-wine-panel border-garnet-light/60 text-cream"
-    }`;
-    toast.innerHTML = `
-      <span class="mt-0.5 shrink-0 ${isSuccess ? "text-gold" : "text-garnet-light"}">
-        ${isSuccess
-          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>'
-          : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>'}
-      </span>
-      <p class="text-sm leading-snug">${message}</p>
-    `;
+    toast.className = `toast fade-in flex items-start gap-3 rounded-xl border px-4 py-3.5 shadow-lg backdrop-blur-sm ${isSuccess ? "bg-wine-panel border-gold/40 text-cream" : "bg-wine-panel border-garnet-light/60 text-cream"}`;
+    toast.innerHTML = `<span class="mt-0.5 shrink-0 ${isSuccess ? "text-gold" : "text-garnet-light"}">${isSuccess ? '✓' : '⚠'}</span><p class="text-sm leading-snug">${message}</p>`;
     container.appendChild(toast);
-    setTimeout(() => {
-      toast.style.transition = "opacity .4s ease";
-      toast.style.opacity = "0";
-      setTimeout(() => toast.remove(), 400);
-    }, 4200);
+    setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 400); }, 4200);
   }
 
   function setFieldError(inputEl, message) {
     const errorEl = inputEl.parentElement.querySelector(".error-msg");
     if (message) {
       inputEl.classList.add("border-garnet-light");
-      inputEl.classList.remove("border-gold/20");
-      if (errorEl) {
-        errorEl.textContent = message;
-        errorEl.classList.remove("hidden");
-      }
+      if (errorEl) { errorEl.textContent = message; errorEl.classList.remove("hidden"); }
     } else {
       inputEl.classList.remove("border-garnet-light");
-      inputEl.classList.add("border-gold/20");
-      if (errorEl) {
-        errorEl.textContent = "";
-        errorEl.classList.add("hidden");
-      }
+      if (errorEl) { errorEl.classList.add("hidden"); }
     }
   }
 
-  // ============================================================
-  // NAVBAR
-  // ============================================================
+  // Navbar & Menu
   const navbar = document.getElementById("navbar");
-  function updateNavbarState() {
-    if (window.scrollY > 24) {
-      navbar.classList.add("bg-wine-black/95", "backdrop-blur-sm", "border-gold/10");
-    } else {
-      navbar.classList.remove("bg-wine-black/95", "backdrop-blur-sm", "border-gold/10");
-    }
-  }
-  updateNavbarState();
-  window.addEventListener("scroll", updateNavbarState, { passive: true });
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 24) navbar.classList.add("bg-wine-black/95", "backdrop-blur-sm", "border-gold/10");
+    else navbar.classList.remove("bg-wine-black/95", "backdrop-blur-sm", "border-gold/10");
+  }, { passive: true });
 
   const menuToggle = document.getElementById("menu-toggle");
   const mobileMenu = document.getElementById("mobile-menu");
-  const iconOpen = document.getElementById("icon-open");
-  const iconClose = document.getElementById("icon-close");
-  menuToggle.addEventListener("click", () => {
-    const isHidden = mobileMenu.classList.contains("hidden");
-    mobileMenu.classList.toggle("hidden");
-    iconOpen.classList.toggle("hidden");
-    iconClose.classList.toggle("hidden");
-    menuToggle.setAttribute("aria-expanded", String(isHidden));
-  });
-  mobileMenu.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      mobileMenu.classList.add("hidden");
-      iconOpen.classList.remove("hidden");
-      iconClose.classList.add("hidden");
-      menuToggle.setAttribute("aria-expanded", "false");
-    });
-  });
+  menuToggle.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+  mobileMenu.querySelectorAll("a").forEach(l => l.addEventListener("click", () => mobileMenu.classList.add("hidden")));
 
-  // ============================================================
-  // HORARIOS
-  // ============================================================
+  // Horarios
   const schedule = [
     { day: "Lunes", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
     { day: "Martes", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
@@ -871,251 +870,36 @@
     { day: "Sábado", hours: ["9:00 – 13:00", "16:30 – 20:30"] },
     { day: "Domingo", hours: ["10:30 – 12:30"] },
   ];
-
   const scheduleList = document.getElementById("schedule-list");
-  const todayIndex = (new Date().getDay() + 6) % 7; 
+  const todayIndex = (new Date().getDay() + 6) % 7;
   schedule.forEach((item, index) => {
     const li = document.createElement("li");
     const isToday = index === todayIndex;
     li.className = `flex items-center justify-between py-2.5 ${isToday ? "text-gold-soft" : "text-stone"}`;
-    li.innerHTML = `
-      <span class="${isToday ? "font-medium" : ""}">${item.day}${isToday ? " · hoy" : ""}</span>
-      <span class="text-right">${item.hours.join(" / ")}</span>
-    `;
+    li.innerHTML = `<span>${item.day}${isToday ? " · hoy" : ""}</span><span>${item.hours.join(" / ")}</span>`;
     scheduleList.appendChild(li);
   });
 
-  // ============================================================
-  // RESERVAS
-  // ============================================================
+  // Reservas
   const reservationForm = document.getElementById("reservation-form");
-  const resSubmitBtn = document.getElementById("res-submit-btn");
-
-  function validateReservationForm(data) {
-    let isValid = true;
-    const nombreEl = document.getElementById("res-nombre");
-    if (!data.nombre.trim() || data.nombre.trim().length < 3) { setFieldError(nombreEl, "Ingresá tu nombre completo."); isValid = false; } else setFieldError(nombreEl, null);
-    
-    const telefonoEl = document.getElementById("res-telefono");
-    if (data.telefono.replace(/\D/g, "").length < 8) { setFieldError(telefonoEl, "Ingresá un teléfono válido."); isValid = false; } else setFieldError(telefonoEl, null);
-    
-    const personasEl = document.getElementById("res-personas");
-    if (!Number(data.personas) || Number(data.personas) < 1) { setFieldError(personasEl, "Indicá cuántas personas asisten."); isValid = false; } else setFieldError(personasEl, null);
-    
-    const fechaEl = document.getElementById("res-fecha");
-    if (!data.fecha) { setFieldError(fechaEl, "Elegí una fecha."); isValid = false; } else setFieldError(fechaEl, null);
-    
-    const horarioEl = document.getElementById("res-horario");
-    if (!data.horario) { setFieldError(horarioEl, "Elegí un horario."); isValid = false; } else setFieldError(horarioEl, null);
-    
-    return isValid;
-  }
-
-  reservationForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const data = {
-      nombre: document.getElementById("res-nombre").value,
-      telefono: document.getElementById("res-telefono").value,
-      personas: document.getElementById("res-personas").value,
-      fecha: document.getElementById("res-fecha").value,
-      horario: document.getElementById("res-horario").value,
-    };
-
-    if (!validateReservationForm(data)) { showToast("Revisá los campos marcados.", "error"); return; }
-    resSubmitBtn.disabled = true;
-    resSubmitBtn.classList.add("opacity-60", "cursor-not-allowed");
-
-    try {
-      const [year, month, day] = data.fecha.split("-");
-      const mensaje = `¡Hola! Quiero reservar una mesa en Club del Anfitrión.%0A%0A*Nombre:* ${data.nombre}%0A*Teléfono:* ${data.telefono}%0A*Personas:* ${data.personas}%0A*Fecha:* ${day}/${month}/${year}%0A*Horario:* ${data.horario} hs%0A%0AQuedo atento/a. ¡Gracias!`;
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, "_blank", "noopener,noreferrer");
-      showToast("¡Listo! Te llevamos a WhatsApp para confirmar.", "success");
-      reservationForm.reset();
-    } catch (e) {
-      showToast("Ocurrió un error. Intentá nuevamente.", "error");
-    } finally {
-      resSubmitBtn.disabled = false;
-      resSubmitBtn.classList.remove("opacity-60", "cursor-not-allowed");
-    }
+  reservationForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById("res-nombre").value;
+    const telefono = document.getElementById("res-telefono").value;
+    const personas = document.getElementById("res-personas").value;
+    const fecha = document.getElementById("res-fecha").value;
+    const horario = document.getElementById("res-horario").value;
+    if (!nombre || !telefono || !personas || !fecha || !horario) { showToast("Completá todos los campos.", "error"); return; }
+    const msg = `¡Hola! Quiero reservar una mesa:%0A*Nombre:* ${nombre}%0A*Personas:* ${personas}%0A*Fecha:* ${fecha}%0A*Horario:* ${horario}`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+    reservationForm.reset();
   });
 
-  // ============================================================
-  // CATÁLOGO Y FUNCIONES GLOBALES (MODAL, COMPARTIR, PEDIR)
-  // ============================================================
-  const productsGrid = document.getElementById("products-grid");
-  const productsLoading = document.getElementById("products-loading");
-  const productsEmpty = document.getElementById("products-empty");
-
-  function formatPrice(value) {
-    return Number(value).toLocaleString("es-AR", { style: "currency", currency: "ARS", minimumFractionDigits: 0 });
+  function formatPrice(val) {
+    return Number(val).toLocaleString("es-AR", { style: "currency", currency: "ARS", minimumFractionDigits: 0 });
   }
 
-  window.openProductDetail = (id) => {
-    const prod = latestProducts.find(p => p.id === id);
-    if (!prod) return;
-    document.getElementById("detail-img").src = prod.imagenUrl;
-    document.getElementById("detail-title").textContent = prod.titulo;
-    document.getElementById("detail-price").textContent = formatPrice(prod.precio);
-    document.getElementById("detail-desc").textContent = prod.descripcion;
-    
-    document.getElementById("product-modal").classList.remove("hidden");
-    document.getElementById("product-modal").classList.add("flex");
-    document.body.style.overflow = "hidden";
-  };
-
-  document.getElementById("product-modal-close").addEventListener("click", () => {
-    document.getElementById("product-modal").classList.add("hidden");
-    document.getElementById("product-modal").classList.remove("flex");
-    document.body.style.overflow = "";
-  });
-
-  window.orderDirect = (id) => {
-    const prod = latestProducts.find(p => p.id === id);
-    if(!prod) return;
-    const msg = `¡Hola! Quiero encargar este producto de la vinoteca:%0A%0A*${prod.titulo}*%0APrecio: ${formatPrice(prod.precio)}%0A%0A¿Tienen disponibilidad?`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
-  };
-
-  window.shareProduct = (id) => {
-    const prod = latestProducts.find(p => p.id === id);
-    if(!prod) return;
-    if (navigator.share) {
-      navigator.share({
-        title: prod.titulo,
-        text: `Mirá este vino excelente en Club del Anfitrión: ${prod.titulo}`,
-        url: window.location.href.split('#')[0] + '#productos'
-      }).catch(err => console.log('Error al compartir', err));
-    } else {
-      showToast("Tu navegador no soporta la función de compartir.", "error");
-    }
-  };
-
-  function renderProductCard(product) {
-    const card = document.createElement("article");
-    card.className = "product-grid-enter rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col group relative";
-    
-    const shortDesc = product.descripcion.length > 75 ? product.descripcion.substring(0, 75) + '...' : product.descripcion;
-
-    card.innerHTML = `
-      <div class="aspect-[4/5] overflow-hidden bg-wine-black cursor-pointer relative" onclick="window.openProductDetail('${product.id}')">
-        <img src="${product.imagenUrl}" alt="${product.titulo}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
-      </div>
-      <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
-        <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openProductDetail('${product.id}')">${product.titulo}</h3>
-        <p class="text-stone text-sm leading-relaxed flex-1">${shortDesc}</p>
-        <p class="mt-4 text-gold-soft font-display text-2xl mb-5">${formatPrice(product.precio)}</p>
-        
-        <div class="flex flex-col gap-2.5 mt-auto">
-          <button onclick="window.orderDirect('${product.id}')" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors tracking-wide shadow-md shadow-gold/20 flex items-center justify-center gap-2 uppercase text-sm">
-            <span>¡Lo quiero!</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-          
-          <div class="flex gap-2">
-            <button onclick="window.addToCart('${product.id}')" class="flex-1 rounded-full border border-gold/40 px-3 py-2 text-gold-soft hover:bg-gold/15 hover:border-gold transition-colors flex items-center justify-center gap-1.5 text-xs font-medium">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-              Al carrito
-            </button>
-            <button onclick="window.shareProduct('${product.id}')" class="flex-1 rounded-full border border-cream/20 px-3 py-2 text-cream hover:bg-cream/10 transition-colors flex items-center justify-center gap-1.5 text-xs font-medium">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-              Compartir
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-    return card;
-  }
-
-  // ============================================================
-  // PROMOCIONES — CATÁLOGO Y FUNCIONES GLOBALES
-  // ============================================================
-  const promosGrid = document.getElementById("promos-grid");
-  const promosLoading = document.getElementById("promos-loading");
-  const promosEmpty = document.getElementById("promos-empty");
-
-  window.openPromoDetail = (id) => {
-    const promo = latestPromos.find(p => p.id === id);
-    if (!promo) return;
-    document.getElementById("promo-detail-img").src = promo.imagenUrl;
-    document.getElementById("promo-detail-title").textContent = promo.titulo;
-    document.getElementById("promo-detail-price").textContent = promo.tienePrecio ? formatPrice(promo.precio) : "";
-    document.getElementById("promo-detail-desc").textContent = promo.descripcion;
-
-    document.getElementById("promo-modal").classList.remove("hidden");
-    document.getElementById("promo-modal").classList.add("flex");
-    document.body.style.overflow = "hidden";
-  };
-
-  document.getElementById("promo-modal-close").addEventListener("click", () => {
-    document.getElementById("promo-modal").classList.add("hidden");
-    document.getElementById("promo-modal").classList.remove("flex");
-    document.body.style.overflow = "";
-  });
-
-  window.orderPromoDirect = (id) => {
-    const promo = latestPromos.find(p => p.id === id);
-    if(!promo) return;
-    const precioLinea = promo.tienePrecio ? `%0APrecio: ${formatPrice(promo.precio)}` : "";
-    const msg = `¡Hola! Me interesa esta promoción de la vinoteca:%0A%0A*${promo.titulo}*${precioLinea}%0A%0A¿Sigue vigente?`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
-  };
-
-  window.sharePromo = (id) => {
-    const promo = latestPromos.find(p => p.id === id);
-    if(!promo) return;
-    if (navigator.share) {
-      navigator.share({
-        title: promo.titulo,
-        text: `Mirá esta promoción en Club del Anfitrión: ${promo.titulo}`,
-        url: window.location.href.split('#')[0] + '#promociones'
-      }).catch(err => console.log('Error al compartir', err));
-    } else {
-      showToast("Tu navegador no soporta la función de compartir.", "error");
-    }
-  };
-
-  function renderPromoCard(promo) {
-    const card = document.createElement("article");
-    card.className = "product-grid-enter rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col group relative";
-
-    const shortDesc = promo.descripcion.length > 75 ? promo.descripcion.substring(0, 75) + '...' : promo.descripcion;
-    const priceHtml = promo.tienePrecio
-      ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-5">${formatPrice(promo.precio)}</p>`
-      : `<p class="mt-4 mb-5"></p>`;
-
-    card.innerHTML = `
-      <div class="aspect-[4/5] overflow-hidden bg-wine-black cursor-pointer relative" onclick="window.openPromoDetail('${promo.id}')">
-        <img src="${promo.imagenUrl}" alt="${promo.titulo}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
-      </div>
-      <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
-        <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openPromoDetail('${promo.id}')">${promo.titulo}</h3>
-        <p class="text-stone text-sm leading-relaxed flex-1">${shortDesc}</p>
-        ${priceHtml}
-
-        <div class="flex flex-col gap-2.5 mt-auto">
-          <button onclick="window.orderPromoDirect('${promo.id}')" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors tracking-wide shadow-md shadow-gold/20 flex items-center justify-center gap-2 uppercase text-sm">
-            <span>¡Me interesa!</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-
-          <div class="flex gap-2">
-            <button onclick="window.sharePromo('${promo.id}')" class="flex-1 rounded-full border border-cream/20 px-3 py-2 text-cream hover:bg-cream/10 transition-colors flex items-center justify-center gap-1.5 text-xs font-medium">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-              Compartir
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-    return card;
-  }
-
-  // ============================================================
-  // SISTEMA DE CARRITO DE COMPRAS
-  // ============================================================
+  // Carrito y Checkout Local con Firebase
   let cart = JSON.parse(localStorage.getItem('clubCart')) || [];
   const cartFab = document.getElementById("cart-fab");
   const cartBadge = document.getElementById("cart-badge");
@@ -1129,42 +913,37 @@
   function updateCartUI() {
     const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
     cartBadge.textContent = totalItems;
-    
-    if(totalItems > 0) {
-      cartFab.classList.remove("hidden");
-    } else {
+    if (totalItems > 0) cartFab.classList.remove("hidden");
+    else {
       cartFab.classList.add("hidden");
-      if(!cartPanel.classList.contains("translate-x-full")) toggleCart(); 
+      if (!cartPanel.classList.contains("translate-x-full")) toggleCart();
     }
 
     cartItemsContainer.innerHTML = '';
     let totalPrecio = 0;
-
-    if(cart.length === 0) {
+    if (cart.length === 0) {
       cartItemsContainer.innerHTML = '<p class="text-stone text-center mt-10">Tu carrito está vacío.</p>';
     } else {
       cart.forEach(item => {
         const prod = latestProducts.find(p => p.id === item.id);
-        if(prod) {
+        if (prod) {
           totalPrecio += prod.precio * item.qty;
-          const itemEl = document.createElement("div");
-          itemEl.className = "flex items-center gap-4 bg-wine-black/40 p-3 rounded-xl border border-gold/10";
-          itemEl.innerHTML = `
-            <img src="${prod.imagenUrl}" class="w-16 h-16 object-cover rounded-lg border border-gold/15">
+          const div = document.createElement("div");
+          div.className = "flex items-center gap-4 bg-wine-black/40 p-3 rounded-xl border border-gold/10";
+          div.innerHTML = `
+            <img src="${prod.imagenUrl}" class="w-14 h-14 object-cover rounded-lg border border-gold/15">
             <div class="flex-1 min-w-0">
               <p class="text-cream text-sm font-medium truncate">${prod.titulo}</p>
-              <p class="text-gold-soft text-xs mt-1">${formatPrice(prod.precio)} c/u</p>
-              <div class="flex items-center gap-3 mt-2">
-                <button onclick="window.updateCartQty('${item.id}', -1)" class="w-6 h-6 rounded bg-wine-panel text-stone hover:text-gold border border-gold/20 flex items-center justify-center">-</button>
-                <span class="text-cream text-sm font-medium w-4 text-center">${item.qty}</span>
-                <button onclick="window.updateCartQty('${item.id}', 1)" class="w-6 h-6 rounded bg-wine-panel text-stone hover:text-gold border border-gold/20 flex items-center justify-center">+</button>
+              <p class="text-gold-soft text-xs">${formatPrice(prod.precio)} c/u</p>
+              <div class="flex items-center gap-2 mt-1">
+                <button onclick="window.updateCartQty('${item.id}', -1)" class="w-5 h-5 bg-wine-panel text-stone rounded">-</button>
+                <span class="text-cream text-xs">${item.qty}</span>
+                <button onclick="window.updateCartQty('${item.id}', 1)" class="w-5 h-5 bg-wine-panel text-stone rounded">+</button>
               </div>
             </div>
-            <button onclick="window.removeFromCart('${item.id}')" class="text-garnet-light/70 hover:text-garnet-light p-2">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-            </button>
+            <button onclick="window.removeFromCart('${item.id}')" class="text-garnet-light text-xs">✕</button>
           `;
-          cartItemsContainer.appendChild(itemEl);
+          cartItemsContainer.appendChild(div);
         }
       });
     }
@@ -1172,540 +951,492 @@
   }
 
   window.addToCart = (id) => {
-    const existing = cart.find(item => item.id === id);
-    if (existing) { existing.qty += 1; } 
-    else { cart.push({ id, qty: 1 }); }
+    const existing = cart.find(i => i.id === id);
+    if (existing) existing.qty++;
+    else cart.push({ id, qty: 1 });
     saveCart();
     updateCartUI();
-    showToast("¡Vino agregado al carrito! 🍷", "success");
-    cartFab.classList.add("scale-110");
-    setTimeout(() => cartFab.classList.remove("scale-110"), 200);
+    showToast("¡Agregado al carrito! 🍷");
   };
 
   window.updateCartQty = (id, delta) => {
-    const existing = cart.find(item => item.id === id);
-    if(existing) {
+    const existing = cart.find(i => i.id === id);
+    if (existing) {
       existing.qty += delta;
-      if(existing.qty <= 0) cart = cart.filter(i => i.id !== id);
-      saveCart(); updateCartUI();
+      if (existing.qty <= 0) cart = cart.filter(i => i.id !== id);
+      saveCart();
+      updateCartUI();
     }
   };
 
   window.removeFromCart = (id) => {
     cart = cart.filter(i => i.id !== id);
-    saveCart(); updateCartUI();
+    saveCart();
+    updateCartUI();
   };
 
   function toggleCart() {
-    const isHidden = cartPanel.classList.contains("translate-x-full");
-    if(isHidden) {
-      cartOverlay.classList.remove("hidden");
-      cartPanel.classList.remove("translate-x-full");
-      document.body.style.overflow = "hidden";
-    } else {
-      cartOverlay.classList.add("hidden");
-      cartPanel.classList.add("translate-x-full");
-      document.body.style.overflow = "";
-    }
+    cartPanel.classList.toggle("translate-x-full");
+    cartOverlay.classList.toggle("hidden");
   }
 
   cartFab.addEventListener("click", toggleCart);
   document.getElementById("cart-close").addEventListener("click", toggleCart);
   cartOverlay.addEventListener("click", toggleCart);
 
+  // Checkout modal
+  const checkoutModal = document.getElementById("checkout-modal");
   document.getElementById("cart-checkout-btn").addEventListener("click", () => {
-    if(cart.length === 0) return;
-    let msg = `¡Hola! Quiero hacer un pedido en *Club del Anfitrión*.%0A%0A*Mi carrito:*%0A`;
-    let totalPrecio = 0;
-    cart.forEach(item => {
-      const prod = latestProducts.find(p => p.id === item.id);
-      if(prod) {
-        msg += `> ${item.qty}x ${prod.titulo} (${formatPrice(prod.precio * item.qty)})%0A`;
-        totalPrecio += prod.precio * item.qty;
-      }
-    });
-    msg += `%0A*Total:* ${formatPrice(totalPrecio)}%0A%0A¡Muchas gracias!`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+    if (cart.length === 0) return;
+    toggleCart();
+    checkoutModal.classList.remove("hidden");
+    checkoutModal.classList.add("flex");
+  });
+  document.getElementById("checkout-modal-close").addEventListener("click", () => {
+    checkoutModal.classList.add("hidden");
+    checkoutModal.classList.remove("flex");
   });
 
-  // ============================================================
-  // SINCRONIZACIÓN FIRESTORE
-  // ============================================================
-  const productsQuery = query(productsCollection, orderBy("creadoEn", "desc"));
+  const checkoutForm = document.getElementById("checkout-form");
+  checkoutForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById("chk-nombre").value.trim();
+    const dni = document.getElementById("chk-dni").value.trim();
+    const telefono = document.getElementById("chk-telefono").value.trim();
+    const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
+
+    if (!nombre || !dni || !telefono) {
+      showToast("Completá todos los datos personales.", "error");
+      return;
+    }
+
+    const codigoRetiro = Math.floor(100000 + Math.random() * 900000).toString();
+    let totalPrecio = 0;
+    const itemsComprados = cart.map(item => {
+      const prod = latestProducts.find(p => p.id === item.id);
+      totalPrecio += (prod ? prod.precio : 0) * item.qty;
+      return { titulo: prod ? prod.titulo : 'Producto', qty: item.qty };
+    });
+
+    const nuevoPedido = {
+      nombre,
+      dni,
+      telefono,
+      metodoPago,
+      codigoRetiro,
+      items: itemsComprados,
+      total: totalPrecio,
+      estado: "no retirado",
+      creadoEn: serverTimestamp()
+    };
+
+    try {
+      await addDoc(ordersCollection, nuevoPedido);
+      checkoutModal.classList.add("hidden");
+      checkoutModal.classList.remove("flex");
+      checkoutForm.reset();
+      cart = [];
+      saveCart();
+      updateCartUI();
+
+      // Mostrar pantalla de éxito
+      const firstItem = itemsComprados[0];
+      document.getElementById("success-items-summary").textContent = `${firstItem.qty}x ${firstItem.titulo}${itemsComprados.length > 1 ? ' y otros productos' : ''}`;
+      document.getElementById("success-code-display").textContent = codigoRetiro;
+      const successModal = document.getElementById("order-success-modal");
+      successModal.classList.remove("hidden");
+      successModal.classList.add("flex");
+    } catch (err) {
+      showToast("Error al registrar la compra en Firebase.", "error");
+    }
+  });
+
+  document.getElementById("success-close-btn").addEventListener("click", () => {
+    document.getElementById("order-success-modal").classList.add("hidden");
+    document.getElementById("order-success-modal").classList.remove("flex");
+    window.location.hash = "#mis-compras";
+  });
+
+  // Catálogo de Productos y URLs compartibles específicas
   let latestProducts = [];
-  let editingProductId = null;
-  let editingImagenUrl = null;
+  const productsGrid = document.getElementById("products-grid");
+  const productsLoading = document.getElementById("products-loading");
+  const productsEmpty = document.getElementById("products-empty");
 
-  onSnapshot(
-    productsQuery,
-    (snapshot) => {
-      productsLoading.classList.add("hidden");
-      latestProducts = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+  window.openProductDetail = (id) => {
+    const prod = latestProducts.find(p => p.id === id);
+    if (!prod) return;
+    document.getElementById("detail-img").src = prod.imagenUrl;
+    document.getElementById("detail-title").textContent = prod.titulo;
+    document.getElementById("detail-price").textContent = formatPrice(prod.precio);
+    document.getElementById("detail-desc").textContent = prod.descripcion;
+    document.getElementById("detail-actions").innerHTML = `
+      <button onclick="window.addToCart('${prod.id}'); document.getElementById('product-modal').classList.add('hidden');" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-bold text-sm">Al carrito</button>
+    `;
+    const modal = document.getElementById("product-modal");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+  };
 
-      if (snapshot.empty) {
-        productsGrid.innerHTML = "";
-        productsEmpty.classList.remove("hidden");
-      } else {
-        productsEmpty.classList.add("hidden");
-        productsGrid.innerHTML = "";
-        latestProducts.forEach((product) => {
-          if (product.titulo && product.imagenUrl) productsGrid.appendChild(renderProductCard(product));
-        });
-      }
-      renderAdminProductsList(latestProducts);
-      updateCartUI(); 
-      if (editingProductId && !latestProducts.some((product) => product.id === editingProductId)) exitEditMode();
-    },
-    (error) => {
-      productsLoading.classList.add("hidden");
-      productsEmpty.classList.remove("hidden");
-      productsEmpty.textContent = "No pudimos cargar el catálogo en este momento.";
-      showToast("No se pudo conectar con el catálogo de productos.", "error");
+  document.getElementById("product-modal-close").addEventListener("click", () => {
+    document.getElementById("product-modal").classList.add("hidden");
+    document.getElementById("product-modal").classList.remove("flex");
+  });
+
+  window.shareProduct = (id) => {
+    const prod = latestProducts.find(p => p.id === id);
+    if (!prod) return;
+    const url = `${window.location.origin}${window.location.pathname}?producto=${id}#productos`;
+    if (navigator.share) {
+      navigator.share({ title: prod.titulo, text: `Mirá este producto en Club del Anfitrión: ${prod.titulo}`, url });
+    } else {
+      navigator.clipboard.writeText(url);
+      showToast("¡Enlace exclusivo copiado al portapapeles!");
     }
-  );
+  };
 
-  const promosQuery = query(promosCollection, orderBy("creadoEn", "desc"));
+  function renderProductCard(product) {
+    const card = document.createElement("article");
+    card.className = "product-grid-enter rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col group relative";
+    card.innerHTML = `
+      <div class="aspect-[4/5] overflow-hidden bg-wine-black cursor-pointer relative" onclick="window.openProductDetail('${product.id}')">
+        <img src="${product.imagenUrl}" alt="${product.titulo}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      </div>
+      <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
+        <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openProductDetail('${product.id}')">${product.titulo}</h3>
+        <p class="text-stone text-sm leading-relaxed flex-1">${product.descripcion.substring(0, 75)}...</p>
+        <p class="mt-4 text-gold-soft font-display text-2xl mb-5">${formatPrice(product.precio)}</p>
+        <div class="flex flex-col gap-2.5 mt-auto">
+          <button onclick="window.addToCart('${product.id}')" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors uppercase text-sm">Agregar al carrito</button>
+          <div class="flex gap-2">
+            <button onclick="window.openProductDetail('${product.id}')" class="flex-1 rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
+            <button onclick="window.shareProduct('${product.id}')" class="flex-1 rounded-full border border-cream/20 px-3 py-2 text-cream text-xs">Compartir</button>
+          </div>
+        </div>
+      </div>
+    `;
+    return card;
+  }
+
+  onSnapshot(query(productsCollection, orderBy("creadoEn", "desc")), (snapshot) => {
+    productsLoading.classList.add("hidden");
+    latestProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    if (snapshot.empty) productsEmpty.classList.remove("hidden");
+    else {
+      productsEmpty.classList.add("hidden");
+      productsGrid.innerHTML = "";
+      latestProducts.forEach(p => { if (p.titulo && p.imagenUrl) productsGrid.appendChild(renderProductCard(p)); });
+
+      // Comprobar si hay parámetro por URL para abrir automáticamente el producto compartido
+      const urlParams = new URLSearchParams(window.location.search);
+      const prodId = urlParams.get('producto');
+      if (prodId) window.openProductDetail(prodId);
+    }
+  });
+
+  // Promociones con vigencia mensual
   let latestPromos = [];
-  let editingPromoId = null;
-  let editingPromoImagenUrl = null;
+  const promosGrid = document.getElementById("promos-grid");
+  const promosLoading = document.getElementById("promos-loading");
+  const promosEmpty = document.getElementById("promos-empty");
 
-  onSnapshot(
-    promosQuery,
-    (snapshot) => {
-      promosLoading.classList.add("hidden");
-      latestPromos = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+  onSnapshot(query(promosCollection, orderBy("creadoEn", "desc")), (snapshot) => {
+    promosLoading.classList.add("hidden");
+    const today = new Date().toISOString().split('T')[0];
+    latestPromos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })).filter(promo => {
+      if (promo.publicarDesde && promo.publicarDesde > today) return false;
+      return true;
+    });
 
-      if (snapshot.empty) {
-        promosGrid.innerHTML = "";
-        promosEmpty.classList.remove("hidden");
-      } else {
-        promosEmpty.classList.add("hidden");
-        promosGrid.innerHTML = "";
-        latestPromos.forEach((promo) => {
-          if (promo.titulo && promo.imagenUrl) promosGrid.appendChild(renderPromoCard(promo));
-        });
-      }
-      renderAdminPromosList(latestPromos);
-      if (editingPromoId && !latestPromos.some((promo) => promo.id === editingPromoId)) exitPromoEditMode();
-    },
-    (error) => {
-      promosLoading.classList.add("hidden");
-      promosEmpty.classList.remove("hidden");
-      promosEmpty.textContent = "No pudimos cargar las promociones en este momento.";
-      showToast("No se pudo conectar con las promociones.", "error");
+    if (latestPromos.length === 0) promosEmpty.classList.remove("hidden");
+    else {
+      promosEmpty.classList.add("hidden");
+      promosGrid.innerHTML = "";
+      latestPromos.forEach(promo => {
+        const card = document.createElement("article");
+        card.className = "rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col";
+        
+        const isExpired = promo.vigencia && promo.vigencia < today;
+        const alertHtml = isExpired ? `<div class="bg-garnet/80 text-cream text-xs px-3 py-1.5 text-center font-medium">⚠️ Esta promoción ya finalizó. Consultá por WhatsApp si sigue disponible.</div>` : '';
+
+        card.innerHTML = `
+          ${alertHtml}
+          <div class="aspect-[4/5] overflow-hidden bg-wine-black relative">
+            <img src="${promo.imagenUrl}" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <h3 class="font-display text-xl mb-1.5 text-cream">${promo.titulo}</h3>
+            <p class="text-stone text-sm leading-relaxed flex-1">${promo.descripcion}</p>
+            ${promo.precio ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-4">${formatPrice(promo.precio)}</p>` : ''}
+            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
+          </div>
+        `;
+        promosGrid.appendChild(card);
+      });
     }
-  );
+  });
 
-  // ============================================================
-  // ADMIN — CREDENCIALES, SESIÓN (PERSISTENCIA 5 MIN) Y LOGIN
-  // ============================================================
+  // Apartado Mis Compras & Borrado por antigüedad (3 días)
+  const myPurchasesContainer = document.getElementById("my-purchases-container");
+  const filterDniInput = document.getElementById("filter-dni");
+  const filterDniBtn = document.getElementById("filter-dni-btn");
+
+  async function loadMyPurchases(searchDni = "") {
+    try {
+      const snap = await getDocs(ordersCollection);
+      const now = Date.now();
+      const threeDaysMs = 3 * 24 * 60 * 60 * 12 * 1000; // 3 días
+
+      let orders = [];
+      snap.forEach(docSnap => {
+        const data = { id: docSnap.id, ...docSnap.data() };
+        // Expirar si pasan 3 días sin retirar
+        if (data.creadoEn && (now - data.creadoEn.toMillis() > 3 * 24 * 60 * 60 * 1000) && data.estado === "no retirado") {
+          updateDoc(doc(db, "pedidos", data.id), { estado: "cancelado (no retirado)" });
+          data.estado = "cancelado (no retirado)";
+        }
+        orders.push(data);
+      });
+
+      if (searchDni) {
+        orders = orders.filter(o => o.dni === searchDni || o.codigoRetiro === searchDni);
+      }
+
+      if (orders.length === 0) {
+        myPurchasesContainer.innerHTML = '<p class="text-stone text-center py-8">No se encontraron compras con ese DNI o código.</p>';
+        return;
+      }
+
+      myPurchasesContainer.innerHTML = "";
+      orders.forEach(ord => {
+        const div = document.createElement("div");
+        div.className = "bg-wine-panel/60 border border-gold/15 rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4";
+        div.innerHTML = `
+          <div>
+            <div class="flex items-center gap-3 mb-1">
+              <span class="text-gold-soft font-display text-xl">Código: ${ord.codigoRetiro}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium ${ord.estado === 'retirado' ? 'bg-emerald-900/50 text-emerald-300' : 'bg-gold/20 text-gold-soft'}">${ord.estado.toUpperCase()}</span>
+            </div>
+            <p class="text-cream text-sm">Comprador: <strong>${ord.nombre}</strong> (DNI: ${ord.dni})</p>
+            <p class="text-stone text-xs mt-1">Método de pago: ${ord.metodoPago}</p>
+            <p class="text-stone text-xs">Total: ${formatPrice(ord.total)}</p>
+          </div>
+        `;
+        myPurchasesContainer.appendChild(div);
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  filterDniBtn.addEventListener("click", () => loadMyPurchases(filterDniInput.value.trim()));
+
+  // Panel Admin de Pedidos y Gestión
   const ADMIN_USERNAME = "clubdelanfitrion";
   const ADMIN_PASSWORD = "clubdelanfitrion";
   const ADMIN_SESSION_KEY = "club_admin_session_expiry";
-  const SESSION_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutos
 
-  const adminOpenBtn = document.getElementById("admin-open-btn");
-  const adminLoginModal = document.getElementById("admin-login-modal");
-  const adminPanelModal = document.getElementById("admin-panel-modal");
-
-  function openModal(modalEl) {
-    modalEl.classList.remove("hidden");
-    modalEl.classList.add("flex");
-    document.body.style.overflow = "hidden";
-  }
-  function closeModal(modalEl) {
-    modalEl.classList.add("hidden");
-    modalEl.classList.remove("flex");
-    document.body.style.overflow = "";
-  }
-
-  // Verificar si hay sesión activa
-  function checkAdminSession() {
-    const expiry = localStorage.getItem(ADMIN_SESSION_KEY);
-    if (expiry && Date.now() < parseInt(expiry, 10)) {
-      extendAdminSession();
-      return true;
-    }
-    localStorage.removeItem(ADMIN_SESSION_KEY);
-    return false;
-  }
-
-  function extendAdminSession() {
-    if(localStorage.getItem(ADMIN_SESSION_KEY)) {
-      localStorage.setItem(ADMIN_SESSION_KEY, (Date.now() + SESSION_TIMEOUT_MS).toString());
-    }
-  }
-
-  // Renovar sesión al interactuar con el panel
-  adminPanelModal.addEventListener("click", extendAdminSession);
-  adminPanelModal.addEventListener("keyup", extendAdminSession);
-
-  adminOpenBtn.addEventListener("click", () => {
-    if (checkAdminSession()) {
-      openModal(adminPanelModal);
+  document.getElementById("admin-open-btn").addEventListener("click", () => {
+    if (localStorage.getItem(ADMIN_SESSION_KEY)) {
+      document.getElementById("admin-panel-modal").classList.remove("hidden");
+      document.getElementById("admin-panel-modal").classList.add("flex");
     } else {
-      document.getElementById("admin-login-error").classList.add("hidden");
-      document.getElementById("admin-login-form").reset();
-      openModal(adminLoginModal);
+      document.getElementById("admin-login-modal").classList.remove("hidden");
+      document.getElementById("admin-login-modal").classList.add("flex");
     }
   });
 
-  document.getElementById("admin-login-close").addEventListener("click", () => closeModal(adminLoginModal));
-  document.getElementById("admin-panel-close").addEventListener("click", () => {
-    closeModal(adminPanelModal);
-    exitEditMode();
-    exitPromoEditMode();
-  });
+  document.getElementById("admin-login-close").addEventListener("click", () => document.getElementById("admin-login-modal").classList.add("hidden"));
+  document.getElementById("admin-panel-close").addEventListener("click", () => document.getElementById("admin-panel-modal").classList.add("hidden"));
 
-  document.getElementById("admin-login-form").addEventListener("submit", (event) => {
-    event.preventDefault();
-    const user = document.getElementById("admin-user").value.trim();
-    const pass = document.getElementById("admin-pass").value;
-    const remember = document.getElementById("admin-remember").checked;
-
-    if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
-      if (remember) {
-        localStorage.setItem(ADMIN_SESSION_KEY, (Date.now() + SESSION_TIMEOUT_MS).toString());
-      } else {
-        localStorage.removeItem(ADMIN_SESSION_KEY);
-      }
-      closeModal(adminLoginModal);
-      openModal(adminPanelModal);
-      document.getElementById("admin-login-error").classList.add("hidden");
+  document.getElementById("admin-login-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const u = document.getElementById("admin-user").value;
+    const p = document.getElementById("admin-pass").value;
+    if (u === ADMIN_USERNAME && p === ADMIN_PASSWORD) {
+      localStorage.setItem(ADMIN_SESSION_KEY, (Date.now() + 300000).toString());
+      document.getElementById("admin-login-modal").classList.add("hidden");
+      document.getElementById("admin-panel-modal").classList.remove("hidden");
+      document.getElementById("admin-panel-modal").classList.add("flex");
     } else {
-      const errorEl = document.getElementById("admin-login-error");
-      errorEl.textContent = "Usuario o contraseña incorrectos.";
-      errorEl.classList.remove("hidden");
+      document.getElementById("admin-login-error").textContent = "Credenciales incorrectas.";
+      document.getElementById("admin-login-error").classList.remove("hidden");
     }
   });
 
-  // ============================================================
-  // ADMIN — LISTADO Y GESTIÓN DE PRODUCTOS
-  // ============================================================
-  const adminProductsList = document.getElementById("admin-products-list");
-  const adminProductsEmpty = document.getElementById("admin-products-empty");
-
-  function renderAdminProductsList(products) {
-    if (!products.length) {
-      adminProductsList.innerHTML = "";
-      adminProductsEmpty.classList.remove("hidden");
-      return;
-    }
-    adminProductsEmpty.classList.add("hidden");
-    adminProductsList.innerHTML = "";
-
-    products.forEach((product) => {
-      const row = document.createElement("div");
-      row.className = "flex items-center gap-4 rounded-xl border border-gold/10 bg-wine-black/40 p-3";
-      row.innerHTML = `
-        <img src="${product.imagenUrl}" alt="${product.titulo}" class="h-14 w-14 rounded-lg object-cover shrink-0 border border-gold/15">
-        <div class="min-w-0 flex-1">
-          <p class="text-cream text-sm font-medium truncate">${product.titulo}</p>
-          <p class="text-stone text-xs mt-0.5">${formatPrice(product.precio)}</p>
-        </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <button type="button" data-action="edit" class="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-soft hover:bg-gold hover:text-wine-black transition-colors">Editar</button>
-          <button type="button" data-action="delete" class="rounded-full border border-garnet-light/50 px-3 py-1.5 text-xs text-garnet-light hover:bg-garnet-light hover:text-wine-black transition-colors">Eliminar</button>
-        </div>
-      `;
-      row.querySelector('[data-action="edit"]').addEventListener("click", () => startEditProduct(product));
-      row.querySelector('[data-action="delete"]').addEventListener("click", () => confirmDeleteProduct(product));
-      adminProductsList.appendChild(row);
-    });
-  }
-
-  const productFormTitle = document.getElementById("product-form-title");
-  const productCancelEditBtn = document.getElementById("product-cancel-edit-btn");
-  const imagenInput = document.getElementById("prod-imagen");
-  const imagenPreview = document.getElementById("prod-imagen-preview");
-  const imagenPreviewImg = document.getElementById("prod-imagen-preview-img");
+  // Carga de Productos Admin
   const productForm = document.getElementById("product-form");
-  const productSubmitBtn = document.getElementById("product-submit-btn");
-
-  function startEditProduct(product) {
-    editingProductId = product.id;
-    editingImagenUrl = product.imagenUrl;
-    document.getElementById("prod-titulo").value = product.titulo || "";
-    document.getElementById("prod-descripcion").value = product.descripcion || "";
-    document.getElementById("prod-precio").value = product.precio || "";
-    imagenInput.value = "";
-    imagenPreviewImg.src = product.imagenUrl;
-    imagenPreview.classList.remove("hidden");
-    setFieldError(imagenInput, null);
-    productFormTitle.textContent = `Editando: ${product.titulo}`;
-    productSubmitBtn.textContent = "Guardar cambios";
-    productCancelEditBtn.classList.remove("hidden");
-    document.getElementById("prod-titulo").scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-
-  function exitEditMode() {
-    editingProductId = null;
-    editingImagenUrl = null;
-    productForm.reset();
-    imagenPreview.classList.add("hidden");
-    productFormTitle.textContent = "Cargar nuevo producto";
-    productSubmitBtn.textContent = "Publicar producto";
-    productCancelEditBtn.classList.add("hidden");
-    ["prod-titulo", "prod-descripcion", "prod-precio", "prod-imagen"].forEach(id => setFieldError(document.getElementById(id), null));
-  }
-
-  async function confirmDeleteProduct(product) {
-    if (!window.confirm(`¿Eliminar "${product.titulo}" del catálogo?`)) return;
-    try {
-      await deleteDoc(doc(db, "productos", product.id));
-      showToast("Producto eliminado.", "success");
-      if (editingProductId === product.id) exitEditMode();
-    } catch (e) {
-      showToast("No se pudo eliminar.", "error");
-    }
-  }
-
-  productCancelEditBtn.addEventListener("click", exitEditMode);
-  imagenInput.addEventListener("change", () => {
-    const file = imagenInput.files[0];
-    if (!file) { imagenPreview.classList.add("hidden"); return; }
-    if (!["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
-      setFieldError(imagenInput, "Solo PNG o JPG.");
-      imagenInput.value = "";
-      imagenPreview.classList.add("hidden");
-      return;
-    }
-    setFieldError(imagenInput, null);
-    imagenPreviewImg.src = URL.createObjectURL(file);
-    imagenPreview.classList.remove("hidden");
-  });
-
-  productForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const titulo = document.getElementById("prod-titulo").value.trim();
-    const descripcion = document.getElementById("prod-descripcion").value.trim();
+  productForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const titulo = document.getElementById("prod-titulo").value;
+    const descripcion = document.getElementById("prod-descripcion").value;
     const precio = document.getElementById("prod-precio").value;
-    const file = imagenInput.files[0];
-    const isEditing = Boolean(editingProductId);
-
-    let isValid = true;
-    if (!titulo) { setFieldError(document.getElementById("prod-titulo"), "Obligatorio."); isValid = false; } else setFieldError(document.getElementById("prod-titulo"), null);
-    if (!descripcion) { setFieldError(document.getElementById("prod-descripcion"), "Obligatorio."); isValid = false; } else setFieldError(document.getElementById("prod-descripcion"), null);
-    if (!precio || Number(precio) <= 0) { setFieldError(document.getElementById("prod-precio"), "Inválido."); isValid = false; } else setFieldError(document.getElementById("prod-precio"), null);
-    if (!file && !isEditing) { setFieldError(imagenInput, "Obligatorio."); isValid = false; } else if(file) setFieldError(imagenInput, null);
-
-    if (!isValid) return;
-    productSubmitBtn.disabled = true;
-
+    const file = document.getElementById("prod-imagen").files[0];
+    if (!titulo || !precio || !file) { showToast("Completá todos los campos.", "error"); return; }
+    
     try {
-      let imagenUrl = editingImagenUrl;
-      if (file) {
-        productSubmitBtn.textContent = "Subiendo imagen…";
-        imagenUrl = await uploadImageToCloudinary(file);
-      }
-      if (isEditing) {
-        productSubmitBtn.textContent = "Guardando cambios…";
-        await updateDoc(doc(db, "productos", editingProductId), { titulo, descripcion, precio: Number(precio), imagenUrl });
-        showToast("Actualizado correctamente.", "success");
-      } else {
-        productSubmitBtn.textContent = "Guardando producto…";
-        await addDoc(productsCollection, { titulo, descripcion, precio: Number(precio), imagenUrl, creadoEn: serverTimestamp() });
-        showToast("Publicado correctamente.", "success");
-      }
-      exitEditMode();
-      closeModal(adminPanelModal);
-    } catch (e) {
-      showToast("Error al guardar.", "error");
-    } finally {
-      productSubmitBtn.disabled = false;
-      productSubmitBtn.textContent = editingProductId ? "Guardar cambios" : "Publicar producto";
+      const imagenUrl = await uploadImageToCloudinary(file);
+      await addDoc(productsCollection, { titulo, descripcion, precio: Number(precio), imagenUrl, creadoEn: serverTimestamp() });
+      showToast("Producto publicado correctamente.");
+      productForm.reset();
+    } catch(err) {
+      showToast("Error al publicar.", "error");
     }
   });
 
-  // ============================================================
-  // ADMIN — LISTADO Y GESTIÓN DE PROMOCIONES
-  // ============================================================
-  const adminPromosList = document.getElementById("admin-promos-list");
-  const adminPromosEmpty = document.getElementById("admin-promos-empty");
-
-  function renderAdminPromosList(promos) {
-    if (!promos.length) {
-      adminPromosList.innerHTML = "";
-      adminPromosEmpty.classList.remove("hidden");
-      return;
-    }
-    adminPromosEmpty.classList.add("hidden");
-    adminPromosList.innerHTML = "";
-
-    promos.forEach((promo) => {
-      const row = document.createElement("div");
-      row.className = "flex items-center gap-4 rounded-xl border border-gold/10 bg-wine-black/40 p-3";
-      row.innerHTML = `
-        <img src="${promo.imagenUrl}" alt="${promo.titulo}" class="h-14 w-14 rounded-lg object-cover shrink-0 border border-gold/15">
-        <div class="min-w-0 flex-1">
-          <p class="text-cream text-sm font-medium truncate">${promo.titulo}</p>
-          <p class="text-stone text-xs mt-0.5">${promo.tienePrecio ? formatPrice(promo.precio) : "Sin precio"}</p>
-        </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <button type="button" data-action="edit" class="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-soft hover:bg-gold hover:text-wine-black transition-colors">Editar</button>
-          <button type="button" data-action="delete" class="rounded-full border border-garnet-light/50 px-3 py-1.5 text-xs text-garnet-light hover:bg-garnet-light hover:text-wine-black transition-colors">Eliminar</button>
-        </div>
-      `;
-      row.querySelector('[data-action="edit"]').addEventListener("click", () => startEditPromo(promo));
-      row.querySelector('[data-action="delete"]').addEventListener("click", () => confirmDeletePromo(promo));
-      adminPromosList.appendChild(row);
-    });
-  }
-
-  const promoFormTitle = document.getElementById("promo-form-title");
-  const promoCancelEditBtn = document.getElementById("promo-cancel-edit-btn");
-  const promoImagenInput = document.getElementById("promo-imagen");
-  const promoImagenPreview = document.getElementById("promo-imagen-preview");
-  const promoImagenPreviewImg = document.getElementById("promo-imagen-preview-img");
+  // Carga de Promociones Admin
   const promoForm = document.getElementById("promo-form");
-  const promoSubmitBtn = document.getElementById("promo-submit-btn");
-  const promoPrecioSiBtn = document.getElementById("promo-precio-si-btn");
-  const promoPrecioNoBtn = document.getElementById("promo-precio-no-btn");
-  const promoPrecioWrapper = document.getElementById("promo-precio-wrapper");
-  const promoPrecioInput = document.getElementById("promo-precio");
-
-  let promoTienePrecio = true;
-
-  function setPromoTienePrecio(value) {
-    promoTienePrecio = value;
-    if (value) {
-      promoPrecioSiBtn.classList.add("bg-gold", "text-wine-black", "border-gold");
-      promoPrecioSiBtn.classList.remove("text-stone", "border-gold/30");
-      promoPrecioNoBtn.classList.remove("bg-gold", "text-wine-black", "border-gold");
-      promoPrecioNoBtn.classList.add("text-stone", "border-gold/30");
-      promoPrecioWrapper.classList.remove("hidden");
-    } else {
-      promoPrecioNoBtn.classList.add("bg-gold", "text-wine-black", "border-gold");
-      promoPrecioNoBtn.classList.remove("text-stone", "border-gold/30");
-      promoPrecioSiBtn.classList.remove("bg-gold", "text-wine-black", "border-gold");
-      promoPrecioSiBtn.classList.add("text-stone", "border-gold/30");
-      promoPrecioWrapper.classList.add("hidden");
-      setFieldError(promoPrecioInput, null);
-    }
-  }
-
-  promoPrecioSiBtn.addEventListener("click", () => setPromoTienePrecio(true));
-  promoPrecioNoBtn.addEventListener("click", () => setPromoTienePrecio(false));
-
-  function startEditPromo(promo) {
-    editingPromoId = promo.id;
-    editingPromoImagenUrl = promo.imagenUrl;
-    document.getElementById("promo-titulo").value = promo.titulo || "";
-    document.getElementById("promo-descripcion").value = promo.descripcion || "";
-    setPromoTienePrecio(Boolean(promo.tienePrecio));
-    promoPrecioInput.value = promo.tienePrecio ? (promo.precio || "") : "";
-    promoImagenInput.value = "";
-    promoImagenPreviewImg.src = promo.imagenUrl;
-    promoImagenPreview.classList.remove("hidden");
-    setFieldError(promoImagenInput, null);
-    promoFormTitle.textContent = `Editando: ${promo.titulo}`;
-    promoSubmitBtn.textContent = "Guardar cambios";
-    promoCancelEditBtn.classList.remove("hidden");
-    document.getElementById("promo-titulo").scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-
-  function exitPromoEditMode() {
-    editingPromoId = null;
-    editingPromoImagenUrl = null;
-    promoForm.reset();
-    promoImagenPreview.classList.add("hidden");
-    promoFormTitle.textContent = "Cargar nueva promoción";
-    promoSubmitBtn.textContent = "Publicar promoción";
-    promoCancelEditBtn.classList.add("hidden");
-    setPromoTienePrecio(true);
-    ["promo-titulo", "promo-descripcion", "promo-precio", "promo-imagen"].forEach(id => setFieldError(document.getElementById(id), null));
-  }
-
-  async function confirmDeletePromo(promo) {
-    if (!window.confirm(`¿Eliminar "${promo.titulo}" de las promociones?`)) return;
-    try {
-      await deleteDoc(doc(db, "promociones", promo.id));
-      showToast("Promoción eliminada.", "success");
-      if (editingPromoId === promo.id) exitPromoEditMode();
-    } catch (e) {
-      showToast("No se pudo eliminar.", "error");
-    }
-  }
-
-  promoCancelEditBtn.addEventListener("click", exitPromoEditMode);
-  promoImagenInput.addEventListener("change", () => {
-    const file = promoImagenInput.files[0];
-    if (!file) { promoImagenPreview.classList.add("hidden"); return; }
-    if (!["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
-      setFieldError(promoImagenInput, "Solo PNG o JPG.");
-      promoImagenInput.value = "";
-      promoImagenPreview.classList.add("hidden");
-      return;
-    }
-    setFieldError(promoImagenInput, null);
-    promoImagenPreviewImg.src = URL.createObjectURL(file);
-    promoImagenPreview.classList.remove("hidden");
-  });
-
-  promoForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const titulo = document.getElementById("promo-titulo").value.trim();
-    const descripcion = document.getElementById("promo-descripcion").value.trim();
-    const precio = promoPrecioInput.value;
-    const file = promoImagenInput.files[0];
-    const isEditing = Boolean(editingPromoId);
-
-    let isValid = true;
-    if (!titulo) { setFieldError(document.getElementById("promo-titulo"), "Obligatorio."); isValid = false; } else setFieldError(document.getElementById("promo-titulo"), null);
-    if (!descripcion) { setFieldError(document.getElementById("promo-descripcion"), "Obligatorio."); isValid = false; } else setFieldError(document.getElementById("promo-descripcion"), null);
-    if (promoTienePrecio && (!precio || Number(precio) <= 0)) { setFieldError(promoPrecioInput, "Inválido."); isValid = false; } else setFieldError(promoPrecioInput, null);
-    if (!file && !isEditing) { setFieldError(promoImagenInput, "Obligatorio."); isValid = false; } else if(file) setFieldError(promoImagenInput, null);
-
-    if (!isValid) return;
-    promoSubmitBtn.disabled = true;
+  promoForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const titulo = document.getElementById("promo-titulo").value;
+    const descripcion = document.getElementById("promo-descripcion").value;
+    const vigencia = document.getElementById("promo-vigencia").value;
+    const publicarDesde = document.getElementById("promo-publicar-desde").value;
+    const precio = document.getElementById("promo-precio").value;
+    const file = document.getElementById("promo-imagen").files[0];
+    if (!titulo || !vigencia || !file) { showToast("Completá los campos obligatorios.", "error"); return; }
 
     try {
-      let imagenUrl = editingPromoImagenUrl;
-      if (file) {
-        promoSubmitBtn.textContent = "Subiendo imagen…";
-        imagenUrl = await uploadImageToCloudinary(file);
-      }
-      const promoData = {
+      const imagenUrl = await uploadImageToCloudinary(file);
+      await addDoc(promosCollection, {
         titulo,
         descripcion,
-        tienePrecio: promoTienePrecio,
-        precio: promoTienePrecio ? Number(precio) : null,
-        imagenUrl
-      };
-      if (isEditing) {
-        promoSubmitBtn.textContent = "Guardando cambios…";
-        await updateDoc(doc(db, "promociones", editingPromoId), promoData);
-        showToast("Actualizado correctamente.", "success");
-      } else {
-        promoSubmitBtn.textContent = "Guardando promoción…";
-        await addDoc(promosCollection, { ...promoData, creadoEn: serverTimestamp() });
-        showToast("Publicado correctamente.", "success");
-      }
-      exitPromoEditMode();
-      closeModal(adminPanelModal);
-    } catch (e) {
-      showToast("Error al guardar.", "error");
-    } finally {
-      promoSubmitBtn.disabled = false;
-      promoSubmitBtn.textContent = editingPromoId ? "Guardar cambios" : "Publicar promoción";
+        vigencia,
+        publicarDesde: publicarDesde || null,
+        precio: precio ? Number(precio) : null,
+        imagenUrl,
+        creadoEn: serverTimestamp()
+      });
+      showToast("Promoción publicada correctamente.");
+      promoForm.reset();
+    } catch(err) {
+      showToast("Error al publicar promoción.", "error");
+    }
+  });
+
+
+  // Autenticación Firebase: Google, correo/contraseña, perfil y recuperación.
+  const authModal = document.getElementById("auth-modal");
+  const authMessage = document.getElementById("auth-message");
+  const authFields = document.getElementById("auth-fields");
+  const authProfile = document.getElementById("auth-profile");
+  const authStatus = document.getElementById("auth-status");
+  const authEmail = document.getElementById("auth-email");
+  const authPassword = document.getElementById("auth-password");
+  const authName = document.getElementById("auth-name");
+  const authOpenBtn = document.getElementById("auth-open-btn");
+
+  function openAuthModal() {
+    authModal.classList.remove("hidden");
+    authModal.classList.add("flex");
+    authMessage.textContent = "";
+  }
+  function closeAuthModal() {
+    authModal.classList.add("hidden");
+    authModal.classList.remove("flex");
+  }
+  function authErrorMessage(error) {
+    const messages = {
+      "auth/invalid-email": "El correo electrónico no es válido.",
+      "auth/user-not-found": "No existe una cuenta con ese correo.",
+      "auth/wrong-password": "La contraseña es incorrecta.",
+      "auth/invalid-credential": "Correo o contraseña incorrectos.",
+      "auth/email-already-in-use": "Ese correo ya tiene una cuenta.",
+      "auth/weak-password": "La contraseña debe tener al menos 6 caracteres.",
+      "auth/popup-closed-by-user": "Se cerró la ventana de Google antes de terminar."
+    };
+    return messages[error.code] || "No se pudo completar la operación. Revisá los datos e intentá nuevamente.";
+  }
+
+  authOpenBtn.addEventListener("click", openAuthModal);
+  document.getElementById("auth-close-btn").addEventListener("click", closeAuthModal);
+  authModal.addEventListener("click", e => { if (e.target === authModal) closeAuthModal(); });
+
+  async function sendWelcomeEmail(user) {
+    if (!window.emailjs || !user.email) return;
+    try {
+      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_WELCOME_TEMPLATE_ID, {
+        to_email: user.email,
+        to_name: user.displayName || user.email.split("@")[0],
+        user_email: user.email,
+        message: "¡Bienvenido/a a Club del Anfitrión! Gracias por crear tu cuenta."
+      });
+    } catch (error) {
+      console.warn("No se pudo enviar el correo de bienvenida. Revisá las variables configuradas en la plantilla EmailJS.", error);
+    }
+  }
+
+  document.getElementById("auth-google-btn").addEventListener("click", async () => {
+    authMessage.textContent = "";
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      closeAuthModal();
+      showToast("Sesión iniciada correctamente.");
+    } catch (error) { authMessage.textContent = authErrorMessage(error); }
+  });
+
+  document.getElementById("auth-register-btn").addEventListener("click", async () => {
+    authMessage.textContent = "";
+    const email = authEmail.value.trim();
+    const password = authPassword.value;
+    const name = authName.value.trim();
+    if (!name) { authMessage.textContent = "Ingresá tu nombre para crear la cuenta."; return; }
+    try {
+      const credential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(credential.user, { displayName: name });
+      await sendWelcomeEmail({ email: credential.user.email, displayName: name });
+      authMessage.textContent = "Cuenta creada correctamente.";
+    } catch (error) { authMessage.textContent = authErrorMessage(error); }
+  });
+
+  document.getElementById("auth-login-btn").addEventListener("click", async () => {
+    authMessage.textContent = "";
+    try {
+      await signInWithEmailAndPassword(auth, authEmail.value.trim(), authPassword.value);
+      closeAuthModal();
+      showToast("Sesión iniciada correctamente.");
+    } catch (error) { authMessage.textContent = authErrorMessage(error); }
+  });
+
+  document.getElementById("auth-reset-btn").addEventListener("click", async () => {
+    authMessage.textContent = "";
+    const email = authEmail.value.trim();
+    if (!email) { authMessage.textContent = "Escribí tu correo para recibir el enlace de recuperación."; return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      authMessage.textContent = "Si existe una cuenta con ese correo, Firebase enviará las instrucciones de recuperación.";
+    } catch (error) { authMessage.textContent = authErrorMessage(error); }
+  });
+
+  document.getElementById("auth-signout-btn").addEventListener("click", async () => {
+    await signOut(auth);
+    authMessage.textContent = "Cerraste sesión.";
+  });
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      authOpenBtn.textContent = user.displayName ? user.displayName.split(" ")[0] : "Mi cuenta";
+      authStatus.textContent = "Sesión iniciada";
+      document.getElementById("auth-profile-name").textContent = user.displayName || "Usuario";
+      document.getElementById("auth-profile-email").textContent = user.email || "";
+      authProfile.classList.remove("hidden");
+      authFields.classList.add("hidden");
+    } else {
+      authOpenBtn.textContent = "Ingresar/registrarse";
+      authStatus.textContent = "Ingresá o creá tu cuenta para continuar.";
+      authProfile.classList.add("hidden");
+      authFields.classList.remove("hidden");
     }
   });
 
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
-<!-- Botón Flotante de WhatsApp con Cartel -->
+
+<!-- Botón Flotante de WhatsApp con Tooltip de Retraso de 3s -->
 <div class="whatsapp-container">
-    <div id="wa-tooltip" class="wa-tooltip hidden">
-        ¿Necesitás ayuda? Escribinos por WhatsApp 🍷
-    </div>
-    <a href="https://wa.me/5493537513148?text=%C2%A1Hola!%20Quiero%20hacer%20una%20consulta%20o%20reserva" 
-       class="whatsapp-float" 
-       target="_blank" 
-       rel="noopener noreferrer" 
-       aria-label="Contactar por WhatsApp">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-        </svg>
+    <div id="wa-tooltip" class="wa-tooltip hidden">¿Necesitás ayuda? Escribinos por WhatsApp </div>
+    <a href="https://wa.me/5493537513148?text=%C2%A1Hola!%20Quiero%20hacer%20una%20consulta" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
     </a>
 </div>
 
@@ -1715,7 +1446,8 @@
     if (tooltip) {
       tooltip.classList.remove('hidden');
       setTimeout(() => {
-        tooltip.classList.add('hidden');
+        tooltip.style.opacity = '0';
+        setTimeout(() => tooltip.classList.add('hidden'), 400);
       }, 5000);
     }
   }, 3000);
