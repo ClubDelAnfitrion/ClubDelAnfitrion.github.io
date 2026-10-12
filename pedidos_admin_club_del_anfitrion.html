@@ -24,8 +24,8 @@ input:focus,button:focus-visible{outline:2px solid #c9a24b;outline-offset:2px}
   <section id="login-box" class="max-w-md mx-auto rounded-2xl border border-gold/20 bg-wine-panel p-7">
     <p class="text-gold-soft italic mb-1">Acceso restringido</p><h2 class="font-display text-2xl mb-5">Ingresar al sistema</h2>
     <form id="login-form" class="space-y-4">
-      <label class="block text-sm text-stone">Correo del negocio<input id="email" type="email" required autocomplete="username" class="mt-1 w-full rounded-lg bg-wine-black border border-gold/20 px-4 py-3 text-cream"></label>
-      <label class="block text-sm text-stone">Contraseña<input id="password" type="password" required autocomplete="current-password" class="mt-1 w-full rounded-lg bg-wine-black border border-gold/20 px-4 py-3 text-cream"></label>
+      <label class="block text-sm text-stone">Correo del negocio<input id="email" type="email" required autocomplete="promociones.clubdelanfitrion@gmail.com" class="mt-1 w-full rounded-lg bg-wine-black border border-gold/20 px-4 py-3 text-cream"></label>
+      <label class="block text-sm text-stone">Contraseña<input id="password" type="password" required autocomplete="clubdelanfitrion" class="mt-1 w-full rounded-lg bg-wine-black border border-gold/20 px-4 py-3 text-cream"></label>
       <button class="w-full rounded-full bg-gold px-5 py-3 text-wine-black font-semibold">Ingresar</button>
     </form>
     <p id="login-message" class="text-sm text-gold-soft mt-4" role="status"></p>
@@ -53,7 +53,7 @@ const firebaseConfig={apiKey:"AIzaSyALsNxhMyC-GSQULpcj3CpwbDr81alvC0M",authDomai
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
 // IMPORTANTE: reemplazá este valor por el correo real del negocio.
 // La protección definitiva también debe aplicarse en las reglas de Firestore.
-const ADMIN_EMAILS=["REEMPLAZAR_POR_CORREO_DEL_NEGOCIO"];
+const ADMIN_EMAILS=["promociones.clubdelanfitrion@gmail.com"];
 const loginBox=document.getElementById("login-box"),ordersBox=document.getElementById("orders-box"),loginMessage=document.getElementById("login-message"),ordersMessage=document.getElementById("orders-message");
 let allOrders=[];
 function money(n){return new Intl.NumberFormat("es-AR",{style:"currency",currency:"ARS",maximumFractionDigits:0}).format(Number(n)||0)}
