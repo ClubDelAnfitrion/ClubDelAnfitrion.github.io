@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Club del Anfitrión — Vinoteca en Bell Ville</title>
-<meta name="description" content="Club del Anfitrión: vinoteca boutique en Bell Ville, Córdoba. Vinos, picadas, reservas y experiencias para compartir.">
+<title>Club del Anfitrión — Vinoteca boutique en Bell Ville, Córdoba</title>
+<meta name="description" content="Vinoteca boutique en Bell Ville, Córdoba. Vinos de bodegas chicas, picadas, reservas de mesa y pedidos online con retiro en Córdoba 1301.">
+<meta name="keywords" content="vinoteca, vinos, Bell Ville, Córdoba, Club del Anfitrión, bodegas boutique, reservas, picadas">
+<meta name="author" content="Club del Anfitrión">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#140b0c">
+<link rel="canonical" href="https://clubdelanfitrion.github.io/">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,13 +114,22 @@
   }
 </style>
 
+<!-- Open Graph (WhatsApp, Facebook, etc.). Los crawlers NO ejecutan JS: este og:image es el que ven.
+     Para usar el logo de Cloudinary, pegá aquí la URL que muestra el panel admin en "Logotipo y favicon". -->
 <meta property="og:site_name" content="Club del Anfitrión">
-<meta property="og:title" content="Club del Anfitrión - Vinoteca en Bell Ville">
-<meta property="og:description" content="Vinos distintos, de bodegas chicas y boutique, directo a tu mesa.">
-<meta property="og:image" content="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg">
+<meta property="og:locale" content="es_AR">
 <meta property="og:type" content="website">
-<meta name="description" content="Vinoteca en Bell Ville. Encontrá vinos exclusivos, boutique y artesanales. Reservá tu mesa, hacé tus pedidos online y consultá nuestro catálogo.">
-<meta name="keywords" content="vinoteca, vinos, Bell Ville, Club del Anfitrión, bodegas boutique, reservas, picadas">
+<meta property="og:url" content="https://clubdelanfitrion.github.io/">
+<meta property="og:title" content="Club del Anfitrión — Vinoteca boutique en Bell Ville">
+<meta property="og:description" content="Vinos distintos, de bodegas chicas y boutique, directo a tu mesa. Reservas y pedidos online.">
+<meta property="og:image" content="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
+<meta property="og:image:alt" content="Logotipo de Club del Anfitrión">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Club del Anfitrión — Vinoteca boutique en Bell Ville">
+<meta name="twitter:description" content="Vinos distintos, de bodegas chicas y boutique, directo a tu mesa. Reservas y pedidos online.">
+<meta name="twitter:image" content="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
 
 <script type="application/ld+json">
 {
@@ -126,9 +140,26 @@
   "url": "https://clubdelanfitrion.github.io/"
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LiquorStore",
+  "name": "Club del Anfitrión",
+  "url": "https://clubdelanfitrion.github.io/",
+  "telephone": "+5493537513148",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Córdoba 1301",
+    "addressLocality": "Bell Ville",
+    "addressRegion": "Córdoba",
+    "addressCountry": "AR"
+  }
+}
+</script>
 
-<link rel="icon" type="image/jpeg" sizes="48x48" href="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg">
-<link rel="apple-touch-icon" href="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg">
+<!-- Favicon: valor por defecto; el JS lo reemplaza con el logo guardado en Firestore (settings/general) -->
+<link id="site-favicon" rel="icon" href="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
+<link id="site-apple-icon" rel="apple-touch-icon" href="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
 </head>
 
 <body class="font-sans text-cream antialiased selection:bg-gold selection:text-wine-black">
@@ -137,7 +168,7 @@
 <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300 border-b border-transparent">
   <nav class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-20">
     <a href="#inicio" class="flex items-center gap-3 group">
-      <img src="https://i.postimg.cc/m2sKzYdZ/0805f332-a7df-4560-acd2-d479b3965064.jpg" alt="Club del Anfitrión Logo" class="h-12 w-auto object-contain">
+      <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" class="h-12 w-auto object-contain">
     </a>
 
     <ul class="hidden md:flex items-center gap-7 text-sm text-stone">
@@ -161,7 +192,7 @@
     </button>
   </nav>
 
-  <div id="mobile-menu" class="md:hidden hidden bg-wine-black/97 border-t border-gold/20">
+  <div id="mobile-menu" class="md:hidden hidden bg-wine-black/95 border-t border-gold/20">
     <ul class="flex flex-col px-6 py-4 gap-4 text-stone text-base">
       <li><a href="#inicio" class="block py-1 hover:text-gold-soft">Inicio</a></li>
       <li><a href="#galeria" class="block py-1 hover:text-gold-soft">Galería</a></li>
@@ -207,7 +238,7 @@
 <section id="galeria" class="relative py-28 lg:py-36 bg-wine-dark/40 border-b border-gold/10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4 text-center">Recorrido visual</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4">Así es nuestro local por fuera y por dentro</h2>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4">Así es nuestro establecimiento por fuera y por dentro</h2>
     <p class="text-stone text-center max-w-xl mx-auto mb-16">
       Conocé cada rincón del espacio y a quienes te reciben siempre con la mejor copa.
     </p>
@@ -218,14 +249,14 @@
           <video src="https://res.cloudinary.com/wb9mhrpv/video/upload/v1788397451/vxpyjhopwarrwgskk5gi.mp4" class="w-full h-full object-cover" autoplay loop muted playsinline></video>
         </div>
         <div class="p-5">
-          <p class="text-cream font-medium">Local por fuera</p>
+          <p class="text-cream font-medium">Establecimiento por fuera</p>
           <p class="text-stone text-xs mt-1">Fachada principal.</p>
         </div>
       </div>
 
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
-          <img src="https://i.postimg.cc/4dbknkLZ/Whats-App-Image-2026-09-02-at-22-10-20.jpg" alt="Interior del local" class="w-full h-full object-cover">
+          <img src="https://i.postimg.cc/4dbknkLZ/Whats-App-Image-2026-09-02-at-22-10-20.jpg" alt="Interior del Establecimiento" class="w-full h-full object-cover">
         </div>
         <div class="p-5">
           <p class="text-cream font-medium">El salón por dentro</p>
@@ -239,7 +270,7 @@
         </div>
         <div class="p-5">
           <p class="text-cream font-medium">Atención personalizada</p>
-          <p class="text-stone text-xs mt-1">Muy buena atención por parte del dueño.</p>
+          <p class="text-stone text-xs mt-1">Muy buena atención por parte de los dueños.</p>
         </div>
       </div>
 
@@ -301,10 +332,10 @@
     <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-xl mb-16">Te esperamos en el corazón de Bell Ville</h2>
 
     <div class="grid lg:grid-cols-2 gap-10 items-stretch">
-      <div class="rounded-2xl overflow-hidden border border-gold/15 min-h-[380px]">
+      <div class="rounded-2xl overflow-hidden border border-gold/15 min-h-[320px] sm:min-h-[380px] lg:min-h-[460px] bg-wine-black">
         <iframe
-          class="w-full h-full min-h-[380px]"
-          src="https://www.google.com/maps?q=-32.6303804,-62.7044654&hl=es&z=17&output=embed"
+          class="w-full h-full min-h-[320px] sm:min-h-[380px] lg:min-h-[460px] block border-0"
+          src="https://www.google.com/maps?q=C%C3%B3rdoba+1301,+Bell+Ville,+C%C3%B3rdoba,+Argentina&hl=es&z=17&output=embed"
           title="Ubicación de Club del Anfitrión en Bell Ville, Córdoba"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
@@ -317,7 +348,8 @@
             <svg class="text-gold shrink-0 mt-1" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
             <div>
               <p class="text-cream font-medium">Dirección</p>
-              <p class="text-stone mt-1">Córdoba 1300, Bell Ville, Córdoba, Argentina</p>
+              <p class="text-stone mt-1">Córdoba 1301, Bell Ville, Córdoba, Argentina</p>
+              <a href="https://www.google.com/maps/search/?api=1&query=C%C3%B3rdoba+1301%2C+Bell+Ville%2C+C%C3%B3rdoba%2C+Argentina" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-gold-soft underline hover:text-gold">Abrir en Google Maps ↗</a>
             </div>
           </div>
 
@@ -521,6 +553,7 @@
 <footer class="relative bg-wine-black border-t border-gold/10 pt-20 pb-10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 grid sm:grid-cols-3 gap-12">
     <div>
+      <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" class="h-12 w-auto object-contain mb-4">
       <p class="font-display text-2xl mb-3">Club <span class="italic text-gold-soft">del Anfitrión</span></p>
       <p class="text-stone text-sm leading-relaxed">Vinoteca boutique en Bell Ville, Córdoba. Vinos, picadas y experiencias para compartir alrededor de la mesa.</p>
     </div>
@@ -594,7 +627,7 @@
         <p class="error-msg hidden text-garnet-light text-xs mt-1"></p>
       </div>
       <div>
-        <label for="chk-dni" class="block text-sm text-stone mb-1.5">DNI (para retiro en local)</label>
+        <label for="chk-dni" class="block text-sm text-stone mb-1.5">DNI (para retiro en establecimiento)</label>
         <input type="text" id="chk-dni" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Ej: 35123456">
         <p class="error-msg hidden text-garnet-light text-xs mt-1"></p>
       </div>
@@ -650,7 +683,7 @@
       <p class="text-xs text-stone mb-1">Tu código de retiro:</p>
       <p id="success-code-display" class="font-display text-3xl text-cream tracking-wider font-bold"></p>
     </div>
-    <p class="text-stone text-xs leading-relaxed mb-6">Decí este código o tu DNI a la persona que te reciba en el local para retirar tu compra.</p>
+    <p class="text-stone text-xs leading-relaxed mb-6">Decí este código o tu DNI a la persona que te reciba en el establecimiento para retirar tu compra.</p>
     <button id="success-close-btn" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">
       Entendido
     </button>
@@ -737,6 +770,25 @@
     <p class="text-stone text-sm mb-8">La gestión de solicitudes de compra está disponible en la página interna de pedidos.</p>
     <a href="pedidos_admin_club_del_anfitrion.html" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full border border-gold/40 px-5 py-3 text-gold-soft text-sm mb-8 hover:bg-gold hover:text-wine-black">Abrir gestión de pedidos ↗</a>
 
+    <!-- Logotipo y favicon global (Cloudinary + Firestore settings/general) -->
+    <div class="mb-10 rounded-xl border border-gold/20 bg-wine-black/30 p-4 sm:p-5">
+      <p class="text-cream font-medium mb-1">Logotipo y favicon del sitio</p>
+      <p class="text-stone text-xs mb-4">Elegí una imagen de tu dispositivo. Se sube a Cloudinary y se aplica en el header, el footer y el favicon de todo el sitio.</p>
+      <div class="flex items-center gap-4 mb-4">
+        <img id="logo-admin-preview" data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Logotipo actual" class="h-20 w-20 object-contain rounded-lg border border-gold/20 bg-wine-black p-1">
+        <div class="min-w-0 flex-1">
+          <p class="text-stone text-xs mb-1">URL actual del logotipo (para og:image del HTML):</p>
+          <input type="text" id="logo-url-readout" readonly class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-3 py-2 text-stone text-xs">
+        </div>
+      </div>
+      <form id="logo-form" novalidate class="space-y-3">
+        <label for="logo-file" class="sr-only">Archivo de logotipo</label>
+        <input type="file" id="logo-file" accept="image/*,.jpg,.jpeg,.png,.webp,.gif,.avif,.svg,.ico" class="w-full text-stone text-sm">
+        <p id="logo-status" class="text-stone text-xs" role="status"></p>
+        <button type="submit" id="logo-submit-btn" class="rounded-full bg-gold px-5 py-2.5 text-wine-black text-sm font-medium hover:bg-gold-soft transition-colors disabled:opacity-60">Guardar logotipo</button>
+      </form>
+    </div>
+
     <!-- Gestión Productos -->
     <div class="mb-10">
       <p class="text-cream font-medium mb-4">Productos publicados</p>
@@ -764,7 +816,7 @@
       </div>
       <div>
         <label for="prod-imagen" class="block text-sm text-stone mb-2">Imagen</label>
-        <input type="file" id="prod-imagen" accept=".png,.jpg,.jpeg,image/png,image/jpeg" class="w-full text-stone text-sm">
+        <input type="file" id="prod-imagen" accept="image/*,.jpg,.jpeg,.png,.webp,.gif,.avif" class="w-full text-stone text-sm">
         <div id="prod-imagen-preview" class="hidden mt-4"><img id="prod-imagen-preview-img" class="h-24 w-24 object-cover rounded-lg border border-gold/20"></div>
       </div>
       <div class="flex flex-col gap-3">
@@ -911,6 +963,7 @@
     const response = await fetch(CLOUDINARY_UPLOAD_URL, { method: "POST", body: formData });
     if (!response.ok) throw new Error("No se pudo subir la imagen.");
     const data = await response.json();
+    if (!data.secure_url) throw new Error("Cloudinary no devolvió una URL válida.");
     return data.secure_url;
   }
 
@@ -935,8 +988,14 @@
 
   const menuToggle = document.getElementById("menu-toggle");
   const mobileMenu = document.getElementById("mobile-menu");
-  menuToggle.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
-  mobileMenu.querySelectorAll("a").forEach(l => l.addEventListener("click", () => mobileMenu.classList.add("hidden")));
+  function setMobileMenu(open) {
+    mobileMenu.classList.toggle("hidden", !open);
+    menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    document.getElementById("icon-open").classList.toggle("hidden", open);
+    document.getElementById("icon-close").classList.toggle("hidden", !open);
+  }
+  menuToggle.addEventListener("click", () => setMobileMenu(mobileMenu.classList.contains("hidden")));
+  mobileMenu.querySelectorAll("a").forEach(l => l.addEventListener("click", () => setMobileMenu(false)));
 
   // Horarios
   const schedule = [
@@ -1008,9 +1067,9 @@
           const div = document.createElement("div");
           div.className = "flex items-center gap-4 bg-wine-black/40 p-3 rounded-xl border border-gold/10";
           div.innerHTML = `
-            <img src="${prod.imagenUrl}" class="w-14 h-14 object-cover rounded-lg border border-gold/15">
+            <img src="${escapeHtml(prod.imagenUrl)}" alt="" class="w-14 h-14 object-cover rounded-lg border border-gold/15">
             <div class="flex-1 min-w-0">
-              <p class="text-cream text-sm font-medium truncate">${prod.titulo}</p>
+              <p class="text-cream text-sm font-medium truncate">${escapeHtml(prod.titulo)}</p>
               <p class="text-gold-soft text-xs">${formatPrice(prod.precio)} c/u</p>
               <div class="flex items-center gap-2 mt-1">
                 <button onclick="window.updateCartQty('${item.id}', -1)" class="w-5 h-5 bg-wine-panel text-stone rounded">-</button>
@@ -1180,11 +1239,11 @@
     card.className = "product-grid-enter rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col group relative";
     card.innerHTML = `
       <div class="aspect-[4/5] overflow-hidden bg-wine-black cursor-pointer relative" onclick="window.openProductDetail('${product.id}')">
-        <img src="${product.imagenUrl}" alt="${product.titulo}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <img src="${escapeHtml(product.imagenUrl)}" alt="${escapeHtml(product.titulo)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
       </div>
       <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
-        <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openProductDetail('${product.id}')">${product.titulo}</h3>
-        <p class="text-stone text-sm leading-relaxed flex-1">${product.descripcion.substring(0, 75)}...</p>
+        <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openProductDetail('${product.id}')">${escapeHtml(product.titulo)}</h3>
+        <p class="text-stone text-sm leading-relaxed flex-1">${escapeHtml(String(product.descripcion || "").substring(0, 75))}...</p>
         <p class="mt-4 text-gold-soft font-display text-2xl mb-5">${formatPrice(product.precio)}</p>
         <div class="flex flex-col gap-2.5 mt-auto">
           <button onclick="window.addToCart('${product.id}')" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors uppercase text-sm">Agregar al carrito</button>
@@ -1202,6 +1261,7 @@
     productsLoading.classList.add("hidden");
     latestProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     renderAdminProducts();
+    updateCartUI(); // re-pinta el carrito persistido (necesita el catálogo ya cargado)
     if (snapshot.empty) productsEmpty.classList.remove("hidden");
     else {
       productsEmpty.classList.add("hidden");
@@ -1244,11 +1304,11 @@
         card.innerHTML = `
           ${alertHtml}
           <div class="aspect-[4/5] overflow-hidden bg-wine-black relative">
-            <img src="${promo.imagenUrl}" class="w-full h-full object-cover">
+            <img src="${escapeHtml(promo.imagenUrl)}" alt="${escapeHtml(promo.titulo)}" loading="lazy" class="w-full h-full object-cover">
           </div>
           <div class="p-6 flex flex-col flex-1">
-            <h3 class="font-display text-xl mb-1.5 text-cream">${promo.titulo}</h3>
-            <p class="text-stone text-sm leading-relaxed flex-1">${promo.descripcion}</p>
+            <h3 class="font-display text-xl mb-1.5 text-cream">${escapeHtml(promo.titulo)}</h3>
+            <p class="text-stone text-sm leading-relaxed flex-1">${escapeHtml(promo.descripcion)}</p>
             ${promo.precio ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-4">${formatPrice(promo.precio)}</p>` : ''}
             <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
           </div>
@@ -1765,7 +1825,7 @@
 
   async function broadcastEmail(titulo, mensaje, templateId, linkUrl) {
     try {
-      const usersSnap = await getDocs(collection(db, "usuarios"));
+      const usersSnap = await getDocs(collection(adminDb, "usuarios"));
       const users = usersSnap.docs.map(doc => doc.data());
       for (const u of users) {
         if (u.email) {
@@ -1779,7 +1839,7 @@
         }
       }
     } catch (e) {
-      console.error("[email] error mandando correos masivos:", e);
+      console.error("[email] error mandando correos masivos:", e && (e.code || e.status), e && (e.text || e.message || e));
     }
   }
 
@@ -1878,6 +1938,96 @@
     } finally {
       savingPromo = false;
       submitBtn.disabled = false;
+    }
+  });
+
+  // =====================================================================
+  //  LOGOTIPO Y FAVICON GLOBAL
+  //  Flujo: <input type="file"> -> Cloudinary -> URL en Firestore settings/general
+  //  -> onSnapshot (público, en tiempo real) -> aplica a logos, favicon y og/twitter:image
+  // =====================================================================
+  const SETTINGS_REF = doc(db, "settings", "general");
+  const LOGO_CACHE_KEY = "clubLogoUrl";
+  const LOGO_MAX_BYTES = 10 * 1024 * 1024;
+
+  function setMetaContent(selector, value) {
+    const el = document.querySelector(selector);
+    if (el) el.setAttribute("content", value);
+  }
+
+  // Reemplaza todos los <link rel="icon"> por uno nuevo (algunos navegadores ignoran el cambio de href en el existente)
+  function applyFavicon(url) {
+    document.querySelectorAll('link[rel~="icon"], link[rel="apple-touch-icon"]').forEach((l) => l.remove());
+    const icon = document.createElement("link");
+    icon.id = "site-favicon";
+    icon.rel = "icon";
+    icon.href = url;
+    const apple = document.createElement("link");
+    apple.id = "site-apple-icon";
+    apple.rel = "apple-touch-icon";
+    apple.href = url;
+    document.head.append(icon, apple);
+  }
+
+  function applySiteLogo(url) {
+    if (!url || typeof url !== "string" || !/^https:\/\//.test(url)) return;
+    document.querySelectorAll("img[data-site-logo]").forEach((img) => { if (img.src !== url) img.src = url; });
+    applyFavicon(url);
+    // Solo útil para scrapers que sí ejecutan JS; WhatsApp/Facebook leen el og:image estático del HTML
+    setMetaContent('meta[property="og:image"]', url);
+    setMetaContent('meta[name="twitter:image"]', url);
+    const readout = document.getElementById("logo-url-readout");
+    if (readout) readout.value = url;
+    try { localStorage.setItem(LOGO_CACHE_KEY, url); } catch (_) { }
+  }
+
+  // 1) Pintado inmediato desde caché local (evita parpadeo del logo viejo)
+  try { applySiteLogo(localStorage.getItem(LOGO_CACHE_KEY)); } catch (_) { }
+  // 2) Fuente de verdad: Firestore, en tiempo real (cualquier cambio del admin se ve al instante en todos los visitantes)
+  onSnapshot(SETTINGS_REF, (snap) => {
+    if (snap.exists()) applySiteLogo(snap.data().logoUrl);
+  }, (error) => console.warn("[settings] No se pudo leer settings/general", error.code || error));
+
+  const logoForm = document.getElementById("logo-form");
+  const logoFile = document.getElementById("logo-file");
+  const logoStatus = document.getElementById("logo-status");
+  const logoSubmitBtn = document.getElementById("logo-submit-btn");
+  let logoPreviewObjectUrl = null;
+
+  logoFile.addEventListener("change", () => {
+    const file = logoFile.files[0];
+    if (logoPreviewObjectUrl) { URL.revokeObjectURL(logoPreviewObjectUrl); logoPreviewObjectUrl = null; }
+    if (!file) return;
+    logoPreviewObjectUrl = URL.createObjectURL(file);
+    document.getElementById("logo-admin-preview").src = logoPreviewObjectUrl; // vista previa local, sin tocar el sitio
+    logoStatus.textContent = `Seleccionado: ${file.name}`;
+  });
+
+  logoForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!requireAdminSession()) return;
+    const file = logoFile.files[0];
+    if (!file) { logoStatus.textContent = "Elegí una imagen primero."; return; }
+    if (!file.type.startsWith("image/")) { logoStatus.textContent = "El archivo debe ser una imagen."; return; }
+    if (file.size > LOGO_MAX_BYTES) { logoStatus.textContent = "La imagen supera los 10 MB."; return; }
+
+    logoSubmitBtn.disabled = true;
+    logoStatus.textContent = "Subiendo a Cloudinary…";
+    try {
+      const logoUrl = await uploadImageToCloudinary(file);
+      logoStatus.textContent = "Guardando en Firestore…";
+      await setDoc(doc(adminDb, "settings", "general"), { logoUrl, actualizadoEn: serverTimestamp() }, { merge: true });
+      if (logoPreviewObjectUrl) { URL.revokeObjectURL(logoPreviewObjectUrl); logoPreviewObjectUrl = null; }
+      applySiteLogo(logoUrl); // feedback inmediato; el onSnapshot lo confirma
+      logoFile.value = "";
+      logoStatus.textContent = "Logotipo actualizado en todo el sitio.";
+      showToast("Logotipo y favicon actualizados.");
+    } catch (error) {
+      console.error("[logo]", error);
+      logoStatus.textContent = error && error.code ? adminWriteErrorMessage(error) : "No se pudo subir la imagen. Intentá de nuevo.";
+      showToast(logoStatus.textContent, "error");
+    } finally {
+      logoSubmitBtn.disabled = false;
     }
   });
 
@@ -1996,6 +2146,7 @@
       });
       return true;
     } catch (error) {
+      console.error("[email bienvenida]", error && (error.status || error.code), error && (error.text || error.message || error));
       return false;
     }
   }
