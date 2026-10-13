@@ -68,6 +68,13 @@
   .toast { min-width: 260px; max-width: 340px; }
   .product-grid-enter { animation: fadeIn 0.5s ease-out both; }
 
+  /* Descripciones de tarjetas: vista previa de 4 líneas con puntos suspensivos */
+  .desc-clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; line-clamp: 4; overflow: hidden; text-overflow: ellipsis; }
+  /* Imágenes de productos/promociones que abren la vista ampliada */
+  .zoom-trigger { cursor: zoom-in; }
+  /* Visor de imagen ampliada: imagen completa, sin deformar */
+  .lightbox-img { display: block; max-width: 100%; max-height: calc(100vh - 6rem); max-height: calc(100dvh - 6rem); width: auto; height: auto; object-fit: contain; }
+
   .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
   .whatsapp-container {
@@ -741,6 +748,17 @@
   </div>
 </div>
 
+<!-- VISOR DE IMAGEN AMPLIADA (productos y promociones) -->
+<div id="image-lightbox" class="hidden fixed inset-0 z-[105] items-center justify-center bg-black/90 backdrop-blur-sm p-3 sm:p-6" role="dialog" aria-modal="true" aria-label="Imagen ampliada">
+  <button type="button" id="lightbox-close" class="absolute top-3 right-3 sm:top-5 sm:right-5 z-20 h-11 w-11 flex items-center justify-center text-cream/90 hover:text-gold bg-wine-black/70 rounded-full backdrop-blur-md transition-colors" aria-label="Cerrar imagen ampliada">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button type="button" id="lightbox-prev" class="hidden absolute left-2 sm:left-5 top-1/2 -translate-y-1/2 z-20 h-11 w-11 items-center justify-center rounded-full bg-wine-black/70 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button type="button" id="lightbox-next" class="hidden absolute right-2 sm:right-5 top-1/2 -translate-y-1/2 z-20 h-11 w-11 items-center justify-center rounded-full bg-wine-black/70 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen siguiente"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
+  <img id="lightbox-img" src="" alt="" class="lightbox-img rounded-xl border border-gold/20 shadow-2xl select-none">
+  <div id="lightbox-dots" class="hidden absolute bottom-4 inset-x-0 z-20 justify-center gap-2 pointer-events-none"></div>
+</div>
+
 <!-- PANEL ADMIN -->
 <div id="admin-login-modal" class="hidden fixed inset-0 z-[90] items-center justify-center bg-black/80 backdrop-blur-sm px-6">
   <div class="w-full max-w-sm rounded-2xl border border-gold/20 bg-wine-panel p-8 relative">
@@ -1190,6 +1208,7 @@
         render();
       },
       step(delta) { go(index + delta); },
+      current() { return { images: images.slice(), index }; },
       isOpen() { return !modal.classList.contains("hidden"); },
       close() { modal.classList.add("hidden"); modal.classList.remove("flex"); }
     };
@@ -1235,6 +1254,128 @@
     modal.classList.add("flex");
   };
   document.getElementById("promo-modal-close").addEventListener("click", () => promoGallery.close());
+
+  /* =====================================================================
+   *  VISOR DE IMAGEN AMPLIADA (productos y promociones)
+   *  Ventana independiente: no pisa título/precio/descripción de los modales de detalle.
+   *  Se abre desde la imagen de las tarjetas (window.openImageViewer) y desde la imagen
+   *  de los modales de detalle. Misma lista de imágenes y flechas < > que el modal.
+   * ===================================================================== */
+  const imageViewer = (() => {
+    const box = document.getElementById("image-lightbox");
+    const img = document.getElementById("lightbox-img");
+    const prev = document.getElementById("lightbox-prev");
+    const next = document.getElementById("lightbox-next");
+    const dots = document.getElementById("lightbox-dots");
+    const closeBtn = document.getElementById("lightbox-close");
+    let images = [];
+    let index = 0;
+    let opener = null;
+    let prevBodyOverflow = "";
+    const isOpen = () => !box.classList.contains("hidden");
+
+    function render() {
+      if (images[index]) img.src = images[index]; else img.removeAttribute("src");
+      const multi = images.length > 1;
+      [prev, next, dots].forEach((el) => { el.classList.toggle("hidden", !multi); el.classList.toggle("flex", multi); });
+      dots.querySelectorAll("button").forEach((d, n) => { d.className = (n === index ? DOT_ON : DOT_OFF) + " pointer-events-auto"; });
+    }
+    function go(n) {
+      if (images.length < 2) return;
+      index = (n + images.length) % images.length;
+      render();
+    }
+    function open(list, alt, start, openerEl) {
+      if (isOpen() || !list || !list.length) return; // evita abrir varias ventanas por clics repetidos
+      images = list.slice();
+      index = Math.min(Math.max(start || 0, 0), images.length - 1);
+      opener = openerEl || null;
+      img.alt = alt || "";
+      dots.innerHTML = "";
+      images.forEach((_, n) => {
+        const d = document.createElement("button");
+        d.type = "button";
+        d.setAttribute("aria-label", `Ir a la imagen ${n + 1}`);
+        d.addEventListener("click", () => go(n));
+        dots.appendChild(d);
+      });
+      render();
+      prevBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden"; // el fondo no se desplaza; al cerrar se restaura la misma posición
+      box.classList.remove("hidden");
+      box.classList.add("flex");
+      closeBtn.focus();
+    }
+    function close() {
+      if (!isOpen()) return;
+      box.classList.add("hidden");
+      box.classList.remove("flex");
+      document.body.style.overflow = prevBodyOverflow;
+      img.removeAttribute("src");
+      if (opener && opener.isConnected && typeof opener.focus === "function") opener.focus();
+      opener = null;
+    }
+
+    closeBtn.addEventListener("click", close);
+    prev.addEventListener("click", () => go(index - 1));
+    next.addEventListener("click", () => go(index + 1));
+    // Clic en el fondo (no sobre la imagen ni los botones) cierra.
+    box.addEventListener("click", (e) => { if (e.target === box) close(); });
+    // Swipe en celular
+    let startX = null;
+    box.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    box.addEventListener("touchend", (e) => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+    // Teclado: se captura antes que los demás manejadores para que Esc cierre SOLO el visor
+    // (y no también el modal de detalle que quede debajo).
+    window.addEventListener("keydown", (e) => {
+      if (!isOpen()) return;
+      if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); e.stopPropagation(); go(index - 1); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); e.stopPropagation(); go(index + 1); }
+      else if (e.key === "Tab") {
+        const f = [closeBtn, prev, next, ...dots.querySelectorAll("button")].filter((el) => el.offsetParent !== null);
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && (document.activeElement === first || !box.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && (document.activeElement === last || !box.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
+      }
+    }, true);
+    return { open, close, isOpen };
+  })();
+
+  // Desde una tarjeta: kind = "product" | "promo". `el` = contenedor de la imagen (se usa para
+  // arrancar en la foto que estaba visible en el auto-slider y para devolver el foco al cerrar).
+  window.openImageViewer = (kind, id, el) => {
+    const item = (kind === "promo" ? latestPromos : latestProducts).find((p) => p.id === id);
+    if (!item) return;
+    const list = getImages(item);
+    if (!list.length) return;
+    let start = 0;
+    if (el && el.querySelectorAll) {
+      el.querySelectorAll("[data-slide]").forEach((s, n) => { if (s.classList.contains("opacity-100")) start = n; });
+    }
+    imageViewer.open(list, item.titulo, start, el);
+  };
+
+  // Desde la imagen de los modales de detalle (producto y promoción): amplía la foto que se está viendo.
+  [[productGallery, "detail-img"], [promoGallery, "promo-detail-img"]].forEach(([gallery, imgId]) => {
+    const el = document.getElementById(imgId);
+    el.classList.add("zoom-trigger");
+    el.setAttribute("role", "button");
+    el.setAttribute("aria-label", "Ampliar imagen");
+    el.tabIndex = 0;
+    const openIt = () => {
+      const st = gallery.current();
+      if (st.images.length) imageViewer.open(st.images, el.alt, st.index, el);
+    };
+    el.addEventListener("click", openIt);
+    el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openIt(); } });
+  });
 
   let cart = JSON.parse(localStorage.getItem('clubCart')) || [];
   const cartFab = document.getElementById("cart-fab");
@@ -1438,12 +1579,12 @@
     const card = document.createElement("article");
     card.className = "product-grid-enter rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col group relative";
     card.innerHTML = `
-      <div class="aspect-[4/5] overflow-hidden bg-wine-black cursor-pointer relative" onclick="window.openProductDetail('${product.id}')">
+      <div class="aspect-[4/5] overflow-hidden bg-wine-black zoom-trigger relative" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(product.titulo)}" onclick="window.openImageViewer('product','${product.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('product','${product.id}',this)}">
         ${sliderHtml(getImages(product), product.titulo, true)}
       </div>
       <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
         <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openProductDetail('${product.id}')">${escapeHtml(product.titulo)}</h3>
-        <p class="text-stone text-sm leading-relaxed flex-1">${escapeHtml(String(product.descripcion || "").substring(0, 75))}...</p>
+        <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(String(product.descripcion || "").substring(0, 75))}...</p>
         <p class="mt-4 text-gold-soft font-display text-2xl mb-5">${formatPrice(product.precio)}</p>
         <div class="flex flex-col gap-2.5 mt-auto">
           <button onclick="window.addToCart('${product.id}')" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors uppercase text-sm">Agregar al carrito</button>
@@ -1504,12 +1645,12 @@
 
         card.innerHTML = `
           ${alertHtml}
-          <div class="aspect-[4/5] overflow-hidden bg-wine-black relative cursor-pointer" onclick="window.openPromoDetail('${promo.id}')">
+          <div class="aspect-[4/5] overflow-hidden bg-wine-black relative zoom-trigger" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(promo.titulo)}" onclick="window.openImageViewer('promo','${promo.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('promo','${promo.id}',this)}">
             ${sliderHtml(getImages(promo), promo.titulo, false)}
           </div>
           <div class="p-6 flex flex-col flex-1">
             <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors" onclick="window.openPromoDetail('${promo.id}')">${escapeHtml(promo.titulo)}</h3>
-            <p class="text-stone text-sm leading-relaxed flex-1">${escapeHtml(promo.descripcion)}</p>
+            <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(promo.descripcion)}</p>
             ${promo.precio ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-4">${promoPriceHtml(promo)}</p>` : ''}
             <button type="button" onclick="window.openPromoDetail('${promo.id}')" class="mb-2.5 w-full rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
             <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
