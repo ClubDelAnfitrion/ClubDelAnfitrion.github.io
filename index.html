@@ -698,7 +698,12 @@
     </button>
     <div class="h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
       <img id="detail-img" src="" class="w-full h-full object-cover">
-      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80 pointer-events-none"></div>
+      <!-- Flechas laterales (solo si hay más de 1 imagen) -->
+      <button type="button" id="detail-prev" class="hidden absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button type="button" id="detail-next" class="hidden absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen siguiente"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
+      <!-- Puntitos indicadores -->
+      <div id="detail-dots" class="hidden absolute bottom-12 inset-x-0 z-10 justify-center gap-1.5"></div>
     </div>
     <div class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
       <h3 id="detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
@@ -706,6 +711,32 @@
       <div class="hairline mb-6"></div>
       <p id="detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap mb-6"></p>
       <div id="detail-actions" class="flex gap-3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETALLE DE PROMOCIÓN -->
+<div id="promo-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
+  <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
+    <button id="promo-modal-close" class="absolute top-4 right-4 z-20 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
+      <img id="promo-detail-img" src="" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80 pointer-events-none"></div>
+      <!-- Flechas laterales (solo si hay más de 1 imagen) -->
+      <button type="button" id="promo-detail-prev" class="hidden absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button type="button" id="promo-detail-next" class="hidden absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen siguiente"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
+      <!-- Puntitos indicadores -->
+      <div id="promo-detail-dots" class="hidden absolute bottom-12 inset-x-0 z-10 justify-center gap-1.5"></div>
+    </div>
+    <div class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
+      <h3 id="promo-detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
+      <p id="promo-detail-price" class="text-gold-soft font-display text-3xl mb-2"></p>
+      <p id="promo-detail-vigencia" class="text-stone text-sm mb-6"></p>
+      <div class="hairline mb-6"></div>
+      <p id="promo-detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap mb-6"></p>
+      <div id="promo-detail-actions" class="flex gap-3"></div>
     </div>
   </div>
 </div>
@@ -814,10 +845,16 @@
         <input type="number" id="prod-precio" min="0" step="0.01" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
         <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
+      <!-- Imágenes múltiples (máx. 5). La primera es la portada. -->
       <div>
-        <label for="prod-imagen" class="block text-sm text-stone mb-2">Imagen</label>
-        <input type="file" id="prod-imagen" accept="image/*,.jpg,.jpeg,.png,.webp,.gif,.avif" class="w-full text-stone text-sm">
-        <div id="prod-imagen-preview" class="hidden mt-4"><img id="prod-imagen-preview-img" class="h-24 w-24 object-cover rounded-lg border border-gold/20"></div>
+        <div class="flex items-center justify-between mb-2">
+          <label for="prod-imagen-add" class="block text-sm text-stone">Imágenes</label>
+          <span id="prod-imagenes-count" class="text-xs text-stone">0 / 5</span>
+        </div>
+        <input type="file" id="prod-imagen" multiple accept="image/*,.jpg,.jpeg,.png,.webp,.gif,.avif" class="hidden">
+        <div id="prod-imagenes-list" class="hidden grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3"></div>
+        <button type="button" id="prod-imagen-add" class="rounded-full border border-gold/40 px-4 py-2 text-gold-soft text-sm hover:bg-gold/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">+ Agregar imagen</button>
+        <p class="text-stone text-xs mt-2">Hasta 5 imágenes. La primera (Imagen 1) es la portada.</p>
       </div>
       <div class="flex flex-col gap-3">
         <label class="flex items-center gap-2 cursor-pointer text-sm text-gold-soft">
@@ -880,10 +917,24 @@
         <label for="promo-precio" class="block text-sm text-stone mb-2">Precio (Opcional)</label>
         <input type="number" id="promo-precio" min="0" step="0.01" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
       </div>
+      <!-- Tipo de precio de la promoción -->
       <div>
-        <label for="promo-imagen" class="block text-sm text-stone mb-2">Imagen</label>
-        <input type="file" id="promo-imagen" accept=".png,.jpg,.jpeg,image/png,image/jpeg" class="w-full text-stone text-sm">
-        <div id="promo-imagen-preview" class="hidden mt-4"><img id="promo-imagen-preview-img" class="h-24 w-24 object-cover rounded-lg border border-gold/20"></div>
+        <label for="promo-tipo-precio" class="block text-sm text-stone mb-2">Tipo de precio</label>
+        <select id="promo-tipo-precio" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+          <option value="total" class="bg-wine-black">Precio normal / Precio total (ej: $ 15.000)</option>
+          <option value="persona" class="bg-wine-black">Precio por persona (ej: $ 5.000 x persona)</option>
+        </select>
+      </div>
+      <!-- Imágenes múltiples (máx. 6). La primera es la portada. -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label for="promo-imagen-add" class="block text-sm text-stone">Imágenes</label>
+          <span id="promo-imagenes-count" class="text-xs text-stone">0 / 6</span>
+        </div>
+        <input type="file" id="promo-imagen" multiple accept=".png,.jpg,.jpeg,image/png,image/jpeg" class="hidden">
+        <div id="promo-imagenes-list" class="hidden grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3"></div>
+        <button type="button" id="promo-imagen-add" class="rounded-full border border-gold/40 px-4 py-2 text-gold-soft text-sm hover:bg-gold/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">+ Agregar imagen</button>
+        <p class="text-stone text-xs mt-2">Hasta 6 imágenes. La primera (Imagen 1) es la portada.</p>
       </div>
 
       <div class="flex flex-col gap-3">
@@ -1036,6 +1087,155 @@
     return Number(val).toLocaleString("es-AR", { style: "currency", currency: "ARS", minimumFractionDigits: 0 });
   }
 
+  /* =====================================================================
+   *  IMÁGENES MÚLTIPLES — helpers compartidos (productos y promociones)
+   * ===================================================================== */
+  const SLIDE_INTERVAL_MS = 2000; // auto-slider del catálogo: cambia de foto cada 2 s
+  const DOT_ON = "h-1.5 w-4 rounded-full bg-gold transition-all";
+  const DOT_OFF = "h-1.5 w-1.5 rounded-full bg-cream/50 transition-all";
+
+  // Retrocompatible: usa imagenes[] si existe; si no, el viejo string imagenUrl.
+  function getImages(item) {
+    if (!item) return [];
+    if (Array.isArray(item.imagenes)) {
+      const list = item.imagenes.filter((u) => typeof u === "string" && u.trim());
+      if (list.length) return list;
+    }
+    return typeof item.imagenUrl === "string" && item.imagenUrl.trim() ? [item.imagenUrl] : [];
+  }
+
+  // Precio de promoción según tipoPrecio ("total" por defecto | "persona")
+  function formatPromoPrice(promo) {
+    const base = formatPrice(promo.precio);
+    return promo.tipoPrecio === "persona" ? `${base} x persona` : base;
+  }
+  function promoPriceHtml(promo) {
+    const base = escapeHtml(formatPrice(promo.precio));
+    return promo.tipoPrecio === "persona" ? `${base} <span class="text-sm text-stone font-sans">x persona</span>` : base;
+  }
+
+  // HTML de la imagen de una tarjeta: 0 imágenes -> nada, 1 -> estática (sin timer), 2+ -> slider automático.
+  function sliderHtml(images, alt, zoom) {
+    const zoomCls = zoom ? " group-hover:scale-105 transition-transform duration-500" : "";
+    if (images.length === 0) return "";
+    if (images.length === 1) {
+      return `<img src="${escapeHtml(images[0])}" alt="${escapeHtml(alt)}" loading="lazy" class="w-full h-full object-cover${zoomCls}">`;
+    }
+    const slides = images.map((u, i) =>
+      `<img data-slide src="${escapeHtml(u)}" alt="${escapeHtml(alt)}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${i === 0 ? "opacity-100" : "opacity-0"}">`
+    ).join("");
+    const dots = images.map((_, i) => `<span data-dot class="${i === 0 ? DOT_ON : DOT_OFF}"></span>`).join("");
+    return `<div data-auto-slider class="relative w-full h-full${zoomCls}">${slides}<div class="absolute bottom-3 inset-x-0 flex justify-center gap-1.5 pointer-events-none">${dots}</div></div>`;
+  }
+
+  // Arranca los auto-sliders dentro de `root` (llamar DESPUÉS de insertar las tarjetas en el DOM).
+  // Cada timer se detiene solo cuando su tarjeta deja de existir (re-render del catálogo).
+  function startAutoSliders(root) {
+    root.querySelectorAll("[data-auto-slider]").forEach((el) => {
+      if (el.dataset.running) return;
+      el.dataset.running = "1";
+      const slides = el.querySelectorAll("[data-slide]");
+      const dots = el.querySelectorAll("[data-dot]");
+      if (slides.length < 2) return;
+      let current = 0;
+      const timer = setInterval(() => {
+        if (!el.isConnected) { clearInterval(timer); return; }
+        slides[current].classList.replace("opacity-100", "opacity-0");
+        dots[current].className = DOT_OFF;
+        current = (current + 1) % slides.length;
+        slides[current].classList.replace("opacity-0", "opacity-100");
+        dots[current].className = DOT_ON;
+      }, SLIDE_INTERVAL_MS);
+    });
+  }
+
+  // Galería del modal: flechas < >, puntitos, teclado (← → Esc) y swipe en móvil.
+  function setupGallery({ modal, img, prev, next, dots }) {
+    let images = [];
+    let index = 0;
+    function render() {
+      if (images[index]) img.src = images[index]; else img.removeAttribute("src");
+      const multi = images.length > 1;
+      [prev, next, dots].forEach((el) => { el.classList.toggle("hidden", !multi); el.classList.toggle("flex", multi); });
+      dots.querySelectorAll("button").forEach((d, n) => { d.className = n === index ? DOT_ON : DOT_OFF; });
+    }
+    function go(n) {
+      if (images.length < 2) return;
+      index = (n + images.length) % images.length;
+      render();
+    }
+    prev.addEventListener("click", () => go(index - 1));
+    next.addEventListener("click", () => go(index + 1));
+    let startX = null;
+    img.parentElement.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    img.parentElement.addEventListener("touchend", (e) => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+    return {
+      open(list, alt) {
+        images = list.slice();
+        index = 0;
+        img.alt = alt || "";
+        dots.innerHTML = "";
+        images.forEach((_, n) => {
+          const d = document.createElement("button");
+          d.type = "button";
+          d.setAttribute("aria-label", `Ir a la imagen ${n + 1}`);
+          d.addEventListener("click", () => go(n));
+          dots.appendChild(d);
+        });
+        render();
+      },
+      step(delta) { go(index + delta); },
+      isOpen() { return !modal.classList.contains("hidden"); },
+      close() { modal.classList.add("hidden"); modal.classList.remove("flex"); }
+    };
+  }
+  const productGallery = setupGallery({
+    modal: document.getElementById("product-modal"),
+    img: document.getElementById("detail-img"),
+    prev: document.getElementById("detail-prev"),
+    next: document.getElementById("detail-next"),
+    dots: document.getElementById("detail-dots")
+  });
+  const promoGallery = setupGallery({
+    modal: document.getElementById("promo-modal"),
+    img: document.getElementById("promo-detail-img"),
+    prev: document.getElementById("promo-detail-prev"),
+    next: document.getElementById("promo-detail-next"),
+    dots: document.getElementById("promo-detail-dots")
+  });
+  document.addEventListener("keydown", (e) => {
+    const g = [productGallery, promoGallery].find((x) => x.isOpen());
+    if (!g) return;
+    if (e.key === "ArrowLeft") g.step(-1);
+    else if (e.key === "ArrowRight") g.step(1);
+    else if (e.key === "Escape") g.close();
+  });
+
+  // Vista detallada de una promoción (modal nuevo, misma estética que el de productos)
+  window.openPromoDetail = (id) => {
+    const promo = latestPromos.find((p) => p.id === id);
+    if (!promo) return;
+    promoGallery.open(getImages(promo), promo.titulo);
+    document.getElementById("promo-detail-title").textContent = promo.titulo || "";
+    const priceEl = document.getElementById("promo-detail-price");
+    if (promo.precio) { priceEl.textContent = formatPromoPrice(promo); priceEl.classList.remove("hidden"); }
+    else { priceEl.textContent = ""; priceEl.classList.add("hidden"); }
+    document.getElementById("promo-detail-vigencia").textContent = promo.vigencia ? `Vigencia hasta: ${formatISODate(promo.vigencia)}` : "";
+    document.getElementById("promo-detail-desc").textContent = promo.descripcion || "";
+    document.getElementById("promo-detail-actions").innerHTML = `
+      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
+    `;
+    const modal = document.getElementById("promo-modal");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+  };
+  document.getElementById("promo-modal-close").addEventListener("click", () => promoGallery.close());
+
   let cart = JSON.parse(localStorage.getItem('clubCart')) || [];
   const cartFab = document.getElementById("cart-fab");
   const cartBadge = document.getElementById("cart-badge");
@@ -1067,7 +1267,7 @@
           const div = document.createElement("div");
           div.className = "flex items-center gap-4 bg-wine-black/40 p-3 rounded-xl border border-gold/10";
           div.innerHTML = `
-            <img src="${escapeHtml(prod.imagenUrl)}" alt="" class="w-14 h-14 object-cover rounded-lg border border-gold/15">
+            <img src="${escapeHtml(getImages(prod)[0] || "")}" alt="" class="w-14 h-14 object-cover rounded-lg border border-gold/15">
             <div class="flex-1 min-w-0">
               <p class="text-cream text-sm font-medium truncate">${escapeHtml(prod.titulo)}</p>
               <p class="text-gold-soft text-xs">${formatPrice(prod.precio)} c/u</p>
@@ -1205,7 +1405,7 @@
   window.openProductDetail = (id) => {
     const prod = latestProducts.find(p => p.id === id);
     if (!prod) return;
-    document.getElementById("detail-img").src = prod.imagenUrl;
+    productGallery.open(getImages(prod), prod.titulo); // flechas < > y puntitos
     document.getElementById("detail-title").textContent = prod.titulo;
     document.getElementById("detail-price").textContent = formatPrice(prod.precio);
     document.getElementById("detail-desc").textContent = prod.descripcion;
@@ -1239,7 +1439,7 @@
     card.className = "product-grid-enter rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col group relative";
     card.innerHTML = `
       <div class="aspect-[4/5] overflow-hidden bg-wine-black cursor-pointer relative" onclick="window.openProductDetail('${product.id}')">
-        <img src="${escapeHtml(product.imagenUrl)}" alt="${escapeHtml(product.titulo)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        ${sliderHtml(getImages(product), product.titulo, true)}
       </div>
       <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
         <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openProductDetail('${product.id}')">${escapeHtml(product.titulo)}</h3>
@@ -1266,7 +1466,8 @@
     else {
       productsEmpty.classList.add("hidden");
       productsGrid.innerHTML = "";
-      latestProducts.forEach(p => { if (p.titulo && p.imagenUrl) productsGrid.appendChild(renderProductCard(p)); });
+      latestProducts.forEach(p => { if (p.titulo && getImages(p).length) productsGrid.appendChild(renderProductCard(p)); });
+      startAutoSliders(productsGrid); // auto-slider cada 2 s en productos con más de 1 imagen
 
       const urlParams = new URLSearchParams(window.location.search);
       const prodId = urlParams.get('producto');
@@ -1303,17 +1504,19 @@
 
         card.innerHTML = `
           ${alertHtml}
-          <div class="aspect-[4/5] overflow-hidden bg-wine-black relative">
-            <img src="${escapeHtml(promo.imagenUrl)}" alt="${escapeHtml(promo.titulo)}" loading="lazy" class="w-full h-full object-cover">
+          <div class="aspect-[4/5] overflow-hidden bg-wine-black relative cursor-pointer" onclick="window.openPromoDetail('${promo.id}')">
+            ${sliderHtml(getImages(promo), promo.titulo, false)}
           </div>
           <div class="p-6 flex flex-col flex-1">
-            <h3 class="font-display text-xl mb-1.5 text-cream">${escapeHtml(promo.titulo)}</h3>
+            <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors" onclick="window.openPromoDetail('${promo.id}')">${escapeHtml(promo.titulo)}</h3>
             <p class="text-stone text-sm leading-relaxed flex-1">${escapeHtml(promo.descripcion)}</p>
-            ${promo.precio ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-4">${formatPrice(promo.precio)}</p>` : ''}
+            ${promo.precio ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-4">${promoPriceHtml(promo)}</p>` : ''}
+            <button type="button" onclick="window.openPromoDetail('${promo.id}')" class="mb-2.5 w-full rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
             <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
           </div>
         `;
         promosGrid.appendChild(card);
+        startAutoSliders(card); // auto-slider cada 2 s si la promo tiene más de 1 imagen
       });
     }
   });
@@ -1604,7 +1807,8 @@
     img.className = "h-14 w-14 shrink-0 rounded-lg object-cover border border-gold/15 bg-wine-black";
     img.alt = "";
     img.loading = "lazy";
-    if (item.imagenUrl) img.src = item.imagenUrl;
+    const firstImage = getImages(item)[0];
+    if (firstImage) img.src = firstImage;
     const info = document.createElement("div");
     info.className = "min-w-0 flex-1";
     const title = document.createElement("p");
@@ -1691,7 +1895,7 @@
     }
     items.forEach((p) => {
       const meta = [];
-      if (p.precio) meta.push(formatPrice(p.precio));
+      if (p.precio) meta.push(formatPromoPrice(p));
       if (p.descripcion) meta.push(shorten(p.descripcion, 70));
       meta.push(`Vigencia hasta: ${formatISODate(p.vigencia) || "—"}${p.publicarDesde ? ` · Publicar desde: ${formatISODate(p.publicarDesde)}` : ""}`);
       adminPromosList.appendChild(buildAdminRow("promo", p, meta, promoStatus(p, today)));
@@ -1701,18 +1905,68 @@
   adminPromosSearch.addEventListener("input", renderAdminPromos);
   adminPromosFilter.addEventListener("change", renderAdminPromos);
 
-  function setImagePreview(prefix, url) {
-    const box = document.getElementById(`${prefix}-imagen-preview`);
-    const img = document.getElementById(`${prefix}-imagen-preview-img`);
-    if (url) { img.src = url; box.classList.remove("hidden"); }
-    else { img.removeAttribute("src"); box.classList.add("hidden"); }
+  /* =====================================================================
+   *  GESTOR DE IMÁGENES MÚLTIPLES (admin): productos hasta 5, promociones hasta 6
+   *  imgSlots[prefix] = [{ url }        -> imagen ya subida (modo edición)
+   *                      { file, preview } -> imagen nueva pendiente de subir a Cloudinary]
+   * ===================================================================== */
+  const IMAGE_LIMITS = { prod: 5, promo: 6 };
+  const imgSlots = { prod: [], promo: [] };
+
+  function renderImageSlots(prefix) {
+    const list = document.getElementById(`${prefix}-imagenes-list`);
+    const slots = imgSlots[prefix];
+    const max = IMAGE_LIMITS[prefix];
+    list.innerHTML = "";
+    list.classList.toggle("hidden", slots.length === 0);
+    slots.forEach((slot, i) => {
+      const cell = document.createElement("div");
+      cell.className = "relative aspect-square rounded-lg overflow-hidden border border-gold/20 bg-wine-black";
+      const img = document.createElement("img");
+      img.src = slot.preview;
+      img.alt = `Imagen ${i + 1}`;
+      img.className = "w-full h-full object-cover";
+      const tag = document.createElement("span");
+      tag.className = "absolute left-1 bottom-1 rounded bg-wine-black/80 px-1.5 py-0.5 text-[10px] text-gold-soft";
+      tag.textContent = `Imagen ${i + 1}`;
+      const rm = document.createElement("button");
+      rm.type = "button";
+      rm.setAttribute("aria-label", `Quitar imagen ${i + 1}`);
+      rm.className = "absolute top-1 right-1 h-6 w-6 rounded-full bg-wine-black/80 text-cream text-xs hover:text-garnet-light";
+      rm.textContent = "✕";
+      rm.addEventListener("click", () => {
+        if (slot.file) URL.revokeObjectURL(slot.preview);
+        imgSlots[prefix].splice(imgSlots[prefix].indexOf(slot), 1);
+        renderImageSlots(prefix);
+      });
+      cell.append(img, tag, rm);
+      list.appendChild(cell);
+    });
+    document.getElementById(`${prefix}-imagenes-count`).textContent = `${slots.length} / ${max}`;
+    document.getElementById(`${prefix}-imagen-add`).disabled = slots.length >= max;
+  }
+  function setImageSlots(prefix, urls) {
+    imgSlots[prefix].forEach((sl) => { if (sl.file) URL.revokeObjectURL(sl.preview); });
+    imgSlots[prefix] = urls.map((url) => ({ url, preview: url }));
+    renderImageSlots(prefix);
+  }
+  function addFilesToSlots(prefix, fileList) {
+    const max = IMAGE_LIMITS[prefix];
+    const files = Array.from(fileList).filter((f) => f.type.startsWith("image/"));
+    const room = Math.max(max - imgSlots[prefix].length, 0);
+    if (files.length > room) showToast(`Máximo ${max} imágenes.`, "error");
+    files.slice(0, room).forEach((file) => imgSlots[prefix].push({ file, preview: URL.createObjectURL(file) }));
+    renderImageSlots(prefix);
+  }
+  // Sube a Cloudinary solo las imágenes nuevas; las existentes conservan su URL. Mantiene el orden.
+  function resolveSlotUrls(slots) {
+    return Promise.all(slots.map((sl) => (sl.url ? Promise.resolve(sl.url) : uploadImageToCloudinary(sl.file))));
   }
   ["prod", "promo"].forEach((prefix) => {
-    document.getElementById(`${prefix}-imagen`).addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (file) setImagePreview(prefix, URL.createObjectURL(file));
-      else setImagePreview(prefix, prefix === "prod" ? (currentProductImage() || "") : (currentPromoImage() || ""));
-    });
+    const input = document.getElementById(`${prefix}-imagen`);
+    document.getElementById(`${prefix}-imagen-add`).addEventListener("click", () => input.click());
+    input.addEventListener("change", (e) => { addFilesToSlots(prefix, e.target.files); e.target.value = ""; });
+    renderImageSlots(prefix);
   });
 
   const productForm = document.getElementById("product-form");
@@ -1721,13 +1975,11 @@
   let editingPromoId = null;
   let savingProduct = false;
   let savingPromo = false;
-  const currentProductImage = () => { const p = latestProducts.find((x) => x.id === editingProductId); return p ? p.imagenUrl : ""; };
-  const currentPromoImage = () => { const p = allPromos.find((x) => x.id === editingPromoId); return p ? p.imagenUrl : ""; };
 
   function resetProductForm() {
     editingProductId = null;
     productForm.reset();
-    setImagePreview("prod", "");
+    setImageSlots("prod", []);
     document.getElementById("product-form-title").textContent = "Cargar nuevo producto";
     document.getElementById("product-submit-btn").textContent = "Publicar producto";
     document.getElementById("product-cancel-edit-btn").classList.add("hidden");
@@ -1735,7 +1987,7 @@
   function resetPromoForm() {
     editingPromoId = null;
     promoForm.reset();
-    setImagePreview("promo", "");
+    setImageSlots("promo", []);
     document.getElementById("promo-form-title").textContent = "Cargar nueva promoción";
     document.getElementById("promo-submit-btn").textContent = "Publicar promoción";
     document.getElementById("promo-cancel-edit-btn").classList.add("hidden");
@@ -1750,8 +2002,7 @@
     document.getElementById("prod-titulo").value = p.titulo || "";
     document.getElementById("prod-descripcion").value = p.descripcion || "";
     document.getElementById("prod-precio").value = p.precio ?? "";
-    document.getElementById("prod-imagen").value = "";
-    setImagePreview("prod", p.imagenUrl || "");
+    setImageSlots("prod", getImages(p)); // carga imagenes[] (o el viejo imagenUrl)
     document.getElementById("product-form-title").textContent = "Editar producto";
     document.getElementById("product-submit-btn").textContent = "Guardar cambios";
     document.getElementById("product-cancel-edit-btn").classList.remove("hidden");
@@ -1767,8 +2018,8 @@
     document.getElementById("promo-vigencia").value = p.vigencia || "";
     document.getElementById("promo-publicar-desde").value = p.publicarDesde || "";
     document.getElementById("promo-precio").value = p.precio ?? "";
-    document.getElementById("promo-imagen").value = "";
-    setImagePreview("promo", p.imagenUrl || "");
+    document.getElementById("promo-tipo-precio").value = p.tipoPrecio === "persona" ? "persona" : "total";
+    setImageSlots("promo", getImages(p)); // carga imagenes[] (o el viejo imagenUrl)
     document.getElementById("promo-form-title").textContent = "Editar promoción";
     document.getElementById("promo-submit-btn").textContent = "Guardar cambios";
     document.getElementById("promo-cancel-edit-btn").classList.remove("hidden");
@@ -1850,10 +2101,10 @@
     const titulo = document.getElementById("prod-titulo").value;
     const descripcion = document.getElementById("prod-descripcion").value;
     const precio = document.getElementById("prod-precio").value;
-    const file = document.getElementById("prod-imagen").files[0];
+    const slots = imgSlots.prod.slice();
     const shouldSendEmail = document.getElementById("send-product-emails")?.checked;
     const editing = editingProductId !== null;
-    if (!titulo.trim() || precio === "" || (!editing && !file)) { showToast("Completá todos los campos.", "error"); return; }
+    if (!titulo.trim() || precio === "" || slots.length === 0) { showToast("Completá todos los campos (al menos 1 imagen).", "error"); return; }
 
     savingProduct = true;
     const submitBtn = document.getElementById("product-submit-btn");
@@ -1861,14 +2112,13 @@
     submitBtn.disabled = true;
     submitBtn.textContent = "Guardando…";
     try {
+      const imagenes = await resolveSlotUrls(slots); // array ordenado de URLs (máx. 5)
+      const imagenUrl = imagenes[0]; // portada; se mantiene por compatibilidad con datos/código anterior
       if (editing) {
-        const data = { titulo, descripcion, precio: Number(precio) };
-        if (file) data.imagenUrl = await uploadImageToCloudinary(file);
-        await updateDoc(doc(adminDb, "productos", editingProductId), data);
+        await updateDoc(doc(adminDb, "productos", editingProductId), { titulo, descripcion, precio: Number(precio), imagenes, imagenUrl });
         showToast("Producto actualizado correctamente.");
       } else {
-        const imagenUrl = await uploadImageToCloudinary(file);
-        await addDoc(adminProductsCol, { titulo, descripcion, precio: Number(precio), imagenUrl, creadoEn: serverTimestamp() });
+        await addDoc(adminProductsCol, { titulo, descripcion, precio: Number(precio), imagenes, imagenUrl, creadoEn: serverTimestamp() });
         showToast("Producto publicado correctamente.");
       }
 
@@ -1897,10 +2147,11 @@
     const vigencia = document.getElementById("promo-vigencia").value;
     const publicarDesde = document.getElementById("promo-publicar-desde").value;
     const precio = document.getElementById("promo-precio").value;
-    const file = document.getElementById("promo-imagen").files[0];
+    const tipoPrecio = document.getElementById("promo-tipo-precio").value === "persona" ? "persona" : "total";
+    const slots = imgSlots.promo.slice();
     const shouldSendEmail = document.getElementById("send-promo-emails")?.checked;
     const editing = editingPromoId !== null;
-    if (!titulo.trim() || !vigencia || (!editing && !file)) { showToast("Completá los campos obligatorios.", "error"); return; }
+    if (!titulo.trim() || !vigencia || slots.length === 0) { showToast("Completá los campos obligatorios (al menos 1 imagen).", "error"); return; }
 
     savingPromo = true;
     const submitBtn = document.getElementById("promo-submit-btn");
@@ -1913,15 +2164,17 @@
         descripcion,
         vigencia,
         publicarDesde: publicarDesde || null,
-        precio: precio ? Number(precio) : null
+        precio: precio ? Number(precio) : null,
+        tipoPrecio // "total" | "persona"
       };
+      const imagenes = await resolveSlotUrls(slots); // array ordenado de URLs (máx. 6)
+      fields.imagenes = imagenes;
+      fields.imagenUrl = imagenes[0]; // portada; compatibilidad con datos/código anterior
       if (editing) {
-        if (file) fields.imagenUrl = await uploadImageToCloudinary(file);
         await updateDoc(doc(adminDb, "promociones", editingPromoId), fields);
         showToast("Promoción actualizada correctamente.");
       } else {
-        const imagenUrl = await uploadImageToCloudinary(file);
-        await addDoc(adminPromosCol, { ...fields, imagenUrl, creadoEn: serverTimestamp() });
+        await addDoc(adminPromosCol, { ...fields, creadoEn: serverTimestamp() });
         showToast("Promoción publicada correctamente.");
       }
 
