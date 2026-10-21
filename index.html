@@ -57,7 +57,7 @@
   input:focus, textarea:focus, button:focus-visible, a:focus-visible {
     outline: 2px solid #c9a24b; outline-offset: 2px;
   }
-  #toast-container { position: fixed; top: 1.25rem; right: 1.25rem; z-index: 100; display: flex; flex-direction: column; gap: 0.6rem; }
+  #toast-container { position: fixed; top: 1.25rem; right: 1.25rem; z-index: 200; display: flex; flex-direction: column; gap: 0.6rem; }
   .toast { min-width: 260px; max-width: 340px; }
   .product-grid-enter { animation: fadeIn 0.5s ease-out both; }
 
@@ -68,7 +68,7 @@
   .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
   .whatsapp-container {
-      position: fixed; bottom: 24px; right: 90px; z-index: 9999;
+      position: fixed; bottom: 24px; right: 24px; z-index: 40;
       display: flex; align-items: center; gap: 12px;
   }
   .whatsapp-float {
@@ -85,14 +85,11 @@
   }
   .wa-tooltip.hidden { display: none; opacity: 0; }
 
-  /* Desvanecimiento de la portada del modal de detalle al hacer scroll */
   .detail-hero { transition: opacity 0.25s ease, filter 0.25s ease; will-change: opacity; }
 
-  /* Microinteracciones */
   .btn-press { transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
   .btn-press:active { transform: scale(0.97); }
 
-  /* Video player overlay */
   .video-wrap { position: relative; }
   .video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
   .video-audio-btn {
@@ -106,14 +103,35 @@
   }
   .video-audio-btn:hover { background: #c9a24b; color: #140b0c; }
 
-  /* Badge sin stock */
   .badge-out { background: rgba(124,31,47,0.85); color: #efe6d8; font-size: 11px; padding: 3px 10px; border-radius: 9999px; font-weight: 600; }
   .card-out { opacity: 0.75; }
 
-  /* Touch-friendly */
   button, a { touch-action: manipulation; }
 
-  /* mobile: menos scroll horizontal */
+  /* Logo circular SIEMPRE (header, footer, admin preview) */
+  .logo-circle {
+    border-radius: 9999px !important;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    background-color: #140b0c;
+  }
+
+  /* Header nav: forzar fila horizontal incluso si Tailwind CDN carga tarde */
+  #navbar ul.nav-horizontal {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.75rem;
+    flex-wrap: nowrap;
+  }
+  @media (min-width: 768px) {
+    #navbar ul.nav-horizontal { display: flex !important; }
+  }
+  #navbar ul.nav-horizontal li { display: inline-block; white-space: nowrap; }
+  #navbar ul.nav-horizontal li a { display: inline-block; }
+
   @media (max-width: 640px) {
     .wa-tooltip { display: none !important; }
     .whatsapp-container { right: 16px; bottom: 16px; }
@@ -154,7 +172,7 @@
   "name": "Club del Anfitrión",
   "url": "https://clubdelanfitrion.com.ar/",
   "telephone": "+5493537513148",
-  "email": "promoniones.clubdelanfitrion@gmail.com",
+  "email": "promociones.clubdelanfitrion@gmail.com",
   "image": "https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg",
   "priceRange": "$$",
   "address": {
@@ -182,31 +200,35 @@
 <div id="toast-container" aria-live="polite"></div>
 
 <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300 border-b border-transparent">
-  <nav class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-20">
-    <a href="#inicio" class="flex items-center gap-3 group">
-      <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" class="h-12 w-auto object-contain">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between h-20 gap-3">
+    <a href="#inicio" class="flex items-center gap-3 group shrink-0">
+      <div class="h-14 w-14 sm:h-16 sm:w-16 rounded-full overflow-hidden border-2 border-gold/40 bg-wine-black shadow-lg shadow-wine-black/50 shrink-0">
+        <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" class="logo-circle w-full h-full">
+      </div>
+      <span class="hidden xl:block font-display text-lg text-cream">Club <span class="italic text-gold-soft">del Anfitrión</span></span>
     </a>
 
-    <ul class="hidden md:flex items-center gap-7 text-sm text-stone">
+    <ul class="nav-horizontal hidden md:flex items-center gap-5 lg:gap-7 text-sm text-stone">
       <li><a href="#inicio" class="hover:text-gold-soft transition-colors">Inicio</a></li>
       <li><a href="#galeria" class="hover:text-gold-soft transition-colors">Galería</a></li>
       <li><a href="#quienes-somos" class="hover:text-gold-soft transition-colors">Quiénes somos</a></li>
-      <li><a href="#ubicacion" class="hover:text-gold-soft transition-colors">Ubicación y horarios</a></li>
+      <li><a href="#ubicacion" class="hover:text-gold-soft transition-colors">Ubicación</a></li>
       <li><a href="#reservas" class="hover:text-gold-soft transition-colors">Reservas</a></li>
-      <li><a href="#eventos" class="hover:text-gold-soft transition-colors">Próximos eventos</a></li>
-      <li><a href="#productos" class="hover:text-gold-soft transition-colors">Nuestros productos</a></li>
+      <li><a href="#eventos" class="hover:text-gold-soft transition-colors">Eventos</a></li>
+      <li><a href="#productos" class="hover:text-gold-soft transition-colors">Productos</a></li>
       <li><a href="#mis-compras" class="hover:text-gold-soft transition-colors font-medium text-gold-soft">Mis compras</a></li>
     </ul>
 
-    <a href="#reservas" class="hidden md:inline-flex items-center rounded-full border border-gold px-5 py-2 text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors">
-      Reservar mesa
-    </a>
-    <button id="auth-open-btn" class="inline-flex items-center rounded-full border border-gold/50 px-4 py-2 text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors" type="button">Ingresar/registrarse</button>
-
-    <button id="menu-toggle" class="md:hidden text-cream" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
-      <svg id="icon-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      <svg id="icon-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="hidden"><path d="M6 6l12 12M18 6L6 18"/></svg>
-    </button>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="#reservas" class="hidden lg:inline-flex items-center rounded-full border border-gold px-4 py-2 text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors whitespace-nowrap">
+        Reservar
+      </a>
+      <button id="auth-open-btn" class="relative z-[70] inline-flex items-center rounded-full border border-gold/50 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors whitespace-nowrap" type="button">Ingresar</button>
+      <button id="menu-toggle" class="md:hidden text-cream relative z-[70] p-1" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+        <svg id="icon-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg id="icon-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="hidden"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
   </nav>
 
   <div id="mobile-menu" class="md:hidden hidden bg-wine-black/95 border-t border-gold/20">
@@ -383,7 +405,7 @@
             <svg class="text-gold shrink-0 mt-1" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
             <div>
               <p class="text-cream font-medium">Correo electrónico</p>
-              <p class="text-stone mt-1 break-all">promoniones.clubdelanfitrion@gmail.com</p>
+              <p class="text-stone mt-1 break-all">promociones.clubdelanfitrion@gmail.com</p>
             </div>
           </div>
 
@@ -452,7 +474,6 @@
   </div>
 </section>
 
-<!-- NUEVA SECCIÓN: PRÓXIMOS EVENTOS -->
 <section id="eventos" class="relative py-28 lg:py-36 bg-wine-dark/60 border-y border-gold/10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4">Agenda del anfitrión</p>
@@ -492,7 +513,6 @@
   </div>
 </section>
 
-<!-- APARTADO MIS COMPRAS -->
 <section id="mis-compras" class="relative py-28 lg:py-36 bg-wine-dark/60 border-t border-gold/10">
   <div class="max-w-4xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4 text-center">Seguimiento de pedidos</p>
@@ -512,17 +532,17 @@
   </div>
 </section>
 
-<!-- AUTENTICACIÓN DE USUARIOS -->
-<div id="auth-modal" class="hidden fixed inset-0 z-[110] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6 overflow-y-auto">
+<!-- AUTENTICACIÓN -->
+<div id="auth-modal" class="hidden fixed inset-0 z-[120] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6 overflow-y-auto">
   <div class="w-full max-w-md rounded-2xl border border-gold/20 bg-wine-panel p-7 sm:p-8 relative my-auto">
-    <button id="auth-close-btn" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">✕</button>
+    <button id="auth-close-btn" type="button" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">✕</button>
     <p class="label-serif text-gold-soft text-lg mb-1">Tu cuenta</p>
     <h3 class="font-display text-3xl mb-2">Club del Anfitrión</h3>
     <p id="auth-status" class="text-stone text-sm mb-6">Ingresá o creá tu cuenta para continuar.</p>
     <div id="auth-profile" class="hidden mb-5 rounded-xl border border-gold/20 p-4">
       <p class="text-cream font-medium" id="auth-profile-name"></p>
       <p class="text-stone text-sm" id="auth-profile-email"></p>
-      <button id="auth-signout-btn" class="mt-4 rounded-full border border-gold/40 px-4 py-2 text-sm text-gold-soft">Cerrar sesión</button>
+      <button id="auth-signout-btn" type="button" class="mt-4 rounded-full border border-gold/40 px-4 py-2 text-sm text-gold-soft">Cerrar sesión</button>
     </div>
     <div id="auth-fields">
       <div id="auth-login-view" class="space-y-5">
@@ -579,7 +599,7 @@
 </div>
 
 <!-- CONFIRMACIÓN DE REGISTRO -->
-<div id="register-success-modal" class="hidden fixed inset-0 z-[120] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="register-success-title">
+<div id="register-success-modal" class="hidden fixed inset-0 z-[125] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="register-success-title">
   <div class="w-full max-w-md rounded-2xl border border-gold/30 bg-wine-panel p-8 text-center">
     <h3 id="register-success-title" class="font-display text-3xl text-gold-soft mb-4">¡Registro exitoso! 🍷</h3>
     <p id="register-success-text" class="text-cream text-base leading-relaxed mb-4"></p>
@@ -591,10 +611,12 @@
 <footer class="relative bg-wine-black border-t border-gold/10 pt-20 pb-10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 grid sm:grid-cols-3 gap-12">
     <div>
-      <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" class="h-12 w-auto object-contain mb-4">
+      <div class="h-20 w-20 rounded-full overflow-hidden border-2 border-gold/40 bg-wine-black mb-4 shadow-lg shadow-wine-black/50">
+        <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" class="logo-circle w-full h-full">
+      </div>
       <p class="font-display text-2xl mb-3">Club <span class="italic text-gold-soft">del Anfitrión</span></p>
       <p class="text-stone text-sm leading-relaxed">Vinoteca boutique y regalería en Bell Ville, Córdoba. Vinos, picadas y experiencias para compartir alrededor de la mesa.</p>
-      <p class="text-stone text-xs mt-3 break-all">promoniones.clubdelanfitrion@gmail.com</p>
+      <p class="text-stone text-xs mt-3 break-all">promociones.clubdelanfitrion@gmail.com</p>
     </div>
 
     <div>
@@ -621,7 +643,7 @@
     <div class="hairline"></div>
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8">
       <p class="text-stone/60 text-xs">© <span id="year"></span> Club del Anfitrión. Todos los derechos reservados.</p>
-      <button id="admin-open-btn" class="text-stone/40 hover:text-gold-soft text-xs tracking-wide transition-colors">Admin</button>
+      <button id="admin-open-btn" type="button" class="text-stone/40 hover:text-gold-soft text-xs tracking-wide transition-colors">Admin</button>
     </div>
   </div>
 </footer>
@@ -635,7 +657,7 @@
 <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-wine-panel border-l border-gold/20 z-[85] transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
   <div class="p-6 border-b border-gold/10 flex justify-between items-center bg-wine-dark">
     <h3 class="font-display text-2xl text-cream flex items-center gap-2">Tu Carrito 🍷</h3>
-    <button id="cart-close" class="text-stone hover:text-gold-soft transition-colors" aria-label="Cerrar carrito">
+    <button id="cart-close" type="button" class="text-stone hover:text-gold-soft transition-colors" aria-label="Cerrar carrito">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
   </div>
@@ -645,16 +667,15 @@
       <span class="text-cream font-medium">Total estimado:</span>
       <span id="cart-total" class="text-gold-soft font-display text-3xl">$0</span>
     </div>
-    <button id="cart-checkout-btn" class="btn-press w-full rounded-full bg-gold px-6 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors flex items-center justify-center gap-2 text-lg">
+    <button id="cart-checkout-btn" type="button" class="btn-press w-full rounded-full bg-gold px-6 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors flex items-center justify-center gap-2 text-lg">
       Finalizar compra
     </button>
   </div>
 </div>
 
-<!-- MODAL DE CHECKOUT LOCAL -->
 <div id="checkout-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6 overflow-y-auto">
   <div class="w-full max-w-md rounded-2xl border border-gold/20 bg-wine-panel p-6 sm:p-8 relative my-auto">
-    <button id="checkout-modal-close" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">
+    <button id="checkout-modal-close" type="button" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <p class="label-serif text-gold-soft text-lg mb-1">Casi listo</p>
@@ -664,17 +685,14 @@
       <div>
         <label for="chk-nombre" class="block text-sm text-stone mb-1.5">Nombre completo</label>
         <input type="text" id="chk-nombre" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Ej: Juan Benítez">
-        <p class="error-msg hidden text-garnet-light text-xs mt-1"></p>
       </div>
       <div>
         <label for="chk-dni" class="block text-sm text-stone mb-1.5">DNI (para retiro en establecimiento)</label>
         <input type="text" id="chk-dni" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Ej: 35123456">
-        <p class="error-msg hidden text-garnet-light text-xs mt-1"></p>
       </div>
       <div>
         <label for="chk-telefono" class="block text-sm text-stone mb-1.5">Número de teléfono</label>
         <input type="tel" id="chk-telefono" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Ej: 3537400000">
-        <p class="error-msg hidden text-garnet-light text-xs mt-1"></p>
       </div>
 
       <div>
@@ -682,7 +700,7 @@
         <div class="grid grid-cols-2 gap-2 text-xs">
           <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
             <input type="radio" name="metodo-pago" value="Mercado Pago" checked class="accent-gold">
-            <span class="text-cream">🔵 Mercado Pago - trasferencia</span>
+            <span class="text-cream">🔵 Mercado Pago - transferencia</span>
           </label>
           <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
             <input type="radio" name="metodo-pago" value="Transferencia" class="accent-gold">
@@ -714,7 +732,6 @@
   </div>
 </div>
 
-<!-- MODAL DE ÉXITO Y CÓDIGO DE RETIRO -->
 <div id="order-success-modal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-md rounded-2xl border border-gold/30 bg-wine-panel p-8 text-center relative">
     <h3 class="font-display text-3xl text-gold-soft mb-2">¡Pedido realizado! 🍷</h3>
@@ -724,7 +741,7 @@
       <p id="success-code-display" class="font-display text-3xl text-cream tracking-wider font-bold"></p>
     </div>
     <p class="text-stone text-xs leading-relaxed mb-6">Dale este código o tu DNI a la persona que te reciba en el establecimiento para retirar tu compra.</p>
-    <button id="success-close-btn" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">
+    <button id="success-close-btn" type="button" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">
       Entendido
     </button>
   </div>
@@ -733,7 +750,7 @@
 <!-- MODAL DETALLE DE PRODUCTO -->
 <div id="product-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
-    <button id="product-modal-close" class="absolute top-4 right-4 z-10 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
+    <button id="product-modal-close" type="button" class="absolute top-4 right-4 z-10 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <div id="product-modal-hero" class="detail-hero h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
@@ -758,7 +775,7 @@
 <!-- MODAL DETALLE DE PROMOCIÓN -->
 <div id="promo-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
-    <button id="promo-modal-close" class="absolute top-4 right-4 z-20 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
+    <button id="promo-modal-close" type="button" class="absolute top-4 right-4 z-20 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <div id="promo-modal-hero" class="detail-hero h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
@@ -783,7 +800,7 @@
 <!-- MODAL DETALLE DE EVENTO -->
 <div id="event-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
-    <button id="event-modal-close" class="absolute top-4 right-4 z-20 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
+    <button id="event-modal-close" type="button" class="absolute top-4 right-4 z-20 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <div id="event-modal-hero" class="detail-hero h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
@@ -817,10 +834,10 @@
   <div id="lightbox-dots" class="hidden absolute bottom-4 inset-x-0 z-20 justify-center gap-2 pointer-events-none"></div>
 </div>
 
-<!-- PANEL ADMIN -->
+<!-- PANEL ADMIN LOGIN -->
 <div id="admin-login-modal" class="hidden fixed inset-0 z-[90] items-center justify-center bg-black/80 backdrop-blur-sm px-6">
   <div class="w-full max-w-sm rounded-2xl border border-gold/20 bg-wine-panel p-8 relative">
-    <button id="admin-login-close" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">
+    <button id="admin-login-close" type="button" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <p class="label-serif text-gold-soft text-lg mb-1">Acceso restringido</p>
@@ -847,7 +864,7 @@
 
 <div id="admin-panel-modal" class="hidden fixed inset-0 z-[90] items-start sm:items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-10 overflow-y-auto">
   <div class="w-full max-w-2xl rounded-2xl border border-gold/20 bg-wine-panel p-8 sm:p-10 relative my-auto">
-    <button id="admin-panel-close" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar panel">
+    <button id="admin-panel-close" type="button" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar panel">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <p class="label-serif text-gold-soft text-lg mb-1">Panel interno</p>
@@ -880,7 +897,9 @@
       <p class="text-cream font-medium mb-1">Logotipo y favicon del sitio</p>
       <p class="text-stone text-xs mb-4">Elegí una imagen de tu dispositivo. Se sube a Cloudinary y se aplica en el header, el footer y el favicon de todo el sitio.</p>
       <div class="flex items-center gap-4 mb-4">
-        <img id="logo-admin-preview" data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Logotipo actual" class="h-20 w-20 object-contain rounded-lg border border-gold/20 bg-wine-black p-1">
+        <div class="h-20 w-20 rounded-full overflow-hidden border border-gold/20 bg-wine-black shrink-0">
+          <img id="logo-admin-preview" data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Logotipo actual" class="logo-circle w-full h-full">
+        </div>
         <div class="min-w-0 flex-1">
           <p class="text-stone text-xs mb-1">URL actual del logotipo (para og:image del HTML):</p>
           <input type="text" id="logo-url-readout" readonly class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-3 py-2 text-stone text-xs">
@@ -894,7 +913,6 @@
       </form>
     </div>
 
-    <!-- Gestión Productos -->
     <div class="mb-10">
       <p class="text-cream font-medium mb-4">Productos publicados</p>
       <label for="admin-products-search" class="sr-only">Buscar productos por nombre</label>
@@ -907,21 +925,18 @@
       <div>
         <label for="prod-titulo" class="block text-sm text-stone mb-2">Título del producto</label>
         <input type="text" id="prod-titulo" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
-        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
       <div>
         <label for="prod-descripcion" class="block text-sm text-stone mb-2">Descripción completa</label>
         <textarea id="prod-descripcion" rows="3" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold"></textarea>
-        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
       <div class="grid sm:grid-cols-2 gap-4">
         <div>
-          <label for="prod-precio" class="block text-sm text-stone mb-2">Precio de lista (opcional — dejar vacío o 0 = "Consultar precio")</label>
+          <label for="prod-precio" class="block text-sm text-stone mb-2">Precio de lista (opcional — vacío o 0 = "Consultar precio")</label>
           <input type="number" id="prod-precio" min="0" step="0.01" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold" placeholder="Ej: 15000">
-          <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
         </div>
         <div>
-          <label for="prod-precio-transferencia" class="block text-sm text-stone mb-2">Precio en transferencia / efectivo (opcional)</label>
+          <label for="prod-precio-transferencia" class="block text-sm text-stone mb-2">Precio transferencia / efectivo (opcional)</label>
           <input type="number" id="prod-precio-transferencia" min="0" step="0.01" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold" placeholder="Ej: 13500">
         </div>
       </div>
@@ -940,7 +955,7 @@
         <p class="text-stone text-xs mt-2">Hasta 5 imágenes. La primera (Imagen 1) es la portada.</p>
       </div>
       <div>
-        <label for="prod-video" class="block text-sm text-stone mb-2">Video corto (opcional — máx. 3 minutos, se sube a Cloudinary)</label>
+        <label for="prod-video" class="block text-sm text-stone mb-2">Video corto (opcional — máx. 3 minutos)</label>
         <input type="file" id="prod-video" accept="video/*" class="w-full text-stone text-sm">
         <p id="prod-video-status" class="text-stone text-xs mt-1"></p>
       </div>
@@ -958,7 +973,6 @@
 
     <div class="hairline my-10"></div>
 
-    <!-- Gestión Promociones -->
     <div class="mb-10">
       <p class="text-cream font-medium mb-4">Promociones publicadas</p>
       <div class="grid sm:grid-cols-2 gap-3 mb-3">
@@ -968,10 +982,10 @@
         </div>
         <div>
           <label for="admin-promos-filter" class="sr-only">Filtrar promociones por estado</label>
-          <select id="admin-promos-filter" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm placeholder:text-stone/50 focus:border-gold">
+          <select id="admin-promos-filter" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
             <option value="todas">Todas</option>
             <option value="vigentes">Vigentes</option>
-            <option value="programadas">Programadas (aún no publicadas)</option>
+            <option value="programadas">Programadas</option>
             <option value="vencidas">Vencidas</option>
           </select>
         </div>
@@ -984,12 +998,10 @@
       <div>
         <label for="promo-titulo" class="block text-sm text-stone mb-2">Título de la promoción</label>
         <input type="text" id="promo-titulo" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
-        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
       <div>
         <label for="promo-descripcion" class="block text-sm text-stone mb-2">Descripción</label>
         <textarea id="promo-descripcion" rows="3" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold"></textarea>
-        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
       <div class="grid sm:grid-cols-2 gap-4">
         <div>
@@ -997,7 +1009,7 @@
           <input type="date" id="promo-vigencia" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
         </div>
         <div>
-          <label for="promo-publicar-desde" class="block text-sm text-stone mb-2">Publicar desde (Fecha)</label>
+          <label for="promo-publicar-desde" class="block text-sm text-stone mb-2">Publicar desde</label>
           <input type="date" id="promo-publicar-desde" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
         </div>
       </div>
@@ -1008,8 +1020,8 @@
       <div>
         <label for="promo-tipo-precio" class="block text-sm text-stone mb-2">Tipo de precio</label>
         <select id="promo-tipo-precio" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
-          <option value="total" class="bg-wine-black">Precio normal / Precio total (ej: $ 15.000)</option>
-          <option value="persona" class="bg-wine-black">Precio por persona (ej: $ 5.000 x persona)</option>
+          <option value="total">Precio total</option>
+          <option value="persona">Precio por persona</option>
         </select>
       </div>
       <div>
@@ -1020,10 +1032,10 @@
         <input type="file" id="promo-imagen" multiple accept=".png,.jpg,.jpeg,image/png,image/jpeg" class="hidden">
         <div id="promo-imagenes-list" class="hidden grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3"></div>
         <button type="button" id="promo-imagen-add" class="rounded-full border border-gold/40 px-4 py-2 text-gold-soft text-sm hover:bg-gold/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">+ Agregar imagen</button>
-        <p class="text-stone text-xs mt-2">Hasta 6 imágenes. La primera (Imagen 1) es la portada.</p>
+        <p class="text-stone text-xs mt-2">Hasta 6 imágenes. La primera es la portada.</p>
       </div>
       <div>
-        <label for="promo-video" class="block text-sm text-stone mb-2">Video corto (opcional — máx. 3 minutos, se sube a Cloudinary)</label>
+        <label for="promo-video" class="block text-sm text-stone mb-2">Video corto (opcional — máx. 3 minutos)</label>
         <input type="file" id="promo-video" accept="video/*" class="w-full text-stone text-sm">
         <p id="promo-video-status" class="text-stone text-xs mt-1"></p>
       </div>
@@ -1042,7 +1054,6 @@
 
     <div class="hairline my-10"></div>
 
-    <!-- Gestión Eventos -->
     <div class="mb-10">
       <p class="text-cream font-medium mb-4">Eventos publicados</p>
       <div id="admin-eventos-list" class="space-y-3 max-h-80 overflow-y-auto pr-1 scrollbar-thin"></div>
@@ -1080,8 +1091,8 @@
         <div>
           <label for="evento-tipo-precio" class="block text-sm text-stone mb-2">Tipo de precio</label>
           <select id="evento-tipo-precio" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
-            <option value="total" class="bg-wine-black">Precio total</option>
-            <option value="persona" class="bg-wine-black">Precio por persona</option>
+            <option value="total">Precio total</option>
+            <option value="persona">Precio por persona</option>
           </select>
         </div>
       </div>
@@ -1108,10 +1119,9 @@
   </div>
 </div>
 
-<!-- CONFIRMACIÓN DE ELIMINACIÓN (ADMIN) -->
-<div id="admin-confirm-modal" class="hidden fixed inset-0 z-[130] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6" role="alertdialog" aria-modal="true" aria-labelledby="admin-confirm-text">
+<div id="admin-confirm-modal" class="hidden fixed inset-0 z-[130] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6" role="alertdialog" aria-modal="true">
   <div class="w-full max-w-sm rounded-2xl border border-gold/30 bg-wine-panel p-7 text-center">
-    <p id="admin-confirm-text" class="text-cream text-base leading-relaxed mb-2">¿Estás seguro de que querés eliminar este elemento? Esta acción no se puede deshacer.</p>
+    <p class="text-cream text-base leading-relaxed mb-2">¿Estás seguro de que querés eliminar este elemento? Esta acción no se puede deshacer.</p>
     <p id="admin-confirm-name" class="text-gold-soft text-sm mb-6 break-words"></p>
     <div class="flex gap-3">
       <button type="button" id="admin-confirm-cancel" class="flex-1 rounded-full border border-stone/30 px-5 py-3 text-stone hover:text-cream">Cancelar</button>
@@ -1122,6 +1132,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="module">
+  /* ============================================================
+   *  CLUB DEL ANFITRIÓN — MÓDULO PRINCIPAL
+   *  Todas las dependencias críticas tienen try/catch para que un
+   *  fallo de red NO aborte el resto del script.
+   * ============================================================ */
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
   import {
     getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword,
@@ -1134,6 +1150,50 @@
     doc, updateDoc, deleteDoc, getDocs, getDoc, setDoc, where
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
+  /* ---- HELPERS GLOBALES (declarados ANTES que cualquier uso) ---- */
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+  function todayLocalISO() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+  function formatISODate(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
+    return m ? `${m[3]}/${m[2]}/${m[1]}` : (iso || "");
+  }
+  function formatPrice(val) {
+    return Number(val).toLocaleString("es-AR", { style: "currency", currency: "ARS", minimumFractionDigits: 0 });
+  }
+  function hasValidPrice(val) {
+    return val !== null && val !== undefined && val !== "" && Number(val) > 0;
+  }
+  function showToast(message, type = "success") {
+    const container = document.getElementById("toast-container");
+    if (!container) return;
+    const toast = document.createElement("div");
+    const isSuccess = type === "success";
+    toast.className = `toast fade-in flex items-start gap-3 rounded-xl border px-4 py-3.5 shadow-lg backdrop-blur-sm ${isSuccess ? "bg-wine-panel border-gold/40 text-cream" : "bg-wine-panel border-garnet-light/60 text-cream"}`;
+    toast.innerHTML = `<span class="mt-0.5 shrink-0 ${isSuccess ? "text-gold" : "text-garnet-light"}">${isSuccess ? '✓' : '⚠'}</span><p class="text-sm leading-snug">${escapeHtml(message)}</p>`;
+    container.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 400); }, 4200);
+  }
+
+  /* ---- CONSTANTES ---- */
+  const WHATSAPP_NUMBER = "5493537513148";
+  const SLIDE_INTERVAL_MS = 2000;
+  const DOT_ON = "h-1.5 w-4 rounded-full bg-gold transition-all";
+  const DOT_OFF = "h-1.5 w-1.5 rounded-full bg-cream/50 transition-all";
+  const VIDEO_MAX_SECONDS = 180;
+  const MY_ORDER_IDS_KEY = "clubMyOrderIds";
+  const ADMIN_USERNAME = "clubdelanfitrion";
+  const ADMIN_PASSWORD = "clubdelanfitrion";
+  const ADMIN_SESSION_KEY = "club_admin_session_flag";
+  const ADMIN_EXPIRED_MSG = "Tu sesión expiró. Volvé a ingresar los datos para iniciar sesión";
+  const LOGO_CACHE_KEY = "clubLogoUrl";
+  const LOGO_MAX_BYTES = 10 * 1024 * 1024;
+
+  /* ---- FIREBASE INIT (con guard) ---- */
   const firebaseConfig = {
     apiKey: "AIzaSyALsNxhMyC-GSQULpcj3CpwbDr81alvC0M",
     authDomain: "clubdelanfitrion-8a6f1.firebaseapp.com",
@@ -1144,28 +1204,47 @@
     measurementId: "G-2DN0H1022S"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-  const googleProvider = new GoogleAuthProvider();
-  googleProvider.setCustomParameters({ prompt: "select_account" });
+  let app, db, auth, googleProvider, adminApp, adminAuth, adminDb;
+  let productsCollection, promosCollection, eventsCollection, ordersCollection;
+  let adminProductsCol, adminPromosCol, adminEventsCol;
 
+  try {
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    auth = getAuth(app);
+    googleProvider = new GoogleAuthProvider();
+    googleProvider.setCustomParameters({ prompt: "select_account" });
+    productsCollection = collection(db, "productos");
+    promosCollection = collection(db, "promociones");
+    eventsCollection = collection(db, "eventos");
+    ordersCollection = collection(db, "pedidos");
+
+    adminApp = initializeApp(firebaseConfig, "admin");
+    adminAuth = getAuth(adminApp);
+    adminDb = getFirestore(adminApp);
+    adminProductsCol = collection(adminDb, "productos");
+    adminPromosCol = collection(adminDb, "promociones");
+    adminEventsCol = collection(adminDb, "eventos");
+  } catch (e) {
+    console.error("[firebase init]", e);
+    showToast("Error al inicializar Firebase. Recargá la página.", "error");
+  }
+
+  /* ---- EMAILJS ---- */
   const EMAILJS_PUBLIC_KEY = "MgfqJouhVvsy4VAab";
   const EMAILJS_SERVICE_ID = "service_9erujyh";
   const EMAILJS_WELCOME_TEMPLATE_ID = "template_0aqkp4k";
   const EMAILJS_PROMO_TEMPLATE_ID = "template_ijnl9mo";
+  if (window.emailjs) {
+    try { window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); }
+    catch (e) { console.warn("[emailjs]", e); }
+  }
 
-  if (window.emailjs) window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-  const productsCollection = collection(db, "productos");
-  const promosCollection = collection(db, "promociones");
-  const eventsCollection = collection(db, "eventos");
-  const ordersCollection = collection(db, "pedidos");
-
+  /* ---- CLOUDINARY ---- */
   const CLOUDINARY_CLOUD_NAME = "wb9mhrpv";
   const CLOUDINARY_UPLOAD_PRESET = "ClubDelAnfitrion";
   const CLOUDINARY_IMAGE_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
   const CLOUDINARY_VIDEO_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/video/upload`;
-  const VIDEO_MAX_SECONDS = 180;
 
   async function uploadImageToCloudinary(file) {
     const formData = new FormData();
@@ -1177,11 +1256,11 @@
     if (!data.secure_url) throw new Error("Cloudinary no devolvió una URL válida.");
     return data.secure_url;
   }
-
   async function uploadVideoToCloudinary(file) {
     if (file.size > 100 * 1024 * 1024) throw new Error("El video supera los 100 MB.");
     const duration = await getVideoDuration(file);
-    if (duration > VIDEO_MAX_SECONDS) throw new Error(`El video dura ${Math.round(duration)}s. Máximo permitido: 180s (3 min).`);
+    if (!isFinite(duration) || duration <= 0) throw new Error("No se pudo verificar la duración del video.");
+    if (duration > VIDEO_MAX_SECONDS) throw new Error(`El video dura ${Math.round(duration)}s. Máximo: 180s (3 min).`);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
@@ -1191,7 +1270,6 @@
     if (!data.secure_url) throw new Error("Cloudinary no devolvió una URL válida.");
     return data.secure_url;
   }
-
   function getVideoDuration(file) {
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(file);
@@ -1203,18 +1281,9 @@
     });
   }
 
-  const WHATSAPP_NUMBER = "5493537513148";
-
-  function showToast(message, type = "success") {
-    const container = document.getElementById("toast-container");
-    const toast = document.createElement("div");
-    const isSuccess = type === "success";
-    toast.className = `toast fade-in flex items-start gap-3 rounded-xl border px-4 py-3.5 shadow-lg backdrop-blur-sm ${isSuccess ? "bg-wine-panel border-gold/40 text-cream" : "bg-wine-panel border-garnet-light/60 text-cream"}`;
-    toast.innerHTML = `<span class="mt-0.5 shrink-0 ${isSuccess ? "text-gold" : "text-garnet-light"}">${isSuccess ? '✓' : '⚠'}</span><p class="text-sm leading-snug">${message}</p>`;
-    container.appendChild(toast);
-    setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 400); }, 4200);
-  }
-
+  /* ============================================================
+   *  NAVBAR / MOBILE MENU
+   * ============================================================ */
   const navbar = document.getElementById("navbar");
   window.addEventListener("scroll", () => {
     if (window.scrollY > 24) navbar.classList.add("bg-wine-black/95", "backdrop-blur-sm", "border-gold/10");
@@ -1232,7 +1301,9 @@
   menuToggle.addEventListener("click", () => setMobileMenu(mobileMenu.classList.contains("hidden")));
   mobileMenu.querySelectorAll("a").forEach(l => l.addEventListener("click", () => setMobileMenu(false)));
 
-  /* Horarios oficiales actualizados */
+  /* ============================================================
+   *  HORARIOS
+   * ============================================================ */
   const schedule = [
     { day: "Lunes", hours: ["09:00 a 12:30", "17:00 a 21:00"] },
     { day: "Martes", hours: ["09:00 a 12:30", "17:00 a 21:00"] },
@@ -1243,40 +1314,39 @@
     { day: "Domingo", hours: ["10:30 a 12:30"] },
   ];
   const scheduleList = document.getElementById("schedule-list");
-  const todayIndex = (new Date().getDay() + 6) % 7;
-  schedule.forEach((item, index) => {
-    const li = document.createElement("li");
-    const isToday = index === todayIndex;
-    li.className = `flex items-center justify-between py-2.5 gap-3 ${isToday ? "text-gold-soft" : "text-stone"}`;
-    li.innerHTML = `<span class="shrink-0">${item.day}${isToday ? " · hoy" : ""}</span><span class="text-right">${item.hours.join(" / ")}</span>`;
-    scheduleList.appendChild(li);
-  });
+  if (scheduleList) {
+    const todayIndex = (new Date().getDay() + 6) % 7;
+    schedule.forEach((item, index) => {
+      const li = document.createElement("li");
+      const isToday = index === todayIndex;
+      li.className = `flex items-center justify-between py-2.5 gap-3 ${isToday ? "text-gold-soft" : "text-stone"}`;
+      li.innerHTML = `<span class="shrink-0">${item.day}${isToday ? " · hoy" : ""}</span><span class="text-right">${item.hours.join(" / ")}</span>`;
+      scheduleList.appendChild(li);
+    });
+  }
 
+  /* ============================================================
+   *  RESERVAS
+   * ============================================================ */
   const reservationForm = document.getElementById("reservation-form");
-  reservationForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById("res-nombre").value;
-    const telefono = document.getElementById("res-telefono").value;
-    const personas = document.getElementById("res-personas").value;
-    const fecha = document.getElementById("res-fecha").value;
-    const horario = document.getElementById("res-horario").value;
-    if (!nombre || !telefono || !personas || !fecha || !horario) { showToast("Completá todos los campos.", "error"); return; }
-    const msg = `¡Hola! Quiero reservar una mesa:%0A*Nombre:* ${nombre}%0A*Personas:* ${personas}%0A*Fecha:* ${fecha}%0A*Horario:* ${horario}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
-    reservationForm.reset();
-  });
-
-  function formatPrice(val) {
-    return Number(val).toLocaleString("es-AR", { style: "currency", currency: "ARS", minimumFractionDigits: 0 });
-  }
-  function hasValidPrice(val) {
-    return val !== null && val !== undefined && val !== "" && Number(val) > 0;
+  if (reservationForm) {
+    reservationForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("res-nombre").value;
+      const telefono = document.getElementById("res-telefono").value;
+      const personas = document.getElementById("res-personas").value;
+      const fecha = document.getElementById("res-fecha").value;
+      const horario = document.getElementById("res-horario").value;
+      if (!nombre || !telefono || !personas || !fecha || !horario) { showToast("Completá todos los campos.", "error"); return; }
+      const msg = `¡Hola! Quiero reservar una mesa:%0A*Nombre:* ${nombre}%0A*Personas:* ${personas}%0A*Fecha:* ${fecha}%0A*Horario:* ${horario}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+      reservationForm.reset();
+    });
   }
 
-  const SLIDE_INTERVAL_MS = 2000;
-  const DOT_ON = "h-1.5 w-4 rounded-full bg-gold transition-all";
-  const DOT_OFF = "h-1.5 w-1.5 rounded-full bg-cream/50 transition-all";
-
+  /* ============================================================
+   *  SLIDER / IMÁGENES / GALERÍAS
+   * ============================================================ */
   function getImages(item) {
     if (!item) return [];
     if (Array.isArray(item.imagenes)) {
@@ -1285,7 +1355,6 @@
     }
     return typeof item.imagenUrl === "string" && item.imagenUrl.trim() ? [item.imagenUrl] : [];
   }
-
   function formatPromoPrice(promo) {
     if (!hasValidPrice(promo.precio)) return "Consultar precio";
     const base = formatPrice(promo.precio);
@@ -1296,7 +1365,6 @@
     const base = escapeHtml(formatPrice(promo.precio));
     return promo.tipoPrecio === "persona" ? `${base} <span class="text-sm text-stone font-sans">x persona</span>` : base;
   }
-
   function sliderHtml(images, alt, zoom, videoUrl) {
     const zoomCls = zoom ? " group-hover:scale-105 transition-transform duration-500" : "";
     const videoBadge = videoUrl
@@ -1312,7 +1380,6 @@
     const dots = images.map((_, i) => `<span data-dot class="${i === 0 ? DOT_ON : DOT_OFF}"></span>`).join("");
     return `<div data-auto-slider class="relative w-full h-full${zoomCls}">${videoBadge}${slides}<div class="absolute bottom-3 inset-x-0 flex justify-center gap-1.5 pointer-events-none">${dots}</div></div>`;
   }
-
   function startAutoSliders(root) {
     root.querySelectorAll("[data-auto-slider]").forEach((el) => {
       if (el.dataset.running) return;
@@ -1331,7 +1398,6 @@
       }, SLIDE_INTERVAL_MS);
     });
   }
-
   function setupGallery({ modal, img, prev, next, dots }) {
     let images = [];
     let index = 0;
@@ -1377,6 +1443,7 @@
       close() { modal.classList.add("hidden"); modal.classList.remove("flex"); }
     };
   }
+
   const productGallery = setupGallery({
     modal: document.getElementById("product-modal"),
     img: document.getElementById("detail-img"),
@@ -1398,6 +1465,7 @@
     next: document.getElementById("event-detail-next"),
     dots: document.getElementById("event-detail-dots")
   });
+
   document.addEventListener("keydown", (e) => {
     const g = [productGallery, promoGallery, eventGallery].find((x) => x.isOpen());
     if (!g) return;
@@ -1406,13 +1474,13 @@
     else if (e.key === "Escape") g.close();
   });
 
-  /* ================= VIDEO PLAYER (mute + botón audio) ================= */
-  function buildVideoPlayer(videoUrl, { autoplay = true } = {}) {
+  /* ---- VIDEO PLAYER ---- */
+  function buildVideoPlayer(videoUrl) {
     if (!videoUrl) return "";
     const wrap = document.createElement("div");
     wrap.className = "video-wrap relative w-full aspect-video bg-black";
     wrap.innerHTML = `
-      <video src="${escapeHtml(videoUrl)}" muted playsinline ${autoplay ? "autoplay" : ""} loop preload="metadata"></video>
+      <video src="${escapeHtml(videoUrl)}" muted playsinline autoplay loop preload="metadata"></video>
       <button type="button" class="video-audio-btn" aria-label="Activar sonido">
         <span class="audio-icon">🔇</span><span class="audio-label">Activar sonido</span>
       </button>
@@ -1423,24 +1491,22 @@
     const label = btn.querySelector(".audio-label");
     btn.addEventListener("click", () => {
       video.muted = !video.muted;
-      if (!video.muted) { video.play().catch(() => {}); icon.textContent = "🔊"; label.textContent = "Silenciar"; btn.setAttribute("aria-label", "Silenciar"); }
-      else { icon.textContent = "🔇"; label.textContent = "Activar sonido"; btn.setAttribute("aria-label", "Activar sonido"); }
+      if (!video.muted) { video.play().catch(() => {}); icon.textContent = "🔊"; label.textContent = "Silenciar"; }
+      else { icon.textContent = "🔇"; label.textContent = "Activar sonido"; }
     });
     return wrap;
   }
-
   function mountVideo(slotEl, videoUrl) {
+    if (!slotEl) return;
     slotEl.innerHTML = "";
     if (!videoUrl) { slotEl.classList.add("hidden"); return; }
     slotEl.appendChild(buildVideoPlayer(videoUrl));
     slotEl.classList.remove("hidden");
   }
-
-  /* ================= PRODUCTO: detalle + fade de portada al scrollear ================= */
-  function setupFadeOnScroll(modalBodyEl, heroEl) {
-    modalBodyEl.addEventListener("scroll", () => {
-      const st = modalBodyEl.scrollTop;
-      if (st < 0) return;
+  function setupFadeOnScroll(bodyEl, heroEl) {
+    if (!bodyEl || !heroEl) return;
+    bodyEl.addEventListener("scroll", () => {
+      const st = bodyEl.scrollTop;
       const fade = Math.max(0, Math.min(1, 1 - st / 120));
       heroEl.style.opacity = String(fade);
       heroEl.style.filter = `brightness(${0.9 + fade * 0.1})`;
@@ -1450,103 +1516,7 @@
   setupFadeOnScroll(document.getElementById("promo-modal-body"), document.getElementById("promo-modal-hero"));
   setupFadeOnScroll(document.getElementById("event-modal-body"), document.getElementById("event-modal-hero"));
 
-  window.openProductDetail = (id) => {
-    const prod = latestProducts.find(p => p.id === id);
-    if (!prod) return;
-    productGallery.open(getImages(prod), prod.titulo);
-    const titleEl = document.getElementById("detail-title");
-    const priceEl = document.getElementById("detail-price");
-    const priceTransferEl = document.getElementById("detail-price-transfer");
-    titleEl.textContent = prod.titulo;
-    if (hasValidPrice(prod.precio)) {
-      priceEl.textContent = formatPrice(prod.precio);
-      priceEl.classList.remove("hidden");
-    } else {
-      priceEl.textContent = "Consultar precio";
-      priceEl.classList.add("hidden"); // se muestra como texto plano separado
-      priceEl.classList.remove("hidden");
-    }
-    if (hasValidPrice(prod.precioTransferencia)) {
-      priceTransferEl.textContent = `En transferencia / efectivo: ${formatPrice(prod.precioTransferencia)}`;
-      priceTransferEl.classList.remove("hidden");
-    } else {
-      priceTransferEl.textContent = "";
-      priceTransferEl.classList.add("hidden");
-    }
-    document.getElementById("detail-desc").textContent = prod.descripcion;
-    mountVideo(document.getElementById("detail-video-slot"), prod.videoUrl);
-    const outOfStock = prod.disponible === false;
-    const actions = document.getElementById("detail-actions");
-    actions.innerHTML = outOfStock
-      ? `<div class="flex-1 rounded-full bg-wine-black/60 border border-garnet-light/60 px-6 py-3 text-center text-stone text-sm">Producto sin stock — consultanos por WhatsApp</div>`
-      : `<button onclick="window.addToCart('${prod.id}'); document.getElementById('product-modal').classList.add('hidden');" class="btn-press flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-bold text-sm">Al carrito</button>`;
-    const modal = document.getElementById("product-modal");
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-    document.getElementById("product-modal-body").scrollTop = 0;
-    document.getElementById("product-modal-hero").style.opacity = "1";
-  };
-  document.getElementById("product-modal-close").addEventListener("click", () => {
-    document.getElementById("product-modal").classList.add("hidden");
-    document.getElementById("product-modal").classList.remove("flex");
-  });
-
-  /* ================= PROMOCIÓN: detalle ================= */
-  window.openPromoDetail = (id) => {
-    const promo = latestPromos.find((p) => p.id === id);
-    if (!promo) return;
-    promoGallery.open(getImages(promo), promo.titulo);
-    document.getElementById("promo-detail-title").textContent = promo.titulo || "";
-    const priceEl = document.getElementById("promo-detail-price");
-    if (hasValidPrice(promo.precio)) { priceEl.textContent = formatPromoPrice(promo); priceEl.classList.remove("hidden"); }
-    else { priceEl.textContent = "Consultar precio"; priceEl.classList.remove("hidden"); }
-    document.getElementById("promo-detail-vigencia").textContent = promo.vigencia ? `Vigencia hasta: ${formatISODate(promo.vigencia)}` : "";
-    document.getElementById("promo-detail-desc").textContent = promo.descripcion || "";
-    mountVideo(document.getElementById("promo-detail-video-slot"), promo.videoUrl);
-    document.getElementById("promo-detail-actions").innerHTML = `
-      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
-    `;
-    const modal = document.getElementById("promo-modal");
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-    document.getElementById("promo-modal-body").scrollTop = 0;
-    document.getElementById("promo-modal-hero").style.opacity = "1";
-  };
-  document.getElementById("promo-modal-close").addEventListener("click", () => promoGallery.close());
-
-  /* ================= EVENTO: detalle ================= */
-  window.openEventDetail = (id) => {
-    const ev = latestEvents.find((p) => p.id === id);
-    if (!ev) return;
-    eventGallery.open(getImages(ev), ev.titulo);
-    document.getElementById("event-detail-title").textContent = ev.titulo || "";
-    const fecha = ev.fecha ? formatISODate(ev.fecha) : "";
-    const hora = ev.hora || "";
-    document.getElementById("event-detail-fecha").textContent = fecha && hora ? `${fecha} · ${hora} hs` : (fecha || hora);
-    const lugarEl = document.getElementById("event-detail-lugar");
-    if (ev.lugar) {
-      const q = encodeURIComponent(ev.lugar);
-      lugarEl.innerHTML = `<a href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener noreferrer" class="text-gold-soft underline hover:text-gold">📍 ${escapeHtml(ev.lugar)} ↗</a>`;
-    } else { lugarEl.textContent = ""; }
-    const priceEl = document.getElementById("event-detail-price");
-    if (hasValidPrice(ev.precio)) {
-      priceEl.textContent = ev.tipoPrecio === "persona" ? `${formatPrice(ev.precio)} x persona` : formatPrice(ev.precio);
-      priceEl.classList.remove("hidden");
-    } else { priceEl.textContent = "Consultar precio"; priceEl.classList.remove("hidden"); }
-    document.getElementById("event-detail-desc").textContent = ev.descripcion || "";
-    mountVideo(document.getElementById("event-detail-video-slot"), ev.videoUrl);
-    document.getElementById("event-detail-actions").innerHTML = `
-      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20el%20evento:%20${encodeURIComponent(ev.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Anotarme</a>
-    `;
-    const modal = document.getElementById("event-modal");
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-    document.getElementById("event-modal-body").scrollTop = 0;
-    document.getElementById("event-modal-hero").style.opacity = "1";
-  };
-  document.getElementById("event-modal-close").addEventListener("click", () => eventGallery.close());
-
-  /* ================= VISOR DE IMAGEN AMPLIADA ================= */
+  /* ---- LIGHTBOX ---- */
   const imageViewer = (() => {
     const box = document.getElementById("image-lightbox");
     const img = document.getElementById("lightbox-img");
@@ -1559,7 +1529,6 @@
     let opener = null;
     let prevBodyOverflow = "";
     const isOpen = () => !box.classList.contains("hidden");
-
     function render() {
       if (images[index]) img.src = images[index]; else img.removeAttribute("src");
       const multi = images.length > 1;
@@ -1601,7 +1570,6 @@
       if (opener && opener.isConnected && typeof opener.focus === "function") opener.focus();
       opener = null;
     }
-
     closeBtn.addEventListener("click", close);
     prev.addEventListener("click", () => go(index - 1));
     next.addEventListener("click", () => go(index + 1));
@@ -1640,6 +1608,7 @@
 
   [[productGallery, "detail-img"], [promoGallery, "promo-detail-img"], [eventGallery, "event-detail-img"]].forEach(([gallery, imgId]) => {
     const el = document.getElementById(imgId);
+    if (!el) return;
     el.classList.add("zoom-trigger");
     el.setAttribute("role", "button");
     el.setAttribute("aria-label", "Ampliar imagen");
@@ -1652,8 +1621,11 @@
     el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openIt(); } });
   });
 
-  /* ================= CARRITO ================= */
-  let cart = JSON.parse(localStorage.getItem('clubCart')) || [];
+  /* ============================================================
+   *  CARRITO
+   * ============================================================ */
+  let cart = [];
+  try { cart = JSON.parse(localStorage.getItem('clubCart')) || []; } catch (_) { cart = []; }
   const cartFab = document.getElementById("cart-fab");
   const cartBadge = document.getElementById("cart-badge");
   const cartPanel = document.getElementById("cart-panel");
@@ -1661,11 +1633,8 @@
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotalEl = document.getElementById("cart-total");
 
-  function saveCart() { localStorage.setItem('clubCart', JSON.stringify(cart)); }
-
-  function cartPriceFor(prod) {
-    return hasValidPrice(prod.precio) ? prod.precio : null;
-  }
+  function saveCart() { try { localStorage.setItem('clubCart', JSON.stringify(cart)); } catch (_) {} }
+  function cartPriceFor(prod) { return hasValidPrice(prod.precio) ? prod.precio : null; }
 
   function updateCartUI() {
     const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
@@ -1675,7 +1644,6 @@
       cartFab.classList.add("hidden");
       if (!cartPanel.classList.contains("translate-x-full")) toggleCart();
     }
-
     cartItemsContainer.innerHTML = '';
     let totalPrecio = 0;
     let consultar = false;
@@ -1695,12 +1663,12 @@
               <p class="text-cream text-sm font-medium truncate">${escapeHtml(prod.titulo)}</p>
               <p class="text-gold-soft text-xs">${p === null ? "Consultar precio" : formatPrice(p) + " c/u"}</p>
               <div class="flex items-center gap-2 mt-1">
-                <button onclick="window.updateCartQty('${item.id}', -1)" class="w-5 h-5 bg-wine-panel text-stone rounded">-</button>
+                <button type="button" onclick="window.updateCartQty('${item.id}', -1)" class="w-5 h-5 bg-wine-panel text-stone rounded">-</button>
                 <span class="text-cream text-xs">${item.qty}</span>
-                <button onclick="window.updateCartQty('${item.id}', 1)" class="w-5 h-5 bg-wine-panel text-stone rounded">+</button>
+                <button type="button" onclick="window.updateCartQty('${item.id}', 1)" class="w-5 h-5 bg-wine-panel text-stone rounded">+</button>
               </div>
             </div>
-            <button onclick="window.removeFromCart('${item.id}')" class="text-garnet-light text-xs">✕</button>
+            <button type="button" onclick="window.removeFromCart('${item.id}')" class="text-garnet-light text-xs">✕</button>
           `;
           cartItemsContainer.appendChild(div);
         }
@@ -1721,7 +1689,6 @@
     updateCartUI();
     showToast("¡Agregado al carrito! 🍷");
   };
-
   window.updateCartQty = (id, delta) => {
     const existing = cart.find(i => i.id === id);
     if (existing) {
@@ -1731,13 +1698,11 @@
       updateCartUI();
     }
   };
-
   window.removeFromCart = (id) => {
     cart = cart.filter(i => i.id !== id);
     saveCart();
     updateCartUI();
   };
-
   function toggleCart() {
     cartPanel.classList.toggle("translate-x-full");
     cartOverlay.classList.toggle("hidden");
@@ -1758,18 +1723,28 @@
     checkoutModal.classList.remove("flex");
   });
 
-  const checkoutForm = document.getElementById("checkout-form");
-  checkoutForm.addEventListener("submit", async (e) => {
+  /* ---- PEDIDOS ---- */
+  function getMyOrderIds() {
+    try {
+      const list = JSON.parse(localStorage.getItem(MY_ORDER_IDS_KEY) || "[]");
+      return Array.isArray(list) ? list.filter(id => typeof id === "string") : [];
+    } catch (_) { return []; }
+  }
+  function rememberOrderId(id) {
+    try {
+      const ids = getMyOrderIds().filter(x => x !== id);
+      ids.unshift(id);
+      localStorage.setItem(MY_ORDER_IDS_KEY, JSON.stringify(ids.slice(0, 50)));
+    } catch (_) { }
+  }
+
+  document.getElementById("checkout-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const nombre = document.getElementById("chk-nombre").value.trim();
     const dni = document.getElementById("chk-dni").value.trim();
     const telefono = document.getElementById("chk-telefono").value.trim();
     const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
-
-    if (!nombre || !dni || !telefono) {
-      showToast("Completá todos los datos personales.", "error");
-      return;
-    }
+    if (!nombre || !dni || !telefono) { showToast("Completá todos los datos personales.", "error"); return; }
 
     const codigoRetiro = Math.floor(100000 + Math.random() * 900000).toString();
     let totalPrecio = 0;
@@ -1797,11 +1772,10 @@
       rememberOrderId(orderRef.id);
       checkoutModal.classList.add("hidden");
       checkoutModal.classList.remove("flex");
-      checkoutForm.reset();
+      document.getElementById("checkout-form").reset();
       cart = [];
       saveCart();
       updateCartUI();
-
       const firstItem = itemsComprados[0];
       document.getElementById("success-items-summary").textContent = `${firstItem.qty}x ${firstItem.titulo}${itemsComprados.length > 1 ? ' y otros productos' : ''}`;
       document.getElementById("success-code-display").textContent = codigoRetiro;
@@ -1810,6 +1784,7 @@
       successModal.classList.add("flex");
       loadMyPurchases(document.getElementById("filter-dni").value.trim());
     } catch (err) {
+      console.error("[checkout]", err);
       showToast("Error al registrar la compra en Firebase.", "error");
     }
   });
@@ -1820,11 +1795,37 @@
     window.location.hash = "#mis-compras";
   });
 
-  /* ================= PRODUCTOS ================= */
+  /* ============================================================
+   *  PRODUCTOS / PROMOS / EVENTOS — Snapshots
+   * ============================================================ */
   let latestProducts = [];
+  let latestPromos = [];
+  let allPromos = [];
+  let latestEvents = [];
+  let allEvents = [];
+
   const productsGrid = document.getElementById("products-grid");
   const productsLoading = document.getElementById("products-loading");
   const productsEmpty = document.getElementById("products-empty");
+  const promosGrid = document.getElementById("promos-grid");
+  const promosLoading = document.getElementById("promos-loading");
+  const promosEmpty = document.getElementById("promos-empty");
+  const eventsGrid = document.getElementById("eventos-grid");
+  const eventsLoading = document.getElementById("eventos-loading");
+  const eventsEmpty = document.getElementById("eventos-empty");
+
+  window.shareProduct = (id) => {
+    const prod = latestProducts.find(p => p.id === id);
+    if (!prod) return;
+    const url = `${window.location.origin}${window.location.pathname}?producto=${id}#productos`;
+    if (navigator.share) {
+      navigator.share({ title: prod.titulo, text: `Mirá este producto en Club del Anfitrión: ${prod.titulo}`, url }).catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(() => showToast("¡Enlace copiado al portapapeles!")).catch(() => {});
+    } else {
+      showToast("Copiá este enlace: " + url);
+    }
+  };
 
   function renderProductCard(product) {
     const card = document.createElement("article");
@@ -1838,8 +1839,8 @@
       : `<div class="mb-3"></div>`;
     const stockBadge = outOfStock ? `<span class="badge-out absolute top-3 right-3 z-20">Sin stock</span>` : "";
     const cartBtn = outOfStock
-      ? `<button disabled class="w-full rounded-full bg-wine-black/60 border border-garnet-light/50 px-4 py-3 text-stone font-medium uppercase text-sm cursor-not-allowed">Sin stock</button>`
-      : `<button onclick="window.addToCart('${product.id}')" class="btn-press w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors uppercase text-sm">Agregar al carrito</button>`;
+      ? `<button type="button" disabled class="w-full rounded-full bg-wine-black/60 border border-garnet-light/50 px-4 py-3 text-stone font-medium uppercase text-sm cursor-not-allowed">Sin stock</button>`
+      : `<button type="button" onclick="window.addToCart('${product.id}')" class="btn-press w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors uppercase text-sm">Agregar al carrito</button>`;
     card.innerHTML = `
       <div class="aspect-[4/5] overflow-hidden bg-wine-black zoom-trigger relative" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(product.titulo)}" onclick="window.openImageViewer('product','${product.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('product','${product.id}',this)}">
         ${stockBadge}
@@ -1853,8 +1854,8 @@
         <div class="flex flex-col gap-2.5 mt-auto">
           ${cartBtn}
           <div class="flex gap-2">
-            <button onclick="window.openProductDetail('${product.id}')" class="flex-1 rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
-            <button onclick="window.shareProduct('${product.id}')" class="flex-1 rounded-full border border-cream/20 px-3 py-2 text-cream text-xs">Compartir</button>
+            <button type="button" onclick="window.openProductDetail('${product.id}')" class="flex-1 rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
+            <button type="button" onclick="window.shareProduct('${product.id}')" class="flex-1 rounded-full border border-cream/20 px-3 py-2 text-cream text-xs">Compartir</button>
           </div>
         </div>
       </div>
@@ -1862,154 +1863,206 @@
     return card;
   }
 
-  window.shareProduct = (id) => {
+  if (productsCollection) {
+    onSnapshot(query(productsCollection, orderBy("creadoEn", "desc")), (snapshot) => {
+      productsLoading.classList.add("hidden");
+      latestProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderAdminProducts();
+      updateCartUI();
+      if (snapshot.empty) productsEmpty.classList.remove("hidden");
+      else {
+        productsEmpty.classList.add("hidden");
+        productsGrid.innerHTML = "";
+        latestProducts.forEach(p => { if (p.titulo && getImages(p).length) productsGrid.appendChild(renderProductCard(p)); });
+        startAutoSliders(productsGrid);
+        const urlParams = new URLSearchParams(window.location.search);
+        const prodId = urlParams.get('producto');
+        if (prodId) window.openProductDetail(prodId);
+      }
+    }, (error) => {
+      console.error("[productos]", error);
+      productsLoading.textContent = "No se pudo cargar el catálogo.";
+    });
+  }
+
+  if (promosCollection) {
+    onSnapshot(query(promosCollection, orderBy("creadoEn", "desc")), (snapshot) => {
+      promosLoading.classList.add("hidden");
+      const today = todayLocalISO();
+      allPromos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderAdminPromos();
+      latestPromos = allPromos.filter(promo => {
+        if (promo.publicarDesde && promo.publicarDesde > today) return false;
+        return true;
+      });
+      if (latestPromos.length === 0) promosEmpty.classList.remove("hidden");
+      else {
+        promosEmpty.classList.add("hidden");
+        promosGrid.innerHTML = "";
+        latestPromos.forEach(promo => {
+          const card = document.createElement("article");
+          card.className = "rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col";
+          const isExpired = promo.vigencia && promo.vigencia < today;
+          const alertHtml = isExpired ? `<div class="bg-garnet/80 text-cream text-xs px-3 py-1.5 text-center font-medium">⚠️ Esta promoción ya finalizó. Consultá por WhatsApp si sigue disponible.</div>` : '';
+          card.innerHTML = `
+            ${alertHtml}
+            <div class="aspect-[4/5] overflow-hidden bg-wine-black relative zoom-trigger" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(promo.titulo)}" onclick="window.openImageViewer('promo','${promo.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('promo','${promo.id}',this)}">
+              ${sliderHtml(getImages(promo), promo.titulo, false, promo.videoUrl)}
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors" onclick="window.openPromoDetail('${promo.id}')">${escapeHtml(promo.titulo)}</h3>
+              <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(promo.descripcion)}</p>
+              ${hasValidPrice(promo.precio) ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-4">${promoPriceHtml(promo)}</p>` : `<p class="mt-4 text-stone font-display text-lg mb-4">Consultar precio</p>`}
+              <button type="button" onclick="window.openPromoDetail('${promo.id}')" class="mb-2.5 w-full rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
+              <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
+            </div>
+          `;
+          promosGrid.appendChild(card);
+          startAutoSliders(card);
+        });
+      }
+    }, (error) => {
+      console.error("[promos]", error);
+      promosLoading.textContent = "No se pudieron cargar las promociones.";
+    });
+  }
+
+  if (eventsCollection) {
+    onSnapshot(query(eventsCollection, orderBy("fecha", "asc")), (snapshot) => {
+      eventsLoading.classList.add("hidden");
+      allEvents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderAdminEvents();
+      const today = todayLocalISO();
+      latestEvents = allEvents.filter(ev => !ev.fecha || ev.fecha >= today);
+      if (latestEvents.length === 0) eventsEmpty.classList.remove("hidden");
+      else {
+        eventsEmpty.classList.add("hidden");
+        eventsGrid.innerHTML = "";
+        latestEvents.forEach(ev => {
+          const card = document.createElement("article");
+          card.className = "rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col";
+          const precioHtml = hasValidPrice(ev.precio)
+            ? `<p class="mt-2 text-gold-soft font-display text-xl mb-3">${ev.tipoPrecio === "persona" ? `${formatPrice(ev.precio)} <span class="text-xs text-stone font-sans">x persona</span>` : formatPrice(ev.precio)}</p>`
+            : `<p class="mt-2 text-stone font-display text-lg mb-3">Consultar precio</p>`;
+          const mapUrl = ev.lugar ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.lugar)}` : "";
+          card.innerHTML = `
+            <div class="aspect-[4/5] overflow-hidden bg-wine-black relative zoom-trigger" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(ev.titulo)}" onclick="window.openImageViewer('event','${ev.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('event','${ev.id}',this)}">
+              ${sliderHtml(getImages(ev), ev.titulo, false, ev.videoUrl)}
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              ${ev.fecha ? `<p class="text-gold-soft text-xs font-medium mb-1">${formatISODate(ev.fecha)}${ev.hora ? " · " + ev.hora + " hs" : ""}</p>` : ""}
+              <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors" onclick="window.openEventDetail('${ev.id}')">${escapeHtml(ev.titulo)}</h3>
+              <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(ev.descripcion)}</p>
+              ${ev.lugar ? `<a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="text-gold-soft text-xs underline hover:text-gold mt-2 inline-block">📍 ${escapeHtml(ev.lugar)} ↗</a>` : ""}
+              ${precioHtml}
+              <button type="button" onclick="window.openEventDetail('${ev.id}')" class="mb-2.5 w-full rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
+              <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20el%20evento:%20${encodeURIComponent(ev.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Anotarme</a>
+            </div>
+          `;
+          eventsGrid.appendChild(card);
+          startAutoSliders(card);
+        });
+      }
+    }, (error) => {
+      console.error("[eventos]", error);
+      eventsLoading.textContent = "No se pudieron cargar los eventos.";
+    });
+  }
+
+  /* ---- OPEN DETAILS ---- */
+  window.openProductDetail = (id) => {
     const prod = latestProducts.find(p => p.id === id);
     if (!prod) return;
-    const url = `${window.location.origin}${window.location.pathname}?producto=${id}#productos`;
-    if (navigator.share) {
-      navigator.share({ title: prod.titulo, text: `Mirá este producto en Club del Anfitrión: ${prod.titulo}`, url });
-    } else {
-      navigator.clipboard.writeText(url);
-      showToast("¡Enlace exclusivo copiado al portapapeles!");
-    }
+    productGallery.open(getImages(prod), prod.titulo);
+    document.getElementById("detail-title").textContent = prod.titulo;
+    const priceEl = document.getElementById("detail-price");
+    const priceTransferEl = document.getElementById("detail-price-transfer");
+    if (hasValidPrice(prod.precio)) priceEl.textContent = formatPrice(prod.precio);
+    else priceEl.textContent = "Consultar precio";
+    if (hasValidPrice(prod.precioTransferencia)) {
+      priceTransferEl.textContent = `En transferencia / efectivo: ${formatPrice(prod.precioTransferencia)}`;
+      priceTransferEl.classList.remove("hidden");
+    } else { priceTransferEl.textContent = ""; priceTransferEl.classList.add("hidden"); }
+    document.getElementById("detail-desc").textContent = prod.descripcion || "";
+    mountVideo(document.getElementById("detail-video-slot"), prod.videoUrl);
+    const outOfStock = prod.disponible === false;
+    document.getElementById("detail-actions").innerHTML = outOfStock
+      ? `<div class="flex-1 rounded-full bg-wine-black/60 border border-garnet-light/60 px-6 py-3 text-center text-stone text-sm">Producto sin stock — consultanos por WhatsApp</div>`
+      : `<button type="button" onclick="window.addToCart('${prod.id}'); document.getElementById('product-modal').classList.add('hidden');" class="btn-press flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-bold text-sm">Al carrito</button>`;
+    const modal = document.getElementById("product-modal");
+    modal.classList.remove("hidden"); modal.classList.add("flex");
+    document.getElementById("product-modal-body").scrollTop = 0;
+    document.getElementById("product-modal-hero").style.opacity = "1";
   };
-
-  onSnapshot(query(productsCollection, orderBy("creadoEn", "desc")), (snapshot) => {
-    productsLoading.classList.add("hidden");
-    latestProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    renderAdminProducts();
-    updateCartUI();
-    if (snapshot.empty) productsEmpty.classList.remove("hidden");
-    else {
-      productsEmpty.classList.add("hidden");
-      productsGrid.innerHTML = "";
-      latestProducts.forEach(p => { if (p.titulo && getImages(p).length) productsGrid.appendChild(renderProductCard(p)); });
-      startAutoSliders(productsGrid);
-
-      const urlParams = new URLSearchParams(window.location.search);
-      const prodId = urlParams.get('producto');
-      if (prodId) window.openProductDetail(prodId);
-    }
+  document.getElementById("product-modal-close").addEventListener("click", () => {
+    document.getElementById("product-modal").classList.add("hidden");
+    document.getElementById("product-modal").classList.remove("flex");
   });
 
-  /* ================= PROMOCIONES ================= */
-  let latestPromos = [];
-  let allPromos = [];
-  const promosGrid = document.getElementById("promos-grid");
-  const promosLoading = document.getElementById("promos-loading");
-  const promosEmpty = document.getElementById("promos-empty");
+  window.openPromoDetail = (id) => {
+    const promo = latestPromos.find((p) => p.id === id);
+    if (!promo) return;
+    promoGallery.open(getImages(promo), promo.titulo);
+    document.getElementById("promo-detail-title").textContent = promo.titulo || "";
+    const priceEl = document.getElementById("promo-detail-price");
+    priceEl.textContent = hasValidPrice(promo.precio) ? formatPromoPrice(promo) : "Consultar precio";
+    document.getElementById("promo-detail-vigencia").textContent = promo.vigencia ? `Vigencia hasta: ${formatISODate(promo.vigencia)}` : "";
+    document.getElementById("promo-detail-desc").textContent = promo.descripcion || "";
+    mountVideo(document.getElementById("promo-detail-video-slot"), promo.videoUrl);
+    document.getElementById("promo-detail-actions").innerHTML = `
+      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
+    `;
+    const modal = document.getElementById("promo-modal");
+    modal.classList.remove("hidden"); modal.classList.add("flex");
+    document.getElementById("promo-modal-body").scrollTop = 0;
+    document.getElementById("promo-modal-hero").style.opacity = "1";
+  };
+  document.getElementById("promo-modal-close").addEventListener("click", () => promoGallery.close());
 
-  onSnapshot(query(promosCollection, orderBy("creadoEn", "desc")), (snapshot) => {
-    promosLoading.classList.add("hidden");
-    const today = todayLocalISO();
-    allPromos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    renderAdminPromos();
-    latestPromos = allPromos.filter(promo => {
-      if (promo.publicarDesde && promo.publicarDesde > today) return false;
-      return true;
-    });
+  window.openEventDetail = (id) => {
+    const ev = latestEvents.find((p) => p.id === id);
+    if (!ev) return;
+    eventGallery.open(getImages(ev), ev.titulo);
+    document.getElementById("event-detail-title").textContent = ev.titulo || "";
+    const fecha = ev.fecha ? formatISODate(ev.fecha) : "";
+    const hora = ev.hora || "";
+    document.getElementById("event-detail-fecha").textContent = fecha && hora ? `${fecha} · ${hora} hs` : (fecha || hora);
+    const lugarEl = document.getElementById("event-detail-lugar");
+    if (ev.lugar) {
+      const q = encodeURIComponent(ev.lugar);
+      lugarEl.innerHTML = `<a href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener noreferrer" class="text-gold-soft underline hover:text-gold">📍 ${escapeHtml(ev.lugar)} ↗</a>`;
+    } else lugarEl.textContent = "";
+    const priceEl = document.getElementById("event-detail-price");
+    if (hasValidPrice(ev.precio)) priceEl.textContent = ev.tipoPrecio === "persona" ? `${formatPrice(ev.precio)} x persona` : formatPrice(ev.precio);
+    else priceEl.textContent = "Consultar precio";
+    document.getElementById("event-detail-desc").textContent = ev.descripcion || "";
+    mountVideo(document.getElementById("event-detail-video-slot"), ev.videoUrl);
+    document.getElementById("event-detail-actions").innerHTML = `
+      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20el%20evento:%20${encodeURIComponent(ev.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Anotarme</a>
+    `;
+    const modal = document.getElementById("event-modal");
+    modal.classList.remove("hidden"); modal.classList.add("flex");
+    document.getElementById("event-modal-body").scrollTop = 0;
+    document.getElementById("event-modal-hero").style.opacity = "1";
+  };
+  document.getElementById("event-modal-close").addEventListener("click", () => eventGallery.close());
 
-    if (latestPromos.length === 0) promosEmpty.classList.remove("hidden");
-    else {
-      promosEmpty.classList.add("hidden");
-      promosGrid.innerHTML = "";
-      latestPromos.forEach(promo => {
-        const card = document.createElement("article");
-        card.className = "rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col";
-        const isExpired = promo.vigencia && promo.vigencia < today;
-        const alertHtml = isExpired ? `<div class="bg-garnet/80 text-cream text-xs px-3 py-1.5 text-center font-medium">⚠️ Esta promoción ya finalizó. Consultá por WhatsApp si sigue disponible.</div>` : '';
-        card.innerHTML = `
-          ${alertHtml}
-          <div class="aspect-[4/5] overflow-hidden bg-wine-black relative zoom-trigger" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(promo.titulo)}" onclick="window.openImageViewer('promo','${promo.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('promo','${promo.id}',this)}">
-            ${sliderHtml(getImages(promo), promo.titulo, false, promo.videoUrl)}
-          </div>
-          <div class="p-6 flex flex-col flex-1">
-            <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors" onclick="window.openPromoDetail('${promo.id}')">${escapeHtml(promo.titulo)}</h3>
-            <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(promo.descripcion)}</p>
-            ${hasValidPrice(promo.precio) ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-4">${promoPriceHtml(promo)}</p>` : `<p class="mt-4 text-stone font-display text-lg mb-4">Consultar precio</p>`}
-            <button type="button" onclick="window.openPromoDetail('${promo.id}')" class="mb-2.5 w-full rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
-            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
-          </div>
-        `;
-        promosGrid.appendChild(card);
-        startAutoSliders(card);
-      });
-    }
-  });
-
-  /* ================= EVENTOS ================= */
-  let latestEvents = [];
-  let allEvents = [];
-  const eventsGrid = document.getElementById("eventos-grid");
-  const eventsLoading = document.getElementById("eventos-loading");
-  const eventsEmpty = document.getElementById("eventos-empty");
-
-  onSnapshot(query(eventsCollection, orderBy("fecha", "asc")), (snapshot) => {
-    eventsLoading.classList.add("hidden");
-    allEvents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    renderAdminEvents();
-    // próximos: fecha >= hoy (o sin fecha)
-    const today = todayLocalISO();
-    latestEvents = allEvents.filter(ev => !ev.fecha || ev.fecha >= today);
-
-    if (latestEvents.length === 0) eventsEmpty.classList.remove("hidden");
-    else {
-      eventsEmpty.classList.add("hidden");
-      eventsGrid.innerHTML = "";
-      latestEvents.forEach(ev => {
-        const card = document.createElement("article");
-        card.className = "rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col";
-        const precioHtml = hasValidPrice(ev.precio)
-          ? `<p class="mt-2 text-gold-soft font-display text-xl mb-3">${ev.tipoPrecio === "persona" ? `${formatPrice(ev.precio)} <span class="text-xs text-stone font-sans">x persona</span>` : formatPrice(ev.precio)}</p>`
-          : `<p class="mt-2 text-stone font-display text-lg mb-3">Consultar precio</p>`;
-        const mapUrl = ev.lugar ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.lugar)}` : "";
-        card.innerHTML = `
-          <div class="aspect-[4/5] overflow-hidden bg-wine-black relative zoom-trigger" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(ev.titulo)}" onclick="window.openImageViewer('event','${ev.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('event','${ev.id}',this)}">
-            ${sliderHtml(getImages(ev), ev.titulo, false, ev.videoUrl)}
-          </div>
-          <div class="p-6 flex flex-col flex-1">
-            ${ev.fecha ? `<p class="text-gold-soft text-xs font-medium mb-1">${formatISODate(ev.fecha)}${ev.hora ? " · " + ev.hora + " hs" : ""}</p>` : ""}
-            <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors" onclick="window.openEventDetail('${ev.id}')">${escapeHtml(ev.titulo)}</h3>
-            <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(ev.descripcion)}</p>
-            ${ev.lugar ? `<a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="text-gold-soft text-xs underline hover:text-gold mt-2 inline-block">📍 ${escapeHtml(ev.lugar)} ↗</a>` : ""}
-            ${precioHtml}
-            <button type="button" onclick="window.openEventDetail('${ev.id}')" class="mb-2.5 w-full rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
-            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20el%20evento:%20${encodeURIComponent(ev.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Anotarme</a>
-          </div>
-        `;
-        eventsGrid.appendChild(card);
-        startAutoSliders(card);
-      });
-    }
-  });
-
-  /* ================= MIS COMPRAS ================= */
+  /* ============================================================
+   *  MIS COMPRAS
+   * ============================================================ */
   const myPurchasesContainer = document.getElementById("my-purchases-container");
   const filterDniInput = document.getElementById("filter-dni");
   const filterDniBtn = document.getElementById("filter-dni-btn");
-  const MY_ORDER_IDS_KEY = "clubMyOrderIds";
   let purchasesRequest = 0;
-
-  function getMyOrderIds() {
-    try {
-      const list = JSON.parse(localStorage.getItem(MY_ORDER_IDS_KEY) || "[]");
-      return Array.isArray(list) ? list.filter(id => typeof id === "string") : [];
-    } catch (_) { return []; }
-  }
-  function rememberOrderId(id) {
-    try {
-      const ids = getMyOrderIds().filter(x => x !== id);
-      ids.unshift(id);
-      localStorage.setItem(MY_ORDER_IDS_KEY, JSON.stringify(ids.slice(0, 50)));
-    } catch (_) { }
-  }
 
   async function fetchMyOrders() {
     const byId = new Map();
-    const user = auth.currentUser;
-    if (user) {
-      const snap = await getDocs(query(ordersCollection, where("uid", "==", user.uid)));
-      snap.forEach(d => byId.set(d.id, { id: d.id, ...d.data() }));
+    const user = auth ? auth.currentUser : null;
+    if (user && ordersCollection) {
+      try {
+        const snap = await getDocs(query(ordersCollection, where("uid", "==", user.uid)));
+        snap.forEach(d => byId.set(d.id, { id: d.id, ...d.data() }));
+      } catch (e) { console.warn("[fetchMyOrders user]", e); }
     }
     const deviceIds = getMyOrderIds().filter(id => !byId.has(id));
     const results = await Promise.allSettled(deviceIds.map(id => getDoc(doc(db, "pedidos", id))));
@@ -2020,6 +2073,7 @@
   }
 
   async function loadMyPurchases(searchDni = "") {
+    if (!myPurchasesContainer) return;
     const request = ++purchasesRequest;
     try {
       let orders = await fetchMyOrders();
@@ -2031,16 +2085,13 @@
         return vencido ? { ...o, estado: "cancelado (no retirado)" } : o;
       });
       orders.sort((a, b) => ((b.creadoEn && b.creadoEn.toMillis ? b.creadoEn.toMillis() : now) - (a.creadoEn && a.creadoEn.toMillis ? a.creadoEn.toMillis() : now)));
-
       if (searchDni) orders = orders.filter(o => o.dni === searchDni || o.codigoRetiro === searchDni);
-
       if (orders.length === 0) {
         myPurchasesContainer.innerHTML = searchDni
           ? '<p class="text-stone text-center py-8">No se encontraron compras con ese DNI o código.</p>'
           : '<p class="text-stone text-center py-8">No hay compras registradas en este dispositivo o con ese DNI.</p>';
         return;
       }
-
       myPurchasesContainer.innerHTML = "";
       orders.forEach(ord => {
         const estado = String(ord.estado || "");
@@ -2060,41 +2111,24 @@
         myPurchasesContainer.appendChild(div);
       });
     } catch (e) {
-      console.error("[mis compras]", e.code || "", e.message || e);
-      if (request === purchasesRequest) myPurchasesContainer.innerHTML = '<p class="text-stone text-center py-8">No pudimos cargar tus compras en este momento. Intentá de nuevo en unos minutos.</p>';
+      console.error("[mis compras]", e);
+      if (request === purchasesRequest) myPurchasesContainer.innerHTML = '<p class="text-stone text-center py-8">No pudimos cargar tus compras en este momento.</p>';
     }
   }
+  if (filterDniBtn) filterDniBtn.addEventListener("click", () => loadMyPurchases(filterDniInput.value.trim()));
 
-  filterDniBtn.addEventListener("click", () => loadMyPurchases(filterDniInput.value.trim()));
-
-  /* ================= ADMIN: login y sesión persistente (sin timer) ================= */
-  const ADMIN_USERNAME = "clubdelanfitrion";
-  const ADMIN_PASSWORD = "clubdelanfitrion";
-  const ADMIN_SESSION_KEY = "club_admin_session_flag";
-  const ADMIN_EXPIRED_MSG = "Tu sesión expiró. Volvé a ingresar los datos para iniciar sesión";
+  /* ============================================================
+   *  ADMIN — Login y sesión persistente
+   * ============================================================ */
+  const adminLoginModal = document.getElementById("admin-login-modal");
+  const adminPanelModal = document.getElementById("admin-panel-modal");
+  const adminLoginError = document.getElementById("admin-login-error");
+  const adminConfirmModal = document.getElementById("admin-confirm-modal");
+  let adminNoticePending = false;
 
   const showEl = (el) => { el.classList.remove("hidden"); el.classList.add("flex"); };
   const hideEl = (el) => { el.classList.add("hidden"); el.classList.remove("flex"); };
 
-  function escapeHtml(value) {
-    return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  }
-  function todayLocalISO() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-  }
-  function formatISODate(iso) {
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
-    return m ? `${m[3]}/${m[2]}/${m[1]}` : (iso || "");
-  }
-
-  const adminLoginModal = document.getElementById("admin-login-modal");
-  const adminPanelModal = document.getElementById("admin-panel-modal");
-  const adminLoginError = document.getElementById("admin-login-error");
-  let adminNoticePending = false;
-
-  // Sesión persistente SOLO en la pestaña actual (sessionStorage).
-  // Si el usuario recarga o cierra la pestaña → se pierde, como pidió el requerimiento.
   function isAdminSessionValid() {
     try { return sessionStorage.getItem(ADMIN_SESSION_KEY) === "1"; }
     catch (_) { return false; }
@@ -2108,7 +2142,6 @@
   function clearAdminSession() {
     try { sessionStorage.removeItem(ADMIN_SESSION_KEY); } catch (_) {}
   }
-
   function openAdminLogin() {
     document.getElementById("admin-user").value = "";
     document.getElementById("admin-pass").value = "";
@@ -2137,13 +2170,13 @@
     resetPromoForm();
     resetEventForm();
     document.getElementById("admin-fb-pass").value = "";
-    if (adminAuth.currentUser) signOut(adminAuth).catch((error) => console.warn("[admin] signOut", error));
+    if (adminAuth && adminAuth.currentUser) signOut(adminAuth).catch(() => {});
     if (showLogin) openAdminLogin();
   }
   function enforceAdminSession() {
     if (isAdminSessionValid()) return true;
     const panelOpen = !adminPanelModal.classList.contains("hidden");
-    if (panelOpen || adminAuth.currentUser) expireAdminSession(panelOpen);
+    if (panelOpen || (adminAuth && adminAuth.currentUser)) expireAdminSession(panelOpen);
     return false;
   }
   function requireAdminSession() {
@@ -2151,13 +2184,6 @@
     showToast(ADMIN_EXPIRED_MSG, "error");
     return false;
   }
-
-  // Al cargar la página: si hay sesión previa pero la pestaña se recargó, sessionStorage se
-  // mantiene dentro de la misma pestaña en muchos navegadores. Forzamos un chequeo explícito:
-  window.addEventListener("beforeunload", () => {
-    // si el usuario cierra/recarga, limpiamos para exigir login de nuevo.
-    try { sessionStorage.removeItem(ADMIN_SESSION_KEY); } catch (_) {}
-  });
 
   document.getElementById("admin-open-btn").addEventListener("click", () => {
     if (enforceAdminSession()) openAdminPanel();
@@ -2171,7 +2197,7 @@
     const u = document.getElementById("admin-user").value;
     const p = document.getElementById("admin-pass").value;
     if (u === ADMIN_USERNAME && p === ADMIN_PASSWORD) {
-      startAdminSession(true); // sessionStorage → dura mientras la pestaña esté abierta
+      startAdminSession(true);
       adminNoticePending = false;
       adminLoginError.classList.add("hidden");
       document.getElementById("admin-user").value = "";
@@ -2184,63 +2210,48 @@
     }
   });
 
-  const adminApp = initializeApp(firebaseConfig, "admin");
-  const adminAuth = getAuth(adminApp);
-  const adminDb = getFirestore(adminApp);
-  const adminProductsCol = collection(adminDb, "productos");
-  const adminPromosCol = collection(adminDb, "promociones");
-  const adminEventsCol = collection(adminDb, "eventos");
-
+  /* ---- Firebase auth del admin ---- */
   const adminFbStatus = document.getElementById("admin-fb-status");
   const adminFbForm = document.getElementById("admin-fb-form");
   const adminFbConnectBtn = document.getElementById("admin-fb-connect-btn");
   const adminFbSignoutBtn = document.getElementById("admin-fb-signout-btn");
-  let adminHasClaim = false;
-
-  onAuthStateChanged(adminAuth, async (user) => {
-    adminHasClaim = false;
-    if (!user) {
-      adminFbStatus.textContent = "No conectada. Será necesaria cuando las reglas seguras de Firestore estén activas.";
-      adminFbForm.classList.remove("hidden");
-      adminFbSignoutBtn.classList.add("hidden");
-      return;
-    }
-    try {
-      const token = await user.getIdTokenResult();
-      adminHasClaim = token.claims.admin === true;
-    } catch (error) { console.warn("[admin] No se pudo leer el token.", error); }
-    adminFbStatus.textContent = adminHasClaim
-      ? `Conectada como ${user.email}. Permisos de administrador verificados por Firebase.`
-      : `Conectada como ${user.email}, pero esta cuenta NO tiene el permiso de administrador.`;
-    adminFbForm.classList.add("hidden");
-    adminFbSignoutBtn.classList.remove("hidden");
-  });
-
-  adminFbForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (!requireAdminSession()) return;
-    const email = document.getElementById("admin-fb-email").value.trim();
-    const pass = document.getElementById("admin-fb-pass").value;
-    if (!email || !pass) { adminFbStatus.textContent = "Ingresá el correo y la contraseña."; return; }
-    adminFbConnectBtn.disabled = true;
-    adminFbStatus.textContent = "Conectando…";
-    try {
-      await signInWithEmailAndPassword(adminAuth, email, pass);
-    } catch (error) {
-      adminFbStatus.textContent = "Error al conectar.";
-    } finally {
-      document.getElementById("admin-fb-pass").value = "";
-      adminFbConnectBtn.disabled = false;
-    }
-  });
-  adminFbSignoutBtn.addEventListener("click", () => signOut(adminAuth).catch((error) => console.warn("[admin] signOut", error)));
+  if (adminAuth) {
+    onAuthStateChanged(adminAuth, async (user) => {
+      if (!user) {
+        adminFbStatus.textContent = "No conectada.";
+        adminFbForm.classList.remove("hidden");
+        adminFbSignoutBtn.classList.add("hidden");
+        return;
+      }
+      adminFbStatus.textContent = `Conectada como ${user.email}.`;
+      adminFbForm.classList.add("hidden");
+      adminFbSignoutBtn.classList.remove("hidden");
+    });
+    adminFbForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!requireAdminSession()) return;
+      const email = document.getElementById("admin-fb-email").value.trim();
+      const pass = document.getElementById("admin-fb-pass").value;
+      if (!email || !pass) { adminFbStatus.textContent = "Ingresá correo y contraseña."; return; }
+      adminFbConnectBtn.disabled = true;
+      adminFbStatus.textContent = "Conectando…";
+      try {
+        await signInWithEmailAndPassword(adminAuth, email, pass);
+      } catch (error) {
+        adminFbStatus.textContent = "Error al conectar: " + (error.code || "desconocido");
+      } finally {
+        document.getElementById("admin-fb-pass").value = "";
+        adminFbConnectBtn.disabled = false;
+      }
+    });
+    adminFbSignoutBtn.addEventListener("click", () => signOut(adminAuth).catch(() => {}));
+  }
 
   function adminWriteErrorMessage(error) {
     const code = error && error.code;
     if (code === "permission-denied") return "Firestore rechazó la operación.";
     return "No se pudo completar la operación. Intentá de nuevo.";
   }
-
   function buildAdminRow(kind, item, metaLines, badge) {
     const row = document.createElement("div");
     row.className = "flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-gold/15 bg-wine-black/40 p-3";
@@ -2306,11 +2317,12 @@
   const adminPromosFilter = document.getElementById("admin-promos-filter");
 
   function renderAdminProducts() {
+    if (!adminProductsList) return;
     const term = adminProductsSearch.value.trim().toLowerCase();
     adminProductsList.innerHTML = "";
     const items = latestProducts.filter((p) => !term || String(p.titulo || "").toLowerCase().includes(term));
     if (items.length === 0) {
-      adminProductsList.innerHTML = `<p class="text-stone text-sm py-3">${latestProducts.length === 0 ? "Todavía no hay productos publicados." : "Ningún producto coincide con la búsqueda."}</p>`;
+      adminProductsList.innerHTML = `<p class="text-stone text-sm py-3">${latestProducts.length === 0 ? "Todavía no hay productos publicados." : "Ninguno coincide con la búsqueda."}</p>`;
       return;
     }
     items.forEach((p) => {
@@ -2324,6 +2336,7 @@
     });
   }
   function renderAdminPromos() {
+    if (!adminPromosList) return;
     const term = adminPromosSearch.value.trim().toLowerCase();
     const filter = adminPromosFilter.value;
     const today = todayLocalISO();
@@ -2337,21 +2350,22 @@
       return true;
     });
     if (items.length === 0) {
-      adminPromosList.innerHTML = `<p class="text-stone text-sm py-3">${allPromos.length === 0 ? "Todavía no hay promociones publicadas." : "Ninguna promoción coincide con la búsqueda o el filtro."}</p>`;
+      adminPromosList.innerHTML = `<p class="text-stone text-sm py-3">${allPromos.length === 0 ? "Todavía no hay promociones." : "Ninguna coincide con la búsqueda o el filtro."}</p>`;
       return;
     }
     items.forEach((p) => {
       const meta = [];
-      if (hasValidPrice(p.precio)) meta.push(formatPromoPrice(p)); else meta.push("Consultar precio");
+      meta.push(hasValidPrice(p.precio) ? formatPromoPrice(p) : "Consultar precio");
       if (p.descripcion) meta.push(shorten(p.descripcion, 70));
-      meta.push(`Vigencia hasta: ${formatISODate(p.vigencia) || "—"}${p.publicarDesde ? ` · Publicar desde: ${formatISODate(p.publicarDesde)}` : ""}`);
+      meta.push(`Vigencia hasta: ${formatISODate(p.vigencia) || "—"}`);
       adminPromosList.appendChild(buildAdminRow("promo", p, meta, promoStatus(p, today)));
     });
   }
   function renderAdminEvents() {
+    if (!adminEventsList) return;
     adminEventsList.innerHTML = "";
     if (allEvents.length === 0) {
-      adminEventsList.innerHTML = `<p class="text-stone text-sm py-3">Todavía no hay eventos publicados.</p>`;
+      adminEventsList.innerHTML = `<p class="text-stone text-sm py-3">Todavía no hay eventos.</p>`;
       return;
     }
     allEvents.forEach((p) => {
@@ -2366,10 +2380,9 @@
   adminPromosSearch.addEventListener("input", renderAdminPromos);
   adminPromosFilter.addEventListener("change", renderAdminPromos);
 
-  /* ================= GESTOR DE IMÁGENES MÚLTIPLES ================= */
+  /* ---- Image slots ---- */
   const IMAGE_LIMITS = { prod: 5, promo: 6, evento: 6 };
   const imgSlots = { prod: [], promo: [], evento: [] };
-
   function renderImageSlots(prefix) {
     const list = document.getElementById(`${prefix}-imagenes-list`);
     const slots = imgSlots[prefix];
@@ -2436,7 +2449,7 @@
   let savingEvent = false;
   const newVideoFiles = { prod: null, promo: null, evento: null };
 
-  function bindVideoInput(prefix, videoField) {
+  function bindVideoInput(prefix) {
     const inp = document.getElementById(`${prefix}-video`);
     const status = document.getElementById(`${prefix}-video-status`);
     inp.addEventListener("change", async () => {
@@ -2446,24 +2459,22 @@
       if (!file) return;
       try {
         const dur = await getVideoDuration(file);
-        if (dur > VIDEO_MAX_SECONDS) {
-          status.textContent = `Duración: ${Math.round(dur)}s. Máximo 180s.`;
+        if (!isFinite(dur) || dur > VIDEO_MAX_SECONDS) {
+          status.textContent = `Duración: ${Math.round(dur || 0)}s. Máximo 180s.`;
           status.className = "text-garnet-light text-xs mt-1";
           inp.value = "";
           return;
         }
         newVideoFiles[prefix] = file;
-        status.textContent = `Listo para subir (${Math.round(dur)}s): ${file.name}`;
+        status.textContent = `Listo (${Math.round(dur)}s): ${file.name}`;
         status.className = "text-gold-soft text-xs mt-1";
       } catch (err) {
-        status.textContent = "No se pudo leer la duración del video.";
+        status.textContent = "No se pudo leer la duración.";
         status.className = "text-garnet-light text-xs mt-1";
       }
     });
   }
-  bindVideoInput("prod");
-  bindVideoInput("promo");
-  bindVideoInput("evento");
+  bindVideoInput("prod"); bindVideoInput("promo"); bindVideoInput("evento");
 
   async function resolveVideo(prefix, existingUrl) {
     if (newVideoFiles[prefix]) {
@@ -2516,7 +2527,7 @@
 
   function startEditProduct(id) {
     const p = latestProducts.find((x) => x.id === id);
-    if (!p) { showToast("Ese producto ya no existe.", "error"); return; }
+    if (!p) { showToast("Producto no encontrado.", "error"); return; }
     editingProductId = id;
     document.getElementById("prod-titulo").value = p.titulo || "";
     document.getElementById("prod-descripcion").value = p.descripcion || "";
@@ -2526,16 +2537,15 @@
     setImageSlots("prod", getImages(p));
     newVideoFiles.prod = null;
     document.getElementById("prod-video").value = "";
-    document.getElementById("prod-video-status").textContent = p.videoUrl ? "Video actual cargado. Elegí uno nuevo para reemplazarlo." : "";
+    document.getElementById("prod-video-status").textContent = p.videoUrl ? "Video actual. Elegí uno nuevo para reemplazarlo." : "";
     document.getElementById("product-form-title").textContent = "Editar producto";
     document.getElementById("product-submit-btn").textContent = "Guardar cambios";
     document.getElementById("product-cancel-edit-btn").classList.remove("hidden");
     productForm.scrollIntoView({ behavior: "smooth", block: "center" });
-    document.getElementById("prod-titulo").focus({ preventScroll: true });
   }
   function startEditPromo(id) {
     const p = allPromos.find((x) => x.id === id);
-    if (!p) { showToast("Esa promoción ya no existe.", "error"); return; }
+    if (!p) { showToast("Promoción no encontrada.", "error"); return; }
     editingPromoId = id;
     document.getElementById("promo-titulo").value = p.titulo || "";
     document.getElementById("promo-descripcion").value = p.descripcion || "";
@@ -2546,16 +2556,15 @@
     setImageSlots("promo", getImages(p));
     newVideoFiles.promo = null;
     document.getElementById("promo-video").value = "";
-    document.getElementById("promo-video-status").textContent = p.videoUrl ? "Video actual cargado. Elegí uno nuevo para reemplazarlo." : "";
+    document.getElementById("promo-video-status").textContent = p.videoUrl ? "Video actual. Elegí uno nuevo para reemplazarlo." : "";
     document.getElementById("promo-form-title").textContent = "Editar promoción";
     document.getElementById("promo-submit-btn").textContent = "Guardar cambios";
     document.getElementById("promo-cancel-edit-btn").classList.remove("hidden");
     promoForm.scrollIntoView({ behavior: "smooth", block: "center" });
-    document.getElementById("promo-titulo").focus({ preventScroll: true });
   }
   function startEditEvent(id) {
     const p = allEvents.find((x) => x.id === id);
-    if (!p) { showToast("Ese evento ya no existe.", "error"); return; }
+    if (!p) { showToast("Evento no encontrado.", "error"); return; }
     editingEventId = id;
     document.getElementById("evento-titulo").value = p.titulo || "";
     document.getElementById("evento-descripcion").value = p.descripcion || "";
@@ -2567,19 +2576,18 @@
     setImageSlots("evento", getImages(p));
     newVideoFiles.evento = null;
     document.getElementById("evento-video").value = "";
-    document.getElementById("evento-video-status").textContent = p.videoUrl ? "Video actual cargado. Elegí uno nuevo para reemplazarlo." : "";
+    document.getElementById("evento-video-status").textContent = p.videoUrl ? "Video actual. Elegí uno nuevo para reemplazarlo." : "";
     document.getElementById("evento-form-title").textContent = "Editar evento";
     document.getElementById("evento-submit-btn").textContent = "Guardar cambios";
     document.getElementById("evento-cancel-edit-btn").classList.remove("hidden");
     eventoForm.scrollIntoView({ behavior: "smooth", block: "center" });
-    document.getElementById("evento-titulo").focus({ preventScroll: true });
   }
 
   let pendingDelete = null;
   function askDelete(kind, id) {
     const coll = kind === "producto" ? latestProducts : kind === "promo" ? allPromos : allEvents;
     const item = coll.find((x) => x.id === id);
-    if (!item) { showToast("Ese elemento ya no existe.", "error"); return; }
+    if (!item) { showToast("Elemento no encontrado.", "error"); return; }
     pendingDelete = { kind, id };
     document.getElementById("admin-confirm-name").textContent = item.titulo || "";
     showEl(adminConfirmModal);
@@ -2633,23 +2641,19 @@
   });
 
   async function broadcastEmail(titulo, mensaje, templateId, linkUrl) {
+    if (!window.emailjs) return;
     try {
       const usersSnap = await getDocs(collection(adminDb, "usuarios"));
-      const users = usersSnap.docs.map(doc => doc.data());
-      for (const u of users) {
+      for (const d of usersSnap.docs) {
+        const u = d.data();
         if (u.email) {
           await window.emailjs.send(EMAILJS_SERVICE_ID, templateId, {
-            to_email: u.email,
-            to_name: u.nombre || "Anfitrión",
-            email_titulo: titulo,
-            email_mensaje: mensaje,
-            promo_link: linkUrl
+            to_email: u.email, to_name: u.nombre || "Anfitrión",
+            email_titulo: titulo, email_mensaje: mensaje, promo_link: linkUrl
           });
         }
       }
-    } catch (e) {
-      console.error("[email] error mandando correos masivos:", e && (e.code || e.status), e && (e.text || e.message || e));
-    }
+    } catch (e) { console.error("[email masivo]", e); }
   }
 
   productForm.addEventListener("submit", async (e) => {
@@ -2665,7 +2669,6 @@
     const shouldSendEmail = document.getElementById("send-product-emails")?.checked;
     const editing = editingProductId !== null;
     if (!titulo.trim() || slots.length === 0) { showToast("Completá título y al menos 1 imagen.", "error"); return; }
-
     savingProduct = true;
     const submitBtn = document.getElementById("product-submit-btn");
     const label = submitBtn.textContent;
@@ -2680,21 +2683,13 @@
         precio: hasValidPrice(precioRaw) ? Number(precioRaw) : null,
         precioTransferencia: hasValidPrice(precioTransferenciaRaw) ? Number(precioTransferenciaRaw) : null,
         disponible: !!disponible,
-        imagenes,
-        imagenUrl: imagenes[0],
-        videoUrl: videoUrl || null
+        imagenes, imagenUrl: imagenes[0], videoUrl: videoUrl || null
       };
-      if (editing) {
-        await updateDoc(doc(adminDb, "productos", editingProductId), fields);
-        showToast("Producto actualizado correctamente.");
-      } else {
-        await addDoc(adminProductsCol, { ...fields, creadoEn: serverTimestamp() });
-        showToast("Producto publicado correctamente.");
-      }
+      if (editing) { await updateDoc(doc(adminDb, "productos", editingProductId), fields); showToast("Producto actualizado."); }
+      else { await addDoc(adminProductsCol, { ...fields, creadoEn: serverTimestamp() }); showToast("Producto publicado."); }
       if (shouldSendEmail) {
-        showToast("Enviando correos de nuevo producto a registrados...");
+        showToast("Enviando correos...");
         await broadcastEmail(titulo, descripcion, EMAILJS_PROMO_TEMPLATE_ID, "https://clubdelanfitrion.com.ar/#productos");
-        showToast("¡Correos de nuevo producto enviados!");
       }
       resetProductForm();
     } catch (err) {
@@ -2719,8 +2714,7 @@
     const slots = imgSlots.promo.slice();
     const shouldSendEmail = document.getElementById("send-promo-emails")?.checked;
     const editing = editingPromoId !== null;
-    if (!titulo.trim() || !vigencia || slots.length === 0) { showToast("Completá los campos obligatorios (al menos 1 imagen).", "error"); return; }
-
+    if (!titulo.trim() || !vigencia || slots.length === 0) { showToast("Completá campos obligatorios (al menos 1 imagen).", "error"); return; }
     savingPromo = true;
     const submitBtn = document.getElementById("promo-submit-btn");
     const label = submitBtn.textContent;
@@ -2734,22 +2728,13 @@
         titulo, descripcion, vigencia,
         publicarDesde: publicarDesde || null,
         precio: hasValidPrice(precioRaw) ? Number(precioRaw) : null,
-        tipoPrecio,
-        imagenes,
-        imagenUrl: imagenes[0],
-        videoUrl: videoUrl || null
+        tipoPrecio, imagenes, imagenUrl: imagenes[0], videoUrl: videoUrl || null
       };
-      if (editing) {
-        await updateDoc(doc(adminDb, "promociones", editingPromoId), fields);
-        showToast("Promoción actualizada correctamente.");
-      } else {
-        await addDoc(adminPromosCol, { ...fields, creadoEn: serverTimestamp() });
-        showToast("Promoción publicada correctamente.");
-      }
+      if (editing) { await updateDoc(doc(adminDb, "promociones", editingPromoId), fields); showToast("Promoción actualizada."); }
+      else { await addDoc(adminPromosCol, { ...fields, creadoEn: serverTimestamp() }); showToast("Promoción publicada."); }
       if (shouldSendEmail) {
-        showToast("Enviando correos de promoción a registrados...");
+        showToast("Enviando correos...");
         await broadcastEmail(titulo, descripcion, EMAILJS_PROMO_TEMPLATE_ID, "https://clubdelanfitrion.com.ar/#promociones");
-        showToast("¡Correos de la promoción enviados!");
       }
       resetPromoForm();
     } catch (err) {
@@ -2790,18 +2775,10 @@
       const fields = {
         titulo, descripcion, fecha, hora, lugar,
         precio: hasValidPrice(precioRaw) ? Number(precioRaw) : null,
-        tipoPrecio,
-        imagenes,
-        imagenUrl: imagenes[0],
-        videoUrl: videoUrl || null
+        tipoPrecio, imagenes, imagenUrl: imagenes[0], videoUrl: videoUrl || null
       };
-      if (editing) {
-        await updateDoc(doc(adminDb, "eventos", editingEventId), fields);
-        showToast("Evento actualizado correctamente.");
-      } else {
-        await addDoc(adminEventsCol, { ...fields, creadoEn: serverTimestamp() });
-        showToast("Evento publicado correctamente.");
-      }
+      if (editing) { await updateDoc(doc(adminDb, "eventos", editingEventId), fields); showToast("Evento actualizado."); }
+      else { await addDoc(adminEventsCol, { ...fields, creadoEn: serverTimestamp() }); showToast("Evento publicado."); }
       resetEventForm();
     } catch (err) {
       showToast(err.message || adminWriteErrorMessage(err), "error");
@@ -2812,11 +2789,8 @@
     }
   });
 
-  /* ================= LOGO Y FAVICON ================= */
-  const SETTINGS_REF = doc(db, "settings", "general");
-  const LOGO_CACHE_KEY = "clubLogoUrl";
-  const LOGO_MAX_BYTES = 10 * 1024 * 1024;
-
+  /* ---- Logo / favicon ---- */
+  const SETTINGS_REF = db ? doc(db, "settings", "general") : null;
   function setMetaContent(selector, value) {
     const el = document.querySelector(selector);
     if (el) el.setAttribute("content", value);
@@ -2839,58 +2813,60 @@
     if (readout) readout.value = url;
     try { localStorage.setItem(LOGO_CACHE_KEY, url); } catch (_) { }
   }
-
   try { applySiteLogo(localStorage.getItem(LOGO_CACHE_KEY)); } catch (_) { }
-  onSnapshot(SETTINGS_REF, (snap) => {
-    if (snap.exists()) applySiteLogo(snap.data().logoUrl);
-  }, (error) => console.warn("[settings] No se pudo leer settings/general", error.code || error));
+  if (SETTINGS_REF) {
+    onSnapshot(SETTINGS_REF, (snap) => {
+      if (snap.exists()) applySiteLogo(snap.data().logoUrl);
+    }, (error) => console.warn("[settings]", error));
+  }
 
   const logoForm = document.getElementById("logo-form");
   const logoFile = document.getElementById("logo-file");
   const logoStatus = document.getElementById("logo-status");
   const logoSubmitBtn = document.getElementById("logo-submit-btn");
   let logoPreviewObjectUrl = null;
-
-  logoFile.addEventListener("change", () => {
-    const file = logoFile.files[0];
-    if (logoPreviewObjectUrl) { URL.revokeObjectURL(logoPreviewObjectUrl); logoPreviewObjectUrl = null; }
-    if (!file) return;
-    logoPreviewObjectUrl = URL.createObjectURL(file);
-    document.getElementById("logo-admin-preview").src = logoPreviewObjectUrl;
-    logoStatus.textContent = `Seleccionado: ${file.name}`;
-  });
-
-  logoForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (!requireAdminSession()) return;
-    const file = logoFile.files[0];
-    if (!file) { logoStatus.textContent = "Elegí una imagen primero."; return; }
-    if (!file.type.startsWith("image/")) { logoStatus.textContent = "El archivo debe ser una imagen."; return; }
-    if (file.size > LOGO_MAX_BYTES) { logoStatus.textContent = "La imagen supera los 10 MB."; return; }
-
-    logoSubmitBtn.disabled = true;
-    logoStatus.textContent = "Subiendo a Cloudinary…";
-    try {
-      const logoUrl = await uploadImageToCloudinary(file);
-      logoStatus.textContent = "Guardando en Firestore…";
-      await setDoc(doc(adminDb, "settings", "general"), { logoUrl, actualizadoEn: serverTimestamp() }, { merge: true });
+  if (logoFile) {
+    logoFile.addEventListener("change", () => {
+      const file = logoFile.files[0];
       if (logoPreviewObjectUrl) { URL.revokeObjectURL(logoPreviewObjectUrl); logoPreviewObjectUrl = null; }
-      applySiteLogo(logoUrl);
-      logoFile.value = "";
-      logoStatus.textContent = "Logotipo actualizado en todo el sitio.";
-      showToast("Logotipo y favicon actualizados.");
-    } catch (error) {
-      console.error("[logo]", error);
-      logoStatus.textContent = error && error.code ? adminWriteErrorMessage(error) : "No se pudo subir la imagen. Intentá de nuevo.";
-      showToast(logoStatus.textContent, "error");
-    } finally {
-      logoSubmitBtn.disabled = false;
-    }
-  });
+      if (!file) return;
+      logoPreviewObjectUrl = URL.createObjectURL(file);
+      document.getElementById("logo-admin-preview").src = logoPreviewObjectUrl;
+      logoStatus.textContent = `Seleccionado: ${file.name}`;
+    });
+    logoForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!requireAdminSession()) return;
+      const file = logoFile.files[0];
+      if (!file) { logoStatus.textContent = "Elegí una imagen primero."; return; }
+      if (!file.type.startsWith("image/")) { logoStatus.textContent = "Debe ser una imagen."; return; }
+      if (file.size > LOGO_MAX_BYTES) { logoStatus.textContent = "Supera los 10 MB."; return; }
+      logoSubmitBtn.disabled = true;
+      logoStatus.textContent = "Subiendo…";
+      try {
+        const logoUrl = await uploadImageToCloudinary(file);
+        logoStatus.textContent = "Guardando…";
+        await setDoc(doc(adminDb, "settings", "general"), { logoUrl, actualizadoEn: serverTimestamp() }, { merge: true });
+        if (logoPreviewObjectUrl) { URL.revokeObjectURL(logoPreviewObjectUrl); logoPreviewObjectUrl = null; }
+        applySiteLogo(logoUrl);
+        logoFile.value = "";
+        logoStatus.textContent = "Logotipo actualizado.";
+        showToast("Logotipo y favicon actualizados.");
+      } catch (error) {
+        console.error("[logo]", error);
+        logoStatus.textContent = adminWriteErrorMessage(error);
+      } finally {
+        logoSubmitBtn.disabled = false;
+      }
+    });
+  }
 
-  enforceAdminSession();
-
-  /* ================= AUTENTICACIÓN DE USUARIOS ================= */
+  /* ============================================================
+   *  AUTENTICACIÓN DE USUARIOS (Google + email/pass)
+   *  Se enlazan los listeners PRIMERO, antes que cualquier
+   *  onSnapshot u operación async, para que aunque falle el
+   *  resto del módulo, el login siga funcionando.
+   * ============================================================ */
   const authModal = document.getElementById("auth-modal");
   const authMessage = document.getElementById("auth-message");
   const authFields = document.getElementById("auth-fields");
@@ -2927,9 +2903,10 @@
     setAuthMessage("");
   }
   function openAuthModal() {
+    if (!authModal) return;
     authModal.classList.remove("hidden");
     authModal.classList.add("flex");
-    if (!auth.currentUser) showAuthView("login");
+    if (!auth || !auth.currentUser) showAuthView("login");
     else setAuthMessage("");
   }
   function closeAuthModal() {
@@ -2937,30 +2914,31 @@
     authModal.classList.remove("flex");
   }
   const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-
   function authErrorMessage(error) {
+    const code = error && error.code;
     const messages = {
-      "auth/invalid-email": "El correo electrónico no es válido.",
+      "auth/invalid-email": "El correo no es válido.",
       "auth/user-not-found": "No existe una cuenta con ese correo.",
-      "auth/wrong-password": "La contraseña es incorrecta.",
+      "auth/wrong-password": "Contraseña incorrecta.",
       "auth/invalid-credential": "Correo o contraseña incorrectos.",
       "auth/missing-password": "Ingresá tu contraseña.",
-      "auth/user-disabled": "Esta cuenta está deshabilitada.",
-      "auth/email-already-in-use": "Ese correo ya tiene una cuenta. Podés iniciar sesión.",
-      "auth/weak-password": "La contraseña debe tener al menos 6 caracteres.",
-      "auth/too-many-requests": "Demasiados intentos. Esperá unos minutos e intentá de nuevo.",
-      "auth/network-request-failed": "Error de conexión. Revisá tu internet e intentá de nuevo.",
-      "auth/popup-closed-by-user": "Se cerró la ventana de Google antes de terminar.",
-      "auth/cancelled-popup-request": "Se canceló el inicio de sesión con Google.",
+      "auth/user-disabled": "Cuenta deshabilitada.",
+      "auth/email-already-in-use": "Ese correo ya tiene una cuenta.",
+      "auth/weak-password": "Mínimo 6 caracteres.",
+      "auth/too-many-requests": "Demasiados intentos. Esperá unos minutos.",
+      "auth/network-request-failed": "Error de conexión.",
+      "auth/popup-closed-by-user": "Se cerró la ventana de Google.",
+      "auth/cancelled-popup-request": "Se canceló el inicio con Google.",
       "auth/popup-blocked": "El navegador bloqueó la ventana de Google.",
-      "auth/unauthorized-domain": "El acceso con Google no está habilitado para este dominio.",
-      "auth/operation-not-allowed": "El acceso con Google no está habilitado.",
-      "auth/account-exists-with-different-credential": "Ya existe una cuenta con ese correo creada con otro método."
+      "auth/unauthorized-domain": "Dominio no autorizado en Firebase. Agregá clubdelanfitrion.com.ar en Authentication → Settings → Authorized domains.",
+      "auth/operation-not-allowed": "Método de acceso deshabilitado en Firebase Console.",
+      "auth/account-exists-with-different-credential": "Ya existe una cuenta con ese correo."
     };
-    return messages[error && error.code] || `No se pudo completar la operación.`;
+    return messages[code] || `Error (${code || "desconocido"}). Revisá la consola.`;
   }
 
-  authOpenBtn.addEventListener("click", openAuthModal);
+  /* ---- Listeners de AUTH (arriba de todo, antes de onSnapshot) ---- */
+  if (authOpenBtn) authOpenBtn.addEventListener("click", openAuthModal);
   document.getElementById("auth-close-btn").addEventListener("click", closeAuthModal);
   authModal.addEventListener("click", e => { if (e.target === authModal) closeAuthModal(); });
   document.getElementById("auth-show-register").addEventListener("click", () => {
@@ -2987,30 +2965,26 @@
       if (snap.exists()) return true;
       await setDoc(ref, { nombre, apellido, email: user.email || "", creadoEn: serverTimestamp() });
       return true;
-    } catch (error) { return false; }
+    } catch (error) { console.warn("[profile]", error); return false; }
   }
-
   async function sendWelcomeEmail({ email, nombre }) {
     if (!window.emailjs || !email) return false;
     try {
       await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_WELCOME_TEMPLATE_ID, {
-        to_email: email,
-        user_email: email,
+        to_email: email, user_email: email,
         to_name: nombre || email.split("@")[0],
-        email_titulo: "¡Te damos la bienvenida a Club del Anfitrión!",
-        email_mensaje: "Gracias por registrarte. Ya sos parte de nuestra comunidad: vas a ser de los primeros en enterarte de las novedades, promociones y degustaciones de Club del Anfitrión. ¡Brindemos por lo que viene!"
+        email_titulo: "¡Bienvenido a Club del Anfitrión!",
+        email_mensaje: "Gracias por registrarte. Ya sos parte de nuestra comunidad."
       });
       return true;
-    } catch (error) {
-      console.error("[email bienvenida]", error && (error.status || error.code), error && (error.text || error.message || error));
-      return false;
-    }
+    } catch (error) { console.warn("[email]", error); return false; }
   }
 
   authGoogleBtn.addEventListener("click", async () => {
     if (authBusy) return;
+    if (!auth) { setAuthMessage("Firebase no inicializó. Recargá la página.", true); return; }
     setAuthBusy(true);
-    authGoogleLabel.textContent = "Conectando con Google...";
+    authGoogleLabel.textContent = "Conectando...";
     setAuthMessage("Conectando con Google...");
     try {
       const result = await signInWithPopup(auth, googleProvider);
@@ -3018,13 +2992,10 @@
       const { nombre, apellido } = splitDisplayName(result.user.displayName);
       await ensureUserProfile(result.user, { nombre, apellido });
       closeAuthModal();
-      showToast("Iniciaste sesión correctamente.");
-      if (isNew) {
-        sendWelcomeEmail({ email: result.user.email, nombre }).then((ok) => {
-          if (!ok) showToast("Tu cuenta se creó, pero no pudimos enviar el correo de bienvenida.", "error");
-        });
-      }
+      showToast("Sesión iniciada con Google.");
+      if (isNew) sendWelcomeEmail({ email: result.user.email, nombre });
     } catch (error) {
+      console.error("[google auth]", error);
       setAuthMessage(authErrorMessage(error), true);
     } finally {
       authGoogleLabel.textContent = GOOGLE_LABEL;
@@ -3035,17 +3006,17 @@
   authRegisterForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (authBusy) return;
+    if (!auth) { setAuthMessage("Firebase no inicializó.", true); return; }
     const nombre = document.getElementById("auth-reg-nombre").value.trim();
     const apellido = document.getElementById("auth-reg-apellido").value.trim();
     const email = document.getElementById("auth-reg-email").value.trim();
     const password = document.getElementById("auth-reg-password").value;
-    if (!nombre || !apellido) { setAuthMessage("Ingresá tu nombre y tu apellido.", true); return; }
-    if (!isValidEmail(email)) { setAuthMessage("Ingresá un correo electrónico válido.", true); return; }
-    if (!password) { setAuthMessage("Ingresá una contraseña.", true); return; }
-
+    if (!nombre || !apellido) { setAuthMessage("Ingresá nombre y apellido.", true); return; }
+    if (!isValidEmail(email)) { setAuthMessage("Correo inválido.", true); return; }
+    if (!password || password.length < 6) { setAuthMessage("Contraseña de mínimo 6 caracteres.", true); return; }
     setAuthBusy(true);
     registering = true;
-    setAuthMessage("Creando tu cuenta...");
+    setAuthMessage("Creando cuenta...");
     let credential;
     try {
       credential = await createUserWithEmailAndPassword(auth, email, password);
@@ -3055,33 +3026,27 @@
       setAuthMessage(authErrorMessage(error), true);
       return;
     }
-
     const user = credential.user;
     const warnings = [];
-    try { await updateProfile(user, { displayName: `${nombre} ${apellido}` }); } catch (error) {}
-    if (!(await ensureUserProfile(user, { nombre, apellido }))) warnings.push("No pudimos guardar los datos de tu perfil.");
-    if (!(await sendWelcomeEmail({ email: user.email, nombre }))) warnings.push("No pudimos enviarte el correo de bienvenida.");
-    try { await signOut(auth); } catch (error) {}
+    try { await updateProfile(user, { displayName: `${nombre} ${apellido}` }); } catch (_) {}
+    if (!(await ensureUserProfile(user, { nombre, apellido }))) warnings.push("No se guardó el perfil.");
+    if (!(await sendWelcomeEmail({ email: user.email, nombre }))) warnings.push("No se pudo enviar el mail de bienvenida.");
+    try { await signOut(auth); } catch (_) {}
     registering = false;
     renderAuthState(auth.currentUser);
-    loadMyPurchases(document.getElementById("filter-dni").value.trim());
+    loadMyPurchases(filterDniInput.value.trim());
     authRegisterForm.reset();
     authEmail.value = email;
     authPassword.value = "";
     setAuthBusy(false);
     closeAuthModal();
-    showRegisterSuccess(nombre, warnings);
-  });
-
-  function showRegisterSuccess(nombre, warnings) {
-    document.getElementById("register-success-text").textContent = `Usuario registrado con éxito. ¡Te damos la bienvenida, ${nombre}!`;
+    document.getElementById("register-success-text").textContent = `Usuario registrado con éxito. ¡Bienvenido, ${nombre}!`;
     const warn = document.getElementById("register-success-warning");
     if (warnings.length) { warn.textContent = warnings.join(" "); warn.classList.remove("hidden"); }
-    else { warn.textContent = ""; warn.classList.add("hidden"); }
+    else warn.classList.add("hidden");
     registerSuccessModal.classList.remove("hidden");
     registerSuccessModal.classList.add("flex");
-    document.getElementById("register-success-btn").focus();
-  }
+  });
   document.getElementById("register-success-btn").addEventListener("click", () => {
     registerSuccessModal.classList.add("hidden");
     registerSuccessModal.classList.remove("flex");
@@ -3092,8 +3057,9 @@
   authLoginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (authBusy) return;
+    if (!auth) { setAuthMessage("Firebase no inicializó.", true); return; }
     const email = authEmail.value.trim();
-    if (!isValidEmail(email)) { setAuthMessage("Ingresá un correo electrónico válido.", true); return; }
+    if (!isValidEmail(email)) { setAuthMessage("Correo inválido.", true); return; }
     if (!authPassword.value) { setAuthMessage("Ingresá tu contraseña.", true); return; }
     setAuthBusy(true);
     setAuthMessage("Iniciando sesión...");
@@ -3101,34 +3067,40 @@
       await signInWithEmailAndPassword(auth, email, authPassword.value);
       authPassword.value = "";
       closeAuthModal();
-      showToast("Iniciaste sesión correctamente.");
+      showToast("Sesión iniciada.");
     } catch (error) {
+      console.error("[login]", error);
       setAuthMessage(authErrorMessage(error), true);
-    } finally { setAuthBusy(false); }
+    } finally {
+      setAuthBusy(false);
+    }
   });
 
   document.getElementById("auth-reset-btn").addEventListener("click", async () => {
-    if (authBusy) return;
+    if (authBusy || !auth) return;
     const email = authEmail.value.trim();
-    if (!email) { setAuthMessage("Escribí tu correo para recibir el enlace de recuperación.", true); return; }
-    if (!isValidEmail(email)) { setAuthMessage("Ingresá un correo electrónico válido.", true); return; }
-    if (Date.now() < resetCooldownUntil) { setAuthMessage("Ya enviamos las instrucciones. Esperá unos segundos.", true); return; }
+    if (!isValidEmail(email)) { setAuthMessage("Ingresá un correo válido.", true); return; }
+    if (Date.now() < resetCooldownUntil) { setAuthMessage("Esperá unos segundos.", true); return; }
     setAuthBusy(true);
     try {
       await sendPasswordResetEmail(auth, email);
       resetCooldownUntil = Date.now() + 30000;
-      setAuthMessage("Si existe una cuenta con ese correo, Firebase enviará las instrucciones.");
+      setAuthMessage("Si existe una cuenta, recibirás las instrucciones.");
     } catch (error) {
-      if (error.code === "auth/user-not-found") { resetCooldownUntil = Date.now() + 30000; setAuthMessage("Si existe una cuenta con ese correo, Firebase enviará las instrucciones."); }
-      else setAuthMessage(authErrorMessage(error), true);
-    } finally { setAuthBusy(false); }
+      if (error.code === "auth/user-not-found") {
+        resetCooldownUntil = Date.now() + 30000;
+        setAuthMessage("Si existe una cuenta, recibirás las instrucciones.");
+      } else setAuthMessage(authErrorMessage(error), true);
+    } finally {
+      setAuthBusy(false);
+    }
   });
 
   document.getElementById("auth-signout-btn").addEventListener("click", async () => {
     try {
       await signOut(auth);
       showAuthView("login");
-      setAuthMessage("Cerraste sesión.");
+      setAuthMessage("Sesión cerrada.");
     } catch (error) {
       setAuthMessage("No se pudo cerrar la sesión.", true);
     }
@@ -3143,20 +3115,29 @@
       authProfile.classList.remove("hidden");
       authFields.classList.add("hidden");
     } else {
-      authOpenBtn.textContent = "Ingresar/registrarse";
+      authOpenBtn.textContent = "Ingresar";
       authStatus.textContent = authRegisterView.classList.contains("hidden") ? "Ingresá o creá tu cuenta para continuar." : "Completá tus datos para crear tu cuenta.";
       authProfile.classList.add("hidden");
       authFields.classList.remove("hidden");
     }
   }
 
-  onAuthStateChanged(auth, user => {
-    if (registering) return;
-    renderAuthState(user);
-    loadMyPurchases(document.getElementById("filter-dni").value.trim());
-  });
+  if (auth) {
+    onAuthStateChanged(auth, user => {
+      if (registering) return;
+      renderAuthState(user);
+      loadMyPurchases(filterDniInput.value.trim());
+    });
+  }
 
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Sesión admin: forzar logout al cerrar pestaña/recargar
+  window.addEventListener("beforeunload", () => {
+    try { sessionStorage.removeItem(ADMIN_SESSION_KEY); } catch (_) {}
+  });
+
+  enforceAdminSession();
 </script>
 
 <div class="whatsapp-container">
