@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Club del Anfitrión — Vinoteca boutique en Bell Ville, Córdoba</title>
-<meta name="description" content="Vinoteca boutique en Bell Ville, Córdoba. Vinos de bodegas chicas, picadas, reservas de mesa y pedidos online con retiro en Córdoba 1301.">
-<meta name="keywords" content="vinoteca, vinos, Bell Ville, Córdoba, Club del Anfitrión, bodegas boutique, reservas, picadas">
+<title>Club del Anfitrión — Vinoteca boutique y regalería en Bell Ville, Córdoba</title>
+<meta name="description" content="Vinoteca boutique y regalería en Bell Ville, Córdoba. Vinos de bodegas chicas, picadas, fuegos, eventos, reservas de mesa y pedidos online con retiro en Córdoba 1309.">
+<meta name="keywords" content="vinoteca, regalería, fuegos, eventos, vinos, Bell Ville, Córdoba, Club del Anfitrión, bodegas boutique, reservas, picadas, degustaciones">
 <meta name="author" content="Club del Anfitrión">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#140b0c">
-<link rel="canonical" href="https://clubdelanfitrion.github.io/">
+<link rel="canonical" href="https://clubdelanfitrion.com.ar/">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,16 +21,9 @@
     theme: {
       extend: {
         colors: {
-          "wine-black": "#140b0c",
-          "wine-dark": "#1e1114",
-          "wine-panel": "#26161a",
-          "burgundy": "#5c1128",
-          "garnet": "#7c1f2f",
-          "garnet-light": "#9c3244",
-          "gold": "#c9a24b",
-          "gold-soft": "#e6cf9c",
-          "cream": "#efe6d8",
-          "stone": "#b4a293",
+          "wine-black": "#140b0c", "wine-dark": "#1e1114", "wine-panel": "#26161a",
+          "burgundy": "#5c1128", "garnet": "#7c1f2f", "garnet-light": "#9c3244",
+          "gold": "#c9a24b", "gold-soft": "#e6cf9c", "cream": "#efe6d8", "stone": "#b4a293",
         },
         fontFamily: {
           display: ['"Fraunces"', "serif"],
@@ -48,6 +41,7 @@
     background-image:
       radial-gradient(ellipse 90% 60% at 15% -10%, rgba(124,31,47,0.35), transparent 60%),
       radial-gradient(ellipse 70% 50% at 100% 0%, rgba(201,162,75,0.08), transparent 55%);
+    -webkit-tap-highlight-color: transparent;
   }
   .hairline { background: linear-gradient(90deg, transparent, rgba(201,162,75,0.55), transparent); height: 1px; }
   .label-serif { font-family: "Fraunces", serif; font-style: italic; }
@@ -61,82 +55,88 @@
   .scrollbar-thin::-webkit-scrollbar { width: 6px; }
   .scrollbar-thin::-webkit-scrollbar-thumb { background: #7c1f2f; border-radius: 4px; }
   input:focus, textarea:focus, button:focus-visible, a:focus-visible {
-    outline: 2px solid #c9a24b;
-    outline-offset: 2px;
+    outline: 2px solid #c9a24b; outline-offset: 2px;
   }
   #toast-container { position: fixed; top: 1.25rem; right: 1.25rem; z-index: 100; display: flex; flex-direction: column; gap: 0.6rem; }
   .toast { min-width: 260px; max-width: 340px; }
   .product-grid-enter { animation: fadeIn 0.5s ease-out both; }
 
-  /* Descripciones de tarjetas: vista previa de 4 líneas con puntos suspensivos */
   .desc-clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; line-clamp: 4; overflow: hidden; text-overflow: ellipsis; }
-  /* Imágenes de productos/promociones que abren la vista ampliada */
   .zoom-trigger { cursor: zoom-in; }
-  /* Visor de imagen ampliada: imagen completa, sin deformar */
   .lightbox-img { display: block; max-width: 100%; max-height: calc(100vh - 6rem); max-height: calc(100dvh - 6rem); width: auto; height: auto; object-fit: contain; }
 
   .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
   .whatsapp-container {
-      position: fixed;
-      bottom: 24px;
-      right: 90px;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      position: fixed; bottom: 24px; right: 90px; z-index: 9999;
+      display: flex; align-items: center; gap: 12px;
   }
   .whatsapp-float {
-      width: 52px;
-      height: 52px;
-      background-color: #25d366;
-      color: #FFF;
-      border-radius: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease;
-      text-decoration: none;
+      width: 52px; height: 52px; background-color: #25d366; color: #FFF;
+      border-radius: 50px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; text-decoration: none;
   }
-  .whatsapp-float:hover {
-      background-color: #20ba5a;
-      transform: scale(1.1);
-  }
+  .whatsapp-float:hover { background-color: #20ba5a; transform: scale(1.1); }
   .wa-tooltip {
-      background-color: #1c1917;
-      color: #f5f5f4;
-      border: 1px solid #d4af37;
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      white-space: nowrap;
+      background-color: #1c1917; color: #f5f5f4; border: 1px solid #d4af37;
+      padding: 8px 14px; border-radius: 20px; font-size: 13px; white-space: nowrap;
       box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-      animation: fadeIn 0.4s ease-in-out;
-      transition: opacity 0.4s ease;
+      animation: fadeIn 0.4s ease-in-out; transition: opacity 0.4s ease;
   }
-  .wa-tooltip.hidden {
-      display: none;
-      opacity: 0;
+  .wa-tooltip.hidden { display: none; opacity: 0; }
+
+  /* Desvanecimiento de la portada del modal de detalle al hacer scroll */
+  .detail-hero { transition: opacity 0.25s ease, filter 0.25s ease; will-change: opacity; }
+
+  /* Microinteracciones */
+  .btn-press { transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+  .btn-press:active { transform: scale(0.97); }
+
+  /* Video player overlay */
+  .video-wrap { position: relative; }
+  .video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+  .video-audio-btn {
+    position: absolute; bottom: 12px; right: 12px; z-index: 5;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(20,11,12,0.8); color: #efe6d8;
+    border: 1px solid rgba(201,162,75,0.5);
+    padding: 8px 12px; border-radius: 9999px; font-size: 12px;
+    backdrop-filter: blur(6px); cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .video-audio-btn:hover { background: #c9a24b; color: #140b0c; }
+
+  /* Badge sin stock */
+  .badge-out { background: rgba(124,31,47,0.85); color: #efe6d8; font-size: 11px; padding: 3px 10px; border-radius: 9999px; font-weight: 600; }
+  .card-out { opacity: 0.75; }
+
+  /* Touch-friendly */
+  button, a { touch-action: manipulation; }
+
+  /* mobile: menos scroll horizontal */
+  @media (max-width: 640px) {
+    .wa-tooltip { display: none !important; }
+    .whatsapp-container { right: 16px; bottom: 16px; }
   }
 </style>
 
-<!-- Open Graph (WhatsApp, Facebook, etc.). Los crawlers NO ejecutan JS: este og:image es el que ven.
-     Para usar el logo de Cloudinary, pegá aquí la URL que muestra el panel admin en "Logotipo y favicon". -->
 <meta property="og:site_name" content="Club del Anfitrión">
 <meta property="og:locale" content="es_AR">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://clubdelanfitrion.github.io/">
-<meta property="og:title" content="Club del Anfitrión — Vinoteca boutique en Bell Ville">
-<meta property="og:description" content="Vinos distintos, de bodegas chicas y boutique, directo a tu mesa. Reservas y pedidos online.">
+<meta property="og:url" content="https://clubdelanfitrion.com.ar/">
+<meta property="og:title" content="Club del Anfitrión — Vinoteca boutique y regalería en Bell Ville">
+<meta property="og:description" content="Vinos de bodegas chicas, picadas, regalería, eventos y fuegos. Reservas y pedidos online con retiro en Córdoba 1309, Bell Ville.">
 <meta property="og:image" content="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Logotipo de Club del Anfitrión">
+<meta property="og:phone_number" content="+5493537513148">
 
-<!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Club del Anfitrión — Vinoteca boutique en Bell Ville">
-<meta name="twitter:description" content="Vinos distintos, de bodegas chicas y boutique, directo a tu mesa. Reservas y pedidos online.">
+<meta name="twitter:title" content="Club del Anfitrión — Vinoteca boutique y regalería en Bell Ville">
+<meta name="twitter:description" content="Vinos de bodegas chicas, picadas, regalería, eventos y fuegos. Reservas y pedidos online.">
 <meta name="twitter:image" content="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
+<meta name="twitter:site" content="@clubdelanfitrion">
 
 <script type="application/ld+json">
 {
@@ -144,7 +144,7 @@
   "@type": "WebSite",
   "name": "Club del Anfitrión",
   "alternateName": ["Club del Anfitrion", "El Club del Anfitrión"],
-  "url": "https://clubdelanfitrion.github.io/"
+  "url": "https://clubdelanfitrion.com.ar/"
 }
 </script>
 <script type="application/ld+json">
@@ -152,19 +152,28 @@
   "@context": "https://schema.org",
   "@type": "LiquorStore",
   "name": "Club del Anfitrión",
-  "url": "https://clubdelanfitrion.github.io/",
+  "url": "https://clubdelanfitrion.com.ar/",
   "telephone": "+5493537513148",
+  "email": "promoniones.clubdelanfitrion@gmail.com",
+  "image": "https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg",
+  "priceRange": "$$",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Córdoba 1309",
     "addressLocality": "Bell Ville",
     "addressRegion": "Córdoba",
     "addressCountry": "AR"
-  }
+  },
+  "openingHoursSpecification": [
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"12:30"},
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"17:00","closes":"21:00"},
+    {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"09:00","closes":"13:00"},
+    {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"17:00","closes":"21:00"},
+    {"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"10:30","closes":"12:30"}
+  ]
 }
 </script>
 
-<!-- Favicon: valor por defecto; el JS lo reemplaza con el logo guardado en Firestore (settings/general) -->
 <link id="site-favicon" rel="icon" href="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
 <link id="site-apple-icon" rel="apple-touch-icon" href="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
 </head>
@@ -184,6 +193,7 @@
       <li><a href="#quienes-somos" class="hover:text-gold-soft transition-colors">Quiénes somos</a></li>
       <li><a href="#ubicacion" class="hover:text-gold-soft transition-colors">Ubicación y horarios</a></li>
       <li><a href="#reservas" class="hover:text-gold-soft transition-colors">Reservas</a></li>
+      <li><a href="#eventos" class="hover:text-gold-soft transition-colors">Próximos eventos</a></li>
       <li><a href="#productos" class="hover:text-gold-soft transition-colors">Nuestros productos</a></li>
       <li><a href="#mis-compras" class="hover:text-gold-soft transition-colors font-medium text-gold-soft">Mis compras</a></li>
     </ul>
@@ -206,6 +216,7 @@
       <li><a href="#quienes-somos" class="block py-1 hover:text-gold-soft">Quiénes somos</a></li>
       <li><a href="#ubicacion" class="block py-1 hover:text-gold-soft">Ubicación y horarios</a></li>
       <li><a href="#reservas" class="block py-1 hover:text-gold-soft">Reservas</a></li>
+      <li><a href="#eventos" class="block py-1 hover:text-gold-soft">Próximos eventos</a></li>
       <li><a href="#productos" class="block py-1 hover:text-gold-soft">Nuestros productos</a></li>
       <li><a href="#mis-compras" class="block py-1 text-gold-soft font-medium">Mis compras</a></li>
     </ul>
@@ -223,7 +234,7 @@
 
   <div class="relative max-w-7xl mx-auto w-full px-6 lg:px-10 pb-24 pt-40">
     <p class="label-serif text-gold-soft text-lg mb-5 fade-in">Vinoteca boutique — Bell Ville, Córdoba</p>
-    <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.05] max-w-3xl fade-in" style="animation-delay:.1s">
+    <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.05] max-w-3xl fade-in text-balance" style="animation-delay:.1s">
       El buen vino se comparte, <span class="italic text-gold-soft">no se guarda</span>.
     </h1>
     <p class="mt-6 max-w-xl text-stone text-lg leading-relaxed fade-in" style="animation-delay:.2s">
@@ -232,10 +243,10 @@
     </p>
 
     <div class="mt-10 flex flex-col sm:flex-row gap-4 fade-in" style="animation-delay:.3s">
-      <a href="#reservas" class="inline-flex justify-center items-center rounded-full bg-gold px-8 py-3.5 text-wine-black font-medium hover:bg-gold-soft transition-colors">
+      <a href="#reservas" class="btn-press inline-flex justify-center items-center rounded-full bg-gold px-8 py-3.5 text-wine-black font-medium hover:bg-gold-soft transition-colors">
         Reservar una mesa
       </a>
-      <a href="#productos" class="inline-flex justify-center items-center rounded-full border border-cream/30 px-8 py-3.5 text-cream hover:border-gold hover:text-gold-soft transition-colors">
+      <a href="#productos" class="btn-press inline-flex justify-center items-center rounded-full border border-cream/30 px-8 py-3.5 text-cream hover:border-gold hover:text-gold-soft transition-colors">
         Explorar el catálogo
       </a>
     </div>
@@ -245,7 +256,7 @@
 <section id="galeria" class="relative py-28 lg:py-36 bg-wine-dark/40 border-b border-gold/10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4 text-center">Recorrido visual</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4">Así es nuestro establecimiento por fuera y por dentro</h2>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4 text-balance">Así es nuestro establecimiento por fuera y por dentro</h2>
     <p class="text-stone text-center max-w-xl mx-auto mb-16">
       Conocé cada rincón del espacio y a quienes te reciben siempre con la mejor copa.
     </p>
@@ -308,7 +319,7 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-16 items-start">
     <div class="lg:col-span-4">
       <p class="label-serif text-gold-soft text-lg mb-4">Quiénes somos</p>
-      <h2 class="font-display text-4xl sm:text-5xl leading-tight">Una historia que empezó boca en boca</h2>
+      <h2 class="font-display text-4xl sm:text-5xl leading-tight text-balance">Una historia que empezó boca en boca</h2>
     </div>
 
     <div class="lg:col-span-7 lg:col-start-6 space-y-6 text-stone text-lg leading-relaxed">
@@ -336,7 +347,7 @@
 <section id="ubicacion" class="relative py-28 lg:py-36 bg-wine-dark/60 border-y border-gold/10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4">Ubicación y horarios</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-xl mb-16">Te esperamos en el corazón de Bell Ville</h2>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-xl mb-16 text-balance">Te esperamos en el corazón de Bell Ville</h2>
 
     <div class="grid lg:grid-cols-2 gap-10 items-stretch">
       <div class="rounded-2xl overflow-hidden border border-gold/15 min-h-[320px] sm:min-h-[380px] lg:min-h-[460px] bg-wine-black">
@@ -356,7 +367,7 @@
             <div>
               <p class="text-cream font-medium">Dirección</p>
               <p class="text-stone mt-1">Córdoba 1309, Bell Ville, Córdoba, Argentina</p>
-              <a href="https://www.google.com/maps/search/?api=1&query=C%C3%B3rdoba+1301%2C+Bell+Ville%2C+C%C3%B3rdoba%2C+Argentina" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-gold-soft underline hover:text-gold">Abrir en Google Maps ↗</a>
+              <a href="https://www.google.com/maps/search/?api=1&query=C%C3%B3rdoba+1309%2C+Bell+Ville%2C+C%C3%B3rdoba%2C+Argentina" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-gold-soft underline hover:text-gold">Abrir en Google Maps ↗</a>
             </div>
           </div>
 
@@ -365,6 +376,14 @@
             <div>
               <p class="text-cream font-medium">Teléfono / WhatsApp</p>
               <p class="text-stone mt-1" id="phone-display">+54 9 3537 51-3148</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4 mb-8">
+            <svg class="text-gold shrink-0 mt-1" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+            <div>
+              <p class="text-cream font-medium">Correo electrónico</p>
+              <p class="text-stone mt-1 break-all">promoniones.clubdelanfitrion@gmail.com</p>
             </div>
           </div>
 
@@ -379,7 +398,7 @@
 <section id="reservas" class="relative py-28 lg:py-36">
   <div class="max-w-4xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4 text-center">Sistema de reservas</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4">Reservá tu mesa</h2>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4 text-balance">Reservá tu mesa</h2>
     <p class="text-stone text-center max-w-lg mx-auto mb-14">
       Completá tus datos y te contactaremos por WhatsApp para confirmar la disponibilidad.
     </p>
@@ -425,7 +444,7 @@
 
       <div class="sm:col-span-2 pt-4">
         <button type="submit" id="res-submit-btn"
-                class="w-full inline-flex justify-center items-center gap-2 rounded-full bg-gold px-8 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors">
+                class="btn-press w-full inline-flex justify-center items-center gap-2 rounded-full bg-gold px-8 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors">
           Reservar ahora
         </button>
       </div>
@@ -433,10 +452,24 @@
   </div>
 </section>
 
+<!-- NUEVA SECCIÓN: PRÓXIMOS EVENTOS -->
+<section id="eventos" class="relative py-28 lg:py-36 bg-wine-dark/60 border-y border-gold/10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <p class="label-serif text-gold-soft text-lg mb-4">Agenda del anfitrión</p>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14 text-balance">Nuestros próximos eventos</h2>
+
+    <div id="eventos-loading" class="text-stone text-center py-16">Cargando eventos…</div>
+    <div id="eventos-empty" class="hidden text-stone text-center py-16">
+      Pronto habrá novedades. Muy pronto vas a ver acá nuestros próximos encuentros.
+    </div>
+    <div id="eventos-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+  </div>
+</section>
+
 <section id="productos" class="relative py-28 lg:py-36 bg-wine-dark/60 border-t border-gold/10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4">Nuestros productos y delicias</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14">Nuestros productos son:</h2>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14 text-balance">Nuestros productos son:</h2>
 
     <div id="products-loading" class="text-stone text-center py-16">Cargando catálogo…</div>
     <div id="products-empty" class="hidden text-stone text-center py-16">
@@ -449,7 +482,7 @@
 <section id="promociones" class="relative py-28 lg:py-36">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4">Promociones vigentes</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14">Nuestras promociones vigentes hoy en día:</h2>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14 text-balance">Nuestras promociones vigentes hoy en día:</h2>
 
     <div id="promos-loading" class="text-stone text-center py-16">Cargando promociones…</div>
     <div id="promos-empty" class="hidden text-stone text-center py-16">
@@ -463,14 +496,14 @@
 <section id="mis-compras" class="relative py-28 lg:py-36 bg-wine-dark/60 border-t border-gold/10">
   <div class="max-w-4xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4 text-center">Seguimiento de pedidos</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4">Mis compras</h2>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4 text-balance">Mis compras</h2>
     <p class="text-stone text-center max-w-lg mx-auto mb-12">
       Consultá el estado de tus pedidos recientes y tu código de retiro ingresando tu DNI o buscándolo en este dispositivo.
     </p>
 
     <div class="flex flex-col sm:flex-row gap-3 mb-10 max-w-lg mx-auto">
       <input type="text" id="filter-dni" placeholder="Ingresá tu DNI para buscar..." class="flex-1 rounded-full bg-wine-black/60 border border-gold/20 px-5 py-3 text-cream placeholder:text-stone/50 focus:border-gold text-sm">
-      <button id="filter-dni-btn" class="rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors text-sm">Buscar compras</button>
+      <button id="filter-dni-btn" class="btn-press rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors text-sm">Buscar compras</button>
     </div>
 
     <div id="my-purchases-container" class="space-y-4">
@@ -492,7 +525,6 @@
       <button id="auth-signout-btn" class="mt-4 rounded-full border border-gold/40 px-4 py-2 text-sm text-gold-soft">Cerrar sesión</button>
     </div>
     <div id="auth-fields">
-      <!-- Vista: iniciar sesión -->
       <div id="auth-login-view" class="space-y-5">
         <button id="auth-google-btn" type="button" class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-white border border-gray-300 px-5 py-3.5 text-[15px] font-medium text-gray-800 shadow-sm hover:bg-gray-100 hover:shadow active:bg-gray-200 disabled:opacity-60 disabled:cursor-not-allowed transition-colors">
           <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
@@ -517,7 +549,6 @@
         <p class="text-xs text-stone text-center">¿No tenés cuenta? <button id="auth-show-register" type="button" class="text-gold-soft underline">Registrate</button></p>
         <p class="text-center"><button id="auth-reset-btn" type="button" class="text-xs text-stone underline hover:text-gold-soft disabled:opacity-60">¿Olvidaste tu contraseña?</button></p>
       </div>
-      <!-- Vista: registro -->
       <div id="auth-register-view" class="hidden space-y-5">
         <form id="auth-register-form" novalidate class="space-y-4">
           <div class="grid grid-cols-2 gap-3">
@@ -562,7 +593,8 @@
     <div>
       <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" class="h-12 w-auto object-contain mb-4">
       <p class="font-display text-2xl mb-3">Club <span class="italic text-gold-soft">del Anfitrión</span></p>
-      <p class="text-stone text-sm leading-relaxed">Vinoteca boutique en Bell Ville, Córdoba. Vinos, picadas y experiencias para compartir alrededor de la mesa.</p>
+      <p class="text-stone text-sm leading-relaxed">Vinoteca boutique y regalería en Bell Ville, Córdoba. Vinos, picadas y experiencias para compartir alrededor de la mesa.</p>
+      <p class="text-stone text-xs mt-3 break-all">promoniones.clubdelanfitrion@gmail.com</p>
     </div>
 
     <div>
@@ -573,6 +605,7 @@
         <li><a href="#quienes-somos" class="hover:text-gold-soft">Quiénes somos</a></li>
         <li><a href="#ubicacion" class="hover:text-gold-soft">Ubicación y horarios</a></li>
         <li><a href="#reservas" class="hover:text-gold-soft">Reservas</a></li>
+        <li><a href="#eventos" class="hover:text-gold-soft">Próximos eventos</a></li>
         <li><a href="#productos" class="hover:text-gold-soft">Nuestros productos</a></li>
         <li><a href="#mis-compras" class="hover:text-gold-soft">Mis compras</a></li>
       </ul>
@@ -612,7 +645,7 @@
       <span class="text-cream font-medium">Total estimado:</span>
       <span id="cart-total" class="text-gold-soft font-display text-3xl">$0</span>
     </div>
-    <button id="cart-checkout-btn" class="w-full rounded-full bg-gold px-6 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors flex items-center justify-center gap-2 text-lg">
+    <button id="cart-checkout-btn" class="btn-press w-full rounded-full bg-gold px-6 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors flex items-center justify-center gap-2 text-lg">
       Finalizar compra
     </button>
   </div>
@@ -674,7 +707,7 @@
         </div>
       </div>
 
-      <button type="submit" id="confirm-order-btn" class="w-full mt-4 rounded-full bg-gold px-6 py-3.5 text-wine-black font-medium hover:bg-gold-soft transition-colors text-base">
+      <button type="submit" id="confirm-order-btn" class="btn-press w-full mt-4 rounded-full bg-gold px-6 py-3.5 text-wine-black font-medium hover:bg-gold-soft transition-colors text-base">
         Confirmar compra
       </button>
     </form>
@@ -703,18 +736,18 @@
     <button id="product-modal-close" class="absolute top-4 right-4 z-10 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
-    <div class="h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
+    <div id="product-modal-hero" class="detail-hero h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
       <img id="detail-img" src="" class="w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80 pointer-events-none"></div>
-      <!-- Flechas laterales (solo si hay más de 1 imagen) -->
       <button type="button" id="detail-prev" class="hidden absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
       <button type="button" id="detail-next" class="hidden absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen siguiente"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
-      <!-- Puntitos indicadores -->
       <div id="detail-dots" class="hidden absolute bottom-12 inset-x-0 z-10 justify-center gap-1.5"></div>
     </div>
-    <div class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
+    <div id="product-modal-body" class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
+      <div id="detail-video-slot" class="hidden mb-4 rounded-xl overflow-hidden border border-gold/15"></div>
       <h3 id="detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
-      <p id="detail-price" class="text-gold-soft font-display text-3xl mb-6"></p>
+      <p id="detail-price" class="text-gold-soft font-display text-3xl mb-1"></p>
+      <p id="detail-price-transfer" class="text-stone text-sm italic mb-6 hidden"></p>
       <div class="hairline mb-6"></div>
       <p id="detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap mb-6"></p>
       <div id="detail-actions" class="flex gap-3"></div>
@@ -728,16 +761,15 @@
     <button id="promo-modal-close" class="absolute top-4 right-4 z-20 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
-    <div class="h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
+    <div id="promo-modal-hero" class="detail-hero h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
       <img id="promo-detail-img" src="" class="w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80 pointer-events-none"></div>
-      <!-- Flechas laterales (solo si hay más de 1 imagen) -->
       <button type="button" id="promo-detail-prev" class="hidden absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
       <button type="button" id="promo-detail-next" class="hidden absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen siguiente"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
-      <!-- Puntitos indicadores -->
       <div id="promo-detail-dots" class="hidden absolute bottom-12 inset-x-0 z-10 justify-center gap-1.5"></div>
     </div>
-    <div class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
+    <div id="promo-modal-body" class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
+      <div id="promo-detail-video-slot" class="hidden mb-4 rounded-xl overflow-hidden border border-gold/15"></div>
       <h3 id="promo-detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
       <p id="promo-detail-price" class="text-gold-soft font-display text-3xl mb-2"></p>
       <p id="promo-detail-vigencia" class="text-stone text-sm mb-6"></p>
@@ -748,7 +780,33 @@
   </div>
 </div>
 
-<!-- VISOR DE IMAGEN AMPLIADA (productos y promociones) -->
+<!-- MODAL DETALLE DE EVENTO -->
+<div id="event-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
+  <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
+    <button id="event-modal-close" class="absolute top-4 right-4 z-20 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div id="event-modal-hero" class="detail-hero h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
+      <img id="event-detail-img" src="" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80 pointer-events-none"></div>
+      <button type="button" id="event-detail-prev" class="hidden absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button type="button" id="event-detail-next" class="hidden absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen siguiente"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
+      <div id="event-detail-dots" class="hidden absolute bottom-12 inset-x-0 z-10 justify-center gap-1.5"></div>
+    </div>
+    <div id="event-modal-body" class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
+      <div id="event-detail-video-slot" class="hidden mb-4 rounded-xl overflow-hidden border border-gold/15"></div>
+      <h3 id="event-detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
+      <p id="event-detail-fecha" class="text-gold-soft font-medium mb-1"></p>
+      <p id="event-detail-lugar" class="text-stone text-sm mb-2"></p>
+      <p id="event-detail-price" class="text-gold-soft font-display text-2xl mb-2"></p>
+      <div class="hairline mb-6"></div>
+      <p id="event-detail-desc" class="text-stone text-base leading-relaxed whitespace-pre-wrap mb-6"></p>
+      <div id="event-detail-actions" class="flex gap-3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- VISOR DE IMAGEN AMPLIADA -->
 <div id="image-lightbox" class="hidden fixed inset-0 z-[105] items-center justify-center bg-black/90 backdrop-blur-sm p-3 sm:p-6" role="dialog" aria-modal="true" aria-label="Imagen ampliada">
   <button type="button" id="lightbox-close" class="absolute top-3 right-3 sm:top-5 sm:right-5 z-20 h-11 w-11 flex items-center justify-center text-cream/90 hover:text-gold bg-wine-black/70 rounded-full backdrop-blur-md transition-colors" aria-label="Cerrar imagen ampliada">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -778,8 +836,8 @@
         <input type="password" id="admin-pass" autocomplete="off" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
       </div>
       <div class="flex items-center gap-2 pt-1 pb-2">
-        <input type="checkbox" id="admin-remember" class="w-4 h-4 rounded border-gold/40 bg-wine-black/60 accent-gold cursor-pointer">
-        <label for="admin-remember" class="text-sm text-stone cursor-pointer select-none">Recordar este dispositivo</label>
+        <input type="checkbox" id="admin-remember" checked class="w-4 h-4 rounded border-gold/40 bg-wine-black/60 accent-gold cursor-pointer">
+        <label for="admin-remember" class="text-sm text-stone cursor-pointer select-none">Recordar sesión mientras la pestaña esté abierta</label>
       </div>
       <p id="admin-login-error" class="hidden text-garnet-light text-sm"></p>
       <button type="submit" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Ingresar</button>
@@ -796,7 +854,6 @@
     <h3 class="font-display text-2xl mb-2">Gestión de la Vinoteca</h3>
     <p id="admin-session-timer" class="text-stone text-xs mb-6" aria-live="off"></p>
 
-    <!-- Autorización real de escritura (Firebase Auth + custom claim admin) -->
     <div id="admin-fb-box" class="mb-8 rounded-xl border border-gold/20 bg-wine-black/30 p-4">
       <p class="text-cream font-medium text-sm mb-1">Autorización de escritura (Firebase)</p>
       <p id="admin-fb-status" class="text-stone text-xs mb-3" role="status">No conectada.</p>
@@ -819,7 +876,6 @@
     <p class="text-stone text-sm mb-8">La gestión de solicitudes de compra está disponible en la página interna de pedidos.</p>
     <a href="pedidos_admin_club_del_anfitrion.html" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full border border-gold/40 px-5 py-3 text-gold-soft text-sm mb-8 hover:bg-gold hover:text-wine-black">Abrir gestión de pedidos ↗</a>
 
-    <!-- Logotipo y favicon global (Cloudinary + Firestore settings/general) -->
     <div class="mb-10 rounded-xl border border-gold/20 bg-wine-black/30 p-4 sm:p-5">
       <p class="text-cream font-medium mb-1">Logotipo y favicon del sitio</p>
       <p class="text-stone text-xs mb-4">Elegí una imagen de tu dispositivo. Se sube a Cloudinary y se aplica en el header, el footer y el favicon de todo el sitio.</p>
@@ -858,12 +914,21 @@
         <textarea id="prod-descripcion" rows="3" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold"></textarea>
         <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
       </div>
-      <div>
-        <label for="prod-precio" class="block text-sm text-stone mb-2">Precio</label>
-        <input type="number" id="prod-precio" min="0" step="0.01" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
-        <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label for="prod-precio" class="block text-sm text-stone mb-2">Precio de lista (opcional — dejar vacío o 0 = "Consultar precio")</label>
+          <input type="number" id="prod-precio" min="0" step="0.01" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold" placeholder="Ej: 15000">
+          <p class="error-msg hidden text-garnet-light text-xs mt-1.5"></p>
+        </div>
+        <div>
+          <label for="prod-precio-transferencia" class="block text-sm text-stone mb-2">Precio en transferencia / efectivo (opcional)</label>
+          <input type="number" id="prod-precio-transferencia" min="0" step="0.01" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold" placeholder="Ej: 13500">
+        </div>
       </div>
-      <!-- Imágenes múltiples (máx. 5). La primera es la portada. -->
+      <div class="flex items-center gap-3">
+        <input type="checkbox" id="prod-disponible" checked class="w-4 h-4 accent-gold rounded">
+        <label for="prod-disponible" class="text-sm text-cream cursor-pointer select-none">Producto disponible (con stock)</label>
+      </div>
       <div>
         <div class="flex items-center justify-between mb-2">
           <label for="prod-imagen-add" class="block text-sm text-stone">Imágenes</label>
@@ -873,6 +938,11 @@
         <div id="prod-imagenes-list" class="hidden grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3"></div>
         <button type="button" id="prod-imagen-add" class="rounded-full border border-gold/40 px-4 py-2 text-gold-soft text-sm hover:bg-gold/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">+ Agregar imagen</button>
         <p class="text-stone text-xs mt-2">Hasta 5 imágenes. La primera (Imagen 1) es la portada.</p>
+      </div>
+      <div>
+        <label for="prod-video" class="block text-sm text-stone mb-2">Video corto (opcional — máx. 3 minutos, se sube a Cloudinary)</label>
+        <input type="file" id="prod-video" accept="video/*" class="w-full text-stone text-sm">
+        <p id="prod-video-status" class="text-stone text-xs mt-1"></p>
       </div>
       <div class="flex flex-col gap-3">
         <label class="flex items-center gap-2 cursor-pointer text-sm text-gold-soft">
@@ -935,7 +1005,6 @@
         <label for="promo-precio" class="block text-sm text-stone mb-2">Precio (Opcional)</label>
         <input type="number" id="promo-precio" min="0" step="0.01" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
       </div>
-      <!-- Tipo de precio de la promoción -->
       <div>
         <label for="promo-tipo-precio" class="block text-sm text-stone mb-2">Tipo de precio</label>
         <select id="promo-tipo-precio" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
@@ -943,7 +1012,6 @@
           <option value="persona" class="bg-wine-black">Precio por persona (ej: $ 5.000 x persona)</option>
         </select>
       </div>
-      <!-- Imágenes múltiples (máx. 6). La primera es la portada. -->
       <div>
         <div class="flex items-center justify-between mb-2">
           <label for="promo-imagen-add" class="block text-sm text-stone">Imágenes</label>
@@ -953,6 +1021,11 @@
         <div id="promo-imagenes-list" class="hidden grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3"></div>
         <button type="button" id="promo-imagen-add" class="rounded-full border border-gold/40 px-4 py-2 text-gold-soft text-sm hover:bg-gold/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">+ Agregar imagen</button>
         <p class="text-stone text-xs mt-2">Hasta 6 imágenes. La primera (Imagen 1) es la portada.</p>
+      </div>
+      <div>
+        <label for="promo-video" class="block text-sm text-stone mb-2">Video corto (opcional — máx. 3 minutos, se sube a Cloudinary)</label>
+        <input type="file" id="promo-video" accept="video/*" class="w-full text-stone text-sm">
+        <p id="promo-video-status" class="text-stone text-xs mt-1"></p>
       </div>
 
       <div class="flex flex-col gap-3">
@@ -964,6 +1037,72 @@
           <button type="submit" id="promo-submit-btn" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Publicar promoción</button>
           <button type="button" id="promo-cancel-edit-btn" class="hidden rounded-full border border-stone/30 px-6 py-3 text-stone">Cancelar</button>
         </div>
+      </div>
+    </form>
+
+    <div class="hairline my-10"></div>
+
+    <!-- Gestión Eventos -->
+    <div class="mb-10">
+      <p class="text-cream font-medium mb-4">Eventos publicados</p>
+      <div id="admin-eventos-list" class="space-y-3 max-h-80 overflow-y-auto pr-1 scrollbar-thin"></div>
+    </div>
+
+    <p id="evento-form-title" class="text-cream font-medium mb-6">Cargar nuevo evento</p>
+    <form id="evento-form" novalidate class="space-y-6">
+      <div>
+        <label for="evento-titulo" class="block text-sm text-stone mb-2">Título del evento</label>
+        <input type="text" id="evento-titulo" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+      </div>
+      <div>
+        <label for="evento-descripcion" class="block text-sm text-stone mb-2">Descripción detallada</label>
+        <textarea id="evento-descripcion" rows="3" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold"></textarea>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label for="evento-fecha" class="block text-sm text-stone mb-2">Fecha del evento</label>
+          <input type="date" id="evento-fecha" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
+        </div>
+        <div>
+          <label for="evento-hora" class="block text-sm text-stone mb-2">Hora del evento</label>
+          <input type="time" id="evento-hora" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
+        </div>
+      </div>
+      <div>
+        <label for="evento-lugar" class="block text-sm text-stone mb-2">Dirección / Locación</label>
+        <input type="text" id="evento-lugar" required placeholder="Ej: Córdoba 1309, Bell Ville" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label for="evento-precio" class="block text-sm text-stone mb-2">Precio (opcional)</label>
+          <input type="number" id="evento-precio" min="0" step="0.01" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+        </div>
+        <div>
+          <label for="evento-tipo-precio" class="block text-sm text-stone mb-2">Tipo de precio</label>
+          <select id="evento-tipo-precio" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+            <option value="total" class="bg-wine-black">Precio total</option>
+            <option value="persona" class="bg-wine-black">Precio por persona</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label for="evento-imagen-add" class="block text-sm text-stone">Imágenes</label>
+          <span id="evento-imagenes-count" class="text-xs text-stone">0 / 6</span>
+        </div>
+        <input type="file" id="evento-imagen" multiple accept=".png,.jpg,.jpeg,image/png,image/jpeg" class="hidden">
+        <div id="evento-imagenes-list" class="hidden grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3"></div>
+        <button type="button" id="evento-imagen-add" class="rounded-full border border-gold/40 px-4 py-2 text-gold-soft text-sm hover:bg-gold/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">+ Agregar imagen</button>
+        <p class="text-stone text-xs mt-2">Hasta 6 imágenes. La primera es la portada.</p>
+      </div>
+      <div>
+        <label for="evento-video" class="block text-sm text-stone mb-2">Video corto (opcional — máx. 3 minutos)</label>
+        <input type="file" id="evento-video" accept="video/*" class="w-full text-stone text-sm">
+        <p id="evento-video-status" class="text-stone text-xs mt-1"></p>
+      </div>
+      <div class="flex gap-3">
+        <button type="submit" id="evento-submit-btn" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Publicar evento</button>
+        <button type="button" id="evento-cancel-edit-btn" class="hidden rounded-full border border-stone/30 px-6 py-3 text-stone">Cancelar</button>
       </div>
     </form>
   </div>
@@ -1015,25 +1154,53 @@
   const EMAILJS_SERVICE_ID = "service_9erujyh";
   const EMAILJS_WELCOME_TEMPLATE_ID = "template_0aqkp4k";
   const EMAILJS_PROMO_TEMPLATE_ID = "template_ijnl9mo";
-  
+
   if (window.emailjs) window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
   const productsCollection = collection(db, "productos");
   const promosCollection = collection(db, "promociones");
+  const eventsCollection = collection(db, "eventos");
   const ordersCollection = collection(db, "pedidos");
 
   const CLOUDINARY_CLOUD_NAME = "wb9mhrpv";
   const CLOUDINARY_UPLOAD_PRESET = "ClubDelAnfitrion";
-  const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+  const CLOUDINARY_IMAGE_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+  const CLOUDINARY_VIDEO_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/video/upload`;
+  const VIDEO_MAX_SECONDS = 180;
 
   async function uploadImageToCloudinary(file) {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-    const response = await fetch(CLOUDINARY_UPLOAD_URL, { method: "POST", body: formData });
+    const response = await fetch(CLOUDINARY_IMAGE_URL, { method: "POST", body: formData });
     if (!response.ok) throw new Error("No se pudo subir la imagen.");
     const data = await response.json();
     if (!data.secure_url) throw new Error("Cloudinary no devolvió una URL válida.");
     return data.secure_url;
+  }
+
+  async function uploadVideoToCloudinary(file) {
+    if (file.size > 100 * 1024 * 1024) throw new Error("El video supera los 100 MB.");
+    const duration = await getVideoDuration(file);
+    if (duration > VIDEO_MAX_SECONDS) throw new Error(`El video dura ${Math.round(duration)}s. Máximo permitido: 180s (3 min).`);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    const response = await fetch(CLOUDINARY_VIDEO_URL, { method: "POST", body: formData });
+    if (!response.ok) throw new Error("No se pudo subir el video.");
+    const data = await response.json();
+    if (!data.secure_url) throw new Error("Cloudinary no devolvió una URL válida.");
+    return data.secure_url;
+  }
+
+  function getVideoDuration(file) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const v = document.createElement("video");
+      v.preload = "metadata";
+      v.onloadedmetadata = () => { URL.revokeObjectURL(url); resolve(v.duration || 0); };
+      v.onerror = () => { URL.revokeObjectURL(url); reject(new Error("No se pudo leer la duración del video.")); };
+      v.src = url;
+    });
   }
 
   const WHATSAPP_NUMBER = "5493537513148";
@@ -1048,7 +1215,6 @@
     setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 400); }, 4200);
   }
 
-  // Navbar & Menu
   const navbar = document.getElementById("navbar");
   window.addEventListener("scroll", () => {
     if (window.scrollY > 24) navbar.classList.add("bg-wine-black/95", "backdrop-blur-sm", "border-gold/10");
@@ -1066,27 +1232,26 @@
   menuToggle.addEventListener("click", () => setMobileMenu(mobileMenu.classList.contains("hidden")));
   mobileMenu.querySelectorAll("a").forEach(l => l.addEventListener("click", () => setMobileMenu(false)));
 
-  // Horarios
+  /* Horarios oficiales actualizados */
   const schedule = [
-    { day: "Lunes", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
-    { day: "Martes", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
-    { day: "Miércoles", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
-    { day: "Jueves", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
-    { day: "Viernes", hours: ["9:00 – 12:30", "16:30 – 20:30"] },
-    { day: "Sábado", hours: ["9:00 – 13:00", "16:30 – 20:30"] },
-    { day: "Domingo", hours: ["10:30 – 12:30"] },
+    { day: "Lunes", hours: ["09:00 a 12:30", "17:00 a 21:00"] },
+    { day: "Martes", hours: ["09:00 a 12:30", "17:00 a 21:00"] },
+    { day: "Miércoles", hours: ["09:00 a 12:30", "17:00 a 21:00"] },
+    { day: "Jueves", hours: ["09:00 a 12:30", "17:00 a 21:00"] },
+    { day: "Viernes", hours: ["09:00 a 12:30", "17:00 a 21:00"] },
+    { day: "Sábado", hours: ["09:00 a 13:00", "17:00 a 21:00"] },
+    { day: "Domingo", hours: ["10:30 a 12:30"] },
   ];
   const scheduleList = document.getElementById("schedule-list");
   const todayIndex = (new Date().getDay() + 6) % 7;
   schedule.forEach((item, index) => {
     const li = document.createElement("li");
     const isToday = index === todayIndex;
-    li.className = `flex items-center justify-between py-2.5 ${isToday ? "text-gold-soft" : "text-stone"}`;
-    li.innerHTML = `<span>${item.day}${isToday ? " · hoy" : ""}</span><span>${item.hours.join(" / ")}</span>`;
+    li.className = `flex items-center justify-between py-2.5 gap-3 ${isToday ? "text-gold-soft" : "text-stone"}`;
+    li.innerHTML = `<span class="shrink-0">${item.day}${isToday ? " · hoy" : ""}</span><span class="text-right">${item.hours.join(" / ")}</span>`;
     scheduleList.appendChild(li);
   });
 
-  // Reservas
   const reservationForm = document.getElementById("reservation-form");
   reservationForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -1104,15 +1269,14 @@
   function formatPrice(val) {
     return Number(val).toLocaleString("es-AR", { style: "currency", currency: "ARS", minimumFractionDigits: 0 });
   }
+  function hasValidPrice(val) {
+    return val !== null && val !== undefined && val !== "" && Number(val) > 0;
+  }
 
-  /* =====================================================================
-   *  IMÁGENES MÚLTIPLES — helpers compartidos (productos y promociones)
-   * ===================================================================== */
-  const SLIDE_INTERVAL_MS = 2000; // auto-slider del catálogo: cambia de foto cada 2 s
+  const SLIDE_INTERVAL_MS = 2000;
   const DOT_ON = "h-1.5 w-4 rounded-full bg-gold transition-all";
   const DOT_OFF = "h-1.5 w-1.5 rounded-full bg-cream/50 transition-all";
 
-  // Retrocompatible: usa imagenes[] si existe; si no, el viejo string imagenUrl.
   function getImages(item) {
     if (!item) return [];
     if (Array.isArray(item.imagenes)) {
@@ -1122,32 +1286,33 @@
     return typeof item.imagenUrl === "string" && item.imagenUrl.trim() ? [item.imagenUrl] : [];
   }
 
-  // Precio de promoción según tipoPrecio ("total" por defecto | "persona")
   function formatPromoPrice(promo) {
+    if (!hasValidPrice(promo.precio)) return "Consultar precio";
     const base = formatPrice(promo.precio);
     return promo.tipoPrecio === "persona" ? `${base} x persona` : base;
   }
   function promoPriceHtml(promo) {
+    if (!hasValidPrice(promo.precio)) return `<span class="text-stone text-lg font-sans">Consultar precio</span>`;
     const base = escapeHtml(formatPrice(promo.precio));
     return promo.tipoPrecio === "persona" ? `${base} <span class="text-sm text-stone font-sans">x persona</span>` : base;
   }
 
-  // HTML de la imagen de una tarjeta: 0 imágenes -> nada, 1 -> estática (sin timer), 2+ -> slider automático.
-  function sliderHtml(images, alt, zoom) {
+  function sliderHtml(images, alt, zoom, videoUrl) {
     const zoomCls = zoom ? " group-hover:scale-105 transition-transform duration-500" : "";
-    if (images.length === 0) return "";
+    const videoBadge = videoUrl
+      ? `<div class="absolute top-3 left-3 z-10 inline-flex items-center gap-1 bg-wine-black/80 border border-gold/40 px-2.5 py-1 rounded-full text-[11px] text-gold-soft backdrop-blur-md">▶ Video</div>`
+      : "";
+    if (images.length === 0) return videoBadge;
     if (images.length === 1) {
-      return `<img src="${escapeHtml(images[0])}" alt="${escapeHtml(alt)}" loading="lazy" class="w-full h-full object-cover${zoomCls}">`;
+      return `${videoBadge}<img src="${escapeHtml(images[0])}" alt="${escapeHtml(alt)}" loading="lazy" class="w-full h-full object-cover${zoomCls}">`;
     }
     const slides = images.map((u, i) =>
       `<img data-slide src="${escapeHtml(u)}" alt="${escapeHtml(alt)}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${i === 0 ? "opacity-100" : "opacity-0"}">`
     ).join("");
     const dots = images.map((_, i) => `<span data-dot class="${i === 0 ? DOT_ON : DOT_OFF}"></span>`).join("");
-    return `<div data-auto-slider class="relative w-full h-full${zoomCls}">${slides}<div class="absolute bottom-3 inset-x-0 flex justify-center gap-1.5 pointer-events-none">${dots}</div></div>`;
+    return `<div data-auto-slider class="relative w-full h-full${zoomCls}">${videoBadge}${slides}<div class="absolute bottom-3 inset-x-0 flex justify-center gap-1.5 pointer-events-none">${dots}</div></div>`;
   }
 
-  // Arranca los auto-sliders dentro de `root` (llamar DESPUÉS de insertar las tarjetas en el DOM).
-  // Cada timer se detiene solo cuando su tarjeta deja de existir (re-render del catálogo).
   function startAutoSliders(root) {
     root.querySelectorAll("[data-auto-slider]").forEach((el) => {
       if (el.dataset.running) return;
@@ -1167,7 +1332,6 @@
     });
   }
 
-  // Galería del modal: flechas < >, puntitos, teclado (← → Esc) y swipe en móvil.
   function setupGallery({ modal, img, prev, next, dots }) {
     let images = [];
     let index = 0;
@@ -1227,40 +1391,162 @@
     next: document.getElementById("promo-detail-next"),
     dots: document.getElementById("promo-detail-dots")
   });
+  const eventGallery = setupGallery({
+    modal: document.getElementById("event-modal"),
+    img: document.getElementById("event-detail-img"),
+    prev: document.getElementById("event-detail-prev"),
+    next: document.getElementById("event-detail-next"),
+    dots: document.getElementById("event-detail-dots")
+  });
   document.addEventListener("keydown", (e) => {
-    const g = [productGallery, promoGallery].find((x) => x.isOpen());
+    const g = [productGallery, promoGallery, eventGallery].find((x) => x.isOpen());
     if (!g) return;
     if (e.key === "ArrowLeft") g.step(-1);
     else if (e.key === "ArrowRight") g.step(1);
     else if (e.key === "Escape") g.close();
   });
 
-  // Vista detallada de una promoción (modal nuevo, misma estética que el de productos)
+  /* ================= VIDEO PLAYER (mute + botón audio) ================= */
+  function buildVideoPlayer(videoUrl, { autoplay = true } = {}) {
+    if (!videoUrl) return "";
+    const wrap = document.createElement("div");
+    wrap.className = "video-wrap relative w-full aspect-video bg-black";
+    wrap.innerHTML = `
+      <video src="${escapeHtml(videoUrl)}" muted playsinline ${autoplay ? "autoplay" : ""} loop preload="metadata"></video>
+      <button type="button" class="video-audio-btn" aria-label="Activar sonido">
+        <span class="audio-icon">🔇</span><span class="audio-label">Activar sonido</span>
+      </button>
+    `;
+    const video = wrap.querySelector("video");
+    const btn = wrap.querySelector(".video-audio-btn");
+    const icon = btn.querySelector(".audio-icon");
+    const label = btn.querySelector(".audio-label");
+    btn.addEventListener("click", () => {
+      video.muted = !video.muted;
+      if (!video.muted) { video.play().catch(() => {}); icon.textContent = "🔊"; label.textContent = "Silenciar"; btn.setAttribute("aria-label", "Silenciar"); }
+      else { icon.textContent = "🔇"; label.textContent = "Activar sonido"; btn.setAttribute("aria-label", "Activar sonido"); }
+    });
+    return wrap;
+  }
+
+  function mountVideo(slotEl, videoUrl) {
+    slotEl.innerHTML = "";
+    if (!videoUrl) { slotEl.classList.add("hidden"); return; }
+    slotEl.appendChild(buildVideoPlayer(videoUrl));
+    slotEl.classList.remove("hidden");
+  }
+
+  /* ================= PRODUCTO: detalle + fade de portada al scrollear ================= */
+  function setupFadeOnScroll(modalBodyEl, heroEl) {
+    modalBodyEl.addEventListener("scroll", () => {
+      const st = modalBodyEl.scrollTop;
+      if (st < 0) return;
+      const fade = Math.max(0, Math.min(1, 1 - st / 120));
+      heroEl.style.opacity = String(fade);
+      heroEl.style.filter = `brightness(${0.9 + fade * 0.1})`;
+    }, { passive: true });
+  }
+  setupFadeOnScroll(document.getElementById("product-modal-body"), document.getElementById("product-modal-hero"));
+  setupFadeOnScroll(document.getElementById("promo-modal-body"), document.getElementById("promo-modal-hero"));
+  setupFadeOnScroll(document.getElementById("event-modal-body"), document.getElementById("event-modal-hero"));
+
+  window.openProductDetail = (id) => {
+    const prod = latestProducts.find(p => p.id === id);
+    if (!prod) return;
+    productGallery.open(getImages(prod), prod.titulo);
+    const titleEl = document.getElementById("detail-title");
+    const priceEl = document.getElementById("detail-price");
+    const priceTransferEl = document.getElementById("detail-price-transfer");
+    titleEl.textContent = prod.titulo;
+    if (hasValidPrice(prod.precio)) {
+      priceEl.textContent = formatPrice(prod.precio);
+      priceEl.classList.remove("hidden");
+    } else {
+      priceEl.textContent = "Consultar precio";
+      priceEl.classList.add("hidden"); // se muestra como texto plano separado
+      priceEl.classList.remove("hidden");
+    }
+    if (hasValidPrice(prod.precioTransferencia)) {
+      priceTransferEl.textContent = `En transferencia / efectivo: ${formatPrice(prod.precioTransferencia)}`;
+      priceTransferEl.classList.remove("hidden");
+    } else {
+      priceTransferEl.textContent = "";
+      priceTransferEl.classList.add("hidden");
+    }
+    document.getElementById("detail-desc").textContent = prod.descripcion;
+    mountVideo(document.getElementById("detail-video-slot"), prod.videoUrl);
+    const outOfStock = prod.disponible === false;
+    const actions = document.getElementById("detail-actions");
+    actions.innerHTML = outOfStock
+      ? `<div class="flex-1 rounded-full bg-wine-black/60 border border-garnet-light/60 px-6 py-3 text-center text-stone text-sm">Producto sin stock — consultanos por WhatsApp</div>`
+      : `<button onclick="window.addToCart('${prod.id}'); document.getElementById('product-modal').classList.add('hidden');" class="btn-press flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-bold text-sm">Al carrito</button>`;
+    const modal = document.getElementById("product-modal");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.getElementById("product-modal-body").scrollTop = 0;
+    document.getElementById("product-modal-hero").style.opacity = "1";
+  };
+  document.getElementById("product-modal-close").addEventListener("click", () => {
+    document.getElementById("product-modal").classList.add("hidden");
+    document.getElementById("product-modal").classList.remove("flex");
+  });
+
+  /* ================= PROMOCIÓN: detalle ================= */
   window.openPromoDetail = (id) => {
     const promo = latestPromos.find((p) => p.id === id);
     if (!promo) return;
     promoGallery.open(getImages(promo), promo.titulo);
     document.getElementById("promo-detail-title").textContent = promo.titulo || "";
     const priceEl = document.getElementById("promo-detail-price");
-    if (promo.precio) { priceEl.textContent = formatPromoPrice(promo); priceEl.classList.remove("hidden"); }
-    else { priceEl.textContent = ""; priceEl.classList.add("hidden"); }
+    if (hasValidPrice(promo.precio)) { priceEl.textContent = formatPromoPrice(promo); priceEl.classList.remove("hidden"); }
+    else { priceEl.textContent = "Consultar precio"; priceEl.classList.remove("hidden"); }
     document.getElementById("promo-detail-vigencia").textContent = promo.vigencia ? `Vigencia hasta: ${formatISODate(promo.vigencia)}` : "";
     document.getElementById("promo-detail-desc").textContent = promo.descripcion || "";
+    mountVideo(document.getElementById("promo-detail-video-slot"), promo.videoUrl);
     document.getElementById("promo-detail-actions").innerHTML = `
       <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
     `;
     const modal = document.getElementById("promo-modal");
     modal.classList.remove("hidden");
     modal.classList.add("flex");
+    document.getElementById("promo-modal-body").scrollTop = 0;
+    document.getElementById("promo-modal-hero").style.opacity = "1";
   };
   document.getElementById("promo-modal-close").addEventListener("click", () => promoGallery.close());
 
-  /* =====================================================================
-   *  VISOR DE IMAGEN AMPLIADA (productos y promociones)
-   *  Ventana independiente: no pisa título/precio/descripción de los modales de detalle.
-   *  Se abre desde la imagen de las tarjetas (window.openImageViewer) y desde la imagen
-   *  de los modales de detalle. Misma lista de imágenes y flechas < > que el modal.
-   * ===================================================================== */
+  /* ================= EVENTO: detalle ================= */
+  window.openEventDetail = (id) => {
+    const ev = latestEvents.find((p) => p.id === id);
+    if (!ev) return;
+    eventGallery.open(getImages(ev), ev.titulo);
+    document.getElementById("event-detail-title").textContent = ev.titulo || "";
+    const fecha = ev.fecha ? formatISODate(ev.fecha) : "";
+    const hora = ev.hora || "";
+    document.getElementById("event-detail-fecha").textContent = fecha && hora ? `${fecha} · ${hora} hs` : (fecha || hora);
+    const lugarEl = document.getElementById("event-detail-lugar");
+    if (ev.lugar) {
+      const q = encodeURIComponent(ev.lugar);
+      lugarEl.innerHTML = `<a href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener noreferrer" class="text-gold-soft underline hover:text-gold">📍 ${escapeHtml(ev.lugar)} ↗</a>`;
+    } else { lugarEl.textContent = ""; }
+    const priceEl = document.getElementById("event-detail-price");
+    if (hasValidPrice(ev.precio)) {
+      priceEl.textContent = ev.tipoPrecio === "persona" ? `${formatPrice(ev.precio)} x persona` : formatPrice(ev.precio);
+      priceEl.classList.remove("hidden");
+    } else { priceEl.textContent = "Consultar precio"; priceEl.classList.remove("hidden"); }
+    document.getElementById("event-detail-desc").textContent = ev.descripcion || "";
+    mountVideo(document.getElementById("event-detail-video-slot"), ev.videoUrl);
+    document.getElementById("event-detail-actions").innerHTML = `
+      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20el%20evento:%20${encodeURIComponent(ev.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Anotarme</a>
+    `;
+    const modal = document.getElementById("event-modal");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.getElementById("event-modal-body").scrollTop = 0;
+    document.getElementById("event-modal-hero").style.opacity = "1";
+  };
+  document.getElementById("event-modal-close").addEventListener("click", () => eventGallery.close());
+
+  /* ================= VISOR DE IMAGEN AMPLIADA ================= */
   const imageViewer = (() => {
     const box = document.getElementById("image-lightbox");
     const img = document.getElementById("lightbox-img");
@@ -1286,7 +1572,7 @@
       render();
     }
     function open(list, alt, start, openerEl) {
-      if (isOpen() || !list || !list.length) return; // evita abrir varias ventanas por clics repetidos
+      if (isOpen() || !list || !list.length) return;
       images = list.slice();
       index = Math.min(Math.max(start || 0, 0), images.length - 1);
       opener = openerEl || null;
@@ -1301,7 +1587,7 @@
       });
       render();
       prevBodyOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden"; // el fondo no se desplaza; al cerrar se restaura la misma posición
+      document.body.style.overflow = "hidden";
       box.classList.remove("hidden");
       box.classList.add("flex");
       closeBtn.focus();
@@ -1319,9 +1605,7 @@
     closeBtn.addEventListener("click", close);
     prev.addEventListener("click", () => go(index - 1));
     next.addEventListener("click", () => go(index + 1));
-    // Clic en el fondo (no sobre la imagen ni los botones) cierra.
     box.addEventListener("click", (e) => { if (e.target === box) close(); });
-    // Swipe en celular
     let startX = null;
     box.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; }, { passive: true });
     box.addEventListener("touchend", (e) => {
@@ -1330,28 +1614,20 @@
       startX = null;
       if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
     }, { passive: true });
-    // Teclado: se captura antes que los demás manejadores para que Esc cierre SOLO el visor
-    // (y no también el modal de detalle que quede debajo).
     window.addEventListener("keydown", (e) => {
       if (!isOpen()) return;
       if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); }
       else if (e.key === "ArrowLeft") { e.preventDefault(); e.stopPropagation(); go(index - 1); }
       else if (e.key === "ArrowRight") { e.preventDefault(); e.stopPropagation(); go(index + 1); }
-      else if (e.key === "Tab") {
-        const f = [closeBtn, prev, next, ...dots.querySelectorAll("button")].filter((el) => el.offsetParent !== null);
-        if (!f.length) return;
-        const first = f[0], last = f[f.length - 1];
-        if (e.shiftKey && (document.activeElement === first || !box.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && (document.activeElement === last || !box.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
-      }
     }, true);
     return { open, close, isOpen };
   })();
 
-  // Desde una tarjeta: kind = "product" | "promo". `el` = contenedor de la imagen (se usa para
-  // arrancar en la foto que estaba visible en el auto-slider y para devolver el foco al cerrar).
   window.openImageViewer = (kind, id, el) => {
-    const item = (kind === "promo" ? latestPromos : latestProducts).find((p) => p.id === id);
+    let item;
+    if (kind === "promo") item = latestPromos.find((p) => p.id === id);
+    else if (kind === "event") item = latestEvents.find((p) => p.id === id);
+    else item = latestProducts.find((p) => p.id === id);
     if (!item) return;
     const list = getImages(item);
     if (!list.length) return;
@@ -1362,8 +1638,7 @@
     imageViewer.open(list, item.titulo, start, el);
   };
 
-  // Desde la imagen de los modales de detalle (producto y promoción): amplía la foto que se está viendo.
-  [[productGallery, "detail-img"], [promoGallery, "promo-detail-img"]].forEach(([gallery, imgId]) => {
+  [[productGallery, "detail-img"], [promoGallery, "promo-detail-img"], [eventGallery, "event-detail-img"]].forEach(([gallery, imgId]) => {
     const el = document.getElementById(imgId);
     el.classList.add("zoom-trigger");
     el.setAttribute("role", "button");
@@ -1377,6 +1652,7 @@
     el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openIt(); } });
   });
 
+  /* ================= CARRITO ================= */
   let cart = JSON.parse(localStorage.getItem('clubCart')) || [];
   const cartFab = document.getElementById("cart-fab");
   const cartBadge = document.getElementById("cart-badge");
@@ -1386,6 +1662,10 @@
   const cartTotalEl = document.getElementById("cart-total");
 
   function saveCart() { localStorage.setItem('clubCart', JSON.stringify(cart)); }
+
+  function cartPriceFor(prod) {
+    return hasValidPrice(prod.precio) ? prod.precio : null;
+  }
 
   function updateCartUI() {
     const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
@@ -1398,20 +1678,22 @@
 
     cartItemsContainer.innerHTML = '';
     let totalPrecio = 0;
+    let consultar = false;
     if (cart.length === 0) {
       cartItemsContainer.innerHTML = '<p class="text-stone text-center mt-10">Tu carrito está vacío.</p>';
     } else {
       cart.forEach(item => {
         const prod = latestProducts.find(p => p.id === item.id);
         if (prod) {
-          totalPrecio += prod.precio * item.qty;
+          const p = cartPriceFor(prod);
+          if (p === null) consultar = true; else totalPrecio += p * item.qty;
           const div = document.createElement("div");
           div.className = "flex items-center gap-4 bg-wine-black/40 p-3 rounded-xl border border-gold/10";
           div.innerHTML = `
             <img src="${escapeHtml(getImages(prod)[0] || "")}" alt="" class="w-14 h-14 object-cover rounded-lg border border-gold/15">
             <div class="flex-1 min-w-0">
               <p class="text-cream text-sm font-medium truncate">${escapeHtml(prod.titulo)}</p>
-              <p class="text-gold-soft text-xs">${formatPrice(prod.precio)} c/u</p>
+              <p class="text-gold-soft text-xs">${p === null ? "Consultar precio" : formatPrice(p) + " c/u"}</p>
               <div class="flex items-center gap-2 mt-1">
                 <button onclick="window.updateCartQty('${item.id}', -1)" class="w-5 h-5 bg-wine-panel text-stone rounded">-</button>
                 <span class="text-cream text-xs">${item.qty}</span>
@@ -1424,10 +1706,14 @@
         }
       });
     }
-    cartTotalEl.textContent = formatPrice(totalPrecio);
+    cartTotalEl.innerHTML = consultar
+      ? `${formatPrice(totalPrecio)}<span class="block text-xs text-stone font-sans font-normal mt-1">+ ítems a consultar</span>`
+      : formatPrice(totalPrecio);
   }
 
   window.addToCart = (id) => {
+    const prod = latestProducts.find(p => p.id === id);
+    if (prod && prod.disponible === false) { showToast("Producto sin stock.", "error"); return; }
     const existing = cart.find(i => i.id === id);
     if (existing) existing.qty++;
     else cart.push({ id, qty: 1 });
@@ -1456,7 +1742,6 @@
     cartPanel.classList.toggle("translate-x-full");
     cartOverlay.classList.toggle("hidden");
   }
-
   cartFab.addEventListener("click", toggleCart);
   document.getElementById("cart-close").addEventListener("click", toggleCart);
   cartOverlay.addEventListener("click", toggleCart);
@@ -1492,17 +1777,14 @@
     cart.forEach(item => {
       const prod = latestProducts.find(p => p.id === item.id);
       if (!prod) return;
-      totalPrecio += prod.precio * item.qty;
-      itemsComprados.push({ titulo: prod.titulo, qty: item.qty });
+      const p = cartPriceFor(prod);
+      if (p !== null) totalPrecio += p * item.qty;
+      itemsComprados.push({ titulo: prod.titulo, qty: item.qty, precio: p });
     });
     if (itemsComprados.length === 0) { showToast("Los productos de tu carrito ya no están disponibles.", "error"); return; }
 
     const nuevoPedido = {
-      nombre,
-      dni,
-      telefono,
-      metodoPago,
-      codigoRetiro,
+      nombre, dni, telefono, metodoPago, codigoRetiro,
       items: itemsComprados,
       total: totalPrecio,
       estado: "no retirado",
@@ -1538,30 +1820,47 @@
     window.location.hash = "#mis-compras";
   });
 
+  /* ================= PRODUCTOS ================= */
   let latestProducts = [];
   const productsGrid = document.getElementById("products-grid");
   const productsLoading = document.getElementById("products-loading");
   const productsEmpty = document.getElementById("products-empty");
 
-  window.openProductDetail = (id) => {
-    const prod = latestProducts.find(p => p.id === id);
-    if (!prod) return;
-    productGallery.open(getImages(prod), prod.titulo); // flechas < > y puntitos
-    document.getElementById("detail-title").textContent = prod.titulo;
-    document.getElementById("detail-price").textContent = formatPrice(prod.precio);
-    document.getElementById("detail-desc").textContent = prod.descripcion;
-    document.getElementById("detail-actions").innerHTML = `
-      <button onclick="window.addToCart('${prod.id}'); document.getElementById('product-modal').classList.add('hidden');" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-bold text-sm">Al carrito</button>
+  function renderProductCard(product) {
+    const card = document.createElement("article");
+    const outOfStock = product.disponible === false;
+    card.className = `product-grid-enter rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col group relative ${outOfStock ? "card-out" : ""}`;
+    const priceHtml = hasValidPrice(product.precio)
+      ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-1">${formatPrice(product.precio)}</p>`
+      : `<p class="mt-4 text-stone font-display text-xl mb-1">Consultar precio</p>`;
+    const transferHtml = hasValidPrice(product.precioTransferencia)
+      ? `<p class="text-stone text-xs italic mb-4">En efectivo / transferencia: ${formatPrice(product.precioTransferencia)}</p>`
+      : `<div class="mb-3"></div>`;
+    const stockBadge = outOfStock ? `<span class="badge-out absolute top-3 right-3 z-20">Sin stock</span>` : "";
+    const cartBtn = outOfStock
+      ? `<button disabled class="w-full rounded-full bg-wine-black/60 border border-garnet-light/50 px-4 py-3 text-stone font-medium uppercase text-sm cursor-not-allowed">Sin stock</button>`
+      : `<button onclick="window.addToCart('${product.id}')" class="btn-press w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors uppercase text-sm">Agregar al carrito</button>`;
+    card.innerHTML = `
+      <div class="aspect-[4/5] overflow-hidden bg-wine-black zoom-trigger relative" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(product.titulo)}" onclick="window.openImageViewer('product','${product.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('product','${product.id}',this)}">
+        ${stockBadge}
+        ${sliderHtml(getImages(product), product.titulo, true, product.videoUrl)}
+      </div>
+      <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
+        <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openProductDetail('${product.id}')">${escapeHtml(product.titulo)}</h3>
+        <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(String(product.descripcion || "").substring(0, 75))}...</p>
+        ${priceHtml}
+        ${transferHtml}
+        <div class="flex flex-col gap-2.5 mt-auto">
+          ${cartBtn}
+          <div class="flex gap-2">
+            <button onclick="window.openProductDetail('${product.id}')" class="flex-1 rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
+            <button onclick="window.shareProduct('${product.id}')" class="flex-1 rounded-full border border-cream/20 px-3 py-2 text-cream text-xs">Compartir</button>
+          </div>
+        </div>
+      </div>
     `;
-    const modal = document.getElementById("product-modal");
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-  };
-
-  document.getElementById("product-modal-close").addEventListener("click", () => {
-    document.getElementById("product-modal").classList.add("hidden");
-    document.getElementById("product-modal").classList.remove("flex");
-  });
+    return card;
+  }
 
   window.shareProduct = (id) => {
     const prod = latestProducts.find(p => p.id === id);
@@ -1575,40 +1874,17 @@
     }
   };
 
-  function renderProductCard(product) {
-    const card = document.createElement("article");
-    card.className = "product-grid-enter rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col group relative";
-    card.innerHTML = `
-      <div class="aspect-[4/5] overflow-hidden bg-wine-black zoom-trigger relative" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(product.titulo)}" onclick="window.openImageViewer('product','${product.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('product','${product.id}',this)}">
-        ${sliderHtml(getImages(product), product.titulo, true)}
-      </div>
-      <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
-        <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openProductDetail('${product.id}')">${escapeHtml(product.titulo)}</h3>
-        <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(String(product.descripcion || "").substring(0, 75))}...</p>
-        <p class="mt-4 text-gold-soft font-display text-2xl mb-5">${formatPrice(product.precio)}</p>
-        <div class="flex flex-col gap-2.5 mt-auto">
-          <button onclick="window.addToCart('${product.id}')" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors uppercase text-sm">Agregar al carrito</button>
-          <div class="flex gap-2">
-            <button onclick="window.openProductDetail('${product.id}')" class="flex-1 rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
-            <button onclick="window.shareProduct('${product.id}')" class="flex-1 rounded-full border border-cream/20 px-3 py-2 text-cream text-xs">Compartir</button>
-          </div>
-        </div>
-      </div>
-    `;
-    return card;
-  }
-
   onSnapshot(query(productsCollection, orderBy("creadoEn", "desc")), (snapshot) => {
     productsLoading.classList.add("hidden");
     latestProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     renderAdminProducts();
-    updateCartUI(); // re-pinta el carrito persistido (necesita el catálogo ya cargado)
+    updateCartUI();
     if (snapshot.empty) productsEmpty.classList.remove("hidden");
     else {
       productsEmpty.classList.add("hidden");
       productsGrid.innerHTML = "";
       latestProducts.forEach(p => { if (p.titulo && getImages(p).length) productsGrid.appendChild(renderProductCard(p)); });
-      startAutoSliders(productsGrid); // auto-slider cada 2 s en productos con más de 1 imagen
+      startAutoSliders(productsGrid);
 
       const urlParams = new URLSearchParams(window.location.search);
       const prodId = urlParams.get('producto');
@@ -1616,6 +1892,7 @@
     }
   });
 
+  /* ================= PROMOCIONES ================= */
   let latestPromos = [];
   let allPromos = [];
   const promosGrid = document.getElementById("promos-grid");
@@ -1639,29 +1916,74 @@
       latestPromos.forEach(promo => {
         const card = document.createElement("article");
         card.className = "rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col";
-        
         const isExpired = promo.vigencia && promo.vigencia < today;
         const alertHtml = isExpired ? `<div class="bg-garnet/80 text-cream text-xs px-3 py-1.5 text-center font-medium">⚠️ Esta promoción ya finalizó. Consultá por WhatsApp si sigue disponible.</div>` : '';
-
         card.innerHTML = `
           ${alertHtml}
           <div class="aspect-[4/5] overflow-hidden bg-wine-black relative zoom-trigger" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(promo.titulo)}" onclick="window.openImageViewer('promo','${promo.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('promo','${promo.id}',this)}">
-            ${sliderHtml(getImages(promo), promo.titulo, false)}
+            ${sliderHtml(getImages(promo), promo.titulo, false, promo.videoUrl)}
           </div>
           <div class="p-6 flex flex-col flex-1">
             <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors" onclick="window.openPromoDetail('${promo.id}')">${escapeHtml(promo.titulo)}</h3>
             <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(promo.descripcion)}</p>
-            ${promo.precio ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-4">${promoPriceHtml(promo)}</p>` : ''}
+            ${hasValidPrice(promo.precio) ? `<p class="mt-4 text-gold-soft font-display text-2xl mb-4">${promoPriceHtml(promo)}</p>` : `<p class="mt-4 text-stone font-display text-lg mb-4">Consultar precio</p>`}
             <button type="button" onclick="window.openPromoDetail('${promo.id}')" class="mb-2.5 w-full rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
             <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
           </div>
         `;
         promosGrid.appendChild(card);
-        startAutoSliders(card); // auto-slider cada 2 s si la promo tiene más de 1 imagen
+        startAutoSliders(card);
       });
     }
   });
 
+  /* ================= EVENTOS ================= */
+  let latestEvents = [];
+  let allEvents = [];
+  const eventsGrid = document.getElementById("eventos-grid");
+  const eventsLoading = document.getElementById("eventos-loading");
+  const eventsEmpty = document.getElementById("eventos-empty");
+
+  onSnapshot(query(eventsCollection, orderBy("fecha", "asc")), (snapshot) => {
+    eventsLoading.classList.add("hidden");
+    allEvents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    renderAdminEvents();
+    // próximos: fecha >= hoy (o sin fecha)
+    const today = todayLocalISO();
+    latestEvents = allEvents.filter(ev => !ev.fecha || ev.fecha >= today);
+
+    if (latestEvents.length === 0) eventsEmpty.classList.remove("hidden");
+    else {
+      eventsEmpty.classList.add("hidden");
+      eventsGrid.innerHTML = "";
+      latestEvents.forEach(ev => {
+        const card = document.createElement("article");
+        card.className = "rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col";
+        const precioHtml = hasValidPrice(ev.precio)
+          ? `<p class="mt-2 text-gold-soft font-display text-xl mb-3">${ev.tipoPrecio === "persona" ? `${formatPrice(ev.precio)} <span class="text-xs text-stone font-sans">x persona</span>` : formatPrice(ev.precio)}</p>`
+          : `<p class="mt-2 text-stone font-display text-lg mb-3">Consultar precio</p>`;
+        const mapUrl = ev.lugar ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.lugar)}` : "";
+        card.innerHTML = `
+          <div class="aspect-[4/5] overflow-hidden bg-wine-black relative zoom-trigger" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(ev.titulo)}" onclick="window.openImageViewer('event','${ev.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('event','${ev.id}',this)}">
+            ${sliderHtml(getImages(ev), ev.titulo, false, ev.videoUrl)}
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            ${ev.fecha ? `<p class="text-gold-soft text-xs font-medium mb-1">${formatISODate(ev.fecha)}${ev.hora ? " · " + ev.hora + " hs" : ""}</p>` : ""}
+            <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors" onclick="window.openEventDetail('${ev.id}')">${escapeHtml(ev.titulo)}</h3>
+            <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(ev.descripcion)}</p>
+            ${ev.lugar ? `<a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="text-gold-soft text-xs underline hover:text-gold mt-2 inline-block">📍 ${escapeHtml(ev.lugar)} ↗</a>` : ""}
+            ${precioHtml}
+            <button type="button" onclick="window.openEventDetail('${ev.id}')" class="mb-2.5 w-full rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
+            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20el%20evento:%20${encodeURIComponent(ev.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Anotarme</a>
+          </div>
+        `;
+        eventsGrid.appendChild(card);
+        startAutoSliders(card);
+      });
+    }
+  });
+
+  /* ================= MIS COMPRAS ================= */
   const myPurchasesContainer = document.getElementById("my-purchases-container");
   const filterDniInput = document.getElementById("filter-dni");
   const filterDniBtn = document.getElementById("filter-dni-btn");
@@ -1745,10 +2067,10 @@
 
   filterDniBtn.addEventListener("click", () => loadMyPurchases(filterDniInput.value.trim()));
 
+  /* ================= ADMIN: login y sesión persistente (sin timer) ================= */
   const ADMIN_USERNAME = "clubdelanfitrion";
   const ADMIN_PASSWORD = "clubdelanfitrion";
-  const ADMIN_SESSION_KEY = "club_admin_session_expiry";
-  const ADMIN_SESSION_MS = 5 * 60 * 1000;
+  const ADMIN_SESSION_KEY = "club_admin_session_flag";
   const ADMIN_EXPIRED_MSG = "Tu sesión expiró. Volvé a ingresar los datos para iniciar sesión";
 
   const showEl = (el) => { el.classList.remove("hidden"); el.classList.add("flex"); };
@@ -1769,33 +2091,22 @@
   const adminLoginModal = document.getElementById("admin-login-modal");
   const adminPanelModal = document.getElementById("admin-panel-modal");
   const adminLoginError = document.getElementById("admin-login-error");
-  const adminTimerEl = document.getElementById("admin-session-timer");
-  const adminConfirmModal = document.getElementById("admin-confirm-modal");
   let adminNoticePending = false;
 
-  function getAdminExpiry() {
-    let best = 0;
-    [() => localStorage, () => sessionStorage].forEach((getStore) => {
-      try {
-        const n = Number(getStore().getItem(ADMIN_SESSION_KEY));
-        if (Number.isFinite(n) && n > best) best = n;
-      } catch (_) { }
-    });
-    return best;
-  }
+  // Sesión persistente SOLO en la pestaña actual (sessionStorage).
+  // Si el usuario recarga o cierra la pestaña → se pierde, como pidió el requerimiento.
   function isAdminSessionValid() {
-    const exp = getAdminExpiry();
-    const now = Date.now();
-    return exp > now && exp - now <= ADMIN_SESSION_MS + 1000;
-  }
-  function clearAdminSession() {
-    try { localStorage.removeItem(ADMIN_SESSION_KEY); } catch (_) {}
-    try { sessionStorage.removeItem(ADMIN_SESSION_KEY); } catch (_) {}
+    try { return sessionStorage.getItem(ADMIN_SESSION_KEY) === "1"; }
+    catch (_) { return false; }
   }
   function startAdminSession(remember) {
-    clearAdminSession();
-    const exp = String(Date.now() + ADMIN_SESSION_MS);
-    try { (remember ? localStorage : sessionStorage).setItem(ADMIN_SESSION_KEY, exp); } catch (error) { console.warn("[admin] No se pudo guardar la sesión.", error); }
+    try {
+      if (remember) sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
+      else sessionStorage.removeItem(ADMIN_SESSION_KEY);
+    } catch (_) {}
+  }
+  function clearAdminSession() {
+    try { sessionStorage.removeItem(ADMIN_SESSION_KEY); } catch (_) {}
   }
 
   function openAdminLogin() {
@@ -1814,9 +2125,8 @@
     showEl(adminPanelModal);
     renderAdminProducts();
     renderAdminPromos();
-    updateAdminTimer();
+    renderAdminEvents();
   }
-
   function expireAdminSession(showLogin) {
     clearAdminSession();
     adminNoticePending = true;
@@ -1825,15 +2135,15 @@
     pendingDelete = null;
     resetProductForm();
     resetPromoForm();
+    resetEventForm();
     document.getElementById("admin-fb-pass").value = "";
     if (adminAuth.currentUser) signOut(adminAuth).catch((error) => console.warn("[admin] signOut", error));
-    adminTimerEl.textContent = "";
     if (showLogin) openAdminLogin();
   }
   function enforceAdminSession() {
     if (isAdminSessionValid()) return true;
     const panelOpen = !adminPanelModal.classList.contains("hidden");
-    if (panelOpen || getAdminExpiry() > 0 || adminAuth.currentUser) expireAdminSession(panelOpen);
+    if (panelOpen || adminAuth.currentUser) expireAdminSession(panelOpen);
     return false;
   }
   function requireAdminSession() {
@@ -1841,20 +2151,13 @@
     showToast(ADMIN_EXPIRED_MSG, "error");
     return false;
   }
-  function updateAdminTimer() {
-    const remaining = getAdminExpiry() - Date.now();
-    if (remaining <= 0) { adminTimerEl.textContent = ""; return; }
-    const total = Math.ceil(remaining / 1000);
-    adminTimerEl.textContent = `Sesión del panel: vence en ${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
-  }
 
-  setInterval(() => {
-    if (!enforceAdminSession()) return;
-    if (!adminPanelModal.classList.contains("hidden")) updateAdminTimer();
-  }, 1000);
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) enforceAdminSession(); });
-  window.addEventListener("focus", enforceAdminSession);
-  window.addEventListener("storage", (e) => { if (e.key === ADMIN_SESSION_KEY) enforceAdminSession(); });
+  // Al cargar la página: si hay sesión previa pero la pestaña se recargó, sessionStorage se
+  // mantiene dentro de la misma pestaña en muchos navegadores. Forzamos un chequeo explícito:
+  window.addEventListener("beforeunload", () => {
+    // si el usuario cierra/recarga, limpiamos para exigir login de nuevo.
+    try { sessionStorage.removeItem(ADMIN_SESSION_KEY); } catch (_) {}
+  });
 
   document.getElementById("admin-open-btn").addEventListener("click", () => {
     if (enforceAdminSession()) openAdminPanel();
@@ -1868,7 +2171,7 @@
     const u = document.getElementById("admin-user").value;
     const p = document.getElementById("admin-pass").value;
     if (u === ADMIN_USERNAME && p === ADMIN_PASSWORD) {
-      startAdminSession(document.getElementById("admin-remember").checked);
+      startAdminSession(true); // sessionStorage → dura mientras la pestaña esté abierta
       adminNoticePending = false;
       adminLoginError.classList.add("hidden");
       document.getElementById("admin-user").value = "";
@@ -1886,6 +2189,7 @@
   const adminDb = getFirestore(adminApp);
   const adminProductsCol = collection(adminDb, "productos");
   const adminPromosCol = collection(adminDb, "promociones");
+  const adminEventsCol = collection(adminDb, "eventos");
 
   const adminFbStatus = document.getElementById("admin-fb-status");
   const adminFbForm = document.getElementById("admin-fb-form");
@@ -1895,7 +2199,6 @@
 
   onAuthStateChanged(adminAuth, async (user) => {
     adminHasClaim = false;
-    if (user && !isAdminSessionValid()) { signOut(adminAuth).catch(() => {}); return; }
     if (!user) {
       adminFbStatus.textContent = "No conectada. Será necesaria cuando las reglas seguras de Firestore estén activas.";
       adminFbForm.classList.remove("hidden");
@@ -1997,6 +2300,7 @@
 
   const adminProductsList = document.getElementById("admin-products-list");
   const adminPromosList = document.getElementById("admin-promos-list");
+  const adminEventsList = document.getElementById("admin-eventos-list");
   const adminProductsSearch = document.getElementById("admin-products-search");
   const adminPromosSearch = document.getElementById("admin-promos-search");
   const adminPromosFilter = document.getElementById("admin-promos-filter");
@@ -2010,8 +2314,10 @@
       return;
     }
     items.forEach((p) => {
-      const meta = [formatPrice(p.precio || 0)];
-      if (p.descripcion) meta.push(shorten(p.descripcion, 70));
+      const meta = [];
+      meta.push(hasValidPrice(p.precio) ? formatPrice(p.precio) : "Consultar precio");
+      if (hasValidPrice(p.precioTransferencia)) meta.push(`Efectivo: ${formatPrice(p.precioTransferencia)}`);
+      meta.push(p.disponible === false ? "SIN STOCK" : "Disponible");
       const fecha = p.creadoEn && p.creadoEn.toDate ? p.creadoEn.toDate().toLocaleDateString("es-AR") : "";
       if (fecha) meta.push(`Publicado: ${fecha}`);
       adminProductsList.appendChild(buildAdminRow("producto", p, meta, ""));
@@ -2036,23 +2342,33 @@
     }
     items.forEach((p) => {
       const meta = [];
-      if (p.precio) meta.push(formatPromoPrice(p));
+      if (hasValidPrice(p.precio)) meta.push(formatPromoPrice(p)); else meta.push("Consultar precio");
       if (p.descripcion) meta.push(shorten(p.descripcion, 70));
       meta.push(`Vigencia hasta: ${formatISODate(p.vigencia) || "—"}${p.publicarDesde ? ` · Publicar desde: ${formatISODate(p.publicarDesde)}` : ""}`);
       adminPromosList.appendChild(buildAdminRow("promo", p, meta, promoStatus(p, today)));
+    });
+  }
+  function renderAdminEvents() {
+    adminEventsList.innerHTML = "";
+    if (allEvents.length === 0) {
+      adminEventsList.innerHTML = `<p class="text-stone text-sm py-3">Todavía no hay eventos publicados.</p>`;
+      return;
+    }
+    allEvents.forEach((p) => {
+      const meta = [];
+      if (p.fecha) meta.push(`${formatISODate(p.fecha)}${p.hora ? " · " + p.hora : ""}`);
+      if (p.lugar) meta.push(p.lugar);
+      if (p.descripcion) meta.push(shorten(p.descripcion, 70));
+      adminEventsList.appendChild(buildAdminRow("evento", p, meta, ""));
     });
   }
   adminProductsSearch.addEventListener("input", renderAdminProducts);
   adminPromosSearch.addEventListener("input", renderAdminPromos);
   adminPromosFilter.addEventListener("change", renderAdminPromos);
 
-  /* =====================================================================
-   *  GESTOR DE IMÁGENES MÚLTIPLES (admin): productos hasta 5, promociones hasta 6
-   *  imgSlots[prefix] = [{ url }        -> imagen ya subida (modo edición)
-   *                      { file, preview } -> imagen nueva pendiente de subir a Cloudinary]
-   * ===================================================================== */
-  const IMAGE_LIMITS = { prod: 5, promo: 6 };
-  const imgSlots = { prod: [], promo: [] };
+  /* ================= GESTOR DE IMÁGENES MÚLTIPLES ================= */
+  const IMAGE_LIMITS = { prod: 5, promo: 6, evento: 6 };
+  const imgSlots = { prod: [], promo: [], evento: [] };
 
   function renderImageSlots(prefix) {
     const list = document.getElementById(`${prefix}-imagenes-list`);
@@ -2099,11 +2415,10 @@
     files.slice(0, room).forEach((file) => imgSlots[prefix].push({ file, preview: URL.createObjectURL(file) }));
     renderImageSlots(prefix);
   }
-  // Sube a Cloudinary solo las imágenes nuevas; las existentes conservan su URL. Mantiene el orden.
   function resolveSlotUrls(slots) {
     return Promise.all(slots.map((sl) => (sl.url ? Promise.resolve(sl.url) : uploadImageToCloudinary(sl.file))));
   }
-  ["prod", "promo"].forEach((prefix) => {
+  ["prod", "promo", "evento"].forEach((prefix) => {
     const input = document.getElementById(`${prefix}-imagen`);
     document.getElementById(`${prefix}-imagen-add`).addEventListener("click", () => input.click());
     input.addEventListener("change", (e) => { addFilesToSlots(prefix, e.target.files); e.target.value = ""; });
@@ -2112,15 +2427,63 @@
 
   const productForm = document.getElementById("product-form");
   const promoForm = document.getElementById("promo-form");
+  const eventoForm = document.getElementById("evento-form");
   let editingProductId = null;
   let editingPromoId = null;
+  let editingEventId = null;
   let savingProduct = false;
   let savingPromo = false;
+  let savingEvent = false;
+  const newVideoFiles = { prod: null, promo: null, evento: null };
+
+  function bindVideoInput(prefix, videoField) {
+    const inp = document.getElementById(`${prefix}-video`);
+    const status = document.getElementById(`${prefix}-video-status`);
+    inp.addEventListener("change", async () => {
+      const file = inp.files[0];
+      newVideoFiles[prefix] = null;
+      status.textContent = "";
+      if (!file) return;
+      try {
+        const dur = await getVideoDuration(file);
+        if (dur > VIDEO_MAX_SECONDS) {
+          status.textContent = `Duración: ${Math.round(dur)}s. Máximo 180s.`;
+          status.className = "text-garnet-light text-xs mt-1";
+          inp.value = "";
+          return;
+        }
+        newVideoFiles[prefix] = file;
+        status.textContent = `Listo para subir (${Math.round(dur)}s): ${file.name}`;
+        status.className = "text-gold-soft text-xs mt-1";
+      } catch (err) {
+        status.textContent = "No se pudo leer la duración del video.";
+        status.className = "text-garnet-light text-xs mt-1";
+      }
+    });
+  }
+  bindVideoInput("prod");
+  bindVideoInput("promo");
+  bindVideoInput("evento");
+
+  async function resolveVideo(prefix, existingUrl) {
+    if (newVideoFiles[prefix]) {
+      const url = await uploadVideoToCloudinary(newVideoFiles[prefix]);
+      newVideoFiles[prefix] = null;
+      document.getElementById(`${prefix}-video`).value = "";
+      document.getElementById(`${prefix}-video-status`).textContent = "";
+      return url;
+    }
+    return existingUrl || null;
+  }
 
   function resetProductForm() {
     editingProductId = null;
     productForm.reset();
+    document.getElementById("prod-disponible").checked = true;
     setImageSlots("prod", []);
+    newVideoFiles.prod = null;
+    document.getElementById("prod-video").value = "";
+    document.getElementById("prod-video-status").textContent = "";
     document.getElementById("product-form-title").textContent = "Cargar nuevo producto";
     document.getElementById("product-submit-btn").textContent = "Publicar producto";
     document.getElementById("product-cancel-edit-btn").classList.add("hidden");
@@ -2129,12 +2492,27 @@
     editingPromoId = null;
     promoForm.reset();
     setImageSlots("promo", []);
+    newVideoFiles.promo = null;
+    document.getElementById("promo-video").value = "";
+    document.getElementById("promo-video-status").textContent = "";
     document.getElementById("promo-form-title").textContent = "Cargar nueva promoción";
     document.getElementById("promo-submit-btn").textContent = "Publicar promoción";
     document.getElementById("promo-cancel-edit-btn").classList.add("hidden");
   }
+  function resetEventForm() {
+    editingEventId = null;
+    eventoForm.reset();
+    setImageSlots("evento", []);
+    newVideoFiles.evento = null;
+    document.getElementById("evento-video").value = "";
+    document.getElementById("evento-video-status").textContent = "";
+    document.getElementById("evento-form-title").textContent = "Cargar nuevo evento";
+    document.getElementById("evento-submit-btn").textContent = "Publicar evento";
+    document.getElementById("evento-cancel-edit-btn").classList.add("hidden");
+  }
   document.getElementById("product-cancel-edit-btn").addEventListener("click", resetProductForm);
   document.getElementById("promo-cancel-edit-btn").addEventListener("click", resetPromoForm);
+  document.getElementById("evento-cancel-edit-btn").addEventListener("click", resetEventForm);
 
   function startEditProduct(id) {
     const p = latestProducts.find((x) => x.id === id);
@@ -2142,8 +2520,13 @@
     editingProductId = id;
     document.getElementById("prod-titulo").value = p.titulo || "";
     document.getElementById("prod-descripcion").value = p.descripcion || "";
-    document.getElementById("prod-precio").value = p.precio ?? "";
-    setImageSlots("prod", getImages(p)); // carga imagenes[] (o el viejo imagenUrl)
+    document.getElementById("prod-precio").value = hasValidPrice(p.precio) ? p.precio : "";
+    document.getElementById("prod-precio-transferencia").value = hasValidPrice(p.precioTransferencia) ? p.precioTransferencia : "";
+    document.getElementById("prod-disponible").checked = p.disponible !== false;
+    setImageSlots("prod", getImages(p));
+    newVideoFiles.prod = null;
+    document.getElementById("prod-video").value = "";
+    document.getElementById("prod-video-status").textContent = p.videoUrl ? "Video actual cargado. Elegí uno nuevo para reemplazarlo." : "";
     document.getElementById("product-form-title").textContent = "Editar producto";
     document.getElementById("product-submit-btn").textContent = "Guardar cambios";
     document.getElementById("product-cancel-edit-btn").classList.remove("hidden");
@@ -2158,19 +2541,44 @@
     document.getElementById("promo-descripcion").value = p.descripcion || "";
     document.getElementById("promo-vigencia").value = p.vigencia || "";
     document.getElementById("promo-publicar-desde").value = p.publicarDesde || "";
-    document.getElementById("promo-precio").value = p.precio ?? "";
+    document.getElementById("promo-precio").value = hasValidPrice(p.precio) ? p.precio : "";
     document.getElementById("promo-tipo-precio").value = p.tipoPrecio === "persona" ? "persona" : "total";
-    setImageSlots("promo", getImages(p)); // carga imagenes[] (o el viejo imagenUrl)
+    setImageSlots("promo", getImages(p));
+    newVideoFiles.promo = null;
+    document.getElementById("promo-video").value = "";
+    document.getElementById("promo-video-status").textContent = p.videoUrl ? "Video actual cargado. Elegí uno nuevo para reemplazarlo." : "";
     document.getElementById("promo-form-title").textContent = "Editar promoción";
     document.getElementById("promo-submit-btn").textContent = "Guardar cambios";
     document.getElementById("promo-cancel-edit-btn").classList.remove("hidden");
     promoForm.scrollIntoView({ behavior: "smooth", block: "center" });
     document.getElementById("promo-titulo").focus({ preventScroll: true });
   }
+  function startEditEvent(id) {
+    const p = allEvents.find((x) => x.id === id);
+    if (!p) { showToast("Ese evento ya no existe.", "error"); return; }
+    editingEventId = id;
+    document.getElementById("evento-titulo").value = p.titulo || "";
+    document.getElementById("evento-descripcion").value = p.descripcion || "";
+    document.getElementById("evento-fecha").value = p.fecha || "";
+    document.getElementById("evento-hora").value = p.hora || "";
+    document.getElementById("evento-lugar").value = p.lugar || "";
+    document.getElementById("evento-precio").value = hasValidPrice(p.precio) ? p.precio : "";
+    document.getElementById("evento-tipo-precio").value = p.tipoPrecio === "persona" ? "persona" : "total";
+    setImageSlots("evento", getImages(p));
+    newVideoFiles.evento = null;
+    document.getElementById("evento-video").value = "";
+    document.getElementById("evento-video-status").textContent = p.videoUrl ? "Video actual cargado. Elegí uno nuevo para reemplazarlo." : "";
+    document.getElementById("evento-form-title").textContent = "Editar evento";
+    document.getElementById("evento-submit-btn").textContent = "Guardar cambios";
+    document.getElementById("evento-cancel-edit-btn").classList.remove("hidden");
+    eventoForm.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("evento-titulo").focus({ preventScroll: true });
+  }
 
   let pendingDelete = null;
   function askDelete(kind, id) {
-    const item = (kind === "producto" ? latestProducts : allPromos).find((x) => x.id === id);
+    const coll = kind === "producto" ? latestProducts : kind === "promo" ? allPromos : allEvents;
+    const item = coll.find((x) => x.id === id);
     if (!item) { showToast("Ese elemento ya no existe.", "error"); return; }
     pendingDelete = { kind, id };
     document.getElementById("admin-confirm-name").textContent = item.titulo || "";
@@ -2188,10 +2596,12 @@
     const okBtn = document.getElementById("admin-confirm-ok");
     okBtn.disabled = true;
     try {
-      await deleteDoc(doc(adminDb, kind === "producto" ? "productos" : "promociones", id));
-      showToast(kind === "producto" ? "Producto eliminado." : "Promoción eliminada.");
+      const coll = kind === "producto" ? "productos" : kind === "promo" ? "promociones" : "eventos";
+      await deleteDoc(doc(adminDb, coll, id));
+      showToast(kind === "producto" ? "Producto eliminado." : kind === "promo" ? "Promoción eliminada." : "Evento eliminado.");
       if (kind === "producto" && editingProductId === id) resetProductForm();
       if (kind === "promo" && editingPromoId === id) resetPromoForm();
+      if (kind === "evento" && editingEventId === id) resetEventForm();
     } catch (error) {
       showToast(adminWriteErrorMessage(error), "error");
     } finally {
@@ -2213,6 +2623,13 @@
     const id = btn.closest("[data-id]").dataset.id;
     if (btn.dataset.action === "edit-promo") startEditPromo(id);
     else if (btn.dataset.action === "delete-promo") askDelete("promo", id);
+  });
+  adminEventsList.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn || !requireAdminSession()) return;
+    const id = btn.closest("[data-id]").dataset.id;
+    if (btn.dataset.action === "edit-evento") startEditEvent(id);
+    else if (btn.dataset.action === "delete-evento") askDelete("evento", id);
   });
 
   async function broadcastEmail(titulo, mensaje, templateId, linkUrl) {
@@ -2241,11 +2658,13 @@
     if (!requireAdminSession()) return;
     const titulo = document.getElementById("prod-titulo").value;
     const descripcion = document.getElementById("prod-descripcion").value;
-    const precio = document.getElementById("prod-precio").value;
+    const precioRaw = document.getElementById("prod-precio").value;
+    const precioTransferenciaRaw = document.getElementById("prod-precio-transferencia").value;
+    const disponible = document.getElementById("prod-disponible").checked;
     const slots = imgSlots.prod.slice();
     const shouldSendEmail = document.getElementById("send-product-emails")?.checked;
     const editing = editingProductId !== null;
-    if (!titulo.trim() || precio === "" || slots.length === 0) { showToast("Completá todos los campos (al menos 1 imagen).", "error"); return; }
+    if (!titulo.trim() || slots.length === 0) { showToast("Completá título y al menos 1 imagen.", "error"); return; }
 
     savingProduct = true;
     const submitBtn = document.getElementById("product-submit-btn");
@@ -2253,25 +2672,33 @@
     submitBtn.disabled = true;
     submitBtn.textContent = "Guardando…";
     try {
-      const imagenes = await resolveSlotUrls(slots); // array ordenado de URLs (máx. 5)
-      const imagenUrl = imagenes[0]; // portada; se mantiene por compatibilidad con datos/código anterior
+      const imagenes = await resolveSlotUrls(slots);
+      const existingVideo = editing ? (latestProducts.find(p => p.id === editingProductId) || {}).videoUrl : null;
+      const videoUrl = await resolveVideo("prod", existingVideo);
+      const fields = {
+        titulo, descripcion,
+        precio: hasValidPrice(precioRaw) ? Number(precioRaw) : null,
+        precioTransferencia: hasValidPrice(precioTransferenciaRaw) ? Number(precioTransferenciaRaw) : null,
+        disponible: !!disponible,
+        imagenes,
+        imagenUrl: imagenes[0],
+        videoUrl: videoUrl || null
+      };
       if (editing) {
-        await updateDoc(doc(adminDb, "productos", editingProductId), { titulo, descripcion, precio: Number(precio), imagenes, imagenUrl });
+        await updateDoc(doc(adminDb, "productos", editingProductId), fields);
         showToast("Producto actualizado correctamente.");
       } else {
-        await addDoc(adminProductsCol, { titulo, descripcion, precio: Number(precio), imagenes, imagenUrl, creadoEn: serverTimestamp() });
+        await addDoc(adminProductsCol, { ...fields, creadoEn: serverTimestamp() });
         showToast("Producto publicado correctamente.");
       }
-
       if (shouldSendEmail) {
         showToast("Enviando correos de nuevo producto a registrados...");
-        await broadcastEmail(titulo, descripcion, EMAILJS_PROMO_TEMPLATE_ID, "https://clubdelanfitrion.github.io/#productos");
+        await broadcastEmail(titulo, descripcion, EMAILJS_PROMO_TEMPLATE_ID, "https://clubdelanfitrion.com.ar/#productos");
         showToast("¡Correos de nuevo producto enviados!");
       }
-
       resetProductForm();
     } catch (err) {
-      showToast(adminWriteErrorMessage(err), "error");
+      showToast(err.message || adminWriteErrorMessage(err), "error");
       submitBtn.textContent = label;
     } finally {
       savingProduct = false;
@@ -2287,7 +2714,7 @@
     const descripcion = document.getElementById("promo-descripcion").value;
     const vigencia = document.getElementById("promo-vigencia").value;
     const publicarDesde = document.getElementById("promo-publicar-desde").value;
-    const precio = document.getElementById("promo-precio").value;
+    const precioRaw = document.getElementById("promo-precio").value;
     const tipoPrecio = document.getElementById("promo-tipo-precio").value === "persona" ? "persona" : "total";
     const slots = imgSlots.promo.slice();
     const shouldSendEmail = document.getElementById("send-promo-emails")?.checked;
@@ -2300,17 +2727,18 @@
     submitBtn.disabled = true;
     submitBtn.textContent = "Guardando…";
     try {
+      const imagenes = await resolveSlotUrls(slots);
+      const existingVideo = editing ? (allPromos.find(p => p.id === editingPromoId) || {}).videoUrl : null;
+      const videoUrl = await resolveVideo("promo", existingVideo);
       const fields = {
-        titulo,
-        descripcion,
-        vigencia,
+        titulo, descripcion, vigencia,
         publicarDesde: publicarDesde || null,
-        precio: precio ? Number(precio) : null,
-        tipoPrecio // "total" | "persona"
+        precio: hasValidPrice(precioRaw) ? Number(precioRaw) : null,
+        tipoPrecio,
+        imagenes,
+        imagenUrl: imagenes[0],
+        videoUrl: videoUrl || null
       };
-      const imagenes = await resolveSlotUrls(slots); // array ordenado de URLs (máx. 6)
-      fields.imagenes = imagenes;
-      fields.imagenUrl = imagenes[0]; // portada; compatibilidad con datos/código anterior
       if (editing) {
         await updateDoc(doc(adminDb, "promociones", editingPromoId), fields);
         showToast("Promoción actualizada correctamente.");
@@ -2318,16 +2746,14 @@
         await addDoc(adminPromosCol, { ...fields, creadoEn: serverTimestamp() });
         showToast("Promoción publicada correctamente.");
       }
-
       if (shouldSendEmail) {
         showToast("Enviando correos de promoción a registrados...");
-        await broadcastEmail(titulo, descripcion, EMAILJS_PROMO_TEMPLATE_ID, "https://clubdelanfitrion.github.io/#promociones");
+        await broadcastEmail(titulo, descripcion, EMAILJS_PROMO_TEMPLATE_ID, "https://clubdelanfitrion.com.ar/#promociones");
         showToast("¡Correos de la promoción enviados!");
       }
-
       resetPromoForm();
     } catch (err) {
-      showToast(adminWriteErrorMessage(err), "error");
+      showToast(err.message || adminWriteErrorMessage(err), "error");
       submitBtn.textContent = label;
     } finally {
       savingPromo = false;
@@ -2335,11 +2761,58 @@
     }
   });
 
-  // =====================================================================
-  //  LOGOTIPO Y FAVICON GLOBAL
-  //  Flujo: <input type="file"> -> Cloudinary -> URL en Firestore settings/general
-  //  -> onSnapshot (público, en tiempo real) -> aplica a logos, favicon y og/twitter:image
-  // =====================================================================
+  eventoForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (savingEvent) return;
+    if (!requireAdminSession()) return;
+    const titulo = document.getElementById("evento-titulo").value;
+    const descripcion = document.getElementById("evento-descripcion").value;
+    const fecha = document.getElementById("evento-fecha").value;
+    const hora = document.getElementById("evento-hora").value;
+    const lugar = document.getElementById("evento-lugar").value;
+    const precioRaw = document.getElementById("evento-precio").value;
+    const tipoPrecio = document.getElementById("evento-tipo-precio").value === "persona" ? "persona" : "total";
+    const slots = imgSlots.evento.slice();
+    const editing = editingEventId !== null;
+    if (!titulo.trim() || !descripcion.trim() || !fecha || !hora || !lugar.trim() || slots.length === 0) {
+      showToast("Completá todos los campos obligatorios (al menos 1 imagen).", "error");
+      return;
+    }
+    savingEvent = true;
+    const submitBtn = document.getElementById("evento-submit-btn");
+    const label = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Guardando…";
+    try {
+      const imagenes = await resolveSlotUrls(slots);
+      const existingVideo = editing ? (allEvents.find(p => p.id === editingEventId) || {}).videoUrl : null;
+      const videoUrl = await resolveVideo("evento", existingVideo);
+      const fields = {
+        titulo, descripcion, fecha, hora, lugar,
+        precio: hasValidPrice(precioRaw) ? Number(precioRaw) : null,
+        tipoPrecio,
+        imagenes,
+        imagenUrl: imagenes[0],
+        videoUrl: videoUrl || null
+      };
+      if (editing) {
+        await updateDoc(doc(adminDb, "eventos", editingEventId), fields);
+        showToast("Evento actualizado correctamente.");
+      } else {
+        await addDoc(adminEventsCol, { ...fields, creadoEn: serverTimestamp() });
+        showToast("Evento publicado correctamente.");
+      }
+      resetEventForm();
+    } catch (err) {
+      showToast(err.message || adminWriteErrorMessage(err), "error");
+      submitBtn.textContent = label;
+    } finally {
+      savingEvent = false;
+      submitBtn.disabled = false;
+    }
+  });
+
+  /* ================= LOGO Y FAVICON ================= */
   const SETTINGS_REF = doc(db, "settings", "general");
   const LOGO_CACHE_KEY = "clubLogoUrl";
   const LOGO_MAX_BYTES = 10 * 1024 * 1024;
@@ -2348,26 +2821,18 @@
     const el = document.querySelector(selector);
     if (el) el.setAttribute("content", value);
   }
-
-  // Reemplaza todos los <link rel="icon"> por uno nuevo (algunos navegadores ignoran el cambio de href en el existente)
   function applyFavicon(url) {
     document.querySelectorAll('link[rel~="icon"], link[rel="apple-touch-icon"]').forEach((l) => l.remove());
     const icon = document.createElement("link");
-    icon.id = "site-favicon";
-    icon.rel = "icon";
-    icon.href = url;
+    icon.id = "site-favicon"; icon.rel = "icon"; icon.href = url;
     const apple = document.createElement("link");
-    apple.id = "site-apple-icon";
-    apple.rel = "apple-touch-icon";
-    apple.href = url;
+    apple.id = "site-apple-icon"; apple.rel = "apple-touch-icon"; apple.href = url;
     document.head.append(icon, apple);
   }
-
   function applySiteLogo(url) {
     if (!url || typeof url !== "string" || !/^https:\/\//.test(url)) return;
     document.querySelectorAll("img[data-site-logo]").forEach((img) => { if (img.src !== url) img.src = url; });
     applyFavicon(url);
-    // Solo útil para scrapers que sí ejecutan JS; WhatsApp/Facebook leen el og:image estático del HTML
     setMetaContent('meta[property="og:image"]', url);
     setMetaContent('meta[name="twitter:image"]', url);
     const readout = document.getElementById("logo-url-readout");
@@ -2375,9 +2840,7 @@
     try { localStorage.setItem(LOGO_CACHE_KEY, url); } catch (_) { }
   }
 
-  // 1) Pintado inmediato desde caché local (evita parpadeo del logo viejo)
   try { applySiteLogo(localStorage.getItem(LOGO_CACHE_KEY)); } catch (_) { }
-  // 2) Fuente de verdad: Firestore, en tiempo real (cualquier cambio del admin se ve al instante en todos los visitantes)
   onSnapshot(SETTINGS_REF, (snap) => {
     if (snap.exists()) applySiteLogo(snap.data().logoUrl);
   }, (error) => console.warn("[settings] No se pudo leer settings/general", error.code || error));
@@ -2393,7 +2856,7 @@
     if (logoPreviewObjectUrl) { URL.revokeObjectURL(logoPreviewObjectUrl); logoPreviewObjectUrl = null; }
     if (!file) return;
     logoPreviewObjectUrl = URL.createObjectURL(file);
-    document.getElementById("logo-admin-preview").src = logoPreviewObjectUrl; // vista previa local, sin tocar el sitio
+    document.getElementById("logo-admin-preview").src = logoPreviewObjectUrl;
     logoStatus.textContent = `Seleccionado: ${file.name}`;
   });
 
@@ -2412,7 +2875,7 @@
       logoStatus.textContent = "Guardando en Firestore…";
       await setDoc(doc(adminDb, "settings", "general"), { logoUrl, actualizadoEn: serverTimestamp() }, { merge: true });
       if (logoPreviewObjectUrl) { URL.revokeObjectURL(logoPreviewObjectUrl); logoPreviewObjectUrl = null; }
-      applySiteLogo(logoUrl); // feedback inmediato; el onSnapshot lo confirma
+      applySiteLogo(logoUrl);
       logoFile.value = "";
       logoStatus.textContent = "Logotipo actualizado en todo el sitio.";
       showToast("Logotipo y favicon actualizados.");
@@ -2427,6 +2890,7 @@
 
   enforceAdminSession();
 
+  /* ================= AUTENTICACIÓN DE USUARIOS ================= */
   const authModal = document.getElementById("auth-modal");
   const authMessage = document.getElementById("auth-message");
   const authFields = document.getElementById("auth-fields");
@@ -2523,9 +2987,7 @@
       if (snap.exists()) return true;
       await setDoc(ref, { nombre, apellido, email: user.email || "", creadoEn: serverTimestamp() });
       return true;
-    } catch (error) {
-      return false;
-    }
+    } catch (error) { return false; }
   }
 
   async function sendWelcomeEmail({ email, nombre }) {
