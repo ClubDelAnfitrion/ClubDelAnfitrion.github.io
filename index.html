@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Club del Anfitrión — Vinoteca boutique y regalería en Bell Ville, Córdoba</title>
-<meta name="description" content="Vinoteca boutique y regalería en Bell Ville, Córdoba. Vinos de bodegas chicas, picadas, fuegos, eventos, reservas de mesa y pedidos online con retiro en Córdoba 1309.">
-<meta name="keywords" content="vinoteca, regalería, fuegos, eventos, vinos, Bell Ville, Córdoba, Club del Anfitrión, bodegas boutique, reservas, picadas, degustaciones">
+<title>Club del Anfitrión — Vinoteca boutique, regalería, artículos para fuegos y eventos en Bell Ville</title>
+<meta name="description" content="Vinoteca boutique, regalería, artículos para fuegos y eventos en Bell Ville, Córdoba. Vinos de bodegas chicas, picadas, parrillas y pedidos online con retiro en Córdoba 1309.">
+<meta name="keywords" content="vinoteca, regalería, fuegos, eventos, vinos, Bell Ville, Córdoba, Club del Anfitrión, bodegas boutique, reservas, picadas, degustaciones, parrillas, braseros">
 <meta name="author" content="Club del Anfitrión">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#140b0c">
@@ -24,6 +24,7 @@
           "wine-black": "#140b0c", "wine-dark": "#1e1114", "wine-panel": "#26161a",
           "burgundy": "#5c1128", "garnet": "#7c1f2f", "garnet-light": "#9c3244",
           "gold": "#c9a24b", "gold-soft": "#e6cf9c", "cream": "#efe6d8", "stone": "#b4a293",
+          "amber-gold": "#f59e0b",
         },
         fontFamily: {
           display: ['"Fraunces"', "serif"],
@@ -67,82 +68,104 @@
 
   .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
-  .whatsapp-container {
-      position: fixed; bottom: 24px; right: 24px; z-index: 40;
-      display: flex; align-items: center; gap: 12px;
-  }
-  .whatsapp-float {
-      width: 52px; height: 52px; background-color: #25d366; color: #FFF;
-      border-radius: 50px; display: flex; align-items: center; justify-content: center;
-      box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; text-decoration: none;
-  }
-  .whatsapp-float:hover { background-color: #20ba5a; transform: scale(1.1); }
-  .wa-tooltip {
-      background-color: #1c1917; color: #f5f5f4; border: 1px solid #d4af37;
-      padding: 8px 14px; border-radius: 20px; font-size: 13px; white-space: nowrap;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-      animation: fadeIn 0.4s ease-in-out; transition: opacity 0.4s ease;
-  }
-  .wa-tooltip.hidden { display: none; opacity: 0; }
+  /* ---- Modal hero / media carousel (Mercado Libre style) ---- */
+  .detail-hero { transition: opacity 0.35s ease, filter 0.35s ease, height 0.35s ease; will-change: opacity, height; overflow: hidden; }
+  .detail-hero.collapsed { height: 0 !important; opacity: 0; filter: blur(6px); }
 
-  .detail-hero { transition: opacity 0.25s ease, filter 0.25s ease; will-change: opacity; }
-
-  .btn-press { transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
-  .btn-press:active { transform: scale(0.97); }
-
-  .video-wrap { position: relative; }
-  .video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
-  .video-audio-btn {
-    position: absolute; bottom: 12px; right: 12px; z-index: 5;
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(20,11,12,0.8); color: #efe6d8;
-    border: 1px solid rgba(201,162,75,0.5);
-    padding: 8px 12px; border-radius: 9999px; font-size: 12px;
-    backdrop-filter: blur(6px); cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+  /* Navigation arrows on modal hero */
+  .gallery-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 30;
+    width: 44px; height: 44px; border-radius: 9999px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(10, 8, 9, 0.55); border: 1px solid rgba(201,162,75,0.65);
+    color: #e6cf9c; cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s, color 0.2s, transform 0.15s;
   }
-  .video-audio-btn:hover { background: #c9a24b; color: #140b0c; }
+  .gallery-arrow:hover { background: rgba(201,162,75,0.92); color: #140b0c; }
+  .gallery-arrow:active { transform: translateY(-50%) scale(0.94); }
+  .gallery-arrow:disabled { opacity: 0.35; cursor: not-allowed; }
+  .gallery-arrow.left { left: 12px; }
+  .gallery-arrow.right { right: 12px; }
 
-  .badge-out { background: rgba(124,31,47,0.85); color: #efe6d8; font-size: 11px; padding: 3px 10px; border-radius: 9999px; font-weight: 600; }
-  .card-out { opacity: 0.75; }
+  /* Media slider slides inside modal hero */
+  .media-slider { position: absolute; inset: 0; overflow: hidden; }
+  .media-slide {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    transition: opacity 0.45s ease;
+    opacity: 0; pointer-events: none;
+  }
+  .media-slide.active { opacity: 1; pointer-events: auto; }
+  .media-slide img,
+  .media-slide video {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-slide .video-play-overlay {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(20,11,12,0.28); cursor: pointer; transition: background 0.2s;
+  }
+  .media-slide .video-play-overlay:hover { background: rgba(20,11,12,0.45); }
+  .media-slide .play-btn-circle {
+    width: 66px; height: 66px; border-radius: 9999px; background: rgba(20,11,12,0.85);
+    border: 2px solid #c9a24b; display: flex; align-items: center; justify-content: center;
+    color: #e6cf9c; transition: transform 0.2s, background 0.2s;
+  }
+  .media-slide .video-play-overlay:hover .play-btn-circle { transform: scale(1.08); background: #c9a24b; color: #140b0c; }
+  .media-slide.is-playing .video-play-overlay { display: none; }
 
-  button, a { touch-action: manipulation; }
-
-  /* Logo circular SIEMPRE (header, footer, admin preview) */
-  .logo-circle {
-    border-radius: 9999px !important;
-    overflow: hidden;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    background-color: #140b0c;
+  /* Media counter badge (e.g. 1/4) top-left of hero */
+  .media-counter {
+    position: absolute; top: 12px; left: 12px; z-index: 25;
+    background: rgba(10,8,9,0.7); border: 1px solid rgba(201,162,75,0.5);
+    color: #e6cf9c; font-size: 11px; padding: 4px 10px; border-radius: 9999px;
+    font-weight: 600; backdrop-filter: blur(6px);
   }
 
-  /* Header nav: forzar fila horizontal incluso si Tailwind CDN carga tarde */
-  #navbar ul.nav-horizontal {
-    display: none;
-    flex-direction: row;
-    align-items: center;
-    gap: 1.75rem;
-    flex-wrap: nowrap;
+  /* Media dots bottom of hero */
+  .media-dots {
+    position: absolute; bottom: 14px; left: 0; right: 0; z-index: 25;
+    display: flex; justify-content: center; gap: 6px; pointer-events: none;
   }
-  @media (min-width: 768px) {
-    #navbar ul.nav-horizontal { display: flex !important; }
+  .media-dots .dot { height: 6px; width: 6px; border-radius: 9999px; background: rgba(239,230,216,0.45); transition: all 0.2s; }
+  .media-dots .dot.on { width: 18px; background: #c9a24b; }
+
+  /* Card media slides (cards keep the auto slider without arrows) */
+  .media-video-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #000; }
+  .video-play-overlay-card {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(20,11,12,0.35); cursor: pointer; z-index: 5; transition: background 0.2s;
   }
-  #navbar ul.nav-horizontal li { display: inline-block; white-space: nowrap; }
-  #navbar ul.nav-horizontal li a { display: inline-block; }
+  .video-play-overlay-card:hover { background: rgba(20,11,12,0.5); }
+  .play-btn-circle-card {
+    width: 64px; height: 64px; border-radius: 9999px; background: rgba(20,11,12,0.85);
+    border: 2px solid #c9a24b; display: flex; align-items: center; justify-content: center;
+    color: #e6cf9c; transition: transform 0.2s, background 0.2s;
+  }
+  .video-play-overlay-card:hover .play-btn-circle-card { transform: scale(1.08); background: #c9a24b; color: #140b0c; }
+
+  /* Carrito moderno */
+  .cart-item-card { transition: background 0.2s, border-color 0.2s; }
+  .cart-item-card:hover { background: rgba(201,162,75,0.06); border-color: rgba(201,162,75,0.35); }
+  .qty-btn {
+    width: 28px; height: 28px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(20,11,12,0.6); border: 1px solid rgba(201,162,75,0.3); color: #e6cf9c;
+    font-size: 16px; line-height: 1; cursor: pointer; transition: background 0.2s, color 0.2s;
+  }
+  .qty-btn:hover { background: #c9a24b; color: #140b0c; }
 
   @media (max-width: 640px) {
-    .wa-tooltip { display: none !important; }
-    .whatsapp-container { right: 16px; bottom: 16px; }
+    .whatsapp-container { display: none !important; }
   }
+
+  .cat-chip { scroll-snap-align: start; }
+  #catalog-categories { -webkit-overflow-scrolling: touch; }
 </style>
 
 <meta property="og:site_name" content="Club del Anfitrión">
 <meta property="og:locale" content="es_AR">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://clubdelanfitrion.com.ar/">
-<meta property="og:title" content="Club del Anfitrión — Vinoteca boutique y regalería en Bell Ville">
+<meta property="og:title" content="Club del Anfitrión — Vinoteca boutique, regalería, artículos para fuegos y eventos en Bell Ville">
 <meta property="og:description" content="Vinos de bodegas chicas, picadas, regalería, eventos y fuegos. Reservas y pedidos online con retiro en Córdoba 1309, Bell Ville.">
 <meta property="og:image" content="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
 <meta property="og:image:width" content="1200">
@@ -151,7 +174,7 @@
 <meta property="og:phone_number" content="+5493537513148">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Club del Anfitrión — Vinoteca boutique y regalería en Bell Ville">
+<meta name="twitter:title" content="Club del Anfitrión — Vinoteca boutique, regalería, artículos para fuegos y eventos en Bell Ville">
 <meta name="twitter:description" content="Vinos de bodegas chicas, picadas, regalería, eventos y fuegos. Reservas y pedidos online.">
 <meta name="twitter:image" content="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
 <meta name="twitter:site" content="@clubdelanfitrion">
@@ -255,7 +278,7 @@
   </div>
 
   <div class="relative max-w-7xl mx-auto w-full px-6 lg:px-10 pb-24 pt-40">
-    <p class="label-serif text-gold-soft text-lg mb-5 fade-in">Vinoteca boutique — Bell Ville, Córdoba</p>
+    <p class="label-serif text-gold-soft text-lg mb-5 fade-in">Vinoteca boutique, regalería, artículos para fuegos y eventos — Bell Ville, Córdoba</p>
     <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.05] max-w-3xl fade-in text-balance" style="animation-delay:.1s">
       El buen vino se comparte, <span class="italic text-gold-soft">no se guarda</span>.
     </h1>
@@ -375,7 +398,7 @@
       <div class="rounded-2xl overflow-hidden border border-gold/15 min-h-[320px] sm:min-h-[380px] lg:min-h-[460px] bg-wine-black">
         <iframe
           class="w-full h-full min-h-[320px] sm:min-h-[380px] lg:min-h-[460px] block border-0"
-          src="https://www.google.com/maps?q=C%C3%B3rdoba+1301,+Bell+Ville,+C%C3%B3rdoba,+Argentina&hl=es&z=17&output=embed"
+          src="https://www.google.com/maps?q=C%C3%B3rdoba+1309,+Bell+Ville,+C%C3%B3rdoba,+Argentina&hl=es&z=17&output=embed"
           title="Ubicación de Club del Anfitrión en Bell Ville, Córdoba"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
@@ -490,7 +513,20 @@
 <section id="productos" class="relative py-28 lg:py-36 bg-wine-dark/60 border-t border-gold/10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4">Nuestros productos y delicias</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-14 text-balance">Nuestros productos son:</h2>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-10 text-balance">Nuestros productos son:</h2>
+
+    <div id="catalog-toolbar" class="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div class="relative w-full sm:flex-1 sm:max-w-md">
+        <svg class="absolute left-4 top-1/2 -translate-y-1/2 text-gold/70" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="search" id="catalog-search" placeholder="Buscar en el catálogo..." class="w-full rounded-full bg-wine-black/60 border border-gold/20 pl-11 pr-5 py-3 text-cream placeholder:text-stone/50 focus:border-gold text-sm">
+      </div>
+      <div class="relative w-full sm:flex-1 sm:min-w-0">
+        <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-thin scroll-smooth snap-x snap-mandatory" id="catalog-categories" role="group" aria-label="Filtrar productos por categoría">
+          <button type="button" data-cat="" aria-pressed="true" class="cat-chip shrink-0 rounded-full border border-gold px-4 py-2 text-sm text-wine-black bg-gold font-medium whitespace-nowrap">Todas</button>
+        </div>
+        <div class="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-wine-dark/90 to-transparent sm:hidden"></div>
+      </div>
+    </div>
 
     <div id="products-loading" class="text-stone text-center py-16">Cargando catálogo…</div>
     <div id="products-empty" class="hidden text-stone text-center py-16">
@@ -601,7 +637,7 @@
 <!-- CONFIRMACIÓN DE REGISTRO -->
 <div id="register-success-modal" class="hidden fixed inset-0 z-[125] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="register-success-title">
   <div class="w-full max-w-md rounded-2xl border border-gold/30 bg-wine-panel p-8 text-center">
-    <h3 id="register-success-title" class="font-display text-3xl text-gold-soft mb-4">¡Registro exitoso! 🍷</h3>
+    <h3 id="register-success-title" class="font-display text-3xl text-gold-soft mb-4">¡Registro exitoso!</h3>
     <p id="register-success-text" class="text-cream text-base leading-relaxed mb-4"></p>
     <p id="register-success-warning" class="hidden text-stone text-xs leading-relaxed mb-4"></p>
     <button id="register-success-btn" type="button" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Entendido</button>
@@ -615,7 +651,7 @@
         <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" class="logo-circle w-full h-full">
       </div>
       <p class="font-display text-2xl mb-3">Club <span class="italic text-gold-soft">del Anfitrión</span></p>
-      <p class="text-stone text-sm leading-relaxed">Vinoteca boutique y regalería en Bell Ville, Córdoba. Vinos, picadas y experiencias para compartir alrededor de la mesa.</p>
+      <p class="text-stone text-sm leading-relaxed">Vinoteca boutique, regalería, artículos para fuegos y eventos en Bell Ville, Córdoba. Vinos, picadas y experiencias para compartir alrededor de la mesa.</p>
       <p class="text-stone text-xs mt-3 break-all">promociones.clubdelanfitrion@gmail.com</p>
     </div>
 
@@ -656,20 +692,24 @@
 <div id="cart-overlay" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[80]"></div>
 <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-wine-panel border-l border-gold/20 z-[85] transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
   <div class="p-6 border-b border-gold/10 flex justify-between items-center bg-wine-dark">
-    <h3 class="font-display text-2xl text-cream flex items-center gap-2">Tu Carrito 🍷</h3>
+    <h3 class="font-display text-2xl text-cream flex items-center gap-2">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Tu Carrito
+    </h3>
     <button id="cart-close" type="button" class="text-stone hover:text-gold-soft transition-colors" aria-label="Cerrar carrito">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
   </div>
-  <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin flex flex-col"></div>
+  <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-3 scrollbar-thin flex flex-col"></div>
   <div class="p-6 border-t border-gold/10 bg-wine-dark/80">
     <div class="flex justify-between items-center mb-5">
       <span class="text-cream font-medium">Total estimado:</span>
       <span id="cart-total" class="text-gold-soft font-display text-3xl">$0</span>
     </div>
-    <button id="cart-checkout-btn" type="button" class="btn-press w-full rounded-full bg-gold px-6 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors flex items-center justify-center gap-2 text-lg">
-      Finalizar compra
-    </button>
+    <a id="cart-checkout-btn" href="https://wa.me/5493537513148?text=Hola%2C%20quiero%20finalizar%20mi%20pedido" target="_blank" rel="noopener noreferrer" class="btn-press w-full rounded-full bg-gold px-6 py-4 text-wine-black font-medium hover:bg-gold-soft transition-colors flex items-center justify-center gap-2 text-lg">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      Finalizar pedido por WhatsApp
+    </a>
   </div>
 </div>
 
@@ -700,23 +740,23 @@
         <div class="grid grid-cols-2 gap-2 text-xs">
           <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
             <input type="radio" name="metodo-pago" value="Mercado Pago" checked class="accent-gold">
-            <span class="text-cream">🔵 Mercado Pago - transferencia</span>
+            <span class="text-cream">Mercado Pago - transferencia</span>
           </label>
           <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
             <input type="radio" name="metodo-pago" value="Transferencia" class="accent-gold">
-            <span class="text-cream">🔵 Mercado Pago - QR</span>
+            <span class="text-cream">Mercado Pago - QR</span>
           </label>
           <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
             <input type="radio" name="metodo-pago" value="Mercado Pago QR" class="accent-gold">
-            <span class="text-cream">💳 Tarjeta de Crédito</span>
+            <span class="text-cream">Tarjeta de Crédito</span>
           </label>
           <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
             <input type="radio" name="metodo-pago" value="Tarjeta de crédito" class="accent-gold">
-            <span class="text-cream">💳 Tarjeta de Débito</span>
+            <span class="text-cream">Tarjeta de Débito</span>
           </label>
           <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
             <input type="radio" name="metodo-pago" value="Tarjeta de débito" class="accent-gold">
-            <span class="text-cream">💵 Efectivo</span>
+            <span class="text-cream">Efectivo</span>
           </label>
           <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
             <input type="radio" name="metodo-pago" value="Efectivo" class="accent-gold">
@@ -734,7 +774,7 @@
 
 <div id="order-success-modal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-md rounded-2xl border border-gold/30 bg-wine-panel p-8 text-center relative">
-    <h3 class="font-display text-3xl text-gold-soft mb-2">¡Pedido realizado! 🍷</h3>
+    <h3 class="font-display text-3xl text-gold-soft mb-2">¡Pedido realizado!</h3>
     <p id="success-items-summary" class="text-stone text-sm mb-4"></p>
     <div class="bg-wine-black/60 border border-gold/20 rounded-xl p-4 my-4">
       <p class="text-xs text-stone mb-1">Tu código de retiro:</p>
@@ -750,18 +790,22 @@
 <!-- MODAL DETALLE DE PRODUCTO -->
 <div id="product-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
-    <button id="product-modal-close" type="button" class="absolute top-4 right-4 z-10 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
+    <button id="product-modal-close" type="button" class="absolute top-4 right-4 z-40 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <div id="product-modal-hero" class="detail-hero h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
-      <img id="detail-img" src="" class="w-full h-full object-cover">
-      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80 pointer-events-none"></div>
-      <button type="button" id="detail-prev" class="hidden absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <button type="button" id="detail-next" class="hidden absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen siguiente"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
-      <div id="detail-dots" class="hidden absolute bottom-12 inset-x-0 z-10 justify-center gap-1.5"></div>
+      <div id="product-modal-media" class="media-slider"></div>
+      <button type="button" id="detail-prev" class="gallery-arrow left hidden" aria-label="Anterior">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button type="button" id="detail-next" class="gallery-arrow right hidden" aria-label="Siguiente">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <div id="detail-counter" class="media-counter hidden"></div>
+      <div id="detail-dots" class="media-dots hidden"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel/90 to-transparent opacity-40 pointer-events-none" style="z-index:15;"></div>
     </div>
-    <div id="product-modal-body" class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
-      <div id="detail-video-slot" class="hidden mb-4 rounded-xl overflow-hidden border border-gold/15"></div>
+    <div id="product-modal-body" class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10">
       <h3 id="detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
       <p id="detail-price" class="text-gold-soft font-display text-3xl mb-1"></p>
       <p id="detail-price-transfer" class="text-stone text-sm italic mb-6 hidden"></p>
@@ -775,18 +819,22 @@
 <!-- MODAL DETALLE DE PROMOCIÓN -->
 <div id="promo-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
-    <button id="promo-modal-close" type="button" class="absolute top-4 right-4 z-20 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
+    <button id="promo-modal-close" type="button" class="absolute top-4 right-4 z-40 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <div id="promo-modal-hero" class="detail-hero h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
-      <img id="promo-detail-img" src="" class="w-full h-full object-cover">
-      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80 pointer-events-none"></div>
-      <button type="button" id="promo-detail-prev" class="hidden absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <button type="button" id="promo-detail-next" class="hidden absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen siguiente"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
-      <div id="promo-detail-dots" class="hidden absolute bottom-12 inset-x-0 z-10 justify-center gap-1.5"></div>
+      <div id="promo-modal-media" class="media-slider"></div>
+      <button type="button" id="promo-detail-prev" class="gallery-arrow left hidden" aria-label="Anterior">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button type="button" id="promo-detail-next" class="gallery-arrow right hidden" aria-label="Siguiente">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <div id="promo-detail-counter" class="media-counter hidden"></div>
+      <div id="promo-detail-dots" class="media-dots hidden"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel/90 to-transparent opacity-40 pointer-events-none" style="z-index:15;"></div>
     </div>
-    <div id="promo-modal-body" class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
-      <div id="promo-detail-video-slot" class="hidden mb-4 rounded-xl overflow-hidden border border-gold/15"></div>
+    <div id="promo-modal-body" class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10">
       <h3 id="promo-detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
       <p id="promo-detail-price" class="text-gold-soft font-display text-3xl mb-2"></p>
       <p id="promo-detail-vigencia" class="text-stone text-sm mb-6"></p>
@@ -800,18 +848,22 @@
 <!-- MODAL DETALLE DE EVENTO -->
 <div id="event-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
-    <button id="event-modal-close" type="button" class="absolute top-4 right-4 z-20 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
+    <button id="event-modal-close" type="button" class="absolute top-4 right-4 z-40 text-cream/80 hover:text-gold bg-wine-black/60 rounded-full p-2 backdrop-blur-md transition-colors" aria-label="Cerrar detalle">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <div id="event-modal-hero" class="detail-hero h-64 sm:h-80 w-full shrink-0 bg-wine-black relative">
-      <img id="event-detail-img" src="" class="w-full h-full object-cover">
-      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel to-transparent opacity-80 pointer-events-none"></div>
-      <button type="button" id="event-detail-prev" class="hidden absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <button type="button" id="event-detail-next" class="hidden absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 items-center justify-center rounded-full bg-wine-black/60 text-cream/90 hover:text-gold backdrop-blur-md transition-colors" aria-label="Imagen siguiente"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
-      <div id="event-detail-dots" class="hidden absolute bottom-12 inset-x-0 z-10 justify-center gap-1.5"></div>
+      <div id="event-modal-media" class="media-slider"></div>
+      <button type="button" id="event-detail-prev" class="gallery-arrow left hidden" aria-label="Anterior">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button type="button" id="event-detail-next" class="gallery-arrow right hidden" aria-label="Siguiente">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <div id="event-detail-counter" class="media-counter hidden"></div>
+      <div id="event-detail-dots" class="media-dots hidden"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-wine-panel/90 to-transparent opacity-40 pointer-events-none" style="z-index:15;"></div>
     </div>
-    <div id="event-modal-body" class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10 -mt-10">
-      <div id="event-detail-video-slot" class="hidden mb-4 rounded-xl overflow-hidden border border-gold/15"></div>
+    <div id="event-modal-body" class="p-6 sm:p-8 overflow-y-auto scrollbar-thin relative z-10">
       <h3 id="event-detail-title" class="font-display text-3xl sm:text-4xl text-cream mb-2 shadow-sm drop-shadow-md"></h3>
       <p id="event-detail-fecha" class="text-gold-soft font-medium mb-1"></p>
       <p id="event-detail-lugar" class="text-stone text-sm mb-2"></p>
@@ -930,6 +982,24 @@
         <label for="prod-descripcion" class="block text-sm text-stone mb-2">Descripción completa</label>
         <textarea id="prod-descripcion" rows="3" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold"></textarea>
       </div>
+      <div>
+        <label for="prod-categoria" class="block text-sm text-stone mb-2">Categoría</label>
+        <select id="prod-categoria" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+          <option value="">Seleccioná una categoría…</option>
+          <option value="Bebidas y Vinos">Bebidas y Vinos</option>
+          <option value="Picadas y Fiambrería">Picadas y Fiambrería</option>
+          <option value="Carnes y Envasados al Vacío">Carnes y Envasados al Vacío</option>
+          <option value="Regalería y Cajas Gourmet">Regalería y Cajas Gourmet</option>
+          <option value="Asadores y Parrillas">Asadores y Parrillas</option>
+          <option value="Braseros y Accesorios de Fuegos">Braseros y Accesorios de Fuegos</option>
+          <option value="Cristalería y Manguitería">Cristalería y Manguitería</option>
+        </select>
+        <div class="mt-2 flex gap-2">
+          <input type="text" id="prod-nueva-categoria" placeholder="Nueva categoría personalizada…" class="flex-1 rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm placeholder:text-stone/50 focus:border-gold">
+          <button type="button" id="prod-add-categoria-btn" class="rounded-full border border-gold/40 px-4 py-2.5 text-gold-soft text-sm hover:bg-gold/10 transition-colors whitespace-nowrap">Agregar</button>
+        </div>
+        <div id="prod-categorias-custom" class="mt-2 flex flex-wrap gap-2"></div>
+      </div>
       <div class="grid sm:grid-cols-2 gap-4">
         <div>
           <label for="prod-precio" class="block text-sm text-stone mb-2">Precio de lista (opcional — vacío o 0 = "Consultar precio")</label>
@@ -952,17 +1022,18 @@
         <input type="file" id="prod-imagen" multiple accept="image/*,.jpg,.jpeg,.png,.webp,.gif,.avif" class="hidden">
         <div id="prod-imagenes-list" class="hidden grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3"></div>
         <button type="button" id="prod-imagen-add" class="rounded-full border border-gold/40 px-4 py-2 text-gold-soft text-sm hover:bg-gold/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">+ Agregar imagen</button>
-        <p class="text-stone text-xs mt-2">Hasta 5 imágenes. La primera (Imagen 1) es la portada.</p>
+        <p class="text-stone text-xs mt-2">Hasta 5 imágenes. La primera (Imagen 1) es la portada. Podés cargar solo video sin necesidad de fotos.</p>
       </div>
       <div>
         <label for="prod-video" class="block text-sm text-stone mb-2">Video corto (opcional — máx. 3 minutos)</label>
         <input type="file" id="prod-video" accept="video/*" class="w-full text-stone text-sm">
         <p id="prod-video-status" class="text-stone text-xs mt-1"></p>
+        <button type="button" id="prod-video-remove" class="hidden mt-2 rounded-full border border-garnet-light/60 px-4 py-1.5 text-red-300 text-xs hover:bg-garnet hover:text-cream transition-colors">Quitar video</button>
       </div>
       <div class="flex flex-col gap-3">
         <label class="flex items-center gap-2 cursor-pointer text-sm text-gold-soft">
           <input type="checkbox" id="send-product-emails" class="accent-gold rounded">
-          Informar a usuarios sobre nuevo producto 📧
+          Informar a usuarios sobre nuevo producto
         </label>
         <div class="flex gap-3">
           <button type="submit" id="product-submit-btn" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Publicar producto</button>
@@ -1032,18 +1103,19 @@
         <input type="file" id="promo-imagen" multiple accept=".png,.jpg,.jpeg,image/png,image/jpeg" class="hidden">
         <div id="promo-imagenes-list" class="hidden grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3"></div>
         <button type="button" id="promo-imagen-add" class="rounded-full border border-gold/40 px-4 py-2 text-gold-soft text-sm hover:bg-gold/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">+ Agregar imagen</button>
-        <p class="text-stone text-xs mt-2">Hasta 6 imágenes. La primera es la portada.</p>
+        <p class="text-stone text-xs mt-2">Hasta 6 imágenes. La primera es la portada. Podés cargar solo video sin necesidad de fotos.</p>
       </div>
       <div>
         <label for="promo-video" class="block text-sm text-stone mb-2">Video corto (opcional — máx. 3 minutos)</label>
         <input type="file" id="promo-video" accept="video/*" class="w-full text-stone text-sm">
         <p id="promo-video-status" class="text-stone text-xs mt-1"></p>
+        <button type="button" id="promo-video-remove" class="hidden mt-2 rounded-full border border-garnet-light/60 px-4 py-1.5 text-red-300 text-xs hover:bg-garnet hover:text-cream transition-colors">Quitar video</button>
       </div>
 
       <div class="flex flex-col gap-3">
         <label class="flex items-center gap-2 cursor-pointer text-sm text-gold-soft">
           <input type="checkbox" id="send-promo-emails" class="accent-gold rounded">
-          Informar a usuarios sobre nueva promoción 📧
+          Informar a usuarios sobre nueva promoción
         </label>
         <div class="flex gap-3">
           <button type="submit" id="promo-submit-btn" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Publicar promoción</button>
@@ -1104,12 +1176,13 @@
         <input type="file" id="evento-imagen" multiple accept=".png,.jpg,.jpeg,image/png,image/jpeg" class="hidden">
         <div id="evento-imagenes-list" class="hidden grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3"></div>
         <button type="button" id="evento-imagen-add" class="rounded-full border border-gold/40 px-4 py-2 text-gold-soft text-sm hover:bg-gold/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">+ Agregar imagen</button>
-        <p class="text-stone text-xs mt-2">Hasta 6 imágenes. La primera es la portada.</p>
+        <p class="text-stone text-xs mt-2">Hasta 6 imágenes. La primera es la portada. Podés cargar solo video sin necesidad de fotos.</p>
       </div>
       <div>
         <label for="evento-video" class="block text-sm text-stone mb-2">Video corto (opcional — máx. 3 minutos)</label>
         <input type="file" id="evento-video" accept="video/*" class="w-full text-stone text-sm">
         <p id="evento-video-status" class="text-stone text-xs mt-1"></p>
+        <button type="button" id="evento-video-remove" class="hidden mt-2 rounded-full border border-garnet-light/60 px-4 py-1.5 text-red-300 text-xs hover:bg-garnet hover:text-cream transition-colors">Quitar video</button>
       </div>
       <div class="flex gap-3">
         <button type="submit" id="evento-submit-btn" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Publicar evento</button>
@@ -1134,8 +1207,8 @@
 <script type="module">
   /* ============================================================
    *  CLUB DEL ANFITRIÓN — MÓDULO PRINCIPAL
-   *  Todas las dependencias críticas tienen try/catch para que un
-   *  fallo de red NO aborte el resto del script.
+   *  CORRECCIONES: scroll hero robusto, flechas carrusel con
+   *  video, stopAllVideos al cerrar modales.
    * ============================================================ */
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
@@ -1150,7 +1223,7 @@
     doc, updateDoc, deleteDoc, getDocs, getDoc, setDoc, where
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-  /* ---- HELPERS GLOBALES (declarados ANTES que cualquier uso) ---- */
+  /* ---- HELPERS GLOBALES ---- */
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
@@ -1192,8 +1265,9 @@
   const ADMIN_EXPIRED_MSG = "Tu sesión expiró. Volvé a ingresar los datos para iniciar sesión";
   const LOGO_CACHE_KEY = "clubLogoUrl";
   const LOGO_MAX_BYTES = 10 * 1024 * 1024;
+  const CUSTOM_CATEGORIES_KEY = "clubCategoriasCustom";
 
-  /* ---- FIREBASE INIT (con guard) ---- */
+  /* ---- FIREBASE INIT ---- */
   const firebaseConfig = {
     apiKey: "AIzaSyALsNxhMyC-GSQULpcj3CpwbDr81alvC0M",
     authDomain: "clubdelanfitrion-8a6f1.firebaseapp.com",
@@ -1345,7 +1419,7 @@
   }
 
   /* ============================================================
-   *  SLIDER / IMÁGENES / GALERÍAS
+   *  HELPERS DE MEDIA
    * ============================================================ */
   function getImages(item) {
     if (!item) return [];
@@ -1354,6 +1428,12 @@
       if (list.length) return list;
     }
     return typeof item.imagenUrl === "string" && item.imagenUrl.trim() ? [item.imagenUrl] : [];
+  }
+  function getMedia(item) {
+    const media = [];
+    getImages(item).forEach(img => media.push({ type: "image", url: img }));
+    if (item.videoUrl) media.push({ type: "video", url: item.videoUrl });
+    return media;
   }
   function formatPromoPrice(promo) {
     if (!hasValidPrice(promo.precio)) return "Consultar precio";
@@ -1365,21 +1445,253 @@
     const base = escapeHtml(formatPrice(promo.precio));
     return promo.tipoPrecio === "persona" ? `${base} <span class="text-sm text-stone font-sans">x persona</span>` : base;
   }
-  function sliderHtml(images, alt, zoom, videoUrl) {
-    const zoomCls = zoom ? " group-hover:scale-105 transition-transform duration-500" : "";
-    const videoBadge = videoUrl
-      ? `<div class="absolute top-3 left-3 z-10 inline-flex items-center gap-1 bg-wine-black/80 border border-gold/40 px-2.5 py-1 rounded-full text-[11px] text-gold-soft backdrop-blur-md">▶ Video</div>`
-      : "";
-    if (images.length === 0) return videoBadge;
-    if (images.length === 1) {
-      return `${videoBadge}<img src="${escapeHtml(images[0])}" alt="${escapeHtml(alt)}" loading="lazy" class="w-full h-full object-cover${zoomCls}">`;
+
+  /* ============================================================
+   *  MEDIA CAROUSEL (modal — estilo Mercado Libre)
+   *  CORREGIDO:
+   *   - Flechas visibles en cuanto haya >1 media (imagen o video)
+   *   - stopAllVideos expuesto para pausar al cerrar modal
+   *   - open() resetea scroll y estado del hero ANTES de renderizar
+   * ============================================================ */
+  function createMediaCarousel({ modalId, mediaContainerId, prevId, nextId, dotsId, counterId, bodyId, heroId }) {
+    const modal = document.getElementById(modalId);
+    const container = document.getElementById(mediaContainerId);
+    const prevBtn = document.getElementById(prevId);
+    const nextBtn = document.getElementById(nextId);
+    const dotsEl = document.getElementById(dotsId);
+    const counterEl = document.getElementById(counterId);
+    const bodyEl = document.getElementById(bodyId);
+    const heroEl = document.getElementById(heroId);
+
+    let media = [];
+    let index = 0;
+
+    function stopAllVideos() {
+      container.querySelectorAll("video").forEach(v => {
+        try { v.pause(); v.currentTime = 0; v.muted = true; } catch (_) {}
+        const slide = v.closest(".media-slide");
+        if (slide) slide.classList.remove("is-playing");
+      });
     }
-    const slides = images.map((u, i) =>
-      `<img data-slide src="${escapeHtml(u)}" alt="${escapeHtml(alt)}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${i === 0 ? "opacity-100" : "opacity-0"}">`
-    ).join("");
-    const dots = images.map((_, i) => `<span data-dot class="${i === 0 ? DOT_ON : DOT_OFF}"></span>`).join("");
-    return `<div data-auto-slider class="relative w-full h-full${zoomCls}">${videoBadge}${slides}<div class="absolute bottom-3 inset-x-0 flex justify-center gap-1.5 pointer-events-none">${dots}</div></div>`;
+
+    function render() {
+      container.innerHTML = "";
+      if (media.length === 0) {
+        prevBtn.classList.add("hidden");
+        nextBtn.classList.add("hidden");
+        counterEl.classList.add("hidden");
+        dotsEl.classList.add("hidden");
+        return;
+      }
+      media.forEach((m, i) => {
+        const slide = document.createElement("div");
+        slide.className = "media-slide" + (i === index ? " active" : "");
+        slide.dataset.index = String(i);
+        if (m.type === "video") {
+          const video = document.createElement("video");
+          video.src = m.url;
+          video.muted = true;
+          video.playsInline = true;
+          video.preload = "metadata";
+          video.loop = false;
+          const overlay = document.createElement("div");
+          overlay.className = "video-play-overlay";
+          overlay.innerHTML = `<div class="play-btn-circle"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>`;
+          overlay.addEventListener("click", (e) => {
+            e.stopPropagation();
+            video.muted = false;
+            const p = video.play();
+            if (p && p.catch) p.catch(() => {});
+            slide.classList.add("is-playing");
+          });
+          video.addEventListener("pause", () => {
+            if (!video.ended) slide.classList.remove("is-playing");
+          });
+          slide.appendChild(video);
+          slide.appendChild(overlay);
+        } else {
+          const img = document.createElement("img");
+          img.src = m.url;
+          img.alt = "";
+          img.loading = "lazy";
+          slide.appendChild(img);
+        }
+        container.appendChild(slide);
+      });
+
+      // Flechas visibles si HAY MÁS DE 1 elemento (imagen o video mezclados)
+      const multi = media.length > 1;
+      prevBtn.classList.toggle("hidden", !multi);
+      nextBtn.classList.toggle("hidden", !multi);
+      dotsEl.classList.toggle("hidden", !multi);
+      counterEl.classList.toggle("hidden", !multi);
+
+      dotsEl.innerHTML = media.map((_, i) => `<span class="dot${i === index ? " on" : ""}"></span>`).join("");
+      counterEl.textContent = `${index + 1} / ${media.length}`;
+    }
+
+    function goTo(n) {
+      if (media.length < 2) return;
+      const prevVideo = container.querySelector(".media-slide.active video");
+      if (prevVideo) {
+        try { prevVideo.pause(); prevVideo.currentTime = 0; prevVideo.muted = true; } catch (_) {}
+        const slide = prevVideo.closest(".media-slide");
+        if (slide) slide.classList.remove("is-playing");
+      }
+      index = (n + media.length) % media.length;
+      const all = container.querySelectorAll(".media-slide");
+      all.forEach((s, i) => s.classList.toggle("active", i === index));
+      dotsEl.querySelectorAll(".dot").forEach((d, i) => d.classList.toggle("on", i === index));
+      counterEl.textContent = `${index + 1} / ${media.length}`;
+    }
+
+    function open(list) {
+      stopAllVideos();
+      media = list.slice();
+      index = 0;
+      // 1) Resetear scroll del body ANTES de renderizar para que el hero no quede colapsado
+      if (bodyEl) bodyEl.scrollTop = 0;
+      // 2) Forzar hero visible
+      heroEl.classList.remove("collapsed");
+      // 3) Renderizar
+      render();
+    }
+
+    function close() {
+      stopAllVideos();
+      media = [];
+      index = 0;
+      container.innerHTML = "";
+    }
+
+    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); goTo(index - 1); });
+    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); goTo(index + 1); });
+
+    // Swipe on hero (mobile)
+    let startX = null;
+    heroEl.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; }, { passive: true });
+    heroEl.addEventListener("touchend", (e) => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 40) goTo(index + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
+    return { open, close, goTo, stopAllVideos, isOpen: () => !modal.classList.contains("hidden") };
   }
+
+  const productCarousel = createMediaCarousel({
+    modalId: "product-modal",
+    mediaContainerId: "product-modal-media",
+    prevId: "detail-prev",
+    nextId: "detail-next",
+    dotsId: "detail-dots",
+    counterId: "detail-counter",
+    bodyId: "product-modal-body",
+    heroId: "product-modal-hero"
+  });
+
+  const promoCarousel = createMediaCarousel({
+    modalId: "promo-modal",
+    mediaContainerId: "promo-modal-media",
+    prevId: "promo-detail-prev",
+    nextId: "promo-detail-next",
+    dotsId: "promo-detail-dots",
+    counterId: "promo-detail-counter",
+    bodyId: "promo-modal-body",
+    heroId: "promo-modal-hero"
+  });
+
+  const eventCarousel = createMediaCarousel({
+    modalId: "event-modal",
+    mediaContainerId: "event-modal-media",
+    prevId: "event-detail-prev",
+    nextId: "event-detail-next",
+    dotsId: "event-detail-dots",
+    counterId: "event-detail-counter",
+    bodyId: "event-modal-body",
+    heroId: "event-modal-hero"
+  });
+
+  // Keyboard navigation for open modals
+  document.addEventListener("keydown", (e) => {
+    if (productCarousel.isOpen()) {
+      if (e.key === "ArrowLeft") productCarousel.goTo(-1);
+      else if (e.key === "ArrowRight") productCarousel.goTo(1);
+    } else if (promoCarousel.isOpen()) {
+      if (e.key === "ArrowLeft") promoCarousel.goTo(-1);
+      else if (e.key === "ArrowRight") promoCarousel.goTo(1);
+    } else if (eventCarousel.isOpen()) {
+      if (e.key === "ArrowLeft") eventCarousel.goTo(-1);
+      else if (e.key === "ArrowRight") eventCarousel.goTo(1);
+    }
+  });
+
+  /* ============================================================
+   *  MODAL SCROLL — hero colapsa al hacer scroll
+   *  CORREGIDO: umbral 20px (antes 40), y listener robusto.
+   * ============================================================ */
+  function setupHeroCollapse(bodyId, heroId) {
+    const bodyEl = document.getElementById(bodyId);
+    const heroEl = document.getElementById(heroId);
+    if (!bodyEl || !heroEl) return;
+
+    let ticking = false;
+    const apply = () => {
+      ticking = false;
+      const st = bodyEl.scrollTop;
+      if (st > 20) {
+        if (!heroEl.classList.contains("collapsed")) heroEl.classList.add("collapsed");
+      } else {
+        // st <= 20 → restauramos para cubrir scrollTop 0 o valores residuales
+        if (heroEl.classList.contains("collapsed")) heroEl.classList.remove("collapsed");
+      }
+    };
+    bodyEl.addEventListener("scroll", () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(apply);
+      }
+    }, { passive: true });
+  }
+  setupHeroCollapse("product-modal-body", "product-modal-hero");
+  setupHeroCollapse("promo-modal-body", "promo-modal-hero");
+  setupHeroCollapse("event-modal-body", "event-modal-hero");
+
+  /* ============================================================
+   *  CARD MEDIA (auto slider en tarjetas)
+   * ============================================================ */
+  function buildCardMediaSlides(media, alt, zoom) {
+    if (media.length === 0) return "";
+    const zoomCls = zoom ? " group-hover:scale-105 transition-transform duration-500" : "";
+    if (media.length === 1) {
+      const m = media[0];
+      if (m.type === "video") {
+        return `<div class="media-video-container w-full h-full${zoomCls}" data-single-video>
+          <video src="${escapeHtml(m.url)}" muted playsinline preload="metadata" class="media-video-slide"></video>
+          <div class="video-play-overlay-card" data-play-overlay>
+            <div class="play-btn-circle-card"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>`;
+      }
+      return `<img src="${escapeHtml(m.url)}" alt="${escapeHtml(alt)}" loading="lazy" class="w-full h-full object-cover${zoomCls}">`;
+    }
+    const slides = media.map((m, i) => {
+      const vis = i === 0 ? "opacity-100" : "opacity-0 pointer-events-none";
+      if (m.type === "video") {
+        return `<div data-slide data-media-type="video" class="absolute inset-0 w-full h-full transition-opacity duration-700 ${vis}">
+          <video src="${escapeHtml(m.url)}" muted playsinline preload="metadata" class="media-video-slide"></video>
+          <div class="video-play-overlay-card" data-play-overlay>
+            <div class="play-btn-circle-card"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>`;
+      }
+      return `<img data-slide data-media-type="image" src="${escapeHtml(m.url)}" alt="${escapeHtml(alt)}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${vis}">`;
+    }).join("");
+    const dots = media.map((_, i) => `<span data-dot class="${i === 0 ? DOT_ON : DOT_OFF}"></span>`).join("");
+    return `<div data-auto-slider class="relative w-full h-full${zoomCls}">${slides}<div class="absolute bottom-3 inset-x-0 flex justify-center gap-1.5 pointer-events-none">${dots}</div></div>`;
+  }
+
   function startAutoSliders(root) {
     root.querySelectorAll("[data-auto-slider]").forEach((el) => {
       if (el.dataset.running) return;
@@ -1390,131 +1702,64 @@
       let current = 0;
       const timer = setInterval(() => {
         if (!el.isConnected) { clearInterval(timer); return; }
-        slides[current].classList.replace("opacity-100", "opacity-0");
+        const prev = slides[current];
+        if (prev.dataset.mediaType === "video") {
+          const v = prev.querySelector("video");
+          if (v) { v.pause(); v.currentTime = 0; }
+          const overlay = prev.querySelector("[data-play-overlay]");
+          if (overlay) overlay.classList.remove("hidden");
+        }
+        prev.classList.replace("opacity-100", "opacity-0");
+        prev.classList.add("pointer-events-none");
         dots[current].className = DOT_OFF;
         current = (current + 1) % slides.length;
         slides[current].classList.replace("opacity-0", "opacity-100");
+        slides[current].classList.remove("pointer-events-none");
         dots[current].className = DOT_ON;
       }, SLIDE_INTERVAL_MS);
     });
   }
-  function setupGallery({ modal, img, prev, next, dots }) {
-    let images = [];
-    let index = 0;
-    function render() {
-      if (images[index]) img.src = images[index]; else img.removeAttribute("src");
-      const multi = images.length > 1;
-      [prev, next, dots].forEach((el) => { el.classList.toggle("hidden", !multi); el.classList.toggle("flex", multi); });
-      dots.querySelectorAll("button").forEach((d, n) => { d.className = n === index ? DOT_ON : DOT_OFF; });
-    }
-    function go(n) {
-      if (images.length < 2) return;
-      index = (n + images.length) % images.length;
-      render();
-    }
-    prev.addEventListener("click", () => go(index - 1));
-    next.addEventListener("click", () => go(index + 1));
-    let startX = null;
-    img.parentElement.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; }, { passive: true });
-    img.parentElement.addEventListener("touchend", (e) => {
-      if (startX === null) return;
-      const dx = e.changedTouches[0].clientX - startX;
-      startX = null;
-      if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
-    }, { passive: true });
-    return {
-      open(list, alt) {
-        images = list.slice();
-        index = 0;
-        img.alt = alt || "";
-        dots.innerHTML = "";
-        images.forEach((_, n) => {
-          const d = document.createElement("button");
-          d.type = "button";
-          d.setAttribute("aria-label", `Ir a la imagen ${n + 1}`);
-          d.addEventListener("click", () => go(n));
-          dots.appendChild(d);
-        });
-        render();
-      },
-      step(delta) { go(index + delta); },
-      current() { return { images: images.slice(), index }; },
-      isOpen() { return !modal.classList.contains("hidden"); },
-      close() { modal.classList.add("hidden"); modal.classList.remove("flex"); }
-    };
-  }
 
-  const productGallery = setupGallery({
-    modal: document.getElementById("product-modal"),
-    img: document.getElementById("detail-img"),
-    prev: document.getElementById("detail-prev"),
-    next: document.getElementById("detail-next"),
-    dots: document.getElementById("detail-dots")
-  });
-  const promoGallery = setupGallery({
-    modal: document.getElementById("promo-modal"),
-    img: document.getElementById("promo-detail-img"),
-    prev: document.getElementById("promo-detail-prev"),
-    next: document.getElementById("promo-detail-next"),
-    dots: document.getElementById("promo-detail-dots")
-  });
-  const eventGallery = setupGallery({
-    modal: document.getElementById("event-modal"),
-    img: document.getElementById("event-detail-img"),
-    prev: document.getElementById("event-detail-prev"),
-    next: document.getElementById("event-detail-next"),
-    dots: document.getElementById("event-detail-dots")
-  });
-
-  document.addEventListener("keydown", (e) => {
-    const g = [productGallery, promoGallery, eventGallery].find((x) => x.isOpen());
-    if (!g) return;
-    if (e.key === "ArrowLeft") g.step(-1);
-    else if (e.key === "ArrowRight") g.step(1);
-    else if (e.key === "Escape") g.close();
-  });
-
-  /* ---- VIDEO PLAYER ---- */
-  function buildVideoPlayer(videoUrl) {
-    if (!videoUrl) return "";
-    const wrap = document.createElement("div");
-    wrap.className = "video-wrap relative w-full aspect-video bg-black";
-    wrap.innerHTML = `
-      <video src="${escapeHtml(videoUrl)}" muted playsinline autoplay loop preload="metadata"></video>
-      <button type="button" class="video-audio-btn" aria-label="Activar sonido">
-        <span class="audio-icon">🔇</span><span class="audio-label">Activar sonido</span>
-      </button>
-    `;
-    const video = wrap.querySelector("video");
-    const btn = wrap.querySelector(".video-audio-btn");
-    const icon = btn.querySelector(".audio-icon");
-    const label = btn.querySelector(".audio-label");
-    btn.addEventListener("click", () => {
-      video.muted = !video.muted;
-      if (!video.muted) { video.play().catch(() => {}); icon.textContent = "🔊"; label.textContent = "Silenciar"; }
-      else { icon.textContent = "🔇"; label.textContent = "Activar sonido"; }
+  function setupCardVideoOverlays(root) {
+    root.querySelectorAll("[data-play-overlay]").forEach(overlay => {
+      if (overlay.dataset.bound) return;
+      overlay.dataset.bound = "1";
+      overlay.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const container = overlay.closest("[data-slide], [data-single-video]");
+        if (!container) return;
+        const video = container.querySelector("video");
+        if (!video) return;
+        video.muted = false;
+        video.play().catch(() => {});
+        overlay.classList.add("hidden");
+      });
     });
-    return wrap;
+    root.querySelectorAll("video.media-video-slide").forEach(v => {
+      if (v.dataset.pauseBound) return;
+      v.dataset.pauseBound = "1";
+      v.addEventListener("pause", () => {
+        const container = v.closest("[data-slide], [data-single-video]");
+        if (!container) return;
+        const overlay = container.querySelector("[data-play-overlay]");
+        if (overlay && v.currentTime > 0 && !v.ended) overlay.classList.remove("hidden");
+      });
+    });
   }
-  function mountVideo(slotEl, videoUrl) {
-    if (!slotEl) return;
-    slotEl.innerHTML = "";
-    if (!videoUrl) { slotEl.classList.add("hidden"); return; }
-    slotEl.appendChild(buildVideoPlayer(videoUrl));
-    slotEl.classList.remove("hidden");
+
+  function pauseAllVideos() {
+    document.querySelectorAll("video.media-video-slide").forEach(v => {
+      if (!v.paused) {
+        v.pause();
+        v.currentTime = 0;
+        const container = v.closest("[data-slide], [data-single-video]");
+        if (container) {
+          const overlay = container.querySelector("[data-play-overlay]");
+          if (overlay) overlay.classList.remove("hidden");
+        }
+      }
+    });
   }
-  function setupFadeOnScroll(bodyEl, heroEl) {
-    if (!bodyEl || !heroEl) return;
-    bodyEl.addEventListener("scroll", () => {
-      const st = bodyEl.scrollTop;
-      const fade = Math.max(0, Math.min(1, 1 - st / 120));
-      heroEl.style.opacity = String(fade);
-      heroEl.style.filter = `brightness(${0.9 + fade * 0.1})`;
-    }, { passive: true });
-  }
-  setupFadeOnScroll(document.getElementById("product-modal-body"), document.getElementById("product-modal-hero"));
-  setupFadeOnScroll(document.getElementById("promo-modal-body"), document.getElementById("promo-modal-hero"));
-  setupFadeOnScroll(document.getElementById("event-modal-body"), document.getElementById("event-modal-hero"));
 
   /* ---- LIGHTBOX ---- */
   const imageViewer = (() => {
@@ -1542,6 +1787,7 @@
     }
     function open(list, alt, start, openerEl) {
       if (isOpen() || !list || !list.length) return;
+      pauseAllVideos();
       images = list.slice();
       index = Math.min(Math.max(start || 0, 0), images.length - 1);
       opener = openerEl || null;
@@ -1606,21 +1852,6 @@
     imageViewer.open(list, item.titulo, start, el);
   };
 
-  [[productGallery, "detail-img"], [promoGallery, "promo-detail-img"], [eventGallery, "event-detail-img"]].forEach(([gallery, imgId]) => {
-    const el = document.getElementById(imgId);
-    if (!el) return;
-    el.classList.add("zoom-trigger");
-    el.setAttribute("role", "button");
-    el.setAttribute("aria-label", "Ampliar imagen");
-    el.tabIndex = 0;
-    const openIt = () => {
-      const st = gallery.current();
-      if (st.images.length) imageViewer.open(st.images, el.alt, st.index, el);
-    };
-    el.addEventListener("click", openIt);
-    el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openIt(); } });
-  });
-
   /* ============================================================
    *  CARRITO
    * ============================================================ */
@@ -1632,9 +1863,27 @@
   const cartOverlay = document.getElementById("cart-overlay");
   const cartItemsContainer = document.getElementById("cart-items");
   const cartTotalEl = document.getElementById("cart-total");
+  const cartCheckoutBtn = document.getElementById("cart-checkout-btn");
 
   function saveCart() { try { localStorage.setItem('clubCart', JSON.stringify(cart)); } catch (_) {} }
   function cartPriceFor(prod) { return hasValidPrice(prod.precio) ? prod.precio : null; }
+
+  function buildWhatsAppCartMessage() {
+    let msg = "¡Hola! Quiero finalizar mi pedido en Club del Anfitrión:\n\n";
+    cart.forEach(item => {
+      const prod = latestProducts.find(p => p.id === item.id);
+      if (!prod) return;
+      const p = cartPriceFor(prod);
+      msg += `• ${item.qty}x ${prod.titulo} — ${p === null ? 'Consultar precio' : formatPrice(p * item.qty)}\n`;
+    });
+    let total = 0, consultar = false;
+    cart.forEach(item => {
+      const prod = latestProducts.find(p => p.id === item.id);
+      if (prod) { const p = cartPriceFor(prod); if (p === null) consultar = true; else total += p * item.qty; }
+    });
+    msg += `\nTotal estimado: ${formatPrice(total)}${consultar ? ' (+ ítems a consultar)' : ''}`;
+    return encodeURIComponent(msg);
+  }
 
   function updateCartUI() {
     const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
@@ -1648,7 +1897,7 @@
     let totalPrecio = 0;
     let consultar = false;
     if (cart.length === 0) {
-      cartItemsContainer.innerHTML = '<p class="text-stone text-center mt-10">Tu carrito está vacío.</p>';
+      cartItemsContainer.innerHTML = '<div class="text-center py-12"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="1.5" class="mx-auto mb-4 opacity-50"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><p class="text-stone text-sm">Tu carrito está vacío.</p></div>';
     } else {
       cart.forEach(item => {
         const prod = latestProducts.find(p => p.id === item.id);
@@ -1656,19 +1905,22 @@
           const p = cartPriceFor(prod);
           if (p === null) consultar = true; else totalPrecio += p * item.qty;
           const div = document.createElement("div");
-          div.className = "flex items-center gap-4 bg-wine-black/40 p-3 rounded-xl border border-gold/10";
+          div.className = "cart-item-card flex items-start gap-4 bg-wine-black/40 p-4 rounded-xl border border-gold/10";
           div.innerHTML = `
-            <img src="${escapeHtml(getImages(prod)[0] || "")}" alt="" class="w-14 h-14 object-cover rounded-lg border border-gold/15">
+            <img src="${escapeHtml(getImages(prod)[0] || "")}" alt="" class="w-16 h-16 object-cover rounded-lg border border-gold/15 shrink-0 bg-wine-black">
             <div class="flex-1 min-w-0">
               <p class="text-cream text-sm font-medium truncate">${escapeHtml(prod.titulo)}</p>
-              <p class="text-gold-soft text-xs">${p === null ? "Consultar precio" : formatPrice(p) + " c/u"}</p>
-              <div class="flex items-center gap-2 mt-1">
-                <button type="button" onclick="window.updateCartQty('${item.id}', -1)" class="w-5 h-5 bg-wine-panel text-stone rounded">-</button>
-                <span class="text-cream text-xs">${item.qty}</span>
-                <button type="button" onclick="window.updateCartQty('${item.id}', 1)" class="w-5 h-5 bg-wine-panel text-stone rounded">+</button>
+              <p class="text-gold-soft text-sm font-display mt-0.5">${p === null ? "Consultar precio" : formatPrice(p)}</p>
+              <div class="flex items-center gap-3 mt-2.5">
+                <button type="button" onclick="window.updateCartQty('${item.id}', -1)" class="qty-btn" aria-label="Restar">−</button>
+                <span class="text-cream text-sm font-medium min-w-[20px] text-center">${item.qty}</span>
+                <button type="button" onclick="window.updateCartQty('${item.id}', 1)" class="qty-btn" aria-label="Sumar">+</button>
+                <button type="button" onclick="window.removeFromCart('${item.id}')" class="ml-auto text-garnet-light hover:text-red-400 text-xs flex items-center gap-1" aria-label="Quitar">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                  Quitar
+                </button>
               </div>
             </div>
-            <button type="button" onclick="window.removeFromCart('${item.id}')" class="text-garnet-light text-xs">✕</button>
           `;
           cartItemsContainer.appendChild(div);
         }
@@ -1677,6 +1929,9 @@
     cartTotalEl.innerHTML = consultar
       ? `${formatPrice(totalPrecio)}<span class="block text-xs text-stone font-sans font-normal mt-1">+ ítems a consultar</span>`
       : formatPrice(totalPrecio);
+    if (cartCheckoutBtn) {
+      cartCheckoutBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsAppCartMessage()}`;
+    }
   }
 
   window.addToCart = (id) => {
@@ -1687,7 +1942,7 @@
     else cart.push({ id, qty: 1 });
     saveCart();
     updateCartUI();
-    showToast("¡Agregado al carrito! 🍷");
+    showToast("Agregado al carrito.");
   };
   window.updateCartQty = (id, delta) => {
     const existing = cart.find(i => i.id === id);
@@ -1706,18 +1961,13 @@
   function toggleCart() {
     cartPanel.classList.toggle("translate-x-full");
     cartOverlay.classList.toggle("hidden");
+    if (!cartPanel.classList.contains("translate-x-full")) updateCartUI();
   }
   cartFab.addEventListener("click", toggleCart);
   document.getElementById("cart-close").addEventListener("click", toggleCart);
   cartOverlay.addEventListener("click", toggleCart);
 
   const checkoutModal = document.getElementById("checkout-modal");
-  document.getElementById("cart-checkout-btn").addEventListener("click", () => {
-    if (cart.length === 0) return;
-    toggleCart();
-    checkoutModal.classList.remove("hidden");
-    checkoutModal.classList.add("flex");
-  });
   document.getElementById("checkout-modal-close").addEventListener("click", () => {
     checkoutModal.classList.add("hidden");
     checkoutModal.classList.remove("flex");
@@ -1821,11 +2071,82 @@
     if (navigator.share) {
       navigator.share({ title: prod.titulo, text: `Mirá este producto en Club del Anfitrión: ${prod.titulo}`, url }).catch(() => {});
     } else if (navigator.clipboard) {
-      navigator.clipboard.writeText(url).then(() => showToast("¡Enlace copiado al portapapeles!")).catch(() => {});
+      navigator.clipboard.writeText(url).then(() => showToast("Enlace copiado al portapapeles.")).catch(() => {});
     } else {
       showToast("Copiá este enlace: " + url);
     }
   };
+
+  /* ---- Filtros de categoría y búsqueda ---- */
+  let catalogSearchTerm = "";
+  let catalogCategory = "";
+  const catalogSearch = document.getElementById("catalog-search");
+  const catalogCategories = document.getElementById("catalog-categories");
+
+  if (catalogSearch) {
+    catalogSearch.addEventListener("input", () => {
+      catalogSearchTerm = catalogSearch.value.trim().toLowerCase();
+      renderFilteredProducts();
+    });
+  }
+
+  function renderCatalogCategoryChips() {
+    if (!catalogCategories) return;
+    const cats = getAllCatalogCategories();
+
+    if (catalogCategory && !cats.includes(catalogCategory)) {
+      catalogCategory = "";
+    }
+
+    catalogCategories.innerHTML = "";
+
+    const makeChip = (label, value, active) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.dataset.cat = value;
+      chip.setAttribute("aria-pressed", active ? "true" : "false");
+      chip.className = active
+        ? "cat-chip shrink-0 rounded-full border border-gold px-4 py-2 text-sm text-wine-black bg-gold font-medium whitespace-nowrap"
+        : "cat-chip shrink-0 rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:text-gold-soft hover:border-gold/60 whitespace-nowrap transition-colors";
+      chip.textContent = label;
+      chip.addEventListener("click", () => {
+        catalogCategory = value;
+        renderCatalogCategoryChips();
+        renderFilteredProducts();
+      });
+      return chip;
+    };
+
+    catalogCategories.appendChild(makeChip("Todas", "", catalogCategory === ""));
+    cats.forEach(cat => catalogCategories.appendChild(makeChip(cat, cat, catalogCategory === cat)));
+  }
+
+  function renderFilteredProducts() {
+    if (!productsGrid) return;
+    let filtered = latestProducts.slice();
+    if (catalogSearchTerm) {
+      filtered = filtered.filter(p =>
+        String(p.titulo || "").toLowerCase().includes(catalogSearchTerm) ||
+        String(p.descripcion || "").toLowerCase().includes(catalogSearchTerm) ||
+        String(p.categoria || "").toLowerCase().includes(catalogSearchTerm)
+      );
+    }
+    if (catalogCategory) {
+      filtered = filtered.filter(p => p.categoria === catalogCategory);
+    }
+    productsGrid.innerHTML = "";
+    if (filtered.length === 0) {
+      productsEmpty.classList.remove("hidden");
+      productsEmpty.textContent = latestProducts.length === 0 ? "Todavía no hay productos cargados." : "No se encontraron productos con esos filtros.";
+    } else {
+      productsEmpty.classList.add("hidden");
+      filtered.forEach(p => {
+        if (p.titulo && getMedia(p).length) productsGrid.appendChild(renderProductCard(p));
+      });
+      startAutoSliders(productsGrid);
+      setupCardVideoOverlays(productsGrid);
+    }
+  }
 
   function renderProductCard(product) {
     const card = document.createElement("article");
@@ -1841,13 +2162,15 @@
     const cartBtn = outOfStock
       ? `<button type="button" disabled class="w-full rounded-full bg-wine-black/60 border border-garnet-light/50 px-4 py-3 text-stone font-medium uppercase text-sm cursor-not-allowed">Sin stock</button>`
       : `<button type="button" onclick="window.addToCart('${product.id}')" class="btn-press w-full rounded-full bg-gold px-4 py-3 text-wine-black font-extrabold hover:bg-gold-soft transition-colors uppercase text-sm">Agregar al carrito</button>`;
+    const media = getMedia(product);
     card.innerHTML = `
       <div class="aspect-[4/5] overflow-hidden bg-wine-black zoom-trigger relative" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(product.titulo)}" onclick="window.openImageViewer('product','${product.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('product','${product.id}',this)}">
         ${stockBadge}
-        ${sliderHtml(getImages(product), product.titulo, true, product.videoUrl)}
+        ${buildCardMediaSlides(media, product.titulo, true)}
       </div>
       <div class="p-6 flex flex-col flex-1 relative z-10 bg-wine-panel/50">
         <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors line-clamp-2" onclick="window.openProductDetail('${product.id}')">${escapeHtml(product.titulo)}</h3>
+        ${product.categoria ? `<p class="text-gold/70 text-[11px] uppercase tracking-wide mb-1">${escapeHtml(product.categoria)}</p>` : ""}
         <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(String(product.descripcion || "").substring(0, 75))}...</p>
         ${priceHtml}
         ${transferHtml}
@@ -1868,13 +2191,10 @@
       productsLoading.classList.add("hidden");
       latestProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       renderAdminProducts();
+      renderCatalogCategoryChips();
       updateCartUI();
-      if (snapshot.empty) productsEmpty.classList.remove("hidden");
-      else {
-        productsEmpty.classList.add("hidden");
-        productsGrid.innerHTML = "";
-        latestProducts.forEach(p => { if (p.titulo && getImages(p).length) productsGrid.appendChild(renderProductCard(p)); });
-        startAutoSliders(productsGrid);
+      renderFilteredProducts();
+      if (!snapshot.empty) {
         const urlParams = new URLSearchParams(window.location.search);
         const prodId = urlParams.get('producto');
         if (prodId) window.openProductDetail(prodId);
@@ -1903,11 +2223,12 @@
           const card = document.createElement("article");
           card.className = "rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col";
           const isExpired = promo.vigencia && promo.vigencia < today;
-          const alertHtml = isExpired ? `<div class="bg-garnet/80 text-cream text-xs px-3 py-1.5 text-center font-medium">⚠️ Esta promoción ya finalizó. Consultá por WhatsApp si sigue disponible.</div>` : '';
+          const alertHtml = isExpired ? `<div class="bg-garnet/80 text-cream text-xs px-3 py-1.5 text-center font-medium">Esta promoción ya finalizó. Consultá por WhatsApp si sigue disponible.</div>` : '';
+          const media = getMedia(promo);
           card.innerHTML = `
             ${alertHtml}
             <div class="aspect-[4/5] overflow-hidden bg-wine-black relative zoom-trigger" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(promo.titulo)}" onclick="window.openImageViewer('promo','${promo.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('promo','${promo.id}',this)}">
-              ${sliderHtml(getImages(promo), promo.titulo, false, promo.videoUrl)}
+              ${buildCardMediaSlides(media, promo.titulo, false)}
             </div>
             <div class="p-6 flex flex-col flex-1">
               <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors" onclick="window.openPromoDetail('${promo.id}')">${escapeHtml(promo.titulo)}</h3>
@@ -1919,6 +2240,7 @@
           `;
           promosGrid.appendChild(card);
           startAutoSliders(card);
+          setupCardVideoOverlays(card);
         });
       }
     }, (error) => {
@@ -1945,15 +2267,16 @@
             ? `<p class="mt-2 text-gold-soft font-display text-xl mb-3">${ev.tipoPrecio === "persona" ? `${formatPrice(ev.precio)} <span class="text-xs text-stone font-sans">x persona</span>` : formatPrice(ev.precio)}</p>`
             : `<p class="mt-2 text-stone font-display text-lg mb-3">Consultar precio</p>`;
           const mapUrl = ev.lugar ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.lugar)}` : "";
+          const media = getMedia(ev);
           card.innerHTML = `
             <div class="aspect-[4/5] overflow-hidden bg-wine-black relative zoom-trigger" role="button" tabindex="0" aria-label="Ampliar imagen de ${escapeHtml(ev.titulo)}" onclick="window.openImageViewer('event','${ev.id}',this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.openImageViewer('event','${ev.id}',this)}">
-              ${sliderHtml(getImages(ev), ev.titulo, false, ev.videoUrl)}
+              ${buildCardMediaSlides(media, ev.titulo, false)}
             </div>
             <div class="p-6 flex flex-col flex-1">
               ${ev.fecha ? `<p class="text-gold-soft text-xs font-medium mb-1">${formatISODate(ev.fecha)}${ev.hora ? " · " + ev.hora + " hs" : ""}</p>` : ""}
               <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors" onclick="window.openEventDetail('${ev.id}')">${escapeHtml(ev.titulo)}</h3>
               <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${escapeHtml(ev.descripcion)}</p>
-              ${ev.lugar ? `<a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="text-gold-soft text-xs underline hover:text-gold mt-2 inline-block">📍 ${escapeHtml(ev.lugar)} ↗</a>` : ""}
+              ${ev.lugar ? `<a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="text-gold-soft text-xs underline hover:text-gold mt-2 inline-block">${escapeHtml(ev.lugar)} ↗</a>` : ""}
               ${precioHtml}
               <button type="button" onclick="window.openEventDetail('${ev.id}')" class="mb-2.5 w-full rounded-full border border-gold/40 px-3 py-2 text-gold-soft text-xs">Ver más</button>
               <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20el%20evento:%20${encodeURIComponent(ev.titulo)}" target="_blank" class="mt-auto w-full rounded-full bg-gold px-4 py-3 text-wine-black text-center font-bold text-sm">Consultar / Anotarme</a>
@@ -1961,6 +2284,7 @@
           `;
           eventsGrid.appendChild(card);
           startAutoSliders(card);
+          setupCardVideoOverlays(card);
         });
       }
     }, (error) => {
@@ -1973,7 +2297,8 @@
   window.openProductDetail = (id) => {
     const prod = latestProducts.find(p => p.id === id);
     if (!prod) return;
-    productGallery.open(getImages(prod), prod.titulo);
+    pauseAllVideos();
+    productCarousel.open(getMedia(prod));
     document.getElementById("detail-title").textContent = prod.titulo;
     const priceEl = document.getElementById("detail-price");
     const priceTransferEl = document.getElementById("detail-price-transfer");
@@ -1984,17 +2309,18 @@
       priceTransferEl.classList.remove("hidden");
     } else { priceTransferEl.textContent = ""; priceTransferEl.classList.add("hidden"); }
     document.getElementById("detail-desc").textContent = prod.descripcion || "";
-    mountVideo(document.getElementById("detail-video-slot"), prod.videoUrl);
     const outOfStock = prod.disponible === false;
     document.getElementById("detail-actions").innerHTML = outOfStock
       ? `<div class="flex-1 rounded-full bg-wine-black/60 border border-garnet-light/60 px-6 py-3 text-center text-stone text-sm">Producto sin stock — consultanos por WhatsApp</div>`
-      : `<button type="button" onclick="window.addToCart('${prod.id}'); document.getElementById('product-modal').classList.add('hidden');" class="btn-press flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-bold text-sm">Al carrito</button>`;
+      : `<button type="button" onclick="window.addToCart('${prod.id}'); document.getElementById('product-modal').classList.add('hidden'); document.getElementById('product-modal').classList.remove('flex'); productCarousel.close();" class="btn-press flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-bold text-sm">Al carrito</button>`;
     const modal = document.getElementById("product-modal");
     modal.classList.remove("hidden"); modal.classList.add("flex");
     document.getElementById("product-modal-body").scrollTop = 0;
-    document.getElementById("product-modal-hero").style.opacity = "1";
   };
   document.getElementById("product-modal-close").addEventListener("click", () => {
+    pauseAllVideos();
+    productCarousel.stopAllVideos(); // pausa videos del modal
+    productCarousel.close();
     document.getElementById("product-modal").classList.add("hidden");
     document.getElementById("product-modal").classList.remove("flex");
   });
@@ -2002,27 +2328,33 @@
   window.openPromoDetail = (id) => {
     const promo = latestPromos.find((p) => p.id === id);
     if (!promo) return;
-    promoGallery.open(getImages(promo), promo.titulo);
+    pauseAllVideos();
+    promoCarousel.open(getMedia(promo));
     document.getElementById("promo-detail-title").textContent = promo.titulo || "";
     const priceEl = document.getElementById("promo-detail-price");
     priceEl.textContent = hasValidPrice(promo.precio) ? formatPromoPrice(promo) : "Consultar precio";
     document.getElementById("promo-detail-vigencia").textContent = promo.vigencia ? `Vigencia hasta: ${formatISODate(promo.vigencia)}` : "";
     document.getElementById("promo-detail-desc").textContent = promo.descripcion || "";
-    mountVideo(document.getElementById("promo-detail-video-slot"), promo.videoUrl);
     document.getElementById("promo-detail-actions").innerHTML = `
       <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
     `;
     const modal = document.getElementById("promo-modal");
     modal.classList.remove("hidden"); modal.classList.add("flex");
     document.getElementById("promo-modal-body").scrollTop = 0;
-    document.getElementById("promo-modal-hero").style.opacity = "1";
   };
-  document.getElementById("promo-modal-close").addEventListener("click", () => promoGallery.close());
+  document.getElementById("promo-modal-close").addEventListener("click", () => {
+    pauseAllVideos();
+    promoCarousel.stopAllVideos();
+    promoCarousel.close();
+    document.getElementById("promo-modal").classList.add("hidden");
+    document.getElementById("promo-modal").classList.remove("flex");
+  });
 
   window.openEventDetail = (id) => {
     const ev = latestEvents.find((p) => p.id === id);
     if (!ev) return;
-    eventGallery.open(getImages(ev), ev.titulo);
+    pauseAllVideos();
+    eventCarousel.open(getMedia(ev));
     document.getElementById("event-detail-title").textContent = ev.titulo || "";
     const fecha = ev.fecha ? formatISODate(ev.fecha) : "";
     const hora = ev.hora || "";
@@ -2030,22 +2362,26 @@
     const lugarEl = document.getElementById("event-detail-lugar");
     if (ev.lugar) {
       const q = encodeURIComponent(ev.lugar);
-      lugarEl.innerHTML = `<a href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener noreferrer" class="text-gold-soft underline hover:text-gold">📍 ${escapeHtml(ev.lugar)} ↗</a>`;
+      lugarEl.innerHTML = `<a href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener noreferrer" class="text-gold-soft underline hover:text-gold">${escapeHtml(ev.lugar)} ↗</a>`;
     } else lugarEl.textContent = "";
     const priceEl = document.getElementById("event-detail-price");
     if (hasValidPrice(ev.precio)) priceEl.textContent = ev.tipoPrecio === "persona" ? `${formatPrice(ev.precio)} x persona` : formatPrice(ev.precio);
     else priceEl.textContent = "Consultar precio";
     document.getElementById("event-detail-desc").textContent = ev.descripcion || "";
-    mountVideo(document.getElementById("event-detail-video-slot"), ev.videoUrl);
     document.getElementById("event-detail-actions").innerHTML = `
       <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20el%20evento:%20${encodeURIComponent(ev.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Anotarme</a>
     `;
     const modal = document.getElementById("event-modal");
     modal.classList.remove("hidden"); modal.classList.add("flex");
     document.getElementById("event-modal-body").scrollTop = 0;
-    document.getElementById("event-modal-hero").style.opacity = "1";
   };
-  document.getElementById("event-modal-close").addEventListener("click", () => eventGallery.close());
+  document.getElementById("event-modal-close").addEventListener("click", () => {
+    pauseAllVideos();
+    eventCarousel.stopAllVideos();
+    eventCarousel.close();
+    document.getElementById("event-modal").classList.add("hidden");
+    document.getElementById("event-modal").classList.remove("flex");
+  });
 
   /* ============================================================
    *  MIS COMPRAS
@@ -2327,6 +2663,7 @@
     }
     items.forEach((p) => {
       const meta = [];
+      if (p.categoria) meta.push(`Cat: ${p.categoria}`);
       meta.push(hasValidPrice(p.precio) ? formatPrice(p.precio) : "Consultar precio");
       if (hasValidPrice(p.precioTransferencia)) meta.push(`Efectivo: ${formatPrice(p.precioTransferencia)}`);
       meta.push(p.disponible === false ? "SIN STOCK" : "Disponible");
@@ -2379,6 +2716,94 @@
   adminProductsSearch.addEventListener("input", renderAdminProducts);
   adminPromosSearch.addEventListener("input", renderAdminPromos);
   adminPromosFilter.addEventListener("change", renderAdminPromos);
+
+  /* ---- Categorías personalizadas ---- */
+  function getCustomCategories() {
+    try { return JSON.parse(localStorage.getItem(CUSTOM_CATEGORIES_KEY) || "[]"); } catch (_) { return []; }
+  }
+  function getAllCatalogCategories() {
+    const selectEl = document.getElementById("prod-categoria");
+    const predefined = selectEl
+      ? [...selectEl.options].filter(o => o.value && !o.dataset.custom).map(o => o.value)
+      : [];
+    const custom = getCustomCategories();
+    const inUse = latestProducts.map(p => p.categoria).filter(Boolean);
+    return [...new Set([...predefined, ...custom, ...inUse])].sort((a, b) => a.localeCompare(b, "es"));
+  }
+  function saveCustomCategories(list) {
+    try { localStorage.setItem(CUSTOM_CATEGORIES_KEY, JSON.stringify(list)); } catch (_) {}
+  }
+  function renderCustomCategories() {
+    const container = document.getElementById("prod-categorias-custom");
+    if (!container) return;
+    container.innerHTML = "";
+    getCustomCategories().forEach(cat => {
+      const chip = document.createElement("span");
+      chip.className = "inline-flex items-center gap-1 rounded-full bg-gold/15 border border-gold/30 px-3 py-1 text-xs text-gold-soft";
+      chip.textContent = cat;
+      const rm = document.createElement("button");
+      rm.type = "button";
+      rm.className = "text-gold-soft hover:text-garnet-light";
+      rm.innerHTML = "✕";
+      rm.setAttribute("aria-label", `Quitar ${cat}`);
+      rm.addEventListener("click", () => {
+        saveCustomCategories(getCustomCategories().filter(c => c !== cat));
+        renderCustomCategories();
+        updateCategorySelect();
+        // 🔄 Sincronizar catálogo público
+        renderCatalogCategoryChips();
+        renderFilteredProducts();
+      });
+      chip.appendChild(rm);
+      container.appendChild(chip);
+    });
+  }
+  function updateCategorySelect() {
+    const sel = document.getElementById("prod-categoria");
+    if (!sel) return;
+    const currentVal = sel.value;
+    sel.querySelectorAll("option[data-custom]").forEach(o => o.remove());
+    getCustomCategories().forEach(cat => {
+      const opt = document.createElement("option");
+      opt.value = cat;
+      opt.textContent = cat;
+      opt.dataset.custom = "1";
+      sel.appendChild(opt);
+    });
+    if (currentVal) sel.value = currentVal;
+  }
+  const addCatBtn = document.getElementById("prod-add-categoria-btn");
+  if (addCatBtn) {
+    addCatBtn.addEventListener("click", () => {
+      const input = document.getElementById("prod-nueva-categoria");
+      const val = input.value.trim();
+      if (!val) return;
+      const existing = getCustomCategories();
+      if (!existing.includes(val)) {
+        existing.push(val);
+        saveCustomCategories(existing);
+        renderCustomCategories();
+        updateCategorySelect();
+        // 🔄 Sincronizar catálogo público
+        renderCatalogCategoryChips();
+        renderFilteredProducts();
+      }
+      document.getElementById("prod-categoria").value = val;
+      input.value = "";
+      showToast("Categoría agregada.");
+    });
+  }
+  renderCustomCategories();
+  updateCategorySelect();
+
+  window.addEventListener("storage", (e) => {
+    if (e.key === CUSTOM_CATEGORIES_KEY) {
+      updateCategorySelect();
+      renderCustomCategories();
+      renderCatalogCategoryChips();
+      renderFilteredProducts();
+    }
+  });
 
   /* ---- Image slots ---- */
   const IMAGE_LIMITS = { prod: 5, promo: 6, evento: 6 };
@@ -2448,14 +2873,19 @@
   let savingPromo = false;
   let savingEvent = false;
   const newVideoFiles = { prod: null, promo: null, evento: null };
+  const existingVideoUrls = { prod: null, promo: null, evento: null };
+  const removeVideoFlags = { prod: false, promo: false, evento: false };
 
   function bindVideoInput(prefix) {
     const inp = document.getElementById(`${prefix}-video`);
     const status = document.getElementById(`${prefix}-video-status`);
+    const removeBtn = document.getElementById(`${prefix}-video-remove`);
     inp.addEventListener("change", async () => {
       const file = inp.files[0];
       newVideoFiles[prefix] = null;
+      removeVideoFlags[prefix] = false;
       status.textContent = "";
+      if (removeBtn) removeBtn.classList.add("hidden");
       if (!file) return;
       try {
         const dur = await getVideoDuration(file);
@@ -2468,11 +2898,23 @@
         newVideoFiles[prefix] = file;
         status.textContent = `Listo (${Math.round(dur)}s): ${file.name}`;
         status.className = "text-gold-soft text-xs mt-1";
+        if (removeBtn) removeBtn.classList.remove("hidden");
       } catch (err) {
         status.textContent = "No se pudo leer la duración.";
         status.className = "text-garnet-light text-xs mt-1";
       }
     });
+    if (removeBtn) {
+      removeBtn.addEventListener("click", () => {
+        newVideoFiles[prefix] = null;
+        existingVideoUrls[prefix] = null;
+        removeVideoFlags[prefix] = true;
+        inp.value = "";
+        status.textContent = "Video quitado. Se eliminará al guardar.";
+        status.className = "text-garnet-light text-xs mt-1";
+        removeBtn.classList.add("hidden");
+      });
+    }
   }
   bindVideoInput("prod"); bindVideoInput("promo"); bindVideoInput("evento");
 
@@ -2482,8 +2924,11 @@
       newVideoFiles[prefix] = null;
       document.getElementById(`${prefix}-video`).value = "";
       document.getElementById(`${prefix}-video-status`).textContent = "";
+      const rb = document.getElementById(`${prefix}-video-remove`);
+      if (rb) rb.classList.add("hidden");
       return url;
     }
+    if (removeVideoFlags[prefix]) return null;
     return existingUrl || null;
   }
 
@@ -2491,10 +2936,15 @@
     editingProductId = null;
     productForm.reset();
     document.getElementById("prod-disponible").checked = true;
+    document.getElementById("prod-categoria").value = "";
     setImageSlots("prod", []);
     newVideoFiles.prod = null;
+    existingVideoUrls.prod = null;
+    removeVideoFlags.prod = false;
     document.getElementById("prod-video").value = "";
     document.getElementById("prod-video-status").textContent = "";
+    const rb = document.getElementById("prod-video-remove");
+    if (rb) rb.classList.add("hidden");
     document.getElementById("product-form-title").textContent = "Cargar nuevo producto";
     document.getElementById("product-submit-btn").textContent = "Publicar producto";
     document.getElementById("product-cancel-edit-btn").classList.add("hidden");
@@ -2504,8 +2954,12 @@
     promoForm.reset();
     setImageSlots("promo", []);
     newVideoFiles.promo = null;
+    existingVideoUrls.promo = null;
+    removeVideoFlags.promo = false;
     document.getElementById("promo-video").value = "";
     document.getElementById("promo-video-status").textContent = "";
+    const rb = document.getElementById("promo-video-remove");
+    if (rb) rb.classList.add("hidden");
     document.getElementById("promo-form-title").textContent = "Cargar nueva promoción";
     document.getElementById("promo-submit-btn").textContent = "Publicar promoción";
     document.getElementById("promo-cancel-edit-btn").classList.add("hidden");
@@ -2515,8 +2969,12 @@
     eventoForm.reset();
     setImageSlots("evento", []);
     newVideoFiles.evento = null;
+    existingVideoUrls.evento = null;
+    removeVideoFlags.evento = false;
     document.getElementById("evento-video").value = "";
     document.getElementById("evento-video-status").textContent = "";
+    const rb = document.getElementById("evento-video-remove");
+    if (rb) rb.classList.add("hidden");
     document.getElementById("evento-form-title").textContent = "Cargar nuevo evento";
     document.getElementById("evento-submit-btn").textContent = "Publicar evento";
     document.getElementById("evento-cancel-edit-btn").classList.add("hidden");
@@ -2534,10 +2992,30 @@
     document.getElementById("prod-precio").value = hasValidPrice(p.precio) ? p.precio : "";
     document.getElementById("prod-precio-transferencia").value = hasValidPrice(p.precioTransferencia) ? p.precioTransferencia : "";
     document.getElementById("prod-disponible").checked = p.disponible !== false;
+    const catSel = document.getElementById("prod-categoria");
+    if (p.categoria) {
+      if (![...catSel.options].some(o => o.value === p.categoria)) {
+        const opt = document.createElement("option");
+        opt.value = p.categoria;
+        opt.textContent = p.categoria;
+        opt.dataset.custom = "1";
+        catSel.appendChild(opt);
+      }
+      catSel.value = p.categoria;
+    } else catSel.value = "";
     setImageSlots("prod", getImages(p));
+    existingVideoUrls.prod = p.videoUrl || null;
     newVideoFiles.prod = null;
+    removeVideoFlags.prod = false;
     document.getElementById("prod-video").value = "";
-    document.getElementById("prod-video-status").textContent = p.videoUrl ? "Video actual. Elegí uno nuevo para reemplazarlo." : "";
+    const rb = document.getElementById("prod-video-remove");
+    if (p.videoUrl) {
+      document.getElementById("prod-video-status").textContent = "Video actual cargado. Elegí uno nuevo para reemplazarlo o quitá el video.";
+      if (rb) rb.classList.remove("hidden");
+    } else {
+      document.getElementById("prod-video-status").textContent = "";
+      if (rb) rb.classList.add("hidden");
+    }
     document.getElementById("product-form-title").textContent = "Editar producto";
     document.getElementById("product-submit-btn").textContent = "Guardar cambios";
     document.getElementById("product-cancel-edit-btn").classList.remove("hidden");
@@ -2554,9 +3032,18 @@
     document.getElementById("promo-precio").value = hasValidPrice(p.precio) ? p.precio : "";
     document.getElementById("promo-tipo-precio").value = p.tipoPrecio === "persona" ? "persona" : "total";
     setImageSlots("promo", getImages(p));
+    existingVideoUrls.promo = p.videoUrl || null;
     newVideoFiles.promo = null;
+    removeVideoFlags.promo = false;
     document.getElementById("promo-video").value = "";
-    document.getElementById("promo-video-status").textContent = p.videoUrl ? "Video actual. Elegí uno nuevo para reemplazarlo." : "";
+    const rb = document.getElementById("promo-video-remove");
+    if (p.videoUrl) {
+      document.getElementById("promo-video-status").textContent = "Video actual cargado. Elegí uno nuevo para reemplazarlo o quitá el video.";
+      if (rb) rb.classList.remove("hidden");
+    } else {
+      document.getElementById("promo-video-status").textContent = "";
+      if (rb) rb.classList.add("hidden");
+    }
     document.getElementById("promo-form-title").textContent = "Editar promoción";
     document.getElementById("promo-submit-btn").textContent = "Guardar cambios";
     document.getElementById("promo-cancel-edit-btn").classList.remove("hidden");
@@ -2574,9 +3061,18 @@
     document.getElementById("evento-precio").value = hasValidPrice(p.precio) ? p.precio : "";
     document.getElementById("evento-tipo-precio").value = p.tipoPrecio === "persona" ? "persona" : "total";
     setImageSlots("evento", getImages(p));
+    existingVideoUrls.evento = p.videoUrl || null;
     newVideoFiles.evento = null;
+    removeVideoFlags.evento = false;
     document.getElementById("evento-video").value = "";
-    document.getElementById("evento-video-status").textContent = p.videoUrl ? "Video actual. Elegí uno nuevo para reemplazarlo." : "";
+    const rb = document.getElementById("evento-video-remove");
+    if (p.videoUrl) {
+      document.getElementById("evento-video-status").textContent = "Video actual cargado. Elegí uno nuevo para reemplazarlo o quitá el video.";
+      if (rb) rb.classList.remove("hidden");
+    } else {
+      document.getElementById("evento-video-status").textContent = "";
+      if (rb) rb.classList.add("hidden");
+    }
     document.getElementById("evento-form-title").textContent = "Editar evento";
     document.getElementById("evento-submit-btn").textContent = "Guardar cambios";
     document.getElementById("evento-cancel-edit-btn").classList.remove("hidden");
@@ -2665,25 +3161,29 @@
     const precioRaw = document.getElementById("prod-precio").value;
     const precioTransferenciaRaw = document.getElementById("prod-precio-transferencia").value;
     const disponible = document.getElementById("prod-disponible").checked;
+    const categoria = document.getElementById("prod-categoria").value;
     const slots = imgSlots.prod.slice();
     const shouldSendEmail = document.getElementById("send-product-emails")?.checked;
     const editing = editingProductId !== null;
-    if (!titulo.trim() || slots.length === 0) { showToast("Completá título y al menos 1 imagen.", "error"); return; }
+    if (!titulo.trim() || (slots.length === 0 && !newVideoFiles.prod && !existingVideoUrls.prod)) {
+      showToast("Completá título y al menos 1 imagen o video.", "error");
+      return;
+    }
     savingProduct = true;
     const submitBtn = document.getElementById("product-submit-btn");
     const label = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = "Guardando…";
     try {
-      const imagenes = await resolveSlotUrls(slots);
-      const existingVideo = editing ? (latestProducts.find(p => p.id === editingProductId) || {}).videoUrl : null;
+      const imagenes = slots.length ? await resolveSlotUrls(slots) : [];
+      const existingVideo = editing ? existingVideoUrls.prod : null;
       const videoUrl = await resolveVideo("prod", existingVideo);
       const fields = {
-        titulo, descripcion,
+        titulo, descripcion, categoria: categoria || null,
         precio: hasValidPrice(precioRaw) ? Number(precioRaw) : null,
         precioTransferencia: hasValidPrice(precioTransferenciaRaw) ? Number(precioTransferenciaRaw) : null,
         disponible: !!disponible,
-        imagenes, imagenUrl: imagenes[0], videoUrl: videoUrl || null
+        imagenes, imagenUrl: imagenes[0] || null, videoUrl: videoUrl || null
       };
       if (editing) { await updateDoc(doc(adminDb, "productos", editingProductId), fields); showToast("Producto actualizado."); }
       else { await addDoc(adminProductsCol, { ...fields, creadoEn: serverTimestamp() }); showToast("Producto publicado."); }
@@ -2714,21 +3214,24 @@
     const slots = imgSlots.promo.slice();
     const shouldSendEmail = document.getElementById("send-promo-emails")?.checked;
     const editing = editingPromoId !== null;
-    if (!titulo.trim() || !vigencia || slots.length === 0) { showToast("Completá campos obligatorios (al menos 1 imagen).", "error"); return; }
+    if (!titulo.trim() || !vigencia || (slots.length === 0 && !newVideoFiles.promo && !existingVideoUrls.promo)) {
+      showToast("Completá campos obligatorios (al menos 1 imagen o video).", "error");
+      return;
+    }
     savingPromo = true;
     const submitBtn = document.getElementById("promo-submit-btn");
     const label = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = "Guardando…";
     try {
-      const imagenes = await resolveSlotUrls(slots);
-      const existingVideo = editing ? (allPromos.find(p => p.id === editingPromoId) || {}).videoUrl : null;
+      const imagenes = slots.length ? await resolveSlotUrls(slots) : [];
+      const existingVideo = editing ? existingVideoUrls.promo : null;
       const videoUrl = await resolveVideo("promo", existingVideo);
       const fields = {
         titulo, descripcion, vigencia,
         publicarDesde: publicarDesde || null,
         precio: hasValidPrice(precioRaw) ? Number(precioRaw) : null,
-        tipoPrecio, imagenes, imagenUrl: imagenes[0], videoUrl: videoUrl || null
+        tipoPrecio, imagenes, imagenUrl: imagenes[0] || null, videoUrl: videoUrl || null
       };
       if (editing) { await updateDoc(doc(adminDb, "promociones", editingPromoId), fields); showToast("Promoción actualizada."); }
       else { await addDoc(adminPromosCol, { ...fields, creadoEn: serverTimestamp() }); showToast("Promoción publicada."); }
@@ -2759,8 +3262,8 @@
     const tipoPrecio = document.getElementById("evento-tipo-precio").value === "persona" ? "persona" : "total";
     const slots = imgSlots.evento.slice();
     const editing = editingEventId !== null;
-    if (!titulo.trim() || !descripcion.trim() || !fecha || !hora || !lugar.trim() || slots.length === 0) {
-      showToast("Completá todos los campos obligatorios (al menos 1 imagen).", "error");
+    if (!titulo.trim() || !descripcion.trim() || !fecha || !hora || !lugar.trim() || (slots.length === 0 && !newVideoFiles.evento && !existingVideoUrls.evento)) {
+      showToast("Completá todos los campos obligatorios (al menos 1 imagen o video).", "error");
       return;
     }
     savingEvent = true;
@@ -2769,13 +3272,13 @@
     submitBtn.disabled = true;
     submitBtn.textContent = "Guardando…";
     try {
-      const imagenes = await resolveSlotUrls(slots);
-      const existingVideo = editing ? (allEvents.find(p => p.id === editingEventId) || {}).videoUrl : null;
+      const imagenes = slots.length ? await resolveSlotUrls(slots) : [];
+      const existingVideo = editing ? existingVideoUrls.evento : null;
       const videoUrl = await resolveVideo("evento", existingVideo);
       const fields = {
         titulo, descripcion, fecha, hora, lugar,
         precio: hasValidPrice(precioRaw) ? Number(precioRaw) : null,
-        tipoPrecio, imagenes, imagenUrl: imagenes[0], videoUrl: videoUrl || null
+        tipoPrecio, imagenes, imagenUrl: imagenes[0] || null, videoUrl: videoUrl || null
       };
       if (editing) { await updateDoc(doc(adminDb, "eventos", editingEventId), fields); showToast("Evento actualizado."); }
       else { await addDoc(adminEventsCol, { ...fields, creadoEn: serverTimestamp() }); showToast("Evento publicado."); }
@@ -2863,9 +3366,6 @@
 
   /* ============================================================
    *  AUTENTICACIÓN DE USUARIOS (Google + email/pass)
-   *  Se enlazan los listeners PRIMERO, antes que cualquier
-   *  onSnapshot u operación async, para que aunque falle el
-   *  resto del módulo, el login siga funcionando.
    * ============================================================ */
   const authModal = document.getElementById("auth-modal");
   const authMessage = document.getElementById("auth-message");
@@ -2937,7 +3437,7 @@
     return messages[code] || `Error (${code || "desconocido"}). Revisá la consola.`;
   }
 
-  /* ---- Listeners de AUTH (arriba de todo, antes de onSnapshot) ---- */
+  /* ---- Listeners de AUTH ---- */
   if (authOpenBtn) authOpenBtn.addEventListener("click", openAuthModal);
   document.getElementById("auth-close-btn").addEventListener("click", closeAuthModal);
   authModal.addEventListener("click", e => { if (e.target === authModal) closeAuthModal(); });
@@ -3132,32 +3632,11 @@
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  // Sesión admin: forzar logout al cerrar pestaña/recargar
   window.addEventListener("beforeunload", () => {
     try { sessionStorage.removeItem(ADMIN_SESSION_KEY); } catch (_) {}
   });
 
   enforceAdminSession();
-</script>
-
-<div class="whatsapp-container">
-    <div id="wa-tooltip" class="wa-tooltip hidden">¿Necesitás ayuda? Escribinos por WhatsApp </div>
-    <a href="https://wa.me/5493537513148?text=%C2%A1Hola!%20Quiero%20hacer%20una%20consulta" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-    </a>
-</div>
-
-<script>
-  setTimeout(() => {
-    const tooltip = document.getElementById('wa-tooltip');
-    if (tooltip) {
-      tooltip.classList.remove('hidden');
-      setTimeout(() => {
-        tooltip.style.opacity = '0';
-        setTimeout(() => tooltip.classList.add('hidden'), 400);
-      }, 5000);
-    }
-  }, 3000);
 </script>
 </body>
 </html>
