@@ -1,3 +1,5 @@
+
 User-agent: *
 Allow: /
-Sitemap: https://clubdelanfitrion.github.io/sitemap.xml
+
+Sitemap: https://clubdelanfitrion.com.ar/sitemap.xml
