@@ -3,8 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Club del Anfitrión — Vinoteca boutique, regalería, artículos para fuegos y eventos en Bell Ville</title>
-<meta name="description" content="Vinoteca boutique, regalería, artículos para fuegos y eventos en Bell Ville, Córdoba. Vinos de bodegas chicas, picadas, parrillas y pedidos online con retiro en Córdoba 1309.">
+<title>Club del Anfitrión | Vinoteca boutique y regalería en Bell Ville, Córdoba</title>
+<meta name="description" content="Club del Anfitrión: vinoteca boutique y regalería en Bell Ville, Córdoba. Vinos de bodegas chicas, picadas, parrillas, braseros y eventos. Pedidos online con retiro en Córdoba 1309.">
+<meta name="application-name" content="Club del Anfitrión">
+<meta name="apple-mobile-web-app-title" content="Club del Anfitrión">
+<meta name="format-detection" content="telephone=no">
+<meta name="geo.region" content="AR-X">
+<meta name="geo.placename" content="Bell Ville, Córdoba">
+<script>document.documentElement.classList.add("js");</script>
 <meta name="keywords" content="vinoteca, regalería, fuegos, eventos, vinos, Bell Ville, Córdoba, Club del Anfitrión, bodegas boutique, reservas, picadas, degustaciones, parrillas, braseros">
 <meta name="author" content="Club del Anfitrión">
 <meta name="robots" content="index, follow">
@@ -159,13 +165,143 @@
 
   .cat-chip { scroll-snap-align: start; }
   #catalog-categories { -webkit-overflow-scrolling: touch; }
+
+  /* ============================================================
+   *  MEJORAS v2 — utilidades que faltaban, rendimiento y UI/UX
+   * ============================================================ */
+  .text-balance { text-wrap: balance; }
+  .logo-circle { object-fit: cover; display: block; }
+  img, video { max-width: 100%; }
+  .badge-out {
+    background: rgba(124,31,47,0.92); color: #efe6d8; font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 9999px; letter-spacing: .04em; text-transform: uppercase;
+    border: 1px solid rgba(156,50,68,0.8);
+  }
+  .card-out { opacity: .72; }
+  .card-out img, .card-out video { filter: grayscale(.55); }
+
+  /* Botones: micro-interacciones y áreas táctiles cómodas */
+  .btn-press { transition: transform .18s ease, box-shadow .25s ease, background-color .2s, color .2s, border-color .2s; will-change: transform; }
+  .btn-press:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(201,162,75,.55); }
+  .btn-press:active { transform: translateY(0) scale(.97); box-shadow: none; }
+  button, a, input, select, textarea { touch-action: manipulation; }
+
+  /* Tarjetas de catálogo / promos / eventos */
+  #products-grid > article, #promos-grid > article, #eventos-grid > article, #my-purchases-container > div {
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease;
+    contain: layout paint;
+  }
+  @media (hover: hover) {
+    #products-grid > article:hover, #promos-grid > article:hover, #eventos-grid > article:hover {
+      transform: translateY(-6px);
+      border-color: rgba(201,162,75,.45);
+      box-shadow: 0 22px 44px -22px rgba(0,0,0,.75), 0 0 0 1px rgba(201,162,75,.12);
+    }
+  }
+
+  /* Aparición gradual al hacer scroll (solo si hay JS) */
+  .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .js .reveal.is-visible { opacity: 1; transform: none; }
+  /* Secciones fuera de pantalla: el navegador salta su render (Core Web Vitals) */
+  section:not(#inicio) { content-visibility: auto; contain-intrinsic-size: auto 700px; }
+
+  /* Navbar con transición de sombra */
+  #navbar.bg-wine-black\/95 { box-shadow: 0 8px 30px -12px rgba(0,0,0,.7); }
+
+  /* Móvil primero: margenes y tipografías armónicas */
+  @media (max-width: 640px) {
+    section { scroll-margin-top: 5rem; }
+    section.py-28 { padding-top: 4.5rem; padding-bottom: 4.5rem; }
+    #toast-container { left: .75rem; right: .75rem; top: .75rem; align-items: stretch; }
+    .toast { min-width: 0; max-width: none; }
+    #cart-fab { bottom: 1rem; right: 1rem; }
+    .gallery-arrow { width: 40px; height: 40px; }
+    #products-grid, #promos-grid, #eventos-grid { gap: 1.25rem; }
+    input[type="text"], input[type="tel"], input[type="email"], input[type="password"],
+    input[type="number"], input[type="search"], input[type="date"], input[type="time"],
+    input[type="url"], select, textarea { font-size: 16px !important; } /* evita el zoom automático de iOS */
+  }
+  section[id] { scroll-margin-top: 5rem; }
+
+  /* ============================================================
+   *  REPRODUCTOR DE VIDEO INSTITUCIONAL
+   * ============================================================ */
+  .cda-player {
+    position: relative; width: 100%; max-width: 960px; margin: 0 auto; overflow: hidden;
+    border-radius: 1.25rem; background: #000; border: 1px solid rgba(201,162,75,.28);
+    box-shadow: 0 30px 70px -28px rgba(0,0,0,.9), 0 0 0 1px rgba(201,162,75,.08);
+    aspect-ratio: 16 / 9; isolation: isolate; user-select: none; -webkit-user-select: none;
+  }
+  .cda-player video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; cursor: pointer; }
+  .cda-player:fullscreen, .cda-player:-webkit-full-screen { max-width: none; border-radius: 0; border: 0; aspect-ratio: auto; width: 100vw; height: 100vh; }
+  .cda-big-play {
+    position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at center, rgba(20,11,12,.15), rgba(20,11,12,.6));
+    border: 0; cursor: pointer; transition: opacity .3s ease, visibility .3s ease;
+  }
+  .cda-player.is-playing .cda-big-play { opacity: 0; visibility: hidden; pointer-events: none; }
+  .cda-big-play .ring {
+    width: 84px; height: 84px; border-radius: 9999px; display: grid; place-items: center;
+    background: rgba(20,11,12,.82); border: 2px solid #c9a24b; color: #e6cf9c;
+    box-shadow: 0 0 0 0 rgba(201,162,75,.5); animation: cdaPulse 2.4s ease-out infinite;
+    transition: transform .25s ease, background .25s, color .25s;
+  }
+  .cda-big-play:hover .ring, .cda-big-play:focus-visible .ring { transform: scale(1.08); background: #c9a24b; color: #140b0c; }
+  @keyframes cdaPulse { 0% { box-shadow: 0 0 0 0 rgba(201,162,75,.45); } 70% { box-shadow: 0 0 0 22px rgba(201,162,75,0); } 100% { box-shadow: 0 0 0 0 rgba(201,162,75,0); } }
+  .cda-controls {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; padding: 2.2rem .9rem .7rem;
+    background: linear-gradient(to top, rgba(10,6,7,.92), rgba(10,6,7,0));
+    transition: opacity .3s ease, transform .3s ease;
+  }
+  .cda-player.is-playing.idle .cda-controls { opacity: 0; transform: translateY(8px); pointer-events: none; }
+  .cda-player.is-playing.idle { cursor: none; }
+  .cda-row { display: flex; align-items: center; gap: .55rem; }
+  .cda-btn {
+    flex: none; width: 44px; height: 44px; border-radius: 9999px; display: inline-grid; place-items: center;
+    background: transparent; border: 0; color: #efe6d8; cursor: pointer; transition: background .2s, color .2s, transform .15s;
+  }
+  .cda-btn:hover { background: rgba(201,162,75,.2); color: #e6cf9c; }
+  .cda-btn:active { transform: scale(.92); }
+  .cda-btn svg { width: 22px; height: 22px; }
+  .cda-time { flex: none; font-size: 12px; color: #e6cf9c; font-variant-numeric: tabular-nums; min-width: 5.6rem; text-align: center; }
+  .cda-range { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; cursor: pointer; margin: 0; --p: 0%; }
+  .cda-range:focus { outline: none; }
+  .cda-range:focus-visible { outline: 2px solid #c9a24b; outline-offset: 2px; border-radius: 6px; }
+  .cda-range::-webkit-slider-runnable-track { height: 5px; border-radius: 9999px; background: linear-gradient(to right, #c9a24b var(--p), rgba(239,230,216,.25) var(--p)); }
+  .cda-range::-moz-range-track { height: 5px; border-radius: 9999px; background: rgba(239,230,216,.25); }
+  .cda-range::-moz-range-progress { height: 5px; border-radius: 9999px; background: #c9a24b; }
+  .cda-range::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; margin-top: -5.5px; border-radius: 9999px; background: #e6cf9c; border: 2px solid #140b0c; box-shadow: 0 0 0 1px #c9a24b; transition: transform .15s; }
+  .cda-range::-moz-range-thumb { width: 14px; height: 14px; border-radius: 9999px; background: #e6cf9c; border: 2px solid #140b0c; }
+  .cda-range:hover::-webkit-slider-thumb { transform: scale(1.25); }
+  .cda-seek { flex: 1 1 auto; min-width: 0; }
+  .cda-vol { width: 84px; flex: none; }
+  .cda-spinner {
+    position: absolute; z-index: 5; top: 50%; left: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px;
+    border-radius: 9999px; border: 3px solid rgba(239,230,216,.25); border-top-color: #c9a24b; animation: cdaSpin .8s linear infinite; display: none;
+  }
+  .cda-player.is-loading .cda-spinner { display: block; }
+  @keyframes cdaSpin { to { transform: rotate(360deg); } }
+  .cda-error { position: absolute; inset: 0; z-index: 6; display: none; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; background: rgba(20,11,12,.92); color: #b4a293; font-size: .95rem; }
+  .cda-player.has-error .cda-error { display: flex; }
+  @media (max-width: 640px) {
+    .cda-vol { display: none; }
+    .cda-time { min-width: 4.8rem; font-size: 11px; }
+    .cda-big-play .ring { width: 68px; height: 68px; }
+    .cda-controls { padding: 1.6rem .4rem .35rem; }
+    .cda-player { border-radius: .9rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    .cda-big-play .ring { animation: none; }
+    .btn-press, #products-grid > article, #promos-grid > article, #eventos-grid > article { transition: none; }
+  }
 </style>
 
 <meta property="og:site_name" content="Club del Anfitrión">
 <meta property="og:locale" content="es_AR">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://clubdelanfitrion.com.ar/">
-<meta property="og:title" content="Club del Anfitrión — Vinoteca boutique, regalería, artículos para fuegos y eventos en Bell Ville">
+<meta property="og:title" content="Club del Anfitrión | Vinoteca boutique y regalería en Bell Ville">
 <meta property="og:description" content="Vinos de bodegas chicas, picadas, regalería, eventos y fuegos. Reservas y pedidos online con retiro en Córdoba 1309, Bell Ville.">
 <meta property="og:image" content="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
 <meta property="og:image:width" content="1200">
@@ -174,7 +310,7 @@
 <meta property="og:phone_number" content="+5493537513148">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Club del Anfitrión — Vinoteca boutique, regalería, artículos para fuegos y eventos en Bell Ville">
+<meta name="twitter:title" content="Club del Anfitrión | Vinoteca boutique y regalería en Bell Ville">
 <meta name="twitter:description" content="Vinos de bodegas chicas, picadas, regalería, eventos y fuegos. Reservas y pedidos online.">
 <meta name="twitter:image" content="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
 <meta name="twitter:site" content="@clubdelanfitrion">
@@ -182,35 +318,65 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Club del Anfitrión",
-  "alternateName": ["Club del Anfitrion", "El Club del Anfitrión"],
-  "url": "https://clubdelanfitrion.com.ar/"
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LiquorStore",
-  "name": "Club del Anfitrión",
-  "url": "https://clubdelanfitrion.com.ar/",
-  "telephone": "+5493537513148",
-  "email": "promociones.clubdelanfitrion@gmail.com",
-  "image": "https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg",
-  "priceRange": "$$",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Córdoba 1309",
-    "addressLocality": "Bell Ville",
-    "addressRegion": "Córdoba",
-    "addressCountry": "AR"
-  },
-  "openingHoursSpecification": [
-    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"12:30"},
-    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"17:00","closes":"21:00"},
-    {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"09:00","closes":"13:00"},
-    {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"17:00","closes":"21:00"},
-    {"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"10:30","closes":"12:30"}
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://clubdelanfitrion.com.ar/#website",
+      "name": "Club del Anfitrión",
+      "alternateName": ["Club del Anfitrion", "El Club del Anfitrión"],
+      "url": "https://clubdelanfitrion.com.ar/",
+      "inLanguage": "es-AR",
+      "publisher": { "@id": "https://clubdelanfitrion.com.ar/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://clubdelanfitrion.com.ar/#organization",
+      "name": "Club del Anfitrión",
+      "url": "https://clubdelanfitrion.com.ar/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg"
+      },
+      "description": "Vinoteca boutique y regalería en Bell Ville, Córdoba, con vinos de bodegas chicas, picadas, artículos para fuegos y eventos.",
+      "email": "promociones.clubdelanfitrion@gmail.com",
+      "telephone": "+5493537513148",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+5493537513148",
+        "contactType": "customer service",
+        "areaServed": "AR",
+        "availableLanguage": "es"
+      }
+    },
+    {
+      "@type": ["LocalBusiness", "LiquorStore"],
+      "@id": "https://clubdelanfitrion.com.ar/#localbusiness",
+      "name": "Club del Anfitrión",
+      "url": "https://clubdelanfitrion.com.ar/",
+      "description": "Vinoteca boutique y regalería en Bell Ville, Córdoba. Vinos de bodegas chicas, picadas, parrillas, braseros, eventos y pedidos online con retiro en el local.",
+      "telephone": "+5493537513148",
+      "email": "promociones.clubdelanfitrion@gmail.com",
+      "image": "https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg",
+      "logo": "https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg",
+      "priceRange": "$$",
+      "parentOrganization": { "@id": "https://clubdelanfitrion.com.ar/#organization" },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Córdoba 1309",
+        "addressLocality": "Bell Ville",
+        "addressRegion": "Córdoba",
+        "addressCountry": "AR"
+      },
+      "areaServed": { "@type": "City", "name": "Bell Ville" },
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=C%C3%B3rdoba+1309%2C+Bell+Ville%2C+C%C3%B3rdoba%2C+Argentina",
+      "openingHoursSpecification": [
+        {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"12:30"},
+        {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"17:00","closes":"21:00"},
+        {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"09:00","closes":"13:00"},
+        {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"17:00","closes":"21:00"},
+        {"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"10:30","closes":"12:30"}
+      ]
+    }
   ]
 }
 </script>
@@ -226,7 +392,7 @@
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between h-20 gap-3">
     <a href="#inicio" class="flex items-center gap-3 group shrink-0">
       <div class="h-14 w-14 sm:h-16 sm:w-16 rounded-full overflow-hidden border-2 border-gold/40 bg-wine-black shadow-lg shadow-wine-black/50 shrink-0">
-        <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" class="logo-circle w-full h-full">
+        <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" width="64" height="64" fetchpriority="high" decoding="async" class="logo-circle w-full h-full">
       </div>
       <span class="hidden xl:block font-display text-lg text-cream">Club <span class="italic text-gold-soft">del Anfitrión</span></span>
     </a>
@@ -270,7 +436,7 @@
 
 <section id="inicio" class="relative min-h-screen flex items-end overflow-hidden">
   <div class="absolute inset-0">
-    <video autoplay loop muted playsinline class="w-full h-full object-cover pointer-events-none">
+    <video autoplay loop muted playsinline preload="metadata" aria-hidden="true" class="w-full h-full object-cover pointer-events-none">
       <source src="https://res.cloudinary.com/wb9mhrpv/video/upload/v1788444563/cix5wbrrsduaxtnjgxn2.mp4" type="video/mp4">
     </video>
     <div class="absolute inset-0 bg-gradient-to-t from-wine-black via-wine-black/80 to-wine-black/40"></div>
@@ -319,7 +485,7 @@
 
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
-          <img src="https://i.postimg.cc/4dbknkLZ/Whats-App-Image-2026-09-02-at-22-10-20.jpg" alt="Interior del Establecimiento" class="w-full h-full object-cover">
+          <img loading="lazy" decoding="async" src="https://i.postimg.cc/4dbknkLZ/Whats-App-Image-2026-09-02-at-22-10-20.jpg" alt="Interior del Establecimiento" class="w-full h-full object-cover">
         </div>
         <div class="p-5">
           <p class="text-cream font-medium">El salón por dentro</p>
@@ -329,7 +495,7 @@
 
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
-          <img src="https://i.postimg.cc/FRyg3XB3/images.jpg" alt="Atención personalizada" class="w-full h-full object-cover">
+          <img loading="lazy" decoding="async" src="https://i.postimg.cc/FRyg3XB3/images.jpg" alt="Atención personalizada" class="w-full h-full object-cover">
         </div>
         <div class="p-5">
           <p class="text-cream font-medium">Atención personalizada</p>
@@ -339,7 +505,7 @@
 
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
-          <img src="https://i.postimg.cc/qRCznBhp/AHRPTWk87b-Festy6Gu-WHPdhku7he-Gz-GZv-F-c3J9rk5Lpv25NM1Pez-PFC9l-MOc7AIw-O22m-K6Ton-Bkim-Il-O6oz-Rn.jpg" alt="Detalles de la vinoteca" class="w-full h-full object-cover">
+          <img loading="lazy" decoding="async" src="https://i.postimg.cc/qRCznBhp/AHRPTWk87b-Festy6Gu-WHPdhku7he-Gz-GZv-F-c3J9rk5Lpv25NM1Pez-PFC9l-MOc7AIw-O22m-K6Ton-Bkim-Il-O6oz-Rn.jpg" alt="Detalles de la vinoteca" class="w-full h-full object-cover">
         </div>
         <div class="p-5">
           <p class="text-cream font-medium">Detalles únicos</p>
@@ -349,7 +515,7 @@
 
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
-          <img src="https://i.postimg.cc/JnSVDJSL/caca.jpg" alt="Momentos compartidos" class="w-full h-full object-cover">
+          <img loading="lazy" decoding="async" src="https://i.postimg.cc/JnSVDJSL/caca.jpg" alt="Momentos compartidos" class="w-full h-full object-cover">
         </div>
         <div class="p-5">
           <p class="text-cream font-medium">Momentos para compartir</p>
@@ -389,7 +555,43 @@
   </div>
 </section>
 
-<section id="ubicacion" class="relative py-28 lg:py-36 bg-wine-dark/60 border-y border-gold/10">
+<!-- HISTORIA INSTITUCIONAL EN VIDEO (se muestra cuando hay settings/general.videoUrl) -->
+<section id="historia-video" class="relative py-20 lg:py-28 bg-wine-dark/50 border-y border-gold/10" hidden aria-labelledby="historia-video-title">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 text-center">
+    <p class="label-serif text-gold-soft text-lg mb-4">Nuestro origen</p>
+    <h2 id="historia-video-title" class="font-display text-3xl sm:text-5xl leading-tight mb-4 text-balance">¡Descubrí nuestra historia contada por el dueño!</h2>
+    <p class="text-stone text-base sm:text-lg max-w-2xl mx-auto mb-10 sm:mb-12 leading-relaxed">Mirá el video completo de a partir de que surgió esta idea de crear Club del Anfitrión</p>
+
+    <div id="story-player" class="cda-player" role="group" aria-label="Reproductor de video: historia de Club del Anfitrión">
+      <video id="story-video" playsinline preload="metadata" aria-label="Historia de Club del Anfitrión contada por el dueño"></video>
+      <button type="button" id="story-bigplay" class="cda-big-play" aria-label="Reproducir video">
+        <span class="ring"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+      </button>
+      <div class="cda-spinner" aria-hidden="true"></div>
+      <div class="cda-error" role="alert">No pudimos cargar el video. Probá de nuevo más tarde.</div>
+      <div class="cda-controls">
+        <div class="cda-row">
+          <button type="button" id="story-play" class="cda-btn" aria-label="Reproducir">
+            <svg id="story-icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="story-icon-pause" class="hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="cda-time" id="story-time" aria-live="off">0:00 / 0:00</span>
+          <input type="range" id="story-seek" class="cda-range cda-seek" min="0" max="1000" value="0" step="1" aria-label="Línea de tiempo del video">
+          <button type="button" id="story-mute" class="cda-btn" aria-label="Silenciar">
+            <svg id="story-icon-vol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+            <svg id="story-icon-muted" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+          </button>
+          <input type="range" id="story-volume" class="cda-range cda-vol" min="0" max="1" step="0.05" value="1" aria-label="Volumen">
+          <button type="button" id="story-fs" class="cda-btn" aria-label="Pantalla completa">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ubicacion"class="relative py-28 lg:py-36 bg-wine-dark/60 border-y border-gold/10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4">Ubicación y horarios</p>
     <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-xl mb-16 text-balance">Te esperamos en el corazón de Bell Ville</h2>
@@ -648,7 +850,7 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-10 grid sm:grid-cols-3 gap-12">
     <div>
       <div class="h-20 w-20 rounded-full overflow-hidden border-2 border-gold/40 bg-wine-black mb-4 shadow-lg shadow-wine-black/50">
-        <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" class="logo-circle w-full h-full">
+        <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión Logo" width="80" height="80" loading="lazy" decoding="async" class="logo-circle w-full h-full">
       </div>
       <p class="font-display text-2xl mb-3">Club <span class="italic text-gold-soft">del Anfitrión</span></p>
       <p class="text-stone text-sm leading-relaxed">Vinoteca boutique, regalería, artículos para fuegos y eventos en Bell Ville, Córdoba. Vinos, picadas y experiencias para compartir alrededor de la mesa.</p>
@@ -962,6 +1164,26 @@
         <input type="file" id="logo-file" accept="image/*,.jpg,.jpeg,.png,.webp,.gif,.avif,.svg,.ico" class="w-full text-stone text-sm">
         <p id="logo-status" class="text-stone text-xs" role="status"></p>
         <button type="submit" id="logo-submit-btn" class="rounded-full bg-gold px-5 py-2.5 text-wine-black text-sm font-medium hover:bg-gold-soft transition-colors disabled:opacity-60">Guardar logotipo</button>
+      </form>
+    </div>
+
+    <div class="mb-10 rounded-xl border border-gold/20 bg-wine-black/30 p-4 sm:p-5">
+      <p class="text-cream font-medium mb-1">Video institucional de la historia</p>
+      <p class="text-stone text-xs mb-4">Pegá el enlace directo a un video (.mp4, .webm, o la URL de Cloudinary) o subí uno desde tu dispositivo. Se muestra en la sección “Nuestra historia contada por el dueño”. Dejalo vacío y guardá para ocultar la sección.</p>
+      <form id="story-video-form" novalidate class="space-y-3">
+        <div>
+          <label for="story-video-url" class="block text-xs text-stone mb-1">Enlace del video (https://…)</label>
+          <input type="url" id="story-video-url" inputmode="url" autocomplete="off" placeholder="https://res.cloudinary.com/…/video.mp4" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm placeholder:text-stone/50 focus:border-gold">
+        </div>
+        <div>
+          <label for="story-video-file" class="block text-xs text-stone mb-1">…o subir un video desde tu computadora o celular (máx. 100 MB)</label>
+          <input type="file" id="story-video-file" accept="video/*" class="w-full text-stone text-sm">
+        </div>
+        <p id="story-video-status" class="text-stone text-xs" role="status"></p>
+        <div class="flex flex-wrap gap-3">
+          <button type="submit" id="story-video-submit" class="rounded-full bg-gold px-5 py-2.5 text-wine-black text-sm font-medium hover:bg-gold-soft transition-colors disabled:opacity-60">Guardar video</button>
+          <button type="button" id="story-video-clear" class="rounded-full border border-garnet-light/60 px-5 py-2.5 text-red-300 text-sm hover:bg-garnet hover:text-cream transition-colors disabled:opacity-60">Quitar video</button>
+        </div>
       </form>
     </div>
 
@@ -1577,7 +1799,7 @@
       if (Math.abs(dx) > 40) goTo(index + (dx < 0 ? 1 : -1));
     }, { passive: true });
 
-    return { open, close, goTo, stopAllVideos, isOpen: () => !modal.classList.contains("hidden") };
+    return { open, close, goTo, prev: () => goTo(index - 1), next: () => goTo(index + 1), stopAllVideos, isOpen: () => !modal.classList.contains("hidden") };
   }
 
   const productCarousel = createMediaCarousel({
@@ -1616,14 +1838,14 @@
   // Keyboard navigation for open modals
   document.addEventListener("keydown", (e) => {
     if (productCarousel.isOpen()) {
-      if (e.key === "ArrowLeft") productCarousel.goTo(-1);
-      else if (e.key === "ArrowRight") productCarousel.goTo(1);
+      if (e.key === "ArrowLeft") productCarousel.prev();
+      else if (e.key === "ArrowRight") productCarousel.next();
     } else if (promoCarousel.isOpen()) {
-      if (e.key === "ArrowLeft") promoCarousel.goTo(-1);
-      else if (e.key === "ArrowRight") promoCarousel.goTo(1);
+      if (e.key === "ArrowLeft") promoCarousel.prev();
+      else if (e.key === "ArrowRight") promoCarousel.next();
     } else if (eventCarousel.isOpen()) {
-      if (e.key === "ArrowLeft") eventCarousel.goTo(-1);
-      else if (e.key === "ArrowRight") eventCarousel.goTo(1);
+      if (e.key === "ArrowLeft") eventCarousel.prev();
+      else if (e.key === "ArrowRight") eventCarousel.next();
     }
   });
 
@@ -1674,7 +1896,7 @@
           </div>
         </div>`;
       }
-      return `<img src="${escapeHtml(m.url)}" alt="${escapeHtml(alt)}" loading="lazy" class="w-full h-full object-cover${zoomCls}">`;
+      return `<img src="${escapeHtml(m.url)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" class="w-full h-full object-cover${zoomCls}">`;
     }
     const slides = media.map((m, i) => {
       const vis = i === 0 ? "opacity-100" : "opacity-0 pointer-events-none";
@@ -1686,7 +1908,7 @@
           </div>
         </div>`;
       }
-      return `<img data-slide data-media-type="image" src="${escapeHtml(m.url)}" alt="${escapeHtml(alt)}" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${vis}">`;
+      return `<img data-slide data-media-type="image" src="${escapeHtml(m.url)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${vis}">`;
     }).join("");
     const dots = media.map((_, i) => `<span data-dot class="${i === 0 ? DOT_ON : DOT_OFF}"></span>`).join("");
     return `<div data-auto-slider class="relative w-full h-full${zoomCls}">${slides}<div class="absolute bottom-3 inset-x-0 flex justify-center gap-1.5 pointer-events-none">${dots}</div></div>`;
@@ -1907,7 +2129,7 @@
           const div = document.createElement("div");
           div.className = "cart-item-card flex items-start gap-4 bg-wine-black/40 p-4 rounded-xl border border-gold/10";
           div.innerHTML = `
-            <img src="${escapeHtml(getImages(prod)[0] || "")}" alt="" class="w-16 h-16 object-cover rounded-lg border border-gold/15 shrink-0 bg-wine-black">
+            <img src="${escapeHtml(getImages(prod)[0] || "")}" alt="" loading="lazy" decoding="async" class="w-16 h-16 object-cover rounded-lg border border-gold/15 shrink-0 bg-wine-black">
             <div class="flex-1 min-w-0">
               <p class="text-cream text-sm font-medium truncate">${escapeHtml(prod.titulo)}</p>
               <p class="text-gold-soft text-sm font-display mt-0.5">${p === null ? "Consultar precio" : formatPrice(p)}</p>
@@ -3319,7 +3541,7 @@
   try { applySiteLogo(localStorage.getItem(LOGO_CACHE_KEY)); } catch (_) { }
   if (SETTINGS_REF) {
     onSnapshot(SETTINGS_REF, (snap) => {
-      if (snap.exists()) applySiteLogo(snap.data().logoUrl);
+      if (snap.exists()) { const sd = snap.data(); applySiteLogo(sd.logoUrl); applyStoryVideo(sd.videoUrl); }
     }, (error) => console.warn("[settings]", error));
   }
 
@@ -3363,6 +3585,268 @@
       }
     });
   }
+
+
+  /* ============================================================
+   *  VIDEO INSTITUCIONAL — reproductor personalizado + admin
+   *  Fuente: settings/general.videoUrl (Firestore)
+   * ============================================================ */
+  const VIDEO_CACHE_KEY = "clubStoryVideoUrl";
+  const STORY_VIDEO_MAX_BYTES = 100 * 1024 * 1024;
+
+  function isValidVideoUrl(url) {
+    if (typeof url !== "string" || !url.trim()) return false;
+    try { return new URL(url.trim()).protocol === "https:"; } catch (_) { return false; }
+  }
+  function isEmbedOnlyUrl(url) {
+    return /(^|\/\/|\.)(youtube\.com|youtu\.be|vimeo\.com|facebook\.com|instagram\.com|tiktok\.com)\b/i.test(url);
+  }
+  async function uploadStoryVideoToCloudinary(file) {
+    if (file.size > STORY_VIDEO_MAX_BYTES) throw new Error("El video supera los 100 MB.");
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    const response = await fetch(CLOUDINARY_VIDEO_URL, { method: "POST", body: formData });
+    if (!response.ok) throw new Error("No se pudo subir el video.");
+    const data = await response.json();
+    if (!data.secure_url) throw new Error("Cloudinary no devolvió una URL válida.");
+    return data.secure_url;
+  }
+
+  const storySection = document.getElementById("historia-video");
+  const storyPlayer = document.getElementById("story-player");
+  const storyVideo = document.getElementById("story-video");
+  const storyBigPlay = document.getElementById("story-bigplay");
+  const storyPlayBtn = document.getElementById("story-play");
+  const storySeek = document.getElementById("story-seek");
+  const storyVolume = document.getElementById("story-volume");
+  const storyMuteBtn = document.getElementById("story-mute");
+  const storyFsBtn = document.getElementById("story-fs");
+  const storyTime = document.getElementById("story-time");
+  let currentStoryUrl = "";
+  let storySeeking = false;
+  let storyIdleTimer = null;
+
+  function fmtClock(t) {
+    if (!isFinite(t) || t < 0) t = 0;
+    const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = Math.floor(t % 60);
+    return h > 0 ? `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}` : `${m}:${String(s).padStart(2, "0")}`;
+  }
+  function setRangeFill(input, ratio) {
+    input.style.setProperty("--p", `${Math.min(Math.max(ratio, 0), 1) * 100}%`);
+  }
+  function updateStoryTime() {
+    const d = storyVideo.duration, t = storyVideo.currentTime;
+    storyTime.textContent = `${fmtClock(t)} / ${fmtClock(d)}`;
+    if (!storySeeking) {
+      const ratio = isFinite(d) && d > 0 ? t / d : 0;
+      storySeek.value = String(Math.round(ratio * 1000));
+      setRangeFill(storySeek, ratio);
+    }
+  }
+  function updateStoryPlayState() {
+    const playing = !storyVideo.paused && !storyVideo.ended;
+    storyPlayer.classList.toggle("is-playing", playing);
+    document.getElementById("story-icon-play").classList.toggle("hidden", playing);
+    document.getElementById("story-icon-pause").classList.toggle("hidden", !playing);
+    const label = playing ? "Pausar" : "Reproducir";
+    storyPlayBtn.setAttribute("aria-label", label);
+    storyBigPlay.setAttribute("aria-label", "Reproducir video");
+    if (!playing) { storyPlayer.classList.remove("idle"); clearTimeout(storyIdleTimer); }
+  }
+  function updateStoryVolumeState() {
+    const muted = storyVideo.muted || storyVideo.volume === 0;
+    document.getElementById("story-icon-vol").classList.toggle("hidden", muted);
+    document.getElementById("story-icon-muted").classList.toggle("hidden", !muted);
+    storyMuteBtn.setAttribute("aria-label", muted ? "Activar sonido" : "Silenciar");
+    const v = muted ? 0 : storyVideo.volume;
+    storyVolume.value = String(v);
+    setRangeFill(storyVolume, v);
+  }
+  function wakeStoryControls() {
+    storyPlayer.classList.remove("idle");
+    clearTimeout(storyIdleTimer);
+    if (!storyVideo.paused) storyIdleTimer = setTimeout(() => storyPlayer.classList.add("idle"), 2800);
+  }
+  function toggleStoryPlay() {
+    if (storyVideo.paused || storyVideo.ended) {
+      const p = storyVideo.play();
+      if (p && p.catch) p.catch(() => {});
+    } else storyVideo.pause();
+  }
+  function toggleStoryFullscreen() {
+    const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+    if (fsEl) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
+    if (storyPlayer.requestFullscreen) storyPlayer.requestFullscreen().catch(() => {});
+    else if (storyPlayer.webkitRequestFullscreen) storyPlayer.webkitRequestFullscreen();
+    else if (storyVideo.webkitEnterFullscreen) storyVideo.webkitEnterFullscreen(); // iPhone Safari
+  }
+
+  if (storyVideo) {
+    storyBigPlay.addEventListener("click", toggleStoryPlay);
+    storyPlayBtn.addEventListener("click", toggleStoryPlay);
+    storyVideo.addEventListener("click", toggleStoryPlay);
+    storyFsBtn.addEventListener("click", toggleStoryFullscreen);
+    storyVideo.addEventListener("dblclick", toggleStoryFullscreen);
+    storyMuteBtn.addEventListener("click", () => {
+      if (storyVideo.muted || storyVideo.volume === 0) { storyVideo.muted = false; if (storyVideo.volume === 0) storyVideo.volume = 0.6; }
+      else storyVideo.muted = true;
+    });
+    storyVolume.addEventListener("input", () => {
+      const v = Number(storyVolume.value);
+      storyVideo.volume = v;
+      storyVideo.muted = v === 0;
+    });
+    const endSeek = () => { storySeeking = false; };
+    storySeek.addEventListener("pointerdown", () => { storySeeking = true; });
+    storySeek.addEventListener("pointerup", endSeek);
+    storySeek.addEventListener("pointercancel", endSeek);
+    storySeek.addEventListener("change", endSeek);
+    storySeek.addEventListener("input", () => {
+      const d = storyVideo.duration;
+      const ratio = Number(storySeek.value) / 1000;
+      setRangeFill(storySeek, ratio);
+      if (isFinite(d) && d > 0) { storyVideo.currentTime = ratio * d; storyTime.textContent = `${fmtClock(ratio * d)} / ${fmtClock(d)}`; }
+    });
+    ["loadedmetadata", "durationchange", "timeupdate", "seeked"].forEach((ev) => storyVideo.addEventListener(ev, updateStoryTime));
+    ["play", "pause", "ended"].forEach((ev) => storyVideo.addEventListener(ev, () => { updateStoryPlayState(); wakeStoryControls(); }));
+    storyVideo.addEventListener("volumechange", updateStoryVolumeState);
+    storyVideo.addEventListener("waiting", () => storyPlayer.classList.add("is-loading"));
+    ["playing", "canplay", "loadeddata"].forEach((ev) => storyVideo.addEventListener(ev, () => storyPlayer.classList.remove("is-loading")));
+    storyVideo.addEventListener("error", () => {
+      if (!storyVideo.getAttribute("src")) return;
+      storyPlayer.classList.remove("is-loading");
+      storyPlayer.classList.add("has-error");
+    });
+    ["pointermove", "pointerdown", "touchstart", "keydown"].forEach((ev) => storyPlayer.addEventListener(ev, wakeStoryControls, { passive: true }));
+    updateStoryVolumeState();
+    updateStoryTime();
+  }
+
+  function applyStoryVideo(url) {
+    if (!storySection || !storyVideo) return;
+    const clean = typeof url === "string" ? url.trim() : "";
+    const urlInput = document.getElementById("story-video-url");
+    if (urlInput && document.activeElement !== urlInput) urlInput.value = isValidVideoUrl(clean) ? clean : "";
+    if (!isValidVideoUrl(clean)) {
+      if (currentStoryUrl) { storyVideo.pause(); storyVideo.removeAttribute("src"); storyVideo.load(); }
+      currentStoryUrl = "";
+      storySection.hidden = true;
+      try { localStorage.removeItem(VIDEO_CACHE_KEY); } catch (_) { }
+      return;
+    }
+    storySection.hidden = false;
+    if (clean === currentStoryUrl) return;
+    currentStoryUrl = clean;
+    storyPlayer.classList.remove("has-error", "is-playing", "is-loading");
+    storyVideo.src = clean;
+    storyVideo.load();
+    updateStoryPlayState();
+    updateStoryTime();
+    try { localStorage.setItem(VIDEO_CACHE_KEY, clean); } catch (_) { }
+  }
+  try { applyStoryVideo(localStorage.getItem(VIDEO_CACHE_KEY)); } catch (_) { }
+
+  /* ---- Admin: guardar / quitar el video (settings/general.videoUrl) ---- */
+  const storyVideoForm = document.getElementById("story-video-form");
+  if (storyVideoForm) {
+    const urlInput = document.getElementById("story-video-url");
+    const fileInput = document.getElementById("story-video-file");
+    const statusEl = document.getElementById("story-video-status");
+    const submitBtn = document.getElementById("story-video-submit");
+    const clearBtn = document.getElementById("story-video-clear");
+    let savingStory = false;
+
+    async function saveStoryVideoUrl(videoUrl) {
+      await setDoc(doc(adminDb, "settings", "general"), { videoUrl, actualizadoEn: serverTimestamp() }, { merge: true });
+    }
+    function setStoryBusy(busy) { savingStory = busy; submitBtn.disabled = busy; clearBtn.disabled = busy; }
+
+    fileInput.addEventListener("change", () => {
+      const f = fileInput.files[0];
+      statusEl.className = "text-stone text-xs";
+      statusEl.textContent = f ? `Seleccionado: ${f.name} (${(f.size / 1048576).toFixed(1)} MB)` : "";
+    });
+
+    storyVideoForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (savingStory) return;
+      if (!requireAdminSession()) return;
+      const file = fileInput.files[0];
+      let videoUrl = urlInput.value.trim();
+      statusEl.className = "text-stone text-xs";
+      if (!file) {
+        if (!videoUrl) { statusEl.textContent = "Pegá un enlace o elegí un video."; showToast("Pegá un enlace o elegí un video.", "error"); return; }
+        if (!isValidVideoUrl(videoUrl)) { statusEl.textContent = "El enlace debe empezar con https://"; showToast("El enlace del video debe empezar con https://", "error"); return; }
+        if (isEmbedOnlyUrl(videoUrl)) { statusEl.textContent = "YouTube/Vimeo no se pueden reproducir acá. Usá un enlace directo (.mp4) o subí el archivo."; showToast("Usá un enlace directo al archivo de video (.mp4) o subilo desde tu dispositivo.", "error"); return; }
+      } else if (!file.type.startsWith("video/")) {
+        statusEl.textContent = "El archivo debe ser un video."; showToast("El archivo debe ser un video.", "error"); return;
+      }
+      setStoryBusy(true);
+      try {
+        if (file) {
+          statusEl.textContent = "Subiendo video a Cloudinary… puede tardar unos minutos.";
+          videoUrl = await uploadStoryVideoToCloudinary(file);
+        }
+        statusEl.textContent = "Guardando…";
+        await saveStoryVideoUrl(videoUrl);
+        urlInput.value = videoUrl;
+        fileInput.value = "";
+        applyStoryVideo(videoUrl);
+        statusEl.className = "text-gold-soft text-xs";
+        statusEl.textContent = "Video guardado correctamente.";
+        showToast("Video institucional guardado.");
+      } catch (error) {
+        console.error("[video institucional]", error);
+        statusEl.className = "text-garnet-light text-xs";
+        statusEl.textContent = error && error.message && !error.code ? error.message : adminWriteErrorMessage(error);
+        showToast(statusEl.textContent, "error");
+      } finally {
+        setStoryBusy(false);
+      }
+    });
+
+    clearBtn.addEventListener("click", async () => {
+      if (savingStory) return;
+      if (!requireAdminSession()) return;
+      setStoryBusy(true);
+      try {
+        await saveStoryVideoUrl("");
+        urlInput.value = "";
+        fileInput.value = "";
+        applyStoryVideo("");
+        statusEl.className = "text-gold-soft text-xs";
+        statusEl.textContent = "Video quitado. La sección quedó oculta.";
+        showToast("Video institucional quitado.");
+      } catch (error) {
+        console.error("[video institucional]", error);
+        statusEl.className = "text-garnet-light text-xs";
+        statusEl.textContent = adminWriteErrorMessage(error);
+        showToast(adminWriteErrorMessage(error), "error");
+      } finally {
+        setStoryBusy(false);
+      }
+    });
+  }
+
+  /* ============================================================
+   *  APARICIÓN GRADUAL AL HACER SCROLL (IntersectionObserver)
+   * ============================================================ */
+  (function initReveal() {
+    if (!("IntersectionObserver" in window)) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.04 });
+    document.querySelectorAll("section:not(#inicio) > div, footer > div").forEach((el) => {
+      el.classList.add("reveal");
+      io.observe(el);
+    });
+  })();
 
   /* ============================================================
    *  AUTENTICACIÓN DE USUARIOS (Google + email/pass)
