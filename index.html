@@ -187,7 +187,7 @@
   button, a, input, select, textarea { touch-action: manipulation; }
 
   /* Tarjetas de catálogo / promos / eventos */
-  #products-grid > article, #promos-grid > article, #eventos-grid > article, #my-purchases-container > div {
+  #products-grid > article, #promos-grid > article, #eventos-grid > article {
     transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease;
     contain: layout paint;
   }
@@ -295,6 +295,15 @@
     .cda-big-play .ring { animation: none; }
     .btn-press, #products-grid > article, #promos-grid > article, #eventos-grid > article { transition: none; }
   }
+
+  body.age-locked > *:not(#age-gate) { visibility: hidden !important; pointer-events: none !important; }
+  body.age-locked #age-gate { visibility: visible !important; pointer-events: auto !important; }
+  #whatsapp-fab { transition: transform .2s ease, box-shadow .2s ease; }
+  #whatsapp-fab:hover { box-shadow: 0 8px 24px -6px rgba(37,211,102,.55); }
+  @media (max-width: 640px) {
+    #whatsapp-fab { bottom: 1rem; left: 1rem; width: 52px; height: 52px; }
+  }
+
 </style>
 
 <meta property="og:site_name" content="Club del Anfitrión">
@@ -386,6 +395,27 @@
 </head>
 
 <body class="font-sans text-cream antialiased selection:bg-gold selection:text-wine-black">
+
+<!-- VERIFICACIÓN DE EDAD -->
+<div id="age-gate" class="fixed inset-0 z-[300] flex items-center justify-center px-4" role="dialog" aria-modal="true" aria-labelledby="age-gate-title" style="background-color:#140b0c;background-image:radial-gradient(ellipse 90% 60% at 15% -10%,rgba(124,31,47,.35),transparent 60%)">
+  <div class="w-full max-w-md rounded-2xl border border-gold/25 bg-wine-panel p-8 sm:p-10 text-center shadow-2xl">
+    <div class="mx-auto h-20 w-20 rounded-full overflow-hidden border-2 border-gold/40 mb-6">
+      <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión" width="80" height="80" class="logo-circle w-full h-full" decoding="async">
+    </div>
+    <h1 id="age-gate-title" class="font-display text-3xl sm:text-4xl text-cream mb-2">Bienvenido a Club del Anfitrión</h1>
+    <p class="text-gold-soft label-serif text-lg mb-6">¿Sos mayor de 18 años?</p>
+    <p class="text-stone text-sm leading-relaxed mb-8 text-left">El consumo de bebidas alcohólicas está destinado exclusivamente a mayores de 18 años. El consumo de alcohol implica riesgos para la salud. Consumí con moderación y responsabilidad. Nunca conduzcas después de beber.</p>
+    <div class="flex flex-col sm:flex-row gap-3">
+      <button type="button" id="age-yes-btn" class="btn-press flex-1 rounded-full bg-gold px-6 py-3.5 text-wine-black font-medium hover:bg-gold-soft transition-colors">Sí, soy mayor de 18 años</button>
+      <button type="button" id="age-no-btn" class="btn-press flex-1 rounded-full border border-gold/40 px-6 py-3.5 text-gold-soft hover:bg-gold/10 transition-colors">No, soy menor de 18 años</button>
+    </div>
+    <div id="age-denied" class="hidden mt-6 rounded-xl border border-garnet-light/40 bg-wine-black/60 p-4 text-left">
+      <p class="text-cream font-medium mb-2">Acceso restringido</p>
+      <p class="text-stone text-sm leading-relaxed">Este sitio comercializa bebidas alcohólicas y está destinado únicamente a mayores de 18 años. Si sos menor, te pedimos que abandones el sitio. Gracias por tu comprensión.</p>
+    </div>
+  </div>
+</div>
+
 <div id="toast-container" aria-live="polite"></div>
 
 <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300 border-b border-transparent">
@@ -397,22 +427,25 @@
       <span class="hidden xl:block font-display text-lg text-cream">Club <span class="italic text-gold-soft">del Anfitrión</span></span>
     </a>
 
-    <ul class="nav-horizontal hidden md:flex items-center gap-5 lg:gap-7 text-sm text-stone">
+    <ul class="nav-horizontal hidden md:flex items-center gap-3 lg:gap-5 text-sm text-stone flex-wrap justify-end">
       <li><a href="#inicio" class="hover:text-gold-soft transition-colors">Inicio</a></li>
-      <li><a href="#galeria" class="hover:text-gold-soft transition-colors">Galería</a></li>
+      <li><a href="#productos" class="hover:text-gold-soft transition-colors font-medium text-gold-soft">Catálogo</a></li>
+      <li><a href="#promociones" class="hover:text-gold-soft transition-colors">Promociones</a></li>
+      <li><a href="#regaleria" class="hover:text-gold-soft transition-colors">Regalería</a></li>
+      <li><a href="#eventos" class="hover:text-gold-soft transition-colors">Eventos</a></li>
+      <li><a href="#reservas" class="hover:text-gold-soft transition-colors">Reservas</a></li>
       <li><a href="#quienes-somos" class="hover:text-gold-soft transition-colors">Quiénes somos</a></li>
       <li><a href="#ubicacion" class="hover:text-gold-soft transition-colors">Ubicación</a></li>
-      <li><a href="#reservas" class="hover:text-gold-soft transition-colors">Reservas</a></li>
-      <li><a href="#eventos" class="hover:text-gold-soft transition-colors">Eventos</a></li>
-      <li><a href="#productos" class="hover:text-gold-soft transition-colors">Productos</a></li>
-      <li><a href="#mis-compras" class="hover:text-gold-soft transition-colors font-medium text-gold-soft">Mis compras</a></li>
+      <li><a href="#club-clientes" class="hover:text-gold-soft transition-colors">Club de clientes</a></li>
+      <li id="nav-canjes-li" class="hidden"><a href="#canjes" class="hover:text-gold-soft transition-colors">Canjes</a></li>
     </ul>
 
     <div class="flex items-center gap-2 sm:gap-3">
-      <a href="#reservas" class="hidden lg:inline-flex items-center rounded-full border border-gold px-4 py-2 text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors whitespace-nowrap">
-        Reservar
-      </a>
-      <button id="auth-open-btn" class="relative z-[70] inline-flex items-center rounded-full border border-gold/50 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors whitespace-nowrap" type="button">Ingresar</button>
+      <button id="nav-cart-btn" type="button" class="relative z-[70] inline-flex items-center justify-center rounded-full border border-gold/50 p-2.5 text-gold-soft hover:bg-gold hover:text-wine-black transition-colors" aria-label="Abrir carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span id="nav-cart-badge" class="absolute -top-1 -right-1 bg-garnet-light text-white text-[10px] font-bold min-w-[1.25rem] h-5 px-1 flex items-center justify-center rounded-full">0</span>
+      </button>
+      <button id="auth-open-btn" class="relative z-[70] inline-flex items-center rounded-full border border-gold/50 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors whitespace-nowrap" type="button">Iniciar sesión</button>
       <button id="menu-toggle" class="md:hidden text-cream relative z-[70] p-1" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
         <svg id="icon-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         <svg id="icon-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="hidden"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -423,13 +456,16 @@
   <div id="mobile-menu" class="md:hidden hidden bg-wine-black/95 border-t border-gold/20">
     <ul class="flex flex-col px-6 py-4 gap-4 text-stone text-base">
       <li><a href="#inicio" class="block py-1 hover:text-gold-soft">Inicio</a></li>
-      <li><a href="#galeria" class="block py-1 hover:text-gold-soft">Galería</a></li>
+      <li><a href="#productos" class="block py-1 text-gold-soft font-medium">Catálogo</a></li>
+      <li><a href="#promociones" class="block py-1 hover:text-gold-soft">Promociones</a></li>
+      <li><a href="#regaleria" class="block py-1 hover:text-gold-soft">Regalería</a></li>
+      <li><a href="#eventos" class="block py-1 hover:text-gold-soft">Eventos</a></li>
+      <li><a href="#reservas" class="block py-1 hover:text-gold-soft">Reservas</a></li>
       <li><a href="#quienes-somos" class="block py-1 hover:text-gold-soft">Quiénes somos</a></li>
       <li><a href="#ubicacion" class="block py-1 hover:text-gold-soft">Ubicación y horarios</a></li>
-      <li><a href="#reservas" class="block py-1 hover:text-gold-soft">Reservas</a></li>
-      <li><a href="#eventos" class="block py-1 hover:text-gold-soft">Próximos eventos</a></li>
-      <li><a href="#productos" class="block py-1 hover:text-gold-soft">Nuestros productos</a></li>
-      <li><a href="#mis-compras" class="block py-1 text-gold-soft font-medium">Mis compras</a></li>
+      <li><a href="#club-clientes" class="block py-1 hover:text-gold-soft">Club de clientes</a></li>
+      <li id="nav-canjes-mobile-li" class="hidden"><a href="#canjes" class="block py-1 hover:text-gold-soft">Canjes</a></li>
+      <li><a href="#galeria" class="block py-1 hover:text-gold-soft">Galería</a></li>
     </ul>
   </div>
 </header>
@@ -488,7 +524,7 @@
           <img loading="lazy" decoding="async" src="https://i.postimg.cc/4dbknkLZ/Whats-App-Image-2026-09-02-at-22-10-20.jpg" alt="Interior del Establecimiento" class="w-full h-full object-cover">
         </div>
         <div class="p-5">
-          <p class="text-cream font-medium">El salón por dentro</p>
+          <p class="text-cream font-medium">Nuestro showroom</p>
           <p class="text-stone text-xs mt-1">Espacio cálido y ambientado.</p>
         </div>
       </div>
@@ -499,19 +535,10 @@
         </div>
         <div class="p-5">
           <p class="text-cream font-medium">Atención personalizada</p>
-          <p class="text-stone text-xs mt-1">Muy buena atención por parte de los dueños.</p>
+          <p class="text-stone text-xs mt-1">Atención personalizada en cada visita.</p>
         </div>
       </div>
 
-      <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
-        <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
-          <img loading="lazy" decoding="async" src="https://i.postimg.cc/qRCznBhp/AHRPTWk87b-Festy6Gu-WHPdhku7he-Gz-GZv-F-c3J9rk5Lpv25NM1Pez-PFC9l-MOc7AIw-O22m-K6Ton-Bkim-Il-O6oz-Rn.jpg" alt="Detalles de la vinoteca" class="w-full h-full object-cover">
-        </div>
-        <div class="p-5">
-          <p class="text-cream font-medium">Detalles únicos</p>
-          <p class="text-stone text-xs mt-1">Etiquetas y selección.</p>
-        </div>
-      </div>
 
       <div class="rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col">
         <div class="aspect-[4/3] overflow-hidden bg-wine-black relative">
@@ -751,24 +778,117 @@
   </div>
 </section>
 
-<section id="mis-compras" class="relative py-28 lg:py-36 bg-wine-dark/60 border-t border-gold/10">
-  <div class="max-w-4xl mx-auto px-6 lg:px-10">
-    <p class="label-serif text-gold-soft text-lg mb-4 text-center">Seguimiento de pedidos</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4 text-balance">Mis compras</h2>
-    <p class="text-stone text-center max-w-lg mx-auto mb-12">
-      Consultá el estado de tus pedidos recientes y tu código de retiro ingresando tu DNI o buscándolo en este dispositivo.
-    </p>
 
-    <div class="flex flex-col sm:flex-row gap-3 mb-10 max-w-lg mx-auto">
-      <input type="text" id="filter-dni" placeholder="Ingresá tu DNI para buscar..." class="flex-1 rounded-full bg-wine-black/60 border border-gold/20 px-5 py-3 text-cream placeholder:text-stone/50 focus:border-gold text-sm">
-      <button id="filter-dni-btn" class="btn-press rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors text-sm">Buscar compras</button>
+<section id="regaleria" class="relative py-28 lg:py-36 bg-wine-dark/40 border-y border-gold/10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <p class="label-serif text-gold-soft text-lg mb-4">Regalos con criterio</p>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-4 text-balance">Regalería</h2>
+    <p class="text-stone max-w-2xl mb-10">Encontrá el detalle ideal para cada ocasión. Filtrá por presupuesto y por tipo de regalo.</p>
+    <div class="mb-6">
+      <p class="text-cream text-sm font-medium mb-3">Por presupuesto</p>
+      <div id="reg-budget-filters" class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por presupuesto">
+        <button type="button" data-budget="" class="reg-chip rounded-full border border-gold px-4 py-2 text-sm text-wine-black bg-gold font-medium">Todos</button>
+        <button type="button" data-budget="20000" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Hasta $20.000</button>
+        <button type="button" data-budget="50000" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Hasta $50.000</button>
+        <button type="button" data-budget="50001" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Más de $50.000</button>
+      </div>
     </div>
-
-    <div id="my-purchases-container" class="space-y-4">
-      <p class="text-stone text-center py-8">No hay compras registradas en este dispositivo o con ese DNI.</p>
+    <div class="mb-10">
+      <p class="text-cream text-sm font-medium mb-3">Por ocasión</p>
+      <div id="reg-occasion-filters" class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por ocasión">
+        <button type="button" data-occasion="" class="reg-chip rounded-full border border-gold px-4 py-2 text-sm text-wine-black bg-gold font-medium">Todas</button>
+        <button type="button" data-occasion="cumpleanos" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Cumpleaños</button>
+        <button type="button" data-occasion="empresarial" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Regalos empresariales</button>
+        <button type="button" data-occasion="padre" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Día del Padre</button>
+        <button type="button" data-occasion="madre" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Día de la Madre</button>
+        <button type="button" data-occasion="amigo" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Día del Amigo</button>
+        <button type="button" data-occasion="aniversario" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Aniversarios</button>
+        <button type="button" data-occasion="especial" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Celebraciones especiales</button>
+        <button type="button" data-occasion="otras" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Otras ocasiones</button>
+      </div>
+    </div>
+    <div id="regaleria-empty" class="hidden text-stone text-center py-12">No hay productos de regalería con esos filtros.</div>
+    <div id="regaleria-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16"></div>
+    <div class="rounded-2xl border border-gold/20 bg-wine-panel/50 p-8 sm:p-10">
+      <p class="label-serif text-gold-soft text-lg mb-2">Regalos empresariales</p>
+      <h3 class="font-display text-2xl sm:text-3xl text-cream mb-4">Packaging y cotizaciones a medida</h3>
+      <p class="text-stone leading-relaxed mb-6 max-w-2xl">Armamos propuestas para empresas: selección de vinos y delicatessen, packaging personalizado y consultas por cantidades.</p>
+      <a href="https://wa.me/5493537513148?text=%C2%A1Hola!%20Quiero%20consultar%20por%20regalos%20empresariales%20y%20cotizaci%C3%B3n%20personalizada." target="_blank" rel="noopener noreferrer" class="btn-press inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Consultar por WhatsApp</a>
     </div>
   </div>
 </section>
+
+<section id="club-clientes" class="relative py-28 lg:py-36">
+  <div class="max-w-4xl mx-auto px-6 lg:px-10">
+    <p class="label-serif text-gold-soft text-lg mb-4 text-center">Fidelización</p>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight text-center mb-4 text-balance">Club de Clientes</h2>
+    <p class="text-stone text-center max-w-xl mx-auto mb-12 leading-relaxed">Un programa pensado para quienes nos visitan en el local. Registrá tus datos y preparate para futuros beneficios y recompensas.</p>
+    <div id="club-guest" class="rounded-2xl border border-gold/15 bg-wine-panel/50 p-8 text-center">
+      <p class="text-cream mb-4">Iniciá sesión o creá tu cuenta para adherirte al Club de Clientes.</p>
+      <button type="button" id="club-open-auth" class="btn-press rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Iniciar sesión / Registrarme</button>
+    </div>
+    <div id="club-incomplete" class="hidden rounded-2xl border border-gold/25 bg-wine-panel/60 p-8">
+      <p class="text-gold-soft font-medium mb-2">¡Ya sos parte de nuestra comunidad!</p>
+      <p class="text-stone text-sm leading-relaxed mb-6">Completá tus datos para adherirte al Club de Clientes y prepararte para disfrutar de futuros beneficios y recompensas.</p>
+      <form id="club-profile-form" novalidate class="grid sm:grid-cols-2 gap-4 text-left">
+        <div>
+          <label for="club-nombre" class="block text-sm text-stone mb-1.5">Nombre</label>
+          <input type="text" id="club-nombre" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
+        </div>
+        <div>
+          <label for="club-apellido" class="block text-sm text-stone mb-1.5">Apellido</label>
+          <input type="text" id="club-apellido" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
+        </div>
+        <div class="sm:col-span-2">
+          <label for="club-dni" class="block text-sm text-stone mb-1.5">DNI</label>
+          <input type="text" id="club-dni" inputmode="numeric" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Solo números">
+        </div>
+        <div class="sm:col-span-2">
+          <p class="text-stone text-xs mb-3">El correo se toma de tu cuenta. El DNI identifica tus compras en el local.</p>
+          <button type="submit" id="club-save-btn" class="btn-press w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Completar mis datos</button>
+        </div>
+      </form>
+      <p id="club-form-msg" class="mt-3 text-sm text-gold-soft" role="status"></p>
+    </div>
+    <div id="club-complete" class="hidden rounded-2xl border border-gold/20 bg-wine-panel/50 p-8">
+      <div class="flex items-start gap-4 mb-6">
+        <img id="club-avatar" src="" alt="" class="hidden h-16 w-16 rounded-full object-cover border border-gold/30">
+        <div>
+          <p class="text-cream font-display text-2xl" id="club-display-name"></p>
+          <p class="text-stone text-sm" id="club-display-email"></p>
+          <p class="text-stone text-sm mt-1">DNI: <span id="club-display-dni"></span></p>
+          <p class="mt-2 inline-flex items-center gap-1.5 rounded-full bg-gold/15 border border-gold/30 px-3 py-1 text-xs text-gold-soft">Adherido al Club de Clientes</p>
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-4 mb-4">
+        <div class="rounded-xl border border-gold/15 bg-wine-black/40 p-4 text-center">
+          <p class="text-stone text-xs mb-1">Puntos acumulados</p>
+          <p class="font-display text-2xl text-gold-soft" id="club-points">—</p>
+          <p class="text-stone text-[11px] mt-1">Próximamente</p>
+        </div>
+        <div class="rounded-xl border border-gold/15 bg-wine-black/40 p-4 text-center">
+          <p class="text-stone text-xs mb-1">Beneficios</p>
+          <p class="font-display text-lg text-cream">En preparación</p>
+        </div>
+        <div class="rounded-xl border border-gold/15 bg-wine-black/40 p-4 text-center">
+          <p class="text-stone text-xs mb-1">Historial</p>
+          <p class="font-display text-lg text-cream">Sin movimientos</p>
+        </div>
+      </div>
+      <p class="text-stone text-xs leading-relaxed">Los puntos se acreditarán según las compras en el local, con reglas que comunicaremos oportunamente.</p>
+    </div>
+  </div>
+</section>
+
+<section id="canjes" class="relative py-28 lg:py-36 bg-wine-dark/60 border-y border-gold/10 hidden" aria-hidden="true">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <p class="label-serif text-gold-soft text-lg mb-4">Recompensas</p>
+    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-4 text-balance">Canjes</h2>
+    <p class="text-stone max-w-xl mb-12">Productos de recompensa del Club de Clientes. El canje real se habilitará cuando el sistema de puntos esté activo.</p>
+    <div id="canjes-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+  </div>
+</section>
+
 
 <!-- AUTENTICACIÓN -->
 <div id="auth-modal" class="hidden fixed inset-0 z-[120] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6 overflow-y-auto">
@@ -867,8 +987,7 @@
         <li><a href="#reservas" class="hover:text-gold-soft">Reservas</a></li>
         <li><a href="#eventos" class="hover:text-gold-soft">Próximos eventos</a></li>
         <li><a href="#productos" class="hover:text-gold-soft">Nuestros productos</a></li>
-        <li><a href="#mis-compras" class="hover:text-gold-soft">Mis compras</a></li>
-      </ul>
+              </ul>
     </div>
 
     <div>
@@ -886,7 +1005,12 @@
   </div>
 </footer>
 
-<button id="cart-fab" class="hidden fixed bottom-6 right-6 bg-gold text-wine-black w-14 h-14 rounded-full shadow-[0_0_15px_rgba(201,162,75,0.4)] z-[75] flex items-center justify-center hover:scale-105 transition-transform">
+
+<a id="whatsapp-fab" href="https://wa.me/5493537513148" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 left-6 z-[76] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/30 hover:scale-105 transition-transform" aria-label="Escribinos por WhatsApp" title="¿Necesitás ayuda? Escribinos">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<button id="cart-fab" class="hidden fixed bottom-6 right-6 md:hidden bg-gold text-wine-black w-14 h-14 rounded-full shadow-[0_0_15px_rgba(201,162,75,0.4)] z-[75] flex items-center justify-center hover:scale-105 transition-transform">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
   <span id="cart-badge" class="absolute -top-1 -right-1 bg-garnet-light text-white text-[10px] font-bold w-6 h-6 flex items-center justify-center rounded-full">0</span>
 </button>
@@ -1144,8 +1268,6 @@
       </form>
     </div>
 
-    <p class="text-stone text-sm mb-8">La gestión de solicitudes de compra está disponible en la página interna de pedidos.</p>
-    <a href="pedidos_admin_club_del_anfitrion.html" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full border border-gold/40 px-5 py-3 text-gold-soft text-sm mb-8 hover:bg-gold hover:text-wine-black">Abrir gestión de pedidos ↗</a>
 
     <div class="mb-10 rounded-xl border border-gold/20 bg-wine-black/30 p-4 sm:p-5">
       <p class="text-cream font-medium mb-1">Logotipo y favicon del sitio</p>
@@ -2254,7 +2376,7 @@
       const successModal = document.getElementById("order-success-modal");
       successModal.classList.remove("hidden");
       successModal.classList.add("flex");
-      loadMyPurchases(document.getElementById("filter-dni").value.trim());
+      /* loadMyPurchases removed */
     } catch (err) {
       console.error("[checkout]", err);
       showToast("Error al registrar la compra en Firebase.", "error");
@@ -2264,7 +2386,7 @@
   document.getElementById("success-close-btn").addEventListener("click", () => {
     document.getElementById("order-success-modal").classList.add("hidden");
     document.getElementById("order-success-modal").classList.remove("flex");
-    window.location.hash = "#mis-compras";
+    window.location.hash = "#productos";
   });
 
   /* ============================================================
@@ -2367,6 +2489,7 @@
       });
       startAutoSliders(productsGrid);
       setupCardVideoOverlays(productsGrid);
+      try { renderRegaleria(); } catch(_) {}
     }
   }
 
@@ -2608,9 +2731,9 @@
   /* ============================================================
    *  MIS COMPRAS
    * ============================================================ */
-  const myPurchasesContainer = document.getElementById("my-purchases-container");
-  const filterDniInput = document.getElementById("filter-dni");
-  const filterDniBtn = document.getElementById("filter-dni-btn");
+  const myPurchasesContainer = null;
+  const filterDniInput = null;
+  const filterDniBtn = null;
   let purchasesRequest = 0;
 
   async function fetchMyOrders() {
@@ -4099,7 +4222,7 @@
       authProfile.classList.remove("hidden");
       authFields.classList.add("hidden");
     } else {
-      authOpenBtn.textContent = "Ingresar";
+      authOpenBtn.textContent = "Iniciar sesión";
       authStatus.textContent = authRegisterView.classList.contains("hidden") ? "Ingresá o creá tu cuenta para continuar." : "Completá tus datos para crear tu cuenta.";
       authProfile.classList.add("hidden");
       authFields.classList.remove("hidden");
@@ -4110,9 +4233,199 @@
     onAuthStateChanged(auth, user => {
       if (registering) return;
       renderAuthState(user);
+      try { loadUserProfile(user); } catch(_) {}
       loadMyPurchases(filterDniInput.value.trim());
     });
   }
+
+
+  /* ---- AGE GATE ---- */
+  (function(){
+    const AGE_KEY = "cda_age_ok_v1";
+    const gate = document.getElementById("age-gate");
+    if (!gate) return;
+    try { if (localStorage.getItem(AGE_KEY) === "1") { gate.remove(); return; } } catch(_){}
+    document.body.classList.add("age-locked");
+    document.getElementById("age-yes-btn")?.addEventListener("click", () => {
+      try { localStorage.setItem(AGE_KEY, "1"); } catch(_){}
+      document.body.classList.remove("age-locked");
+      gate.remove();
+    });
+    document.getElementById("age-no-btn")?.addEventListener("click", () => {
+      document.getElementById("age-denied")?.classList.remove("hidden");
+      document.getElementById("age-yes-btn").disabled = true;
+      document.getElementById("age-no-btn").disabled = true;
+    });
+  })();
+
+  /* ---- NAV CART ---- */
+  document.getElementById("nav-cart-btn")?.addEventListener("click", () => {
+    document.getElementById("cart-overlay")?.classList.remove("hidden");
+    document.getElementById("cart-panel")?.classList.remove("translate-x-full");
+    document.getElementById("cart-fab")?.classList.remove("hidden");
+  });
+
+  /* Sync nav cart badge */
+  const _obsBadge = document.getElementById("cart-badge");
+  if (_obsBadge && window.MutationObserver) {
+    new MutationObserver(() => {
+      const nb = document.getElementById("nav-cart-badge");
+      if (nb) nb.textContent = _obsBadge.textContent || "0";
+    }).observe(_obsBadge, { childList: true, characterData: true, subtree: true });
+  }
+
+  /* ---- CLUB / CANJES / REGALERIA ---- */
+  let latestCanjes = [];
+  let userProfileCache = null;
+  let canjesCollection = null;
+  try { if (db) canjesCollection = collection(db, "canjes"); } catch(_){}
+
+  document.getElementById("club-open-auth")?.addEventListener("click", () => document.getElementById("auth-open-btn")?.click());
+
+  function isProfileComplete(p) {
+    if (!p) return false;
+    const dni = String(p.dni || "").replace(/\D/g, "");
+    return !!(p.nombre && p.apellido && dni.length >= 6 && dni.length <= 10);
+  }
+  async function loadUserProfile(user) {
+    if (!user || !db) { userProfileCache = null; renderClubUI(null, null); return; }
+    try {
+      const snap = await getDoc(doc(db, "usuarios", user.uid));
+      userProfileCache = snap.exists() ? snap.data() : null;
+      renderClubUI(user, userProfileCache);
+    } catch (e) { console.warn("[profile]", e); renderClubUI(user, null); }
+  }
+  function renderClubUI(user, profile) {
+    const guest = document.getElementById("club-guest");
+    const incomplete = document.getElementById("club-incomplete");
+    const complete = document.getElementById("club-complete");
+    if (!guest) return;
+    if (!user) { guest.classList.remove("hidden"); incomplete?.classList.add("hidden"); complete?.classList.add("hidden"); return; }
+    guest.classList.add("hidden");
+    if (isProfileComplete(profile)) {
+      incomplete?.classList.add("hidden");
+      complete?.classList.remove("hidden");
+      document.getElementById("club-display-name").textContent = `${profile.nombre||""} ${profile.apellido||""}`.trim();
+      document.getElementById("club-display-email").textContent = user.email || profile.email || "";
+      document.getElementById("club-display-dni").textContent = profile.dni || "—";
+      document.getElementById("club-points").textContent = typeof profile.puntos === "number" ? String(profile.puntos) : "—";
+      const av = document.getElementById("club-avatar");
+      if (user.photoURL) { av.src = user.photoURL; av.classList.remove("hidden"); } else av?.classList.add("hidden");
+    } else {
+      complete?.classList.add("hidden");
+      incomplete?.classList.remove("hidden");
+      document.getElementById("club-nombre").value = profile?.nombre || (user.displayName||"").split(" ")[0] || "";
+      document.getElementById("club-apellido").value = profile?.apellido || (user.displayName||"").split(" ").slice(1).join(" ") || "";
+      document.getElementById("club-dni").value = profile?.dni || "";
+    }
+  }
+  document.getElementById("club-profile-form")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const user = auth?.currentUser;
+    if (!user) { showToast("Iniciá sesión primero.", "error"); return; }
+    const nombre = document.getElementById("club-nombre").value.trim();
+    const apellido = document.getElementById("club-apellido").value.trim();
+    const dni = document.getElementById("club-dni").value.trim().replace(/\D/g, "");
+    const msg = document.getElementById("club-form-msg");
+    if (!nombre || !apellido) { msg.textContent = "Completá nombre y apellido."; return; }
+    if (dni.length < 6 || dni.length > 10) { msg.textContent = "DNI inválido (6 a 10 dígitos)."; return; }
+    const btn = document.getElementById("club-save-btn");
+    btn.disabled = true; msg.textContent = "Guardando…";
+    try {
+      await setDoc(doc(db, "usuarios", user.uid), {
+        nombre, apellido, email: user.email || "", dni, clubAdherido: true, puntos: 0, actualizadoEn: serverTimestamp()
+      }, { merge: true });
+      userProfileCache = { ...(userProfileCache||{}), nombre, apellido, email: user.email, dni, clubAdherido: true, puntos: 0 };
+      renderClubUI(user, userProfileCache);
+      showToast("Datos guardados. ¡Bienvenido al Club de Clientes!");
+      msg.textContent = "";
+    } catch (err) {
+      console.error(err);
+      msg.textContent = "Error al guardar. Hace falta actualizar las reglas de Firestore (usuarios: allow update propio).";
+      showToast("Error al guardar perfil. Ver informe de reglas.", "error");
+    } finally { btn.disabled = false; }
+  });
+
+  function updateCanjesVisibility() {
+    const section = document.getElementById("canjes");
+    const available = latestCanjes.filter(c => c.disponible !== false);
+    const show = available.length > 0;
+    section?.classList.toggle("hidden", !show);
+    section?.setAttribute("aria-hidden", show ? "false" : "true");
+    document.getElementById("nav-canjes-li")?.classList.toggle("hidden", !show);
+    document.getElementById("nav-canjes-mobile-li")?.classList.toggle("hidden", !show);
+    const grid = document.getElementById("canjes-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    available.forEach(c => {
+      const img = (c.imagenes && c.imagenes[0]) || c.imagenUrl || "";
+      const card = document.createElement("article");
+      card.className = "rounded-2xl overflow-hidden border border-gold/15 bg-wine-panel/50 flex flex-col";
+      card.innerHTML = `<div class="aspect-[4/5] overflow-hidden bg-wine-black">${img?`<img src="${img}" alt="" class="w-full h-full object-cover" loading="lazy" decoding="async">`:""}</div>
+        <div class="p-6 flex flex-col flex-1"><h3 class="font-display text-xl text-cream mb-1.5">${escapeHtml(c.titulo||"")}</h3>
+        <p class="text-stone text-sm flex-1 desc-clamp">${escapeHtml(c.descripcion||"")}</p>
+        <p class="mt-4 text-gold-soft font-display text-xl">${c.puntosNecesarios||0} puntos</p>
+        <p class="text-stone text-xs mt-2">Canje disponible cuando el sistema de puntos esté activo.</p></div>`;
+      grid.appendChild(card);
+    });
+  }
+  if (canjesCollection) {
+    onSnapshot(query(canjesCollection, orderBy("creadoEn", "desc")), (snap) => {
+      latestCanjes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      updateCanjesVisibility();
+    }, (err) => console.warn("[canjes]", err));
+  }
+
+  let regBudget = "", regOccasion = "";
+  function productMatchesOccasion(p, occ) {
+    if (!occ) return true;
+    const blob = `${p.titulo||""} ${p.descripcion||""} ${p.categoria||""} ${p.ocasion||""}`.toLowerCase();
+    const map = { cumpleanos:["cumple","cumpleaños"], empresarial:["empresa","corporat","empresarial"], padre:["padre","papá","papa"], madre:["madre","mamá","mama"], amigo:["amigo","amiga"], aniversario:["aniversario"], especial:["especial","celebración","celebracion"], otras:[] };
+    if (occ === "otras") return true;
+    return (map[occ]||[]).some(k => blob.includes(k)) || String(p.ocasion||"").toLowerCase() === occ;
+  }
+  function renderRegaleria() {
+    const grid = document.getElementById("regaleria-grid");
+    const empty = document.getElementById("regaleria-empty");
+    if (!grid || typeof latestProducts === "undefined") return;
+    let items = latestProducts.filter(p => {
+      const cat = String(p.categoria||"");
+      return /regal|gourmet/i.test(cat) || /regal/i.test(String(p.titulo||""));
+    });
+    if (items.length === 0) items = latestProducts.filter(p => p.disponible !== false);
+    if (regBudget === "20000") items = items.filter(p => hasValidPrice(p.precio) && Number(p.precio) <= 20000);
+    else if (regBudget === "50000") items = items.filter(p => hasValidPrice(p.precio) && Number(p.precio) <= 50000);
+    else if (regBudget === "50001") items = items.filter(p => hasValidPrice(p.precio) && Number(p.precio) > 50000);
+    if (regOccasion) items = items.filter(p => productMatchesOccasion(p, regOccasion));
+    grid.innerHTML = "";
+    if (!items.length) { empty?.classList.remove("hidden"); return; }
+    empty?.classList.add("hidden");
+    items.forEach(p => { if (p.titulo && typeof renderProductCard === "function") grid.appendChild(renderProductCard(p)); });
+    if (typeof startAutoSliders === "function") startAutoSliders(grid);
+    if (typeof setupCardVideoOverlays === "function") setupCardVideoOverlays(grid);
+  }
+  function wireReg(id, attr, setFn) {
+    document.getElementById(id)?.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-"+attr+"]");
+      if (!btn) return;
+      const val = btn.getAttribute("data-"+attr) || "";
+      setFn(val);
+      document.getElementById(id).querySelectorAll("button").forEach(b => {
+        const on = (b.getAttribute("data-"+attr)||"") === val;
+        b.className = on ? "reg-chip rounded-full border border-gold px-4 py-2 text-sm text-wine-black bg-gold font-medium" : "reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60";
+      });
+      renderRegaleria();
+    });
+  }
+  wireReg("reg-budget-filters", "budget", v => regBudget = v);
+  wireReg("reg-occasion-filters", "occasion", v => regOccasion = v);
+
+  // Hook product render
+  const __rfp = typeof renderFilteredProducts === "function" ? renderFilteredProducts : null;
+  if (typeof renderFilteredProducts === "function") {
+    /* will call renderRegaleria from products snapshot path via try below */
+  }
+
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
