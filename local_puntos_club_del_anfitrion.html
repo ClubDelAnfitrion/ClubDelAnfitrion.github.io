@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Local · Puntos | Club del Anfitrión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          "wine-black": "#140b0c", "wine-dark": "#1e1114", "wine-panel": "#26161a",
+          "burgundy": "#5c1128", "garnet": "#7c1f2f", "garnet-light": "#9c3244",
+          "gold": "#c9a24b", "gold-soft": "#e6cf9c", "cream": "#efe6d8", "stone": "#b4a293",
+        },
+        fontFamily: {
+          display: ['"Fraunces"', "serif"],
+          sans: ['"Inter"', "sans-serif"],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  body {
+    background-color: #140b0c;
+    background-image: radial-gradient(ellipse 90% 60% at 15% -10%, rgba(124,31,47,0.35), transparent 60%);
+  }
+  .hairline { background: linear-gradient(90deg, transparent, rgba(201,162,75,0.55), transparent); height: 1px; }
+  input:focus, button:focus-visible { outline: 2px solid #c9a24b; outline-offset: 2px; }
+  .btn-press { transition: transform .15s ease, background .2s; }
+  .btn-press:active { transform: scale(.97); }
+</style>
+</head>
+<body class="font-sans text-cream antialiased min-h-screen">
+
+<!-- LOGIN -->
+<div id="login-view" class="min-h-screen flex items-center justify-center px-4 py-10">
+  <div class="w-full max-w-md rounded-2xl border border-gold/25 bg-wine-panel p-8 shadow-2xl">
+    <p class="font-display text-gold-soft text-lg mb-1">Solo personal del local</p>
+    <h1 class="font-display text-3xl mb-2">Club del Anfitrión</h1>
+    <p class="text-stone text-sm mb-6">Ingresá con la cuenta de Firebase del local para gestionar puntos y canjes.</p>
+    <form id="login-form" class="space-y-4" novalidate>
+      <div>
+        <label for="login-email" class="block text-sm text-stone mb-1.5">Correo</label>
+        <input id="login-email" type="email" autocomplete="username" required
+          class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold" placeholder="correo@ejemplo.com">
+      </div>
+      <div>
+        <label for="login-pass" class="block text-sm text-stone mb-1.5">Contraseña</label>
+        <input id="login-pass" type="password" autocomplete="current-password" required
+          class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold">
+      </div>
+      <p id="login-error" class="hidden text-garnet-light text-sm"></p>
+      <button type="submit" id="login-btn" class="btn-press w-full rounded-full bg-gold px-6 py-3.5 text-wine-black font-medium hover:bg-gold-soft">Ingresar</button>
+    </form>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app-view" class="hidden min-h-screen">
+  <header class="border-b border-gold/15 bg-wine-dark/80 sticky top-0 z-20">
+    <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
+      <div>
+        <p class="font-display text-lg text-cream">Punto de atención · Local</p>
+        <p class="text-stone text-xs" id="staff-email"></p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button type="button" id="open-config-btn" class="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-soft hover:bg-gold/10">Config. puntos</button>
+        <button type="button" id="logout-btn" class="rounded-full border border-stone/30 px-3 py-1.5 text-xs text-stone hover:text-cream">Salir</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-8 space-y-6">
+    <!-- Buscar DNI -->
+    <section class="rounded-2xl border border-gold/20 bg-wine-panel/70 p-6">
+      <h2 class="font-display text-2xl mb-4">Cliente</h2>
+      <form id="dni-form" class="flex flex-col sm:flex-row gap-3" novalidate>
+        <input id="dni-input" type="text" inputmode="numeric" placeholder="DNI del cliente" required
+          class="flex-1 rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream text-lg tracking-wide focus:border-gold">
+        <button type="submit" class="btn-press rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft whitespace-nowrap">Buscar</button>
+      </form>
+      <p id="dni-msg" class="mt-3 text-sm text-stone" role="status"></p>
+    </section>
+
+    <!-- Registrar nuevo -->
+    <section id="register-box" class="hidden rounded-2xl border border-gold/25 bg-wine-panel p-6">
+      <h3 class="font-display text-xl text-gold-soft mb-2">Cliente no encontrado</h3>
+      <p class="text-stone text-sm mb-4">Registralo ahora en el Club de Clientes.</p>
+      <form id="register-form" class="grid sm:grid-cols-2 gap-4" novalidate>
+        <div>
+          <label class="block text-xs text-stone mb-1">Nombre</label>
+          <input id="reg-nombre" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-3 py-2.5 text-cream text-sm focus:border-gold">
+        </div>
+        <div>
+          <label class="block text-xs text-stone mb-1">Apellido</label>
+          <input id="reg-apellido" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-3 py-2.5 text-cream text-sm focus:border-gold">
+        </div>
+        <div>
+          <label class="block text-xs text-stone mb-1">DNI</label>
+          <input id="reg-dni" required inputmode="numeric" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-3 py-2.5 text-cream text-sm focus:border-gold">
+        </div>
+        <div>
+          <label class="block text-xs text-stone mb-1">Teléfono</label>
+          <input id="reg-tel" required type="tel" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-3 py-2.5 text-cream text-sm focus:border-gold">
+        </div>
+        <div class="sm:col-span-2">
+          <button type="submit" class="btn-press w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium">Registrar cliente</button>
+        </div>
+      </form>
+      <p id="reg-msg" class="mt-3 text-sm text-gold-soft"></p>
+    </section>
+
+    <!-- Ficha cliente -->
+    <section id="client-box" class="hidden rounded-2xl border border-gold/20 bg-wine-panel p-6 space-y-5">
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p class="text-stone text-xs uppercase tracking-wide mb-1">Cliente</p>
+          <h3 class="font-display text-3xl text-cream" id="cli-name">—</h3>
+          <p class="text-stone text-sm mt-1">DNI <span id="cli-dni"></span> · Tel. <span id="cli-tel"></span></p>
+        </div>
+        <div class="rounded-xl border border-gold/30 bg-wine-black/50 px-5 py-3 text-center min-w-[7rem]">
+          <p class="text-stone text-xs">Puntos</p>
+          <p class="font-display text-3xl text-gold-soft" id="cli-points">0</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button type="button" id="btn-compra" class="btn-press flex-1 rounded-full bg-gold px-5 py-3 text-wine-black font-medium hover:bg-gold-soft">Nueva compra</button>
+        <button type="button" id="btn-canje" class="btn-press flex-1 rounded-full border border-gold/50 px-5 py-3 text-gold-soft hover:bg-gold/10">Canjear puntos</button>
+      </div>
+
+      <!-- Compra -->
+      <div id="compra-panel" class="hidden rounded-xl border border-gold/15 bg-wine-black/40 p-4 space-y-3">
+        <p class="text-cream font-medium text-sm">Registrar compra y sumar puntos</p>
+        <p class="text-stone text-xs" id="rule-hint">Regla actual: —</p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input id="compra-monto" type="number" min="0" step="0.01" placeholder="Importe de la compra ($)"
+            class="flex-1 rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
+          <button type="button" id="compra-confirm" class="btn-press rounded-full bg-gold px-5 py-2.5 text-wine-black font-medium text-sm">Sumar puntos</button>
+        </div>
+        <p id="compra-msg" class="text-sm text-gold-soft"></p>
+      </div>
+
+      <!-- Canjes -->
+      <div id="canje-panel" class="hidden rounded-xl border border-gold/15 bg-wine-black/40 p-4 space-y-3">
+        <p class="text-cream font-medium text-sm">Productos para canjear</p>
+        <div id="canje-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+        <p id="canje-empty" class="hidden text-stone text-sm">No hay productos de canje disponibles por ahora.</p>
+        <p id="canje-msg" class="text-sm text-gold-soft"></p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Config puntos modal -->
+<div id="config-modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/80 px-4">
+  <div class="w-full max-w-sm rounded-2xl border border-gold/25 bg-wine-panel p-6 relative">
+    <button type="button" id="config-close" class="absolute top-3 right-3 text-stone hover:text-gold-soft">✕</button>
+    <h3 class="font-display text-xl mb-2">Equivalencia de puntos</h3>
+    <p class="text-stone text-xs mb-4">Definí cada cuántos pesos se acreditan cuántos puntos. Ejemplo: cada $1000 → 50 puntos.</p>
+    <form id="config-form" class="space-y-3" novalidate>
+      <div>
+        <label class="block text-xs text-stone mb-1">Cada (pesos $)</label>
+        <input id="cfg-pesos" type="number" min="1" step="1" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-3 py-2.5 text-cream text-sm">
+      </div>
+      <div>
+        <label class="block text-xs text-stone mb-1">Sumar (puntos)</label>
+        <input id="cfg-puntos" type="number" min="1" step="1" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-3 py-2.5 text-cream text-sm">
+      </div>
+      <p id="cfg-msg" class="text-xs text-gold-soft"></p>
+      <button type="submit" class="w-full rounded-full bg-gold px-4 py-2.5 text-wine-black font-medium text-sm">Guardar regla</button>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  import {
+    getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, addDoc,
+    query, where, orderBy, serverTimestamp, increment, limit
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyALsNxhMyC-GSQULpcj3CpwbDr81alvC0M",
+    authDomain: "clubdelanfitrion-8a6f1.firebaseapp.com",
+    projectId: "clubdelanfitrion-8a6f1",
+    storageBucket: "clubdelanfitrion-8a6f1.firebasestorage.app",
+    messagingSenderId: "187086724994",
+    appId: "1:187086724994:web:59e14efb3c355bd794b99b",
+    measurementId: "G-2DN0H1022S"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  let currentClient = null; // { id, data }
+  let puntosRule = { pesos: 1000, puntos: 50 };
+
+  const $ = (id) => document.getElementById(id);
+  const show = (el) => { el.classList.remove("hidden"); el.classList.add("flex"); };
+  const hide = (el) => { el.classList.add("hidden"); el.classList.remove("flex"); };
+
+  function onlyDigits(s) { return String(s || "").replace(/\D/g, ""); }
+
+  function calcPoints(monto) {
+    const pesos = Number(puntosRule.pesos) || 1000;
+    const pts = Number(puntosRule.puntos) || 0;
+    if (pesos <= 0 || pts <= 0) return 0;
+    return Math.floor(Number(monto) / pesos) * pts;
+  }
+
+  function updateRuleHint() {
+    $("rule-hint").textContent = `Regla actual: cada $${Number(puntosRule.pesos).toLocaleString("es-AR")} → ${puntosRule.puntos} puntos`;
+  }
+
+  async function loadPuntosRule() {
+    try {
+      const snap = await getDoc(doc(db, "settings", "puntos"));
+      if (snap.exists()) {
+        const d = snap.data();
+        if (d.pesosPorUnidad && d.puntosPorUnidad) {
+          puntosRule = { pesos: Number(d.pesosPorUnidad), puntos: Number(d.puntosPorUnidad) };
+        }
+      }
+    } catch (e) { console.warn("[rule]", e); }
+    updateRuleHint();
+    $("cfg-pesos").value = puntosRule.pesos;
+    $("cfg-puntos").value = puntosRule.puntos;
+  }
+
+  async function findClientByDni(dni) {
+    const q = query(collection(db, "usuarios"), where("dni", "==", dni), limit(5));
+    const snap = await getDocs(q);
+    if (snap.empty) return null;
+    const first = snap.docs[0];
+    return { id: first.id, data: first.data() };
+  }
+
+  function renderClient(client) {
+    currentClient = client;
+    $("register-box").classList.add("hidden");
+    $("client-box").classList.remove("hidden");
+    $("compra-panel").classList.add("hidden");
+    $("canje-panel").classList.add("hidden");
+    const d = client.data;
+    $("cli-name").textContent = `${d.nombre || ""} ${d.apellido || ""}`.trim() || "Sin nombre";
+    $("cli-dni").textContent = d.dni || "—";
+    $("cli-tel").textContent = d.telefono || d.tel || "—";
+    $("cli-points").textContent = String(typeof d.puntos === "number" ? d.puntos : 0);
+  }
+
+  // ---- Auth ----
+  $("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = $("login-email").value.trim();
+    const pass = $("login-pass").value;
+    $("login-error").classList.add("hidden");
+    $("login-btn").disabled = true;
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+    } catch (err) {
+      $("login-error").textContent = "No se pudo ingresar. Revisá correo y contraseña (cuenta Firebase).";
+      $("login-error").classList.remove("hidden");
+      console.error(err);
+    } finally {
+      $("login-btn").disabled = false;
+    }
+  });
+
+  $("logout-btn").addEventListener("click", () => signOut(auth));
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      $("login-view").classList.add("hidden");
+      $("app-view").classList.remove("hidden");
+      $("staff-email").textContent = user.email || "";
+      await loadPuntosRule();
+    } else {
+      $("app-view").classList.add("hidden");
+      $("login-view").classList.remove("hidden");
+      currentClient = null;
+    }
+  });
+
+  // ---- DNI search ----
+  $("dni-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const dni = onlyDigits($("dni-input").value);
+    $("dni-msg").textContent = "Buscando…";
+    $("client-box").classList.add("hidden");
+    $("register-box").classList.add("hidden");
+    currentClient = null;
+    if (dni.length < 6 || dni.length > 10) {
+      $("dni-msg").textContent = "DNI inválido (6 a 10 dígitos).";
+      return;
+    }
+    try {
+      const client = await findClientByDni(dni);
+      if (client) {
+        $("dni-msg").textContent = "Cliente encontrado.";
+        renderClient(client);
+      } else {
+        $("dni-msg").textContent = "No hay registro con ese DNI.";
+        $("register-box").classList.remove("hidden");
+        $("reg-dni").value = dni;
+        $("reg-nombre").value = "";
+        $("reg-apellido").value = "";
+        $("reg-tel").value = "";
+      }
+    } catch (err) {
+      console.error(err);
+      $("dni-msg").textContent = "Error al buscar. Verificá reglas de Firestore y que la cuenta tenga permisos de admin.";
+    }
+  });
+
+  // ---- Register ----
+  $("register-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nombre = $("reg-nombre").value.trim();
+    const apellido = $("reg-apellido").value.trim();
+    const dni = onlyDigits($("reg-dni").value);
+    const telefono = $("reg-tel").value.trim();
+    if (!nombre || !apellido || !telefono || dni.length < 6) {
+      $("reg-msg").textContent = "Completá todos los campos.";
+      return;
+    }
+    $("reg-msg").textContent = "Guardando…";
+    try {
+      const existing = await findClientByDni(dni);
+      if (existing) {
+        $("reg-msg").textContent = "Ese DNI ya está registrado.";
+        renderClient(existing);
+        return;
+      }
+      const ref = doc(collection(db, "usuarios"));
+      const payload = {
+        nombre, apellido, dni, telefono,
+        email: "",
+        puntos: 0,
+        clubAdherido: true,
+        origen: "local",
+        creadoEn: serverTimestamp(),
+        actualizadoEn: serverTimestamp()
+      };
+      await setDoc(ref, payload);
+      $("reg-msg").textContent = "Cliente registrado.";
+      renderClient({ id: ref.id, data: { ...payload, puntos: 0 } });
+      $("register-box").classList.add("hidden");
+    } catch (err) {
+      console.error(err);
+      $("reg-msg").textContent = "No se pudo registrar. La cuenta debe ser admin en Firebase (custom claim admin:true).";
+    }
+  });
+
+  // ---- Compra ----
+  $("btn-compra").addEventListener("click", () => {
+    $("compra-panel").classList.toggle("hidden");
+    $("canje-panel").classList.add("hidden");
+    $("compra-msg").textContent = "";
+    updateRuleHint();
+  });
+
+  $("compra-confirm").addEventListener("click", async () => {
+    if (!currentClient) return;
+    const monto = Number($("compra-monto").value);
+    if (!isFinite(monto) || monto <= 0) {
+      $("compra-msg").textContent = "Ingresá un importe válido.";
+      return;
+    }
+    const sumar = calcPoints(monto);
+    if (sumar <= 0) {
+      $("compra-msg").textContent = "Con ese importe no se suman puntos según la regla actual.";
+      return;
+    }
+    $("compra-msg").textContent = "Acreditando…";
+    try {
+      const ref = doc(db, "usuarios", currentClient.id);
+      await updateDoc(ref, {
+        puntos: increment(sumar),
+        actualizadoEn: serverTimestamp()
+      });
+      await addDoc(collection(db, "movimientos_puntos"), {
+        uid: currentClient.id,
+        dni: currentClient.data.dni,
+        tipo: "compra",
+        monto,
+        puntos: sumar,
+        staffEmail: auth.currentUser?.email || "",
+        creadoEn: serverTimestamp()
+      });
+      const pts = (typeof currentClient.data.puntos === "number" ? currentClient.data.puntos : 0) + sumar;
+      currentClient.data.puntos = pts;
+      $("cli-points").textContent = String(pts);
+      $("compra-msg").textContent = `+${sumar} puntos acreditados. Total: ${pts}.`;
+      $("compra-monto").value = "";
+    } catch (err) {
+      console.error(err);
+      $("compra-msg").textContent = "Error al acreditar. Revisá permisos admin en Firestore.";
+    }
+  });
+
+  // ---- Canje ----
+  $("btn-canje").addEventListener("click", async () => {
+    $("canje-panel").classList.toggle("hidden");
+    $("compra-panel").classList.add("hidden");
+    if (!$("canje-panel").classList.contains("hidden")) await loadCanjes();
+  });
+
+  async function loadCanjes() {
+    const list = $("canje-list");
+    list.innerHTML = "";
+    $("canje-empty").classList.add("hidden");
+    $("canje-msg").textContent = "";
+    try {
+      const snap = await getDocs(query(collection(db, "canjes"), orderBy("creadoEn", "desc")));
+      const items = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(c => c.disponible !== false);
+      if (!items.length) {
+        $("canje-empty").classList.remove("hidden");
+        return;
+      }
+      const ptsCliente = typeof currentClient?.data?.puntos === "number" ? currentClient.data.puntos : 0;
+      items.forEach(c => {
+        const need = Number(c.puntosNecesarios) || 0;
+        const ok = ptsCliente >= need;
+        const row = document.createElement("div");
+        row.className = "flex items-center gap-3 rounded-lg border border-gold/15 bg-wine-panel/80 p-3";
+        row.innerHTML = `
+          <div class="flex-1 min-w-0">
+            <p class="text-cream text-sm font-medium truncate">${escapeHtml(c.titulo || "Sin título")}</p>
+            <p class="text-stone text-xs">${need} puntos${ok ? "" : " · no te alcanzan"}</p>
+          </div>
+          <button type="button" data-id="${c.id}" data-need="${need}" data-title="${escapeHtml(c.titulo || "")}"
+            class="canje-btn shrink-0 rounded-full px-3 py-1.5 text-xs font-medium ${ok ? "bg-gold text-wine-black" : "border border-stone/30 text-stone cursor-not-allowed"}"
+            ${ok ? "" : "disabled"}>Canjear</button>`;
+        list.appendChild(row);
+      });
+      list.querySelectorAll(".canje-btn:not([disabled])").forEach(btn => {
+        btn.addEventListener("click", () => doCanje(btn.dataset.id, Number(btn.dataset.need), btn.dataset.title));
+      });
+    } catch (err) {
+      console.error(err);
+      $("canje-msg").textContent = "No se pudieron cargar los canjes.";
+    }
+  }
+
+  async function doCanje(canjeId, need, title) {
+    if (!currentClient || need <= 0) return;
+    if (!confirm(`¿Confirmás el canje de "${title}" por ${need} puntos?`)) return;
+    $("canje-msg").textContent = "Procesando canje…";
+    try {
+      const ref = doc(db, "usuarios", currentClient.id);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) throw new Error("Cliente no encontrado");
+      const pts = typeof snap.data().puntos === "number" ? snap.data().puntos : 0;
+      if (pts < need) {
+        $("canje-msg").textContent = "Puntos insuficientes.";
+        return;
+      }
+      await updateDoc(ref, {
+        puntos: pts - need,
+        actualizadoEn: serverTimestamp()
+      });
+      await addDoc(collection(db, "movimientos_puntos"), {
+        uid: currentClient.id,
+        dni: currentClient.data.dni,
+        tipo: "canje",
+        canjeId,
+        canjeTitulo: title,
+        puntos: -need,
+        staffEmail: auth.currentUser?.email || "",
+        creadoEn: serverTimestamp()
+      });
+      currentClient.data.puntos = pts - need;
+      $("cli-points").textContent = String(pts - need);
+      $("canje-msg").textContent = `Canje OK: ${title}. Restan ${pts - need} puntos.`;
+      await loadCanjes();
+    } catch (err) {
+      console.error(err);
+      $("canje-msg").textContent = "Error al canjear. Revisá permisos.";
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
+  }
+
+  // ---- Config ----
+  $("open-config-btn").addEventListener("click", () => {
+    $("cfg-pesos").value = puntosRule.pesos;
+    $("cfg-puntos").value = puntosRule.puntos;
+    $("cfg-msg").textContent = "";
+    show($("config-modal"));
+  });
+  $("config-close").addEventListener("click", () => hide($("config-modal")));
+  $("config-modal").addEventListener("click", (e) => { if (e.target === $("config-modal")) hide($("config-modal")); });
+
+  $("config-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const pesos = Number($("cfg-pesos").value);
+    const puntos = Number($("cfg-puntos").value);
+    if (!pesos || !puntos || pesos < 1 || puntos < 1) {
+      $("cfg-msg").textContent = "Valores inválidos.";
+      return;
+    }
+    try {
+      await setDoc(doc(db, "settings", "puntos"), {
+        pesosPorUnidad: pesos,
+        puntosPorUnidad: puntos,
+        actualizadoEn: serverTimestamp()
+      }, { merge: true });
+      puntosRule = { pesos, puntos };
+      updateRuleHint();
+      $("cfg-msg").textContent = "Regla guardada.";
+      setTimeout(() => hide($("config-modal")), 800);
+    } catch (err) {
+      console.error(err);
+      $("cfg-msg").textContent = "No se pudo guardar (hace falta claim admin).";
+    }
+  });
+</script>
+</body>
+</html>
