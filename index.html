@@ -431,13 +431,12 @@
       <li><a href="#inicio" class="hover:text-gold-soft transition-colors">Inicio</a></li>
       <li><a href="#productos" class="hover:text-gold-soft transition-colors font-medium text-gold-soft">Catálogo</a></li>
       <li><a href="#promociones" class="hover:text-gold-soft transition-colors">Promociones</a></li>
-      <li><a href="#regaleria" class="hover:text-gold-soft transition-colors">Regalería</a></li>
       <li><a href="#eventos" class="hover:text-gold-soft transition-colors">Eventos</a></li>
       <li><a href="#reservas" class="hover:text-gold-soft transition-colors">Reservas</a></li>
       <li><a href="#quienes-somos" class="hover:text-gold-soft transition-colors">Quiénes somos</a></li>
       <li><a href="#ubicacion" class="hover:text-gold-soft transition-colors">Ubicación</a></li>
       <li><a href="#club-clientes" class="hover:text-gold-soft transition-colors">Club de clientes</a></li>
-      <li id="nav-canjes-li" class="hidden"><a href="#canjes" class="hover:text-gold-soft transition-colors">Canjes</a></li>
+      <li id="nav-canjes-li"><a href="#canjes" class="hover:text-gold-soft transition-colors">Canjes</a></li>
     </ul>
 
     <div class="flex items-center gap-2 sm:gap-3">
@@ -458,13 +457,12 @@
       <li><a href="#inicio" class="block py-1 hover:text-gold-soft">Inicio</a></li>
       <li><a href="#productos" class="block py-1 text-gold-soft font-medium">Catálogo</a></li>
       <li><a href="#promociones" class="block py-1 hover:text-gold-soft">Promociones</a></li>
-      <li><a href="#regaleria" class="block py-1 hover:text-gold-soft">Regalería</a></li>
       <li><a href="#eventos" class="block py-1 hover:text-gold-soft">Eventos</a></li>
       <li><a href="#reservas" class="block py-1 hover:text-gold-soft">Reservas</a></li>
       <li><a href="#quienes-somos" class="block py-1 hover:text-gold-soft">Quiénes somos</a></li>
       <li><a href="#ubicacion" class="block py-1 hover:text-gold-soft">Ubicación y horarios</a></li>
       <li><a href="#club-clientes" class="block py-1 hover:text-gold-soft">Club de clientes</a></li>
-      <li id="nav-canjes-mobile-li" class="hidden"><a href="#canjes" class="block py-1 hover:text-gold-soft">Canjes</a></li>
+      <li id="nav-canjes-mobile-li"><a href="#canjes" class="block py-1 hover:text-gold-soft">Canjes</a></li>
       <li><a href="#galeria" class="block py-1 hover:text-gold-soft">Galería</a></li>
     </ul>
   </div>
@@ -779,45 +777,6 @@
 </section>
 
 
-<section id="regaleria" class="relative py-28 lg:py-36 bg-wine-dark/40 border-y border-gold/10">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10">
-    <p class="label-serif text-gold-soft text-lg mb-4">Regalos con criterio</p>
-    <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-4 text-balance">Regalería</h2>
-    <p class="text-stone max-w-2xl mb-10">Encontrá el detalle ideal para cada ocasión. Filtrá por presupuesto y por tipo de regalo.</p>
-    <div class="mb-6">
-      <p class="text-cream text-sm font-medium mb-3">Por presupuesto</p>
-      <div id="reg-budget-filters" class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por presupuesto">
-        <button type="button" data-budget="" class="reg-chip rounded-full border border-gold px-4 py-2 text-sm text-wine-black bg-gold font-medium">Todos</button>
-        <button type="button" data-budget="20000" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Hasta $20.000</button>
-        <button type="button" data-budget="50000" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Hasta $50.000</button>
-        <button type="button" data-budget="50001" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Más de $50.000</button>
-      </div>
-    </div>
-    <div class="mb-10">
-      <p class="text-cream text-sm font-medium mb-3">Por ocasión</p>
-      <div id="reg-occasion-filters" class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por ocasión">
-        <button type="button" data-occasion="" class="reg-chip rounded-full border border-gold px-4 py-2 text-sm text-wine-black bg-gold font-medium">Todas</button>
-        <button type="button" data-occasion="cumpleanos" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Cumpleaños</button>
-        <button type="button" data-occasion="empresarial" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Regalos empresariales</button>
-        <button type="button" data-occasion="padre" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Día del Padre</button>
-        <button type="button" data-occasion="madre" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Día de la Madre</button>
-        <button type="button" data-occasion="amigo" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Día del Amigo</button>
-        <button type="button" data-occasion="aniversario" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Aniversarios</button>
-        <button type="button" data-occasion="especial" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Celebraciones especiales</button>
-        <button type="button" data-occasion="otras" class="reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60">Otras ocasiones</button>
-      </div>
-    </div>
-    <div id="regaleria-empty" class="hidden text-stone text-center py-12">No hay productos de regalería con esos filtros.</div>
-    <div id="regaleria-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16"></div>
-    <div class="rounded-2xl border border-gold/20 bg-wine-panel/50 p-8 sm:p-10">
-      <p class="label-serif text-gold-soft text-lg mb-2">Regalos empresariales</p>
-      <h3 class="font-display text-2xl sm:text-3xl text-cream mb-4">Packaging y cotizaciones a medida</h3>
-      <p class="text-stone leading-relaxed mb-6 max-w-2xl">Armamos propuestas para empresas: selección de vinos y delicatessen, packaging personalizado y consultas por cantidades.</p>
-      <a href="https://wa.me/5493537513148?text=%C2%A1Hola!%20Quiero%20consultar%20por%20regalos%20empresariales%20y%20cotizaci%C3%B3n%20personalizada." target="_blank" rel="noopener noreferrer" class="btn-press inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">Consultar por WhatsApp</a>
-    </div>
-  </div>
-</section>
-
 <section id="club-clientes" class="relative py-28 lg:py-36">
   <div class="max-w-4xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4 text-center">Fidelización</p>
@@ -864,28 +823,33 @@
         <div class="rounded-xl border border-gold/15 bg-wine-black/40 p-4 text-center">
           <p class="text-stone text-xs mb-1">Puntos acumulados</p>
           <p class="font-display text-2xl text-gold-soft" id="club-points">—</p>
-          <p class="text-stone text-[11px] mt-1">Próximamente</p>
+          <p class="text-stone text-[11px] mt-1">Actualizados en el local</p>
         </div>
         <div class="rounded-xl border border-gold/15 bg-wine-black/40 p-4 text-center">
-          <p class="text-stone text-xs mb-1">Beneficios</p>
-          <p class="font-display text-lg text-cream">En preparación</p>
+          <p class="text-stone text-xs mb-1">Canjes</p>
+          <p class="font-display text-lg text-cream"><a href="#canjes" class="text-gold-soft hover:underline">Ver canjes</a></p>
         </div>
         <div class="rounded-xl border border-gold/15 bg-wine-black/40 p-4 text-center">
-          <p class="text-stone text-xs mb-1">Historial</p>
-          <p class="font-display text-lg text-cream">Sin movimientos</p>
+          <p class="text-stone text-xs mb-1">Cómo sumar</p>
+          <p class="font-display text-sm text-cream">Comprá en el local</p>
         </div>
       </div>
-      <p class="text-stone text-xs leading-relaxed">Los puntos se acreditarán según las compras en el local, con reglas que comunicaremos oportunamente.</p>
+      <p class="text-stone text-xs leading-relaxed">Los puntos se acreditan en el local al informar tu DNI en cada compra. Los canjes también se realizan en el establecimiento.</p>
     </div>
   </div>
 </section>
 
-<section id="canjes" class="relative py-28 lg:py-36 bg-wine-dark/60 border-y border-gold/10 hidden" aria-hidden="true">
+<section id="canjes" class="relative py-28 lg:py-36 bg-wine-dark/60 border-y border-gold/10">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <p class="label-serif text-gold-soft text-lg mb-4">Recompensas</p>
     <h2 class="font-display text-4xl sm:text-5xl leading-tight max-w-2xl mb-4 text-balance">Canjes</h2>
-    <p class="text-stone max-w-xl mb-12">Productos de recompensa del Club de Clientes. El canje real se habilitará cuando el sistema de puntos esté activo.</p>
-    <div id="canjes-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+    <p class="text-stone max-w-xl mb-8">Productos de recompensa del Club de Clientes. El canje se realiza en el local presentando tu DNI.</p>
+    <div id="canjes-soon" class="rounded-2xl border border-gold/20 bg-wine-panel/50 p-8 sm:p-10 max-w-2xl">
+      <p class="text-gold-soft font-medium mb-2">Ya sos parte del Club</p>
+      <p class="text-cream text-lg leading-relaxed mb-3">Dentro de unos días vamos a tener productos para canjear con tus puntos.</p>
+      <p class="text-stone text-sm leading-relaxed">Estate atento a esta sección. Cuando estén disponibles, vas a poder verlos acá y canjearlos en el local presentando tu DNI.</p>
+    </div>
+    <div id="canjes-grid" class="hidden grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
   </div>
 </section>
 
@@ -1268,6 +1232,47 @@
       </form>
     </div>
 
+
+
+    <div class="mb-8 rounded-xl border border-gold/20 bg-wine-black/30 p-4">
+      <p class="text-cream font-medium text-sm mb-1">Terminal del local (puntos y canjes)</p>
+      <p class="text-stone text-xs mb-3">Herramienta solo para el personal del local: buscar DNI, registrar clientes, sumar puntos por compra y canjear.</p>
+      <a href="local_puntos_club_del_anfitrion.html" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full border border-gold/40 px-5 py-2.5 text-gold-soft text-sm hover:bg-gold hover:text-wine-black">Abrir terminal del local ↗</a>
+    </div>
+
+    <div class="mb-10">
+      <p class="text-cream font-medium mb-4">Productos de canje</p>
+      <div id="admin-canjes-list" class="space-y-3 max-h-60 overflow-y-auto pr-1 scrollbar-thin mb-4"></div>
+      <p id="canje-form-title" class="text-cream font-medium mb-4">Cargar producto de canje</p>
+      <form id="canje-form" novalidate class="space-y-4 rounded-xl border border-gold/15 bg-wine-black/20 p-4">
+        <div>
+          <label for="canje-titulo" class="block text-sm text-stone mb-1">Título</label>
+          <input type="text" id="canje-titulo" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
+        </div>
+        <div>
+          <label for="canje-descripcion" class="block text-sm text-stone mb-1">Descripción</label>
+          <textarea id="canje-descripcion" rows="2" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold"></textarea>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div>
+            <label for="canje-puntos" class="block text-sm text-stone mb-1">Puntos necesarios</label>
+            <input type="number" id="canje-puntos" min="1" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold">
+          </div>
+          <div class="flex items-end gap-2 pb-1">
+            <input type="checkbox" id="canje-disponible" checked class="accent-gold w-4 h-4">
+            <label for="canje-disponible" class="text-sm text-cream">Disponible</label>
+          </div>
+        </div>
+        <div>
+          <label for="canje-imagen" class="block text-sm text-stone mb-1">Imagen (opcional)</label>
+          <input type="file" id="canje-imagen" accept="image/*" class="w-full text-stone text-sm">
+        </div>
+        <div class="flex gap-3">
+          <button type="submit" id="canje-submit-btn" class="flex-1 rounded-full bg-gold px-5 py-2.5 text-wine-black text-sm font-medium hover:bg-gold-soft">Publicar canje</button>
+          <button type="button" id="canje-cancel-edit" class="hidden rounded-full border border-stone/30 px-5 py-2.5 text-stone text-sm">Cancelar</button>
+        </div>
+      </form>
+    </div>
 
     <div class="mb-10 rounded-xl border border-gold/20 bg-wine-black/30 p-4 sm:p-5">
       <p class="text-cream font-medium mb-1">Logotipo y favicon del sitio</p>
@@ -2489,7 +2494,6 @@
       });
       startAutoSliders(productsGrid);
       setupCardVideoOverlays(productsGrid);
-      try { renderRegaleria(); } catch(_) {}
     }
   }
 
@@ -4347,15 +4351,18 @@
   });
 
   function updateCanjesVisibility() {
-    const section = document.getElementById("canjes");
     const available = latestCanjes.filter(c => c.disponible !== false);
-    const show = available.length > 0;
-    section?.classList.toggle("hidden", !show);
-    section?.setAttribute("aria-hidden", show ? "false" : "true");
-    document.getElementById("nav-canjes-li")?.classList.toggle("hidden", !show);
-    document.getElementById("nav-canjes-mobile-li")?.classList.toggle("hidden", !show);
+    const soon = document.getElementById("canjes-soon");
     const grid = document.getElementById("canjes-grid");
     if (!grid) return;
+    if (available.length === 0) {
+      soon?.classList.remove("hidden");
+      grid.classList.add("hidden");
+      grid.innerHTML = "";
+      return;
+    }
+    soon?.classList.add("hidden");
+    grid.classList.remove("hidden");
     grid.innerHTML = "";
     available.forEach(c => {
       const img = (c.imagenes && c.imagenes[0]) || c.imagenUrl || "";
@@ -4365,7 +4372,7 @@
         <div class="p-6 flex flex-col flex-1"><h3 class="font-display text-xl text-cream mb-1.5">${escapeHtml(c.titulo||"")}</h3>
         <p class="text-stone text-sm flex-1 desc-clamp">${escapeHtml(c.descripcion||"")}</p>
         <p class="mt-4 text-gold-soft font-display text-xl">${c.puntosNecesarios||0} puntos</p>
-        <p class="text-stone text-xs mt-2">Canje disponible cuando el sistema de puntos esté activo.</p></div>`;
+        <p class="text-stone text-xs mt-2">Canjealo en el local presentando tu DNI.</p></div>`;
       grid.appendChild(card);
     });
   }
@@ -4373,58 +4380,105 @@
     onSnapshot(query(canjesCollection, orderBy("creadoEn", "desc")), (snap) => {
       latestCanjes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       updateCanjesVisibility();
+      try { renderAdminCanjes(); } catch(_) {}
     }, (err) => console.warn("[canjes]", err));
   }
 
-  let regBudget = "", regOccasion = "";
-  function productMatchesOccasion(p, occ) {
-    if (!occ) return true;
-    const blob = `${p.titulo||""} ${p.descripcion||""} ${p.categoria||""} ${p.ocasion||""}`.toLowerCase();
-    const map = { cumpleanos:["cumple","cumpleaños"], empresarial:["empresa","corporat","empresarial"], padre:["padre","papá","papa"], madre:["madre","mamá","mama"], amigo:["amigo","amiga"], aniversario:["aniversario"], especial:["especial","celebración","celebracion"], otras:[] };
-    if (occ === "otras") return true;
-    return (map[occ]||[]).some(k => blob.includes(k)) || String(p.ocasion||"").toLowerCase() === occ;
-  }
-  function renderRegaleria() {
-    const grid = document.getElementById("regaleria-grid");
-    const empty = document.getElementById("regaleria-empty");
-    if (!grid || typeof latestProducts === "undefined") return;
-    let items = latestProducts.filter(p => {
-      const cat = String(p.categoria||"");
-      return /regal|gourmet/i.test(cat) || /regal/i.test(String(p.titulo||""));
-    });
-    if (items.length === 0) items = latestProducts.filter(p => p.disponible !== false);
-    if (regBudget === "20000") items = items.filter(p => hasValidPrice(p.precio) && Number(p.precio) <= 20000);
-    else if (regBudget === "50000") items = items.filter(p => hasValidPrice(p.precio) && Number(p.precio) <= 50000);
-    else if (regBudget === "50001") items = items.filter(p => hasValidPrice(p.precio) && Number(p.precio) > 50000);
-    if (regOccasion) items = items.filter(p => productMatchesOccasion(p, regOccasion));
-    grid.innerHTML = "";
-    if (!items.length) { empty?.classList.remove("hidden"); return; }
-    empty?.classList.add("hidden");
-    items.forEach(p => { if (p.titulo && typeof renderProductCard === "function") grid.appendChild(renderProductCard(p)); });
-    if (typeof startAutoSliders === "function") startAutoSliders(grid);
-    if (typeof setupCardVideoOverlays === "function") setupCardVideoOverlays(grid);
-  }
-  function wireReg(id, attr, setFn) {
-    document.getElementById(id)?.addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-"+attr+"]");
-      if (!btn) return;
-      const val = btn.getAttribute("data-"+attr) || "";
-      setFn(val);
-      document.getElementById(id).querySelectorAll("button").forEach(b => {
-        const on = (b.getAttribute("data-"+attr)||"") === val;
-        b.className = on ? "reg-chip rounded-full border border-gold px-4 py-2 text-sm text-wine-black bg-gold font-medium" : "reg-chip rounded-full border border-gold/30 px-4 py-2 text-sm text-stone hover:border-gold/60";
-      });
-      renderRegaleria();
-    });
-  }
-  wireReg("reg-budget-filters", "budget", v => regBudget = v);
-  wireReg("reg-occasion-filters", "occasion", v => regOccasion = v);
 
-  // Hook product render
-  const __rfp = typeof renderFilteredProducts === "function" ? renderFilteredProducts : null;
-  if (typeof renderFilteredProducts === "function") {
-    /* will call renderRegaleria from products snapshot path via try below */
+
+
+  /* ---- Admin canjes ---- */
+  let editingCanjeId = null;
+  const adminCanjesList = document.getElementById("admin-canjes-list");
+  function renderAdminCanjes() {
+    if (!adminCanjesList) return;
+    adminCanjesList.innerHTML = "";
+    if (!latestCanjes.length) {
+      adminCanjesList.innerHTML = '<p class="text-stone text-sm py-2">Todavía no hay productos de canje.</p>';
+      return;
+    }
+    latestCanjes.forEach(c => {
+      const row = document.createElement("div");
+      row.className = "flex items-center gap-3 rounded-xl border border-gold/15 bg-wine-black/40 p-3";
+      row.innerHTML = `<div class="min-w-0 flex-1">
+        <p class="text-cream text-sm font-medium truncate">${escapeHtml(c.titulo||"")}</p>
+        <p class="text-stone text-xs">${c.puntosNecesarios||0} pts · ${c.disponible===false?"Inactivo":"Disponible"}</p>
+      </div>
+      <button type="button" data-edit-canje="${c.id}" class="rounded-full border border-gold/40 px-3 py-1 text-xs text-gold-soft">Editar</button>
+      <button type="button" data-del-canje="${c.id}" class="rounded-full border border-garnet-light/60 px-3 py-1 text-xs text-red-300">Eliminar</button>`;
+      adminCanjesList.appendChild(row);
+    });
   }
+  adminCanjesList?.addEventListener("click", async (e) => {
+    const edit = e.target.closest("[data-edit-canje]");
+    const del = e.target.closest("[data-del-canje]");
+    if (edit) {
+      if (!requireAdminSession()) return;
+      const c = latestCanjes.find(x => x.id === edit.dataset.editCanje);
+      if (!c) return;
+      editingCanjeId = c.id;
+      document.getElementById("canje-titulo").value = c.titulo || "";
+      document.getElementById("canje-descripcion").value = c.descripcion || "";
+      document.getElementById("canje-puntos").value = c.puntosNecesarios || "";
+      document.getElementById("canje-disponible").checked = c.disponible !== false;
+      document.getElementById("canje-form-title").textContent = "Editar canje";
+      document.getElementById("canje-submit-btn").textContent = "Guardar";
+      document.getElementById("canje-cancel-edit").classList.remove("hidden");
+    }
+    if (del) {
+      if (!requireAdminSession()) return;
+      if (!confirm("¿Eliminar este canje?")) return;
+      try {
+        await deleteDoc(doc(adminDb, "canjes", del.dataset.delCanje));
+        showToast("Canje eliminado.");
+      } catch (err) { showToast("No se pudo eliminar.", "error"); }
+    }
+  });
+  document.getElementById("canje-cancel-edit")?.addEventListener("click", () => {
+    editingCanjeId = null;
+    document.getElementById("canje-form")?.reset();
+    document.getElementById("canje-disponible").checked = true;
+    document.getElementById("canje-form-title").textContent = "Cargar producto de canje";
+    document.getElementById("canje-submit-btn").textContent = "Publicar canje";
+    document.getElementById("canje-cancel-edit").classList.add("hidden");
+  });
+  document.getElementById("canje-form")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!requireAdminSession()) return;
+    const titulo = document.getElementById("canje-titulo").value.trim();
+    const descripcion = document.getElementById("canje-descripcion").value.trim();
+    const puntosNecesarios = Number(document.getElementById("canje-puntos").value);
+    const disponible = document.getElementById("canje-disponible").checked;
+    if (!titulo || !puntosNecesarios || puntosNecesarios < 1) { showToast("Completá título y puntos.", "error"); return; }
+    const btn = document.getElementById("canje-submit-btn");
+    btn.disabled = true;
+    try {
+      let imagenUrl = null;
+      const file = document.getElementById("canje-imagen").files[0];
+      if (file) imagenUrl = await uploadImageToCloudinary(file);
+      const fields = { titulo, descripcion, puntosNecesarios, disponible };
+      if (imagenUrl) { fields.imagenUrl = imagenUrl; fields.imagenes = [imagenUrl]; }
+      if (editingCanjeId) {
+        if (!imagenUrl) { /* keep existing image */ }
+        await updateDoc(doc(adminDb, "canjes", editingCanjeId), fields);
+        showToast("Canje actualizado.");
+      } else {
+        await addDoc(collection(adminDb, "canjes"), { ...fields, imagenUrl: imagenUrl || null, imagenes: imagenUrl ? [imagenUrl] : [], creadoEn: serverTimestamp() });
+        showToast("Canje publicado.");
+      }
+      document.getElementById("canje-form").reset();
+      document.getElementById("canje-disponible").checked = true;
+      editingCanjeId = null;
+      document.getElementById("canje-form-title").textContent = "Cargar producto de canje";
+      document.getElementById("canje-submit-btn").textContent = "Publicar canje";
+      document.getElementById("canje-cancel-edit").classList.add("hidden");
+    } catch (err) {
+      console.error(err);
+      showToast("Error al guardar canje. Conectá Firebase admin.", "error");
+    } finally { btn.disabled = false; }
+  });
+  // re-render admin list when canjes snapshot updates
+  const _prevCanjesSnap = null;
 
 
   document.getElementById("year").textContent = new Date().getFullYear();
