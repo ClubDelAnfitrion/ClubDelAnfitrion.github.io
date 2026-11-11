@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club de Clientes | Club del Anfitrión</title>
+<meta name="description" content="Tu cuenta en Club del Anfitrión: puntos, canjes, compras y datos personales.">
+<meta name="theme-color" content="#140b0c">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://clubdelanfitrion.com.ar/club-clientes.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          "wine-black": "#140b0c", "wine-dark": "#1e1114", "wine-panel": "#26161a",
+          "burgundy": "#5c1128", "garnet": "#7c1f2f", "garnet-light": "#9c3244",
+          "gold": "#c9a24b", "gold-soft": "#e6cf9c", "cream": "#efe6d8", "stone": "#b4a293",
+        },
+        fontFamily: { display: ['"Fraunces"', "serif"], sans: ['"Inter"', "sans-serif"] },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #140b0c;
+    background-image:
+      radial-gradient(ellipse 90% 60% at 15% -10%, rgba(124,31,47,0.28), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 100% 0%, rgba(201,162,75,0.06), transparent 55%);
+  }
+  .hairline { background: linear-gradient(90deg, transparent, rgba(201,162,75,.55), transparent); height: 1px; }
+  .label-serif { font-family: "Fraunces", serif; font-style: italic; }
+  .btn-press { transition: transform .18s ease, box-shadow .25s ease; }
+  .btn-press:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -10px rgba(201,162,75,.5); }
+  .btn-press:active { transform: scale(.98); }
+  input:focus, textarea:focus, button:focus-visible, a:focus-visible {
+    outline: 2px solid #c9a24b; outline-offset: 2px;
+  }
+  .tab-btn.active { background: rgba(201,162,75,.18); color: #e6cf9c; border-color: rgba(201,162,75,.45); }
+  #toast-box { position: fixed; top: 1rem; right: 1rem; z-index: 200; display: flex; flex-direction: column; gap: .5rem; }
+  .toast { min-width: 240px; max-width: 340px; }
+  .card { border: 1px solid rgba(201,162,75,.15); background: rgba(38,22,26,.55); border-radius: 1rem; }
+</style>
+</head>
+<body class="font-sans text-cream antialiased min-h-screen">
+
+<div id="toast-box" aria-live="polite"></div>
+
+<header class="sticky top-0 z-40 border-b border-gold/10 bg-wine-black/90 backdrop-blur">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 sm:h-18 flex items-center justify-between gap-3">
+    <a href="https://clubdelanfitrion.com.ar/" class="flex items-center gap-3 min-w-0">
+      <img id="site-logo" src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión"
+           class="h-11 w-11 sm:h-12 sm:w-12 rounded-full object-cover border-2 border-gold/40">
+      <div class="min-w-0 hidden sm:block">
+        <p class="font-display text-lg leading-tight">Club <span class="italic text-gold-soft">del Anfitrión</span></p>
+        <p class="text-stone text-xs">Club de Clientes</p>
+      </div>
+    </a>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="https://clubdelanfitrion.com.ar/#productos" class="text-sm text-stone hover:text-gold-soft hidden sm:inline">Catálogo</a>
+      <button type="button" id="header-auth-btn"
+              class="rounded-full border border-gold/50 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors">
+        Iniciar sesión
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+  <!-- GUEST -->
+  <section id="guest-view" class="max-w-lg mx-auto">
+    <p class="label-serif text-gold-soft text-lg mb-2 text-center">Fidelización</p>
+    <h1 class="font-display text-4xl sm:text-5xl text-center mb-4 text-balance">Club de Clientes</h1>
+    <p class="text-stone text-center leading-relaxed mb-8">
+      Iniciá sesión con la misma cuenta de la tienda para ver tus puntos, canjes y compras registradas.
+    </p>
+
+    <div class="card p-6 sm:p-8 space-y-5">
+      <button type="button" id="google-btn"
+              class="w-full inline-flex items-center justify-center gap-3 rounded-full bg-white border border-gray-300 px-5 py-3.5 text-[15px] font-medium text-gray-800 shadow-sm hover:bg-gray-100">
+        <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Continuar con Google
+      </button>
+
+      <div class="flex items-center gap-3 text-xs text-stone">
+        <span class="hairline flex-1"></span>
+        <span>o con tu correo</span>
+        <span class="hairline flex-1"></span>
+      </div>
+
+      <form id="login-form" class="space-y-3" novalidate>
+        <div>
+          <label for="login-email" class="block text-sm text-stone mb-1">Correo</label>
+          <input id="login-email" type="email" autocomplete="email" required
+                 class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream text-sm focus:border-gold" placeholder="tu@correo.com">
+        </div>
+        <div>
+          <label for="login-pass" class="block text-sm text-stone mb-1">Contraseña</label>
+          <input id="login-pass" type="password" autocomplete="current-password" required
+                 class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream text-sm focus:border-gold">
+        </div>
+        <button type="submit" class="btn-press w-full rounded-full bg-gold px-5 py-3 text-wine-black font-medium">Iniciar sesión</button>
+      </form>
+
+      <p class="text-center text-xs text-stone">
+        ¿No tenés cuenta?
+        <button type="button" id="show-register" class="text-gold-soft underline">Registrate</button>
+        ·
+        <button type="button" id="reset-pass" class="text-stone underline hover:text-gold-soft">Olvidé mi contraseña</button>
+      </p>
+      <p id="auth-msg" class="text-sm text-center text-gold-soft min-h-[1.25rem]" role="status"></p>
+    </div>
+
+    <!-- Register panel -->
+    <div id="register-panel" class="hidden card p-6 sm:p-8 mt-4 space-y-4">
+      <h2 class="font-display text-2xl">Crear cuenta</h2>
+      <form id="register-form" class="space-y-3" novalidate>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm text-stone mb-1">Nombre</label>
+            <input id="reg-nombre" required class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+          </div>
+          <div>
+            <label class="block text-sm text-stone mb-1">Apellido</label>
+            <input id="reg-apellido" required class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm text-stone mb-1">Correo</label>
+          <input id="reg-email" type="email" required class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+        </div>
+        <div>
+          <label class="block text-sm text-stone mb-1">Contraseña (mín. 6)</label>
+          <input id="reg-pass" type="password" required minlength="6" class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+        </div>
+        <button type="submit" class="btn-press w-full rounded-full bg-gold px-5 py-3 text-wine-black font-medium">Crear cuenta</button>
+      </form>
+      <button type="button" id="show-login" class="w-full text-sm text-stone hover:text-gold-soft">Ya tengo cuenta</button>
+    </div>
+  </section>
+
+  <!-- MEMBER -->
+  <section id="member-view" class="hidden">
+    <div class="mb-8">
+      <p class="label-serif text-gold-soft text-lg mb-1">Bienvenido de nuevo</p>
+      <h1 class="font-display text-3xl sm:text-4xl mb-1">
+        ¡Hola, <span id="welcome-name">Anfitrión</span>!
+      </h1>
+      <p class="text-stone text-sm" id="welcome-email"></p>
+    </div>
+
+    <!-- Summary cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
+      <div class="card p-4 sm:p-5 text-center">
+        <p class="text-stone text-xs mb-1">Puntos disponibles</p>
+        <p class="font-display text-3xl text-gold-soft" id="sum-puntos">—</p>
+      </div>
+      <div class="card p-4 sm:p-5 text-center">
+        <p class="text-stone text-xs mb-1">Compras registradas</p>
+        <p class="font-display text-3xl text-gold-soft" id="sum-compras">—</p>
+      </div>
+      <div class="card p-4 sm:p-5 text-center">
+        <p class="text-stone text-xs mb-1">Canjes visibles</p>
+        <p class="font-display text-3xl text-gold-soft" id="sum-canjes">—</p>
+      </div>
+      <div class="card p-4 sm:p-5 text-center">
+        <p class="text-stone text-xs mb-1">Estado club</p>
+        <p class="font-display text-lg text-cream mt-1" id="sum-club">—</p>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex flex-wrap gap-2 mb-6" role="tablist">
+      <button type="button" data-tab="resumen" class="tab-btn active rounded-full border border-gold/25 px-4 py-2 text-sm text-stone">Resumen</button>
+      <button type="button" data-tab="compras" class="tab-btn rounded-full border border-gold/25 px-4 py-2 text-sm text-stone">Mis compras</button>
+      <button type="button" data-tab="canjes" class="tab-btn rounded-full border border-gold/25 px-4 py-2 text-sm text-stone">Canjes</button>
+      <button type="button" data-tab="perfil" class="tab-btn rounded-full border border-gold/25 px-4 py-2 text-sm text-stone">Mis datos</button>
+    </div>
+
+    <!-- Tab: Resumen -->
+    <div id="tab-resumen" class="space-y-4">
+      <div class="card p-5 sm:p-6">
+        <h2 class="font-display text-xl mb-3">Tu actividad</h2>
+        <ul class="text-stone text-sm space-y-2 leading-relaxed">
+          <li>Los puntos se acreditan en el local al informar tu DNI en cada compra.</li>
+          <li>Los canjes se realizan en el establecimiento presentando tu DNI.</li>
+          <li>Las compras que ves acá son las registradas en el sistema (pedidos online o carga en el local).</li>
+        </ul>
+      </div>
+      <div class="card p-5">
+        <h3 class="text-cream font-medium mb-2">Última compra</h3>
+        <div id="last-order" class="text-stone text-sm">Sin compras registradas todavía.</div>
+      </div>
+      <a href="https://clubdelanfitrion.com.ar/#productos"
+         class="btn-press inline-flex rounded-full bg-gold px-6 py-3 text-wine-black font-medium text-sm">
+        Ir al catálogo
+      </a>
+    </div>
+
+    <!-- Tab: Compras -->
+    <div id="tab-compras" class="hidden space-y-3">
+      <p class="text-stone text-sm mb-2">Solo se muestran pedidos asociados a tu cuenta o a tu DNI cuando el sistema los tiene registrados.</p>
+      <div id="orders-list" class="space-y-3"></div>
+    </div>
+
+    <!-- Tab: Canjes -->
+    <div id="tab-canjes" class="hidden">
+      <p class="text-stone text-sm mb-4">Productos disponibles para canjear con puntos en el local.</p>
+      <div id="canjes-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      <div id="canjes-empty" class="hidden card p-6 text-center text-stone text-sm">
+        Pronto vas a ver acá los productos de canje. Estate atento.
+      </div>
+    </div>
+
+    <!-- Tab: Perfil -->
+    <div id="tab-perfil" class="hidden">
+      <div class="card p-5 sm:p-6 max-w-xl">
+        <h2 class="font-display text-xl mb-4">Datos personales</h2>
+        <form id="profile-form" class="grid sm:grid-cols-2 gap-4" novalidate>
+          <div>
+            <label class="block text-sm text-stone mb-1">Nombre</label>
+            <input id="pf-nombre" required class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+          </div>
+          <div>
+            <label class="block text-sm text-stone mb-1">Apellido</label>
+            <input id="pf-apellido" required class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm text-stone mb-1">DNI</label>
+            <input id="pf-dni" inputmode="numeric" required class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm" placeholder="Solo números">
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm text-stone mb-1">Correo</label>
+            <input id="pf-email" type="email" disabled class="w-full rounded-xl bg-wine-black/40 border border-gold/10 px-4 py-2.5 text-sm text-stone">
+            <p class="text-stone text-xs mt-1">El correo se gestiona con Firebase Authentication. Para cambiarlo usá recuperación de cuenta o contactanos.</p>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm text-stone mb-1">Teléfono (opcional)</label>
+            <input id="pf-tel" type="tel" class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+          </div>
+          <div class="sm:col-span-2">
+            <button type="submit" class="btn-press w-full rounded-full bg-gold px-5 py-3 text-wine-black font-medium text-sm">Guardar cambios</button>
+            <p id="profile-msg" class="text-sm text-gold-soft mt-2 min-h-[1.25rem]" role="status"></p>
+          </div>
+        </form>
+        <div class="hairline my-6"></div>
+        <button type="button" id="logout-btn"
+                class="w-full rounded-full border border-gold/40 px-5 py-3 text-gold-soft text-sm hover:bg-gold hover:text-wine-black transition-colors">
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-gold/10 mt-16 py-8">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between gap-4 text-stone text-xs">
+    <p>© <span id="year"></span> Club del Anfitrión · Bell Ville, Córdoba</p>
+    <a href="https://clubdelanfitrion.com.ar/" class="hover:text-gold-soft">Volver a la tienda</a>
+  </div>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import {
+    getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword,
+    createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile,
+    signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  import {
+    getFirestore, collection, doc, getDoc, getDocs, setDoc, query, where,
+    orderBy, onSnapshot, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyALsNxhMyC-GSQULpcj3CpwbDr81alvC0M",
+    authDomain: "clubdelanfitrion-8a6f1.firebaseapp.com",
+    projectId: "clubdelanfitrion-8a6f1",
+    storageBucket: "clubdelanfitrion-8a6f1.firebasestorage.app",
+    messagingSenderId: "187086724994",
+    appId: "1:187086724994:web:59e14efb3c355bd794b99b",
+    measurementId: "G-2DN0H1022S"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const googleProvider = new GoogleAuthProvider();
+  googleProvider.setCustomParameters({ prompt: "select_account" });
+
+  let profile = null;
+  let orders = [];
+  let canjes = [];
+  let unsubProfile = null;
+  let unsubOrders = null;
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function toast(msg, type = "ok") {
+    const box = document.getElementById("toast-box");
+    const el = document.createElement("div");
+    el.className = `toast rounded-xl border px-4 py-3 text-sm shadow-lg ${type === "error" ? "bg-garnet/90 border-garnet-light text-cream" : "bg-wine-panel border-gold/30 text-cream"}`;
+    el.textContent = msg;
+    box.appendChild(el);
+    setTimeout(() => el.remove(), 3600);
+  }
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
+  const money = (n) => (n == null || isNaN(Number(n))) ? "—" : new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(Number(n));
+
+  function setAuthMsg(t, isErr) {
+    const el = document.getElementById("auth-msg");
+    el.textContent = t || "";
+    el.className = `text-sm text-center min-h-[1.25rem] ${isErr ? "text-red-300" : "text-gold-soft"}`;
+  }
+
+  function showGuest() {
+    document.getElementById("guest-view").classList.remove("hidden");
+    document.getElementById("member-view").classList.add("hidden");
+    document.getElementById("header-auth-btn").textContent = "Iniciar sesión";
+  }
+  function showMember(user) {
+    document.getElementById("guest-view").classList.add("hidden");
+    document.getElementById("member-view").classList.remove("hidden");
+    const name = profile?.nombre || (user.displayName || "").split(" ")[0] || "Anfitrión";
+    document.getElementById("welcome-name").textContent = name;
+    document.getElementById("welcome-email").textContent = user.email || "";
+    document.getElementById("header-auth-btn").textContent = "Mi cuenta";
+    fillProfileForm(user);
+    renderSummary();
+    renderOrders();
+  }
+
+  function fillProfileForm(user) {
+    document.getElementById("pf-nombre").value = profile?.nombre || (user.displayName || "").split(" ")[0] || "";
+    document.getElementById("pf-apellido").value = profile?.apellido || (user.displayName || "").split(" ").slice(1).join(" ") || "";
+    document.getElementById("pf-dni").value = profile?.dni || "";
+    document.getElementById("pf-email").value = user.email || profile?.email || "";
+    document.getElementById("pf-tel").value = profile?.telefono || "";
+  }
+
+  function renderSummary() {
+    const pts = typeof profile?.puntos === "number" ? profile.puntos : "—";
+    document.getElementById("sum-puntos").textContent = pts;
+    document.getElementById("sum-compras").textContent = orders.length;
+    document.getElementById("sum-canjes").textContent = canjes.filter(c => c.disponible !== false).length;
+    document.getElementById("sum-club").textContent = (profile?.clubAdherido || (profile?.dni && profile?.nombre)) ? "Adherido" : "Completá datos";
+
+    const last = orders[0];
+    const box = document.getElementById("last-order");
+    if (!last) {
+      box.textContent = "Sin compras registradas todavía.";
+      return;
+    }
+    const fecha = last.creadoEn?.toDate ? last.creadoEn.toDate().toLocaleString("es-AR") : "—";
+    const items = (last.items || []).map(i => `${esc(i.titulo)} ×${i.qty}`).join(", ");
+    box.innerHTML = `
+      <p class="text-cream mb-1">${fecha} · ${money(last.total)} · <span class="text-gold-soft">${esc(last.estado||"")}</span></p>
+      <p class="text-xs">Código ${esc(last.codigoRetiro||"—")} · ${items || "Sin detalle de ítems"}</p>`;
+  }
+
+  function renderOrders() {
+    const el = document.getElementById("orders-list");
+    if (!orders.length) {
+      el.innerHTML = '<div class="card p-6 text-center text-stone text-sm">No hay compras registradas para tu cuenta.</div>';
+      return;
+    }
+    el.innerHTML = orders.map(o => {
+      const fecha = o.creadoEn?.toDate ? o.creadoEn.toDate().toLocaleString("es-AR") : "—";
+      const items = (o.items || []).map(i => `<li>${esc(i.titulo)} × ${i.qty}${i.precio != null ? " · " + money(i.precio) : ""}</li>`).join("");
+      return `<article class="card p-4 sm:p-5">
+        <div class="flex flex-wrap justify-between gap-2 mb-2">
+          <p class="font-display text-lg text-cream">Código ${esc(o.codigoRetiro||"—")}</p>
+          <span class="text-xs rounded-full border border-gold/30 px-2 py-0.5 text-gold-soft">${esc((o.estado||"").toUpperCase())}</span>
+        </div>
+        <p class="text-stone text-xs mb-2">${fecha} · ${esc(o.metodoPago||"")} · ${money(o.total)}</p>
+        <ul class="text-sm text-stone space-y-0.5 list-disc pl-4">${items || "<li>Sin detalle</li>"}</ul>
+      </article>`;
+    }).join("");
+  }
+
+  function renderCanjes() {
+    const available = canjes.filter(c => c.disponible !== false);
+    const grid = document.getElementById("canjes-grid");
+    const empty = document.getElementById("canjes-empty");
+    document.getElementById("sum-canjes").textContent = available.length;
+    if (!available.length) {
+      grid.innerHTML = "";
+      empty.classList.remove("hidden");
+      return;
+    }
+    empty.classList.add("hidden");
+    grid.innerHTML = available.map(c => {
+      const img = (c.imagenes && c.imagenes[0]) || c.imagenUrl || "";
+      return `<article class="card overflow-hidden flex flex-col">
+        <div class="aspect-[4/3] bg-wine-black">${img ? `<img src="${esc(img)}" alt="" class="w-full h-full object-cover" loading="lazy">` : ""}</div>
+        <div class="p-4 flex-1 flex flex-col">
+          <h3 class="font-display text-lg text-cream mb-1">${esc(c.titulo||"")}</h3>
+          <p class="text-stone text-sm flex-1 line-clamp-3">${esc(c.descripcion||"")}</p>
+          <p class="mt-3 text-gold-soft font-display text-xl">${c.puntosNecesarios||0} puntos</p>
+          <p class="text-stone text-xs mt-1">Canje en el local con tu DNI</p>
+        </div>
+      </article>`;
+    }).join("");
+  }
+
+  async function loadUserData(user) {
+    if (unsubProfile) { unsubProfile(); unsubProfile = null; }
+    if (unsubOrders) { unsubOrders(); unsubOrders = null; }
+
+    // Perfil en tiempo real
+    unsubProfile = onSnapshot(doc(db, "usuarios", user.uid), (snap) => {
+      profile = snap.exists() ? snap.data() : null;
+      if (auth.currentUser) showMember(auth.currentUser);
+    }, (err) => {
+      console.warn("[perfil]", err);
+      profile = null;
+      if (auth.currentUser) showMember(auth.currentUser);
+    });
+
+    // Pedidos del usuario por uid
+    try {
+      const byUid = await getDocs(query(collection(db, "pedidos"), where("uid", "==", user.uid)));
+      const map = new Map();
+      byUid.forEach(d => map.set(d.id, { id: d.id, ...d.data() }));
+
+      // Si hay DNI en perfil, también traer pedidos con ese DNI (carga en local)
+      const dni = profile?.dni || null;
+      // perfil puede no haber llegado aún; se re-consulta en snapshot de perfil vía re-render
+      // Intentamos de nuevo después de un momento si hace falta
+      setTimeout(async () => {
+        const dniNow = (await getDoc(doc(db, "usuarios", user.uid))).data()?.dni;
+        if (dniNow) {
+          try {
+            const byDni = await getDocs(query(collection(db, "pedidos"), where("dni", "==", String(dniNow))));
+            byDni.forEach(d => map.set(d.id, { id: d.id, ...d.data() }));
+          } catch (_) {}
+        }
+        orders = [...map.values()].sort((a, b) => {
+          const ta = a.creadoEn?.toMillis ? a.creadoEn.toMillis() : 0;
+          const tb = b.creadoEn?.toMillis ? b.creadoEn.toMillis() : 0;
+          return tb - ta;
+        });
+        renderSummary();
+        renderOrders();
+      }, 400);
+
+      orders = [...map.values()].sort((a, b) => {
+        const ta = a.creadoEn?.toMillis ? a.creadoEn.toMillis() : 0;
+        const tb = b.creadoEn?.toMillis ? b.creadoEn.toMillis() : 0;
+        return tb - ta;
+      });
+      renderOrders();
+      renderSummary();
+    } catch (e) {
+      console.warn("[pedidos]", e);
+      orders = [];
+      renderOrders();
+    }
+  }
+
+  // Canjes públicos
+  onSnapshot(collection(db, "canjes"), (snap) => {
+    canjes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderCanjes();
+  }, () => {});
+
+  // Logo
+  onSnapshot(doc(db, "settings", "general"), (snap) => {
+    if (snap.exists() && snap.data().logoUrl) {
+      document.getElementById("site-logo").src = snap.data().logoUrl;
+    }
+  }, () => {});
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loadUserData(user);
+      showMember(user);
+    } else {
+      profile = null;
+      orders = [];
+      if (unsubProfile) { unsubProfile(); unsubProfile = null; }
+      showGuest();
+    }
+  });
+
+  /* Auth UI */
+  document.getElementById("header-auth-btn").addEventListener("click", () => {
+    if (auth.currentUser) {
+      document.querySelector('[data-tab="perfil"]').click();
+      document.getElementById("member-view").scrollIntoView({ behavior: "smooth" });
+    } else {
+      document.getElementById("login-email").focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+
+  document.getElementById("show-register").addEventListener("click", () => {
+    document.getElementById("register-panel").classList.remove("hidden");
+    setAuthMsg("");
+  });
+  document.getElementById("show-login").addEventListener("click", () => {
+    document.getElementById("register-panel").classList.add("hidden");
+  });
+
+  document.getElementById("google-btn").addEventListener("click", async () => {
+    setAuthMsg("Conectando con Google…");
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const u = result.user;
+      const ref = doc(db, "usuarios", u.uid);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) {
+        const parts = String(u.displayName || "").trim().split(/\s+/);
+        await setDoc(ref, {
+          nombre: parts[0] || "",
+          apellido: parts.slice(1).join(" ") || "",
+          email: u.email || "",
+          puntos: 0,
+          creadoEn: serverTimestamp()
+        });
+      }
+      toast("Sesión iniciada");
+    } catch (e) {
+      console.error(e);
+      setAuthMsg("No se pudo iniciar con Google. Revisá dominios autorizados en Firebase.", true);
+    }
+  });
+
+  document.getElementById("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("login-email").value.trim();
+    const pass = document.getElementById("login-pass").value;
+    setAuthMsg("Ingresando…");
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      toast("Sesión iniciada");
+      document.getElementById("login-pass").value = "";
+    } catch (err) {
+      setAuthMsg("Correo o contraseña incorrectos.", true);
+    }
+  });
+
+  document.getElementById("register-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById("reg-nombre").value.trim();
+    const apellido = document.getElementById("reg-apellido").value.trim();
+    const email = document.getElementById("reg-email").value.trim();
+    const pass = document.getElementById("reg-pass").value;
+    if (!nombre || !apellido) { setAuthMsg("Completá nombre y apellido.", true); return; }
+    if (pass.length < 6) { setAuthMsg("La contraseña debe tener al menos 6 caracteres.", true); return; }
+    setAuthMsg("Creando cuenta…");
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      try { await updateProfile(cred.user, { displayName: `${nombre} ${apellido}` }); } catch (_) {}
+      await setDoc(doc(db, "usuarios", cred.user.uid), {
+        nombre, apellido, email, puntos: 0, creadoEn: serverTimestamp()
+      }, { merge: true });
+      toast("Cuenta creada");
+      setAuthMsg("");
+    } catch (err) {
+      const map = {
+        "auth/email-already-in-use": "Ese correo ya tiene una cuenta.",
+        "auth/weak-password": "Contraseña demasiado débil.",
+        "auth/invalid-email": "Correo inválido."
+      };
+      setAuthMsg(map[err.code] || "No se pudo crear la cuenta.", true);
+    }
+  });
+
+  document.getElementById("reset-pass").addEventListener("click", async () => {
+    const email = document.getElementById("login-email").value.trim();
+    if (!email) { setAuthMsg("Ingresá tu correo arriba para recuperar la clave.", true); return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setAuthMsg("Si existe una cuenta, vas a recibir instrucciones por correo.");
+    } catch {
+      setAuthMsg("Si existe una cuenta, vas a recibir instrucciones por correo.");
+    }
+  });
+
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+    await signOut(auth);
+    toast("Sesión cerrada");
+  });
+
+  /* Tabs */
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      ["resumen", "compras", "canjes", "perfil"].forEach(id => {
+        document.getElementById("tab-" + id).classList.toggle("hidden", id !== btn.dataset.tab);
+      });
+    });
+  });
+
+  /* Profile save */
+  document.getElementById("profile-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const user = auth.currentUser;
+    if (!user) return;
+    const nombre = document.getElementById("pf-nombre").value.trim();
+    const apellido = document.getElementById("pf-apellido").value.trim();
+    const dni = document.getElementById("pf-dni").value.trim().replace(/\D/g, "");
+    const telefono = document.getElementById("pf-tel").value.trim();
+    const msg = document.getElementById("profile-msg");
+    if (!nombre || !apellido) { msg.textContent = "Completá nombre y apellido."; return; }
+    if (dni.length < 6 || dni.length > 10) { msg.textContent = "DNI inválido (6 a 10 dígitos)."; return; }
+    msg.textContent = "Guardando…";
+    try {
+      await setDoc(doc(db, "usuarios", user.uid), {
+        nombre, apellido, dni, telefono: telefono || null,
+        email: user.email || "",
+        clubAdherido: true,
+        actualizadoEn: serverTimestamp()
+      }, { merge: true });
+      msg.textContent = "Datos guardados.";
+      toast("Perfil actualizado");
+      loadUserData(user);
+    } catch (err) {
+      console.error(err);
+      msg.textContent = "No se pudo guardar. Puede faltar permiso en reglas de Firestore (update propio).";
+      toast("Error al guardar", "error");
+    }
+  });
+</script>
+</body>
+</html>
