@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin | Club del Anfitrión</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#140b0c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          "wine-black": "#140b0c", "wine-dark": "#1e1114", "wine-panel": "#26161a",
+          "burgundy": "#5c1128", "garnet": "#7c1f2f", "garnet-light": "#9c3244",
+          "gold": "#c9a24b", "gold-soft": "#e6cf9c", "cream": "#efe6d8", "stone": "#b4a293",
+        },
+        fontFamily: { display: ['"Fraunces"', "serif"], sans: ['"Inter"', "sans-serif"] },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #140b0c; }
+  .hairline { background: linear-gradient(90deg, transparent, rgba(201,162,75,.55), transparent); height: 1px; }
+  .label-serif { font-family: "Fraunces", serif; font-style: italic; }
+  .btn-press { transition: transform .18s ease, box-shadow .25s ease; }
+  .btn-press:hover { transform: translateY(-1px); }
+  .btn-press:active { transform: scale(.98); }
+  .sidebar-link.active { background: rgba(201,162,75,.15); color: #e6cf9c; border-color: rgba(201,162,75,.35); }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #7c1f2f; border-radius: 4px; }
+  input:focus, textarea:focus, select:focus, button:focus-visible {
+    outline: 2px solid #c9a24b; outline-offset: 2px;
+  }
+  .stat-card { background: linear-gradient(145deg, rgba(38,22,26,.95), rgba(20,11,12,.9)); }
+  #toast-box { position: fixed; top: 1rem; right: 1rem; z-index: 200; display: flex; flex-direction: column; gap: .5rem; }
+  .toast { min-width: 240px; max-width: 360px; }
+  @media (max-width: 1023px) {
+    #sidebar { transform: translateX(-100%); }
+    #sidebar.open { transform: translateX(0); }
+  }
+</style>
+</head>
+<body class="font-sans text-cream antialiased min-h-screen">
+
+<div id="toast-box" aria-live="polite"></div>
+
+<!-- LOGIN -->
+<div id="login-screen" class="min-h-screen flex items-center justify-center px-4"
+     style="background-image:radial-gradient(ellipse 90% 60% at 15% -10%,rgba(124,31,47,.35),transparent 60%)">
+  <div class="w-full max-w-md rounded-2xl border border-gold/25 bg-wine-panel p-8 sm:p-10 shadow-2xl">
+    <div class="mx-auto h-16 w-16 rounded-full overflow-hidden border-2 border-gold/40 mb-6 bg-wine-black">
+      <img id="login-logo" src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Logo" class="w-full h-full object-cover">
+    </div>
+    <h1 class="font-display text-3xl text-center mb-1">Panel de administración</h1>
+    <p class="text-stone text-sm text-center mb-8">Solo cuentas autorizadas de Club del Anfitrión</p>
+    <form id="login-form" class="space-y-4" novalidate>
+      <div>
+        <label for="login-email" class="block text-sm text-stone mb-1.5">Correo electrónico</label>
+        <input id="login-email" type="email" autocomplete="username" required
+               class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold"
+               placeholder="admin@tudominio.com">
+      </div>
+      <div>
+        <label for="login-pass" class="block text-sm text-stone mb-1.5">Contraseña</label>
+        <input id="login-pass" type="password" autocomplete="current-password" required
+               class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-3 text-cream focus:border-gold"
+               placeholder="••••••••">
+      </div>
+      <p id="login-error" class="hidden text-garnet-light text-sm"></p>
+      <button type="submit" id="login-btn"
+              class="btn-press w-full rounded-full bg-gold px-6 py-3.5 text-wine-black font-medium hover:bg-gold-soft transition-colors disabled:opacity-60">
+        Ingresar
+      </button>
+    </form>
+    <p class="text-stone text-xs text-center mt-6 leading-relaxed">
+      La contraseña no está en el código. Usá la cuenta de Firebase Authentication de los dueños.
+      Si olvidaste la clave, recuperála desde la consola de Firebase o el flujo de recuperación.
+    </p>
+    <p class="text-center mt-4">
+      <a href="https://clubdelanfitrion.com.ar/" class="text-gold-soft text-sm hover:underline">← Volver a la tienda</a>
+    </p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app-screen" class="hidden min-h-screen lg:flex">
+  <!-- Overlay móvil -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-30 hidden lg:hidden"></div>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-40 h-screen w-72 bg-wine-dark border-r border-gold/15 flex flex-col transition-transform duration-300">
+    <div class="p-5 border-b border-gold/10 flex items-center gap-3">
+      <div class="h-11 w-11 rounded-full overflow-hidden border border-gold/40 shrink-0">
+        <img id="side-logo" src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="" class="w-full h-full object-cover">
+      </div>
+      <div class="min-w-0">
+        <p class="font-display text-lg truncate">Club del Anfitrión</p>
+        <p class="text-stone text-xs">Administración</p>
+      </div>
+      <button type="button" id="sidebar-close" class="lg:hidden ml-auto text-stone p-1" aria-label="Cerrar menú">✕</button>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto p-3 space-y-1 scrollbar-thin" id="nav">
+      <button type="button" data-section="dashboard" class="sidebar-link active w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-stone hover:text-cream hover:bg-wine-panel/60 flex items-center gap-2">
+        <span>📊</span> Resumen
+      </button>
+      <button type="button" data-section="productos" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-stone hover:text-cream hover:bg-wine-panel/60 flex items-center gap-2">
+        <span>🍷</span> Productos
+      </button>
+      <button type="button" data-section="promos" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-stone hover:text-cream hover:bg-wine-panel/60 flex items-center gap-2">
+        <span>🏷️</span> Promociones
+      </button>
+      <button type="button" data-section="eventos" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-stone hover:text-cream hover:bg-wine-panel/60 flex items-center gap-2">
+        <span>📅</span> Eventos
+      </button>
+      <button type="button" data-section="pedidos" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-stone hover:text-cream hover:bg-wine-panel/60 flex items-center gap-2">
+        <span>📦</span> Pedidos
+      </button>
+      <button type="button" data-section="clientes" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-stone hover:text-cream hover:bg-wine-panel/60 flex items-center gap-2">
+        <span>👥</span> Clientes
+      </button>
+      <button type="button" data-section="puntos" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-stone hover:text-cream hover:bg-wine-panel/60 flex items-center gap-2">
+        <span>⭐</span> Puntos y canjes
+      </button>
+      <button type="button" data-section="ajustes" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-stone hover:text-cream hover:bg-wine-panel/60 flex items-center gap-2">
+        <span>⚙️</span> Ajustes del sitio
+      </button>
+    </nav>
+
+    <div class="p-4 border-t border-gold/10">
+      <p id="admin-email-label" class="text-xs text-stone truncate mb-2"></p>
+      <button type="button" id="logout-btn" class="w-full rounded-full border border-gold/30 px-4 py-2 text-sm text-gold-soft hover:bg-gold hover:text-wine-black transition-colors">
+        Cerrar sesión
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="flex-1 min-w-0 flex flex-col min-h-screen">
+    <header class="sticky top-0 z-20 bg-wine-black/95 border-b border-gold/10 backdrop-blur px-4 sm:px-6 h-16 flex items-center gap-3">
+      <button type="button" id="menu-btn" class="lg:hidden p-2 text-cream" aria-label="Menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <h2 id="section-title" class="font-display text-xl sm:text-2xl flex-1">Resumen</h2>
+      <a href="https://clubdelanfitrion.com.ar/" target="_blank" rel="noopener" class="text-xs text-stone hover:text-gold-soft hidden sm:inline">Ver tienda ↗</a>
+    </header>
+
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
+
+      <!-- DASHBOARD -->
+      <section id="sec-dashboard" class="space-y-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div class="stat-card rounded-2xl border border-gold/15 p-4 sm:p-5">
+            <p class="text-stone text-xs mb-1">Productos</p>
+            <p class="font-display text-3xl text-gold-soft" id="stat-productos">—</p>
+          </div>
+          <div class="stat-card rounded-2xl border border-gold/15 p-4 sm:p-5">
+            <p class="text-stone text-xs mb-1">Promociones</p>
+            <p class="font-display text-3xl text-gold-soft" id="stat-promos">—</p>
+          </div>
+          <div class="stat-card rounded-2xl border border-gold/15 p-4 sm:p-5">
+            <p class="text-stone text-xs mb-1">Clientes</p>
+            <p class="font-display text-3xl text-gold-soft" id="stat-clientes">—</p>
+          </div>
+          <div class="stat-card rounded-2xl border border-gold/15 p-4 sm:p-5">
+            <p class="text-stone text-xs mb-1">Pedidos (total)</p>
+            <p class="font-display text-3xl text-gold-soft" id="stat-pedidos">—</p>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-4">
+          <div class="rounded-2xl border border-gold/15 bg-wine-panel/50 p-5">
+            <h3 class="font-display text-xl mb-3">Pedidos pendientes de retiro</h3>
+            <p class="text-3xl font-display text-gold-soft mb-2" id="stat-pendientes">—</p>
+            <p class="text-stone text-sm">Estado «no retirado» en Firestore</p>
+          </div>
+          <div class="rounded-2xl border border-gold/15 bg-wine-panel/50 p-5">
+            <h3 class="font-display text-xl mb-3">Analítica de visitas</h3>
+            <p class="text-stone text-sm leading-relaxed mb-3">
+              El sitio tiene Google Analytics 4 configurado (<code class="text-gold-soft text-xs">G-2DN0H1022S</code>).
+              Las visitas, tiempo en página, dispositivos y páginas más vistas se consultan en la
+              <a href="https://analytics.google.com/" target="_blank" rel="noopener" class="text-gold-soft underline">consola de GA4</a>
+              o en Firebase Console → Analytics.
+            </p>
+            <p class="text-stone text-xs">No inventamos números de visitas acá: los datos reales están en Analytics.</p>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-gold/15 bg-wine-panel/40 p-5">
+          <h3 class="font-display text-xl mb-3">Últimos pedidos</h3>
+          <div id="dash-pedidos" class="space-y-2 text-sm"></div>
+        </div>
+      </section>
+
+      <!-- PRODUCTOS -->
+      <section id="sec-productos" class="hidden space-y-6">
+        <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+          <input type="search" id="prod-search" placeholder="Buscar producto…"
+                 class="flex-1 rounded-full bg-wine-black/60 border border-gold/20 px-5 py-2.5 text-sm focus:border-gold">
+          <button type="button" id="prod-new-btn" class="btn-press rounded-full bg-gold px-5 py-2.5 text-wine-black text-sm font-medium">+ Nuevo producto</button>
+        </div>
+        <div id="prod-list" class="space-y-2"></div>
+
+        <div id="prod-form-wrap" class="hidden rounded-2xl border border-gold/20 bg-wine-panel/50 p-5 sm:p-6">
+          <h3 class="font-display text-xl mb-4" id="prod-form-title">Nuevo producto</h3>
+          <form id="prod-form" class="grid sm:grid-cols-2 gap-4" novalidate>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">Título</label>
+              <input id="pf-titulo" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">Descripción</label>
+              <textarea id="pf-desc" rows="3" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Precio</label>
+              <input id="pf-precio" type="number" min="0" step="1" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Precio transferencia / efectivo</label>
+              <input id="pf-precio-t" type="number" min="0" step="1" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Categoría</label>
+              <input id="pf-cat" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm" placeholder="Ej: Tintos">
+            </div>
+            <div class="flex items-end gap-2 pb-1">
+              <input type="checkbox" id="pf-disp" checked class="accent-gold w-4 h-4">
+              <label for="pf-disp" class="text-sm">Disponible</label>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">URL de imagen (principal)</label>
+              <input id="pf-img" type="url" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm" placeholder="https://…">
+              <p class="text-stone text-xs mt-1">O subí un archivo:</p>
+              <input id="pf-file" type="file" accept="image/*" class="mt-1 text-sm text-stone">
+            </div>
+            <div class="sm:col-span-2 flex gap-3 pt-2">
+              <button type="submit" class="btn-press flex-1 rounded-full bg-gold px-5 py-2.5 text-wine-black font-medium text-sm">Guardar</button>
+              <button type="button" id="prod-cancel" class="rounded-full border border-stone/30 px-5 py-2.5 text-sm text-stone">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- PROMOS -->
+      <section id="sec-promos" class="hidden space-y-6">
+        <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+          <input type="search" id="promo-search" placeholder="Buscar promoción…"
+                 class="flex-1 rounded-full bg-wine-black/60 border border-gold/20 px-5 py-2.5 text-sm focus:border-gold">
+          <button type="button" id="promo-new-btn" class="btn-press rounded-full bg-gold px-5 py-2.5 text-wine-black text-sm font-medium">+ Nueva promo</button>
+        </div>
+        <div id="promo-list" class="space-y-2"></div>
+        <div id="promo-form-wrap" class="hidden rounded-2xl border border-gold/20 bg-wine-panel/50 p-5 sm:p-6">
+          <h3 class="font-display text-xl mb-4" id="promo-form-title">Nueva promoción</h3>
+          <form id="promo-form" class="grid sm:grid-cols-2 gap-4" novalidate>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">Título</label>
+              <input id="pr-titulo" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">Descripción</label>
+              <textarea id="pr-desc" rows="3" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Precio</label>
+              <input id="pr-precio" type="number" min="0" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Tipo de precio</label>
+              <select id="pr-tipo" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+                <option value="total">Total</option>
+                <option value="persona">Por persona</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Vigencia hasta</label>
+              <input id="pr-vigencia" type="date" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Publicar desde (opcional)</label>
+              <input id="pr-desde" type="date" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">URL imagen</label>
+              <input id="pr-img" type="url" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+              <input id="pr-file" type="file" accept="image/*" class="mt-1 text-sm text-stone">
+            </div>
+            <div class="sm:col-span-2 flex gap-3">
+              <button type="submit" class="btn-press flex-1 rounded-full bg-gold px-5 py-2.5 text-wine-black font-medium text-sm">Guardar</button>
+              <button type="button" id="promo-cancel" class="rounded-full border border-stone/30 px-5 py-2.5 text-sm text-stone">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- EVENTOS -->
+      <section id="sec-eventos" class="hidden space-y-6">
+        <div class="flex justify-end">
+          <button type="button" id="evento-new-btn" class="btn-press rounded-full bg-gold px-5 py-2.5 text-wine-black text-sm font-medium">+ Nuevo evento</button>
+        </div>
+        <div id="evento-list" class="space-y-2"></div>
+        <div id="evento-form-wrap" class="hidden rounded-2xl border border-gold/20 bg-wine-panel/50 p-5 sm:p-6">
+          <h3 class="font-display text-xl mb-4" id="evento-form-title">Nuevo evento</h3>
+          <form id="evento-form" class="grid sm:grid-cols-2 gap-4" novalidate>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">Título</label>
+              <input id="ev-titulo" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">Descripción</label>
+              <textarea id="ev-desc" rows="3" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Fecha</label>
+              <input id="ev-fecha" type="date" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Hora</label>
+              <input id="ev-hora" type="time" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">Lugar</label>
+              <input id="ev-lugar" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Precio</label>
+              <input id="ev-precio" type="number" min="0" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Tipo</label>
+              <select id="ev-tipo" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+                <option value="total">Total</option>
+                <option value="persona">Por persona</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">URL imagen</label>
+              <input id="ev-img" type="url" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+              <input id="ev-file" type="file" accept="image/*" class="mt-1 text-sm text-stone">
+            </div>
+            <div class="sm:col-span-2 flex gap-3">
+              <button type="submit" class="btn-press flex-1 rounded-full bg-gold px-5 py-2.5 text-wine-black font-medium text-sm">Guardar</button>
+              <button type="button" id="evento-cancel" class="rounded-full border border-stone/30 px-5 py-2.5 text-sm text-stone">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- PEDIDOS -->
+      <section id="sec-pedidos" class="hidden space-y-6">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input type="search" id="pedido-search" placeholder="Buscar por DNI, código o nombre…"
+                 class="flex-1 rounded-full bg-wine-black/60 border border-gold/20 px-5 py-2.5 text-sm">
+          <select id="pedido-filter" class="rounded-full bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            <option value="">Todos</option>
+            <option value="no retirado">No retirados</option>
+            <option value="retirado">Retirados</option>
+          </select>
+        </div>
+        <div id="pedido-list" class="space-y-3"></div>
+      </section>
+
+      <!-- CLIENTES -->
+      <section id="sec-clientes" class="hidden space-y-6">
+        <input type="search" id="cliente-search" placeholder="Buscar por nombre, apellido, DNI o email…"
+               class="w-full rounded-full bg-wine-black/60 border border-gold/20 px-5 py-2.5 text-sm">
+        <div id="cliente-list" class="space-y-2"></div>
+        <div id="cliente-detail" class="hidden rounded-2xl border border-gold/20 bg-wine-panel/50 p-5 space-y-4">
+          <div class="flex justify-between items-start gap-3">
+            <div>
+              <h3 class="font-display text-2xl" id="cd-nombre">—</h3>
+              <p class="text-stone text-sm" id="cd-email"></p>
+              <p class="text-stone text-sm">DNI: <span id="cd-dni"></span></p>
+            </div>
+            <button type="button" id="cd-close" class="text-stone hover:text-gold-soft">✕</button>
+          </div>
+          <div class="grid sm:grid-cols-3 gap-3">
+            <div class="rounded-xl border border-gold/15 bg-wine-black/40 p-4 text-center">
+              <p class="text-stone text-xs">Puntos</p>
+              <p class="font-display text-2xl text-gold-soft" id="cd-puntos">0</p>
+            </div>
+            <div class="sm:col-span-2 flex flex-wrap gap-2 items-end">
+              <div class="flex-1 min-w-[120px]">
+                <label class="block text-xs text-stone mb-1">Sumar / restar puntos</label>
+                <input type="number" id="cd-puntos-delta" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-3 py-2 text-sm" placeholder="Ej: 50 o -20">
+              </div>
+              <button type="button" id="cd-puntos-btn" class="btn-press rounded-full bg-gold px-4 py-2 text-wine-black text-sm font-medium">Aplicar</button>
+            </div>
+          </div>
+          <p class="text-stone text-xs">Los puntos se guardan en el documento del usuario en Firestore. El cliente los ve en el Club de Clientes.</p>
+        </div>
+      </section>
+
+      <!-- PUNTOS / CANJES -->
+      <section id="sec-puntos" class="hidden space-y-6">
+        <div class="rounded-2xl border border-gold/15 bg-wine-panel/40 p-5">
+          <h3 class="font-display text-xl mb-2">Terminal del local</h3>
+          <p class="text-stone text-sm mb-3">Para sumar puntos por DNI y canjear en el mostrador, usá la terminal dedicada (si la tenés en el repo).</p>
+          <a href="local_puntos_club_del_anfitrion.html" target="_blank" rel="noopener"
+             class="inline-flex rounded-full border border-gold/40 px-5 py-2.5 text-gold-soft text-sm hover:bg-gold hover:text-wine-black">
+            Abrir terminal del local ↗
+          </a>
+        </div>
+
+        <div class="flex justify-between items-center gap-3 flex-wrap">
+          <h3 class="font-display text-xl">Productos de canje</h3>
+          <button type="button" id="canje-new-btn" class="btn-press rounded-full bg-gold px-5 py-2.5 text-wine-black text-sm font-medium">+ Nuevo canje</button>
+        </div>
+        <div id="canje-list" class="space-y-2"></div>
+
+        <div id="canje-form-wrap" class="hidden rounded-2xl border border-gold/20 bg-wine-panel/50 p-5">
+          <h3 class="font-display text-xl mb-4" id="canje-form-title">Nuevo canje</h3>
+          <form id="canje-form" class="grid sm:grid-cols-2 gap-4" novalidate>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">Título</label>
+              <input id="cj-titulo" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">Descripción</label>
+              <textarea id="cj-desc" rows="2" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm text-stone mb-1">Puntos necesarios</label>
+              <input id="cj-puntos" type="number" min="1" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+            </div>
+            <div class="flex items-end gap-2 pb-1">
+              <input type="checkbox" id="cj-disp" checked class="accent-gold w-4 h-4">
+              <label for="cj-disp" class="text-sm">Disponible</label>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-stone mb-1">URL imagen</label>
+              <input id="cj-img" type="url" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
+              <input id="cj-file" type="file" accept="image/*" class="mt-1 text-sm text-stone">
+            </div>
+            <div class="sm:col-span-2 flex gap-3">
+              <button type="submit" class="btn-press flex-1 rounded-full bg-gold px-5 py-2.5 text-wine-black font-medium text-sm">Guardar</button>
+              <button type="button" id="canje-cancel" class="rounded-full border border-stone/30 px-5 py-2.5 text-sm text-stone">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- AJUSTES -->
+      <section id="sec-ajustes" class="hidden space-y-6">
+        <div class="rounded-2xl border border-gold/15 bg-wine-panel/50 p-5 space-y-4">
+          <h3 class="font-display text-xl">Logotipo del sitio</h3>
+          <div class="flex items-center gap-4">
+            <img id="logo-preview" src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="" class="h-16 w-16 rounded-full object-cover border border-gold/30">
+            <div class="flex-1">
+              <input id="logo-file" type="file" accept="image/*" class="text-sm text-stone">
+              <button type="button" id="logo-save" class="mt-2 btn-press rounded-full bg-gold px-4 py-2 text-wine-black text-sm font-medium">Guardar logo</button>
+              <p id="logo-status" class="text-xs text-stone mt-1"></p>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-gold/15 bg-wine-panel/50 p-5 space-y-3">
+          <h3 class="font-display text-xl">Video institucional</h3>
+          <p class="text-stone text-sm">URL directa del video (https://…mp4 o Cloudinary)</p>
+          <input id="story-url" type="url" class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm" placeholder="https://res.cloudinary.com/…">
+          <div class="flex gap-2">
+            <button type="button" id="story-save" class="btn-press rounded-full bg-gold px-4 py-2 text-wine-black text-sm font-medium">Guardar video</button>
+            <button type="button" id="story-clear" class="rounded-full border border-stone/30 px-4 py-2 text-sm text-stone">Quitar</button>
+          </div>
+          <p id="story-status" class="text-xs text-stone"></p>
+        </div>
+        <div class="rounded-2xl border border-gold/15 bg-wine-panel/40 p-5">
+          <h3 class="font-display text-xl mb-2">Seguridad</h3>
+          <ul class="text-stone text-sm space-y-2 list-disc pl-5">
+            <li>Este panel no guarda contraseñas en el código. Solo Firebase Authentication.</li>
+            <li>Las escrituras dependen de las reglas de Firestore. Configurá que solo UIDs de dueños puedan escribir en productos, promociones, eventos, canjes, settings y actualizar puntos de usuarios.</li>
+            <li>Ocultar la URL no es seguridad: las reglas de Firebase sí lo son.</li>
+            <li>Eliminá el login hardcodeado del HTML principal cuando migres el admin a esta página.</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import {
+    getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  import {
+    getFirestore, collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc,
+    setDoc, onSnapshot, query, orderBy, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyALsNxhMyC-GSQULpcj3CpwbDr81alvC0M",
+    authDomain: "clubdelanfitrion-8a6f1.firebaseapp.com",
+    projectId: "clubdelanfitrion-8a6f1",
+    storageBucket: "clubdelanfitrion-8a6f1.firebasestorage.app",
+    messagingSenderId: "187086724994",
+    appId: "1:187086724994:web:59e14efb3c355bd794b99b",
+    measurementId: "G-2DN0H1022S"
+  };
+
+  const CLOUDINARY_CLOUD_NAME = "wb9mhrpv";
+  const CLOUDINARY_UPLOAD_PRESET = "ClubDelAnfitrion";
+  const CLOUDINARY_IMAGE_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  let products = [], promos = [], events = [], pedidos = [], usuarios = [], canjes = [];
+  let editing = { prod: null, promo: null, evento: null, canje: null };
+  let selectedUserId = null;
+
+  function toast(msg, type = "ok") {
+    const box = document.getElementById("toast-box");
+    const el = document.createElement("div");
+    el.className = `toast rounded-xl border px-4 py-3 text-sm shadow-lg ${type === "error" ? "bg-garnet/90 border-garnet-light text-cream" : "bg-wine-panel border-gold/30 text-cream"}`;
+    el.textContent = msg;
+    box.appendChild(el);
+    setTimeout(() => el.remove(), 3800);
+  }
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
+  const money = (n) => (n == null || n === "" || isNaN(Number(n))) ? "—" : new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(Number(n));
+  const hasPrice = (v) => v != null && v !== "" && !isNaN(Number(v)) && Number(v) >= 0;
+
+  async function uploadImage(file) {
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    const r = await fetch(CLOUDINARY_IMAGE_URL, { method: "POST", body: fd });
+    if (!r.ok) throw new Error("No se pudo subir la imagen");
+    const d = await r.json();
+    if (!d.secure_url) throw new Error("Cloudinary sin URL");
+    return d.secure_url;
+  }
+
+  function showLogin() {
+    document.getElementById("login-screen").classList.remove("hidden");
+    document.getElementById("app-screen").classList.add("hidden");
+  }
+  function showApp(user) {
+    document.getElementById("login-screen").classList.add("hidden");
+    document.getElementById("app-screen").classList.remove("hidden");
+    document.getElementById("admin-email-label").textContent = user.email || user.uid;
+  }
+
+  document.getElementById("login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("login-email").value.trim();
+    const pass = document.getElementById("login-pass").value;
+    const err = document.getElementById("login-error");
+    const btn = document.getElementById("login-btn");
+    err.classList.add("hidden");
+    btn.disabled = true;
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+    } catch (ex) {
+      err.textContent = "No se pudo ingresar. Verificá correo y contraseña de la cuenta de administrador en Firebase.";
+      err.classList.remove("hidden");
+    } finally {
+      btn.disabled = false;
+      document.getElementById("login-pass").value = "";
+    }
+  });
+
+  document.getElementById("logout-btn").addEventListener("click", () => signOut(auth));
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      showApp(user);
+      startListeners();
+    } else {
+      showLogin();
+    }
+  });
+
+  /* Sidebar */
+  const titles = {
+    dashboard: "Resumen", productos: "Productos", promos: "Promociones",
+    eventos: "Eventos", pedidos: "Pedidos", clientes: "Clientes",
+    puntos: "Puntos y canjes", ajustes: "Ajustes del sitio"
+  };
+  document.getElementById("nav").addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-section]");
+    if (!btn) return;
+    const id = btn.dataset.section;
+    document.querySelectorAll(".sidebar-link").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    document.querySelectorAll("main > section").forEach(s => s.classList.add("hidden"));
+    document.getElementById("sec-" + id).classList.remove("hidden");
+    document.getElementById("section-title").textContent = titles[id] || id;
+    closeSidebar();
+  });
+  function openSidebar() {
+    document.getElementById("sidebar").classList.add("open");
+    document.getElementById("sidebar-overlay").classList.remove("hidden");
+  }
+  function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("sidebar-overlay").classList.add("hidden");
+  }
+  document.getElementById("menu-btn").addEventListener("click", openSidebar);
+  document.getElementById("sidebar-close").addEventListener("click", closeSidebar);
+  document.getElementById("sidebar-overlay").addEventListener("click", closeSidebar);
+
+  let listening = false;
+  function startListeners() {
+    if (listening) return;
+    listening = true;
+
+    onSnapshot(query(collection(db, "productos"), orderBy("creadoEn", "desc")), (snap) => {
+      products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderProducts();
+      updateStats();
+    }, (e) => console.warn("[productos]", e));
+
+    onSnapshot(collection(db, "promociones"), (snap) => {
+      promos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderPromos();
+      updateStats();
+    }, (e) => console.warn("[promos]", e));
+
+    onSnapshot(collection(db, "eventos"), (snap) => {
+      events = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderEvents();
+    }, (e) => console.warn("[eventos]", e));
+
+    onSnapshot(query(collection(db, "pedidos"), orderBy("creadoEn", "desc")), (snap) => {
+      pedidos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderPedidos();
+      updateStats();
+      renderDashPedidos();
+    }, (e) => console.warn("[pedidos]", e));
+
+    onSnapshot(collection(db, "usuarios"), (snap) => {
+      usuarios = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderClientes();
+      updateStats();
+    }, (e) => console.warn("[usuarios]", e));
+
+    onSnapshot(collection(db, "canjes"), (snap) => {
+      canjes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderCanjes();
+    }, (e) => console.warn("[canjes]", e));
+
+    onSnapshot(doc(db, "settings", "general"), (snap) => {
+      if (!snap.exists()) return;
+      const d = snap.data();
+      if (d.logoUrl) {
+        document.getElementById("login-logo").src = d.logoUrl;
+        document.getElementById("side-logo").src = d.logoUrl;
+        document.getElementById("logo-preview").src = d.logoUrl;
+      }
+      if (d.videoUrl) document.getElementById("story-url").value = d.videoUrl;
+    }, () => {});
+  }
+
+  function updateStats() {
+    document.getElementById("stat-productos").textContent = products.length;
+    document.getElementById("stat-promos").textContent = promos.length;
+    document.getElementById("stat-clientes").textContent = usuarios.length;
+    document.getElementById("stat-pedidos").textContent = pedidos.length;
+    document.getElementById("stat-pendientes").textContent = pedidos.filter(p => p.estado === "no retirado").length;
+  }
+
+  function renderDashPedidos() {
+    const box = document.getElementById("dash-pedidos");
+    const list = pedidos.slice(0, 8);
+    if (!list.length) { box.innerHTML = '<p class="text-stone">Sin pedidos aún.</p>'; return; }
+    box.innerHTML = list.map(p => {
+      const fecha = p.creadoEn?.toDate ? p.creadoEn.toDate().toLocaleString("es-AR") : "—";
+      return `<div class="flex flex-wrap gap-2 justify-between rounded-xl border border-gold/10 bg-wine-black/40 px-3 py-2">
+        <span class="text-cream">${esc(p.nombre)} · ${esc(p.codigoRetiro)}</span>
+        <span class="text-stone text-xs">${esc(p.estado)} · ${money(p.total)} · ${fecha}</span>
+      </div>`;
+    }).join("");
+  }
+
+  /* Products */
+  function renderProducts() {
+    const term = (document.getElementById("prod-search").value || "").toLowerCase();
+    const list = products.filter(p => !term || String(p.titulo||"").toLowerCase().includes(term));
+    const el = document.getElementById("prod-list");
+    if (!list.length) { el.innerHTML = '<p class="text-stone text-sm">No hay productos.</p>'; return; }
+    el.innerHTML = list.map(p => `
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-gold/15 bg-wine-panel/40 p-3">
+        <img src="${esc((p.imagenes&&p.imagenes[0])||p.imagenUrl||"")}" alt="" class="h-14 w-14 rounded-lg object-cover bg-wine-black border border-gold/10" onerror="this.style.opacity=0">
+        <div class="flex-1 min-w-0">
+          <p class="text-cream font-medium truncate">${esc(p.titulo)}</p>
+          <p class="text-stone text-xs">${p.categoria?esc(p.categoria)+" · ":""}${hasPrice(p.precio)?money(p.precio):"Consultar"} · ${p.disponible===false?"SIN STOCK":"Disponible"}</p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" data-edit-prod="${p.id}" class="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-soft">Editar</button>
+          <button type="button" data-del-prod="${p.id}" class="rounded-full border border-garnet-light/50 px-3 py-1.5 text-xs text-red-300">Eliminar</button>
+        </div>
+      </div>`).join("");
+  }
+  document.getElementById("prod-search").addEventListener("input", renderProducts);
+  document.getElementById("prod-new-btn").addEventListener("click", () => {
+    editing.prod = null;
+    document.getElementById("prod-form").reset();
+    document.getElementById("pf-disp").checked = true;
+    document.getElementById("prod-form-title").textContent = "Nuevo producto";
+    document.getElementById("prod-form-wrap").classList.remove("hidden");
+  });
+  document.getElementById("prod-cancel").addEventListener("click", () => {
+    document.getElementById("prod-form-wrap").classList.add("hidden");
+    editing.prod = null;
+  });
+  document.getElementById("prod-list").addEventListener("click", async (e) => {
+    const edit = e.target.closest("[data-edit-prod]");
+    const del = e.target.closest("[data-del-prod]");
+    if (edit) {
+      const p = products.find(x => x.id === edit.dataset.editProd);
+      if (!p) return;
+      editing.prod = p.id;
+      document.getElementById("pf-titulo").value = p.titulo || "";
+      document.getElementById("pf-desc").value = p.descripcion || "";
+      document.getElementById("pf-precio").value = hasPrice(p.precio) ? p.precio : "";
+      document.getElementById("pf-precio-t").value = hasPrice(p.precioTransferencia) ? p.precioTransferencia : "";
+      document.getElementById("pf-cat").value = p.categoria || "";
+      document.getElementById("pf-disp").checked = p.disponible !== false;
+      document.getElementById("pf-img").value = (p.imagenes && p.imagenes[0]) || p.imagenUrl || "";
+      document.getElementById("prod-form-title").textContent = "Editar producto";
+      document.getElementById("prod-form-wrap").classList.remove("hidden");
+    }
+    if (del) {
+      if (!confirm("¿Eliminar este producto?")) return;
+      try {
+        await deleteDoc(doc(db, "productos", del.dataset.delProd));
+        toast("Producto eliminado");
+      } catch (err) { toast("No se pudo eliminar (revisá reglas de Firestore)", "error"); }
+    }
+  });
+  document.getElementById("prod-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    try {
+      let img = document.getElementById("pf-img").value.trim() || null;
+      const file = document.getElementById("pf-file").files[0];
+      if (file) img = await uploadImage(file);
+      const fields = {
+        titulo: document.getElementById("pf-titulo").value.trim(),
+        descripcion: document.getElementById("pf-desc").value.trim(),
+        categoria: document.getElementById("pf-cat").value.trim() || null,
+        precio: hasPrice(document.getElementById("pf-precio").value) ? Number(document.getElementById("pf-precio").value) : null,
+        precioTransferencia: hasPrice(document.getElementById("pf-precio-t").value) ? Number(document.getElementById("pf-precio-t").value) : null,
+        disponible: document.getElementById("pf-disp").checked,
+        imagenUrl: img,
+        imagenes: img ? [img] : []
+      };
+      if (!fields.titulo) { toast("Falta el título", "error"); return; }
+      if (editing.prod) {
+        await updateDoc(doc(db, "productos", editing.prod), fields);
+        toast("Producto actualizado");
+      } else {
+        await addDoc(collection(db, "productos"), { ...fields, creadoEn: serverTimestamp() });
+        toast("Producto publicado");
+      }
+      document.getElementById("prod-form-wrap").classList.add("hidden");
+      editing.prod = null;
+    } catch (err) {
+      console.error(err);
+      toast(err.message || "Error al guardar", "error");
+    }
+  });
+
+  /* Promos */
+  function renderPromos() {
+    const term = (document.getElementById("promo-search").value || "").toLowerCase();
+    const list = promos.filter(p => !term || String(p.titulo||"").toLowerCase().includes(term));
+    const el = document.getElementById("promo-list");
+    if (!list.length) { el.innerHTML = '<p class="text-stone text-sm">No hay promociones.</p>'; return; }
+    el.innerHTML = list.map(p => `
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-gold/15 bg-wine-panel/40 p-3">
+        <div class="flex-1 min-w-0">
+          <p class="text-cream font-medium truncate">${esc(p.titulo)}</p>
+          <p class="text-stone text-xs">Hasta ${esc(p.vigencia||"—")} · ${hasPrice(p.precio)?money(p.precio):"Consultar"}</p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" data-edit-promo="${p.id}" class="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-soft">Editar</button>
+          <button type="button" data-del-promo="${p.id}" class="rounded-full border border-garnet-light/50 px-3 py-1.5 text-xs text-red-300">Eliminar</button>
+        </div>
+      </div>`).join("");
+  }
+  document.getElementById("promo-search").addEventListener("input", renderPromos);
+  document.getElementById("promo-new-btn").addEventListener("click", () => {
+    editing.promo = null;
+    document.getElementById("promo-form").reset();
+    document.getElementById("promo-form-title").textContent = "Nueva promoción";
+    document.getElementById("promo-form-wrap").classList.remove("hidden");
+  });
+  document.getElementById("promo-cancel").addEventListener("click", () => {
+    document.getElementById("promo-form-wrap").classList.add("hidden");
+    editing.promo = null;
+  });
+  document.getElementById("promo-list").addEventListener("click", async (e) => {
+    const edit = e.target.closest("[data-edit-promo]");
+    const del = e.target.closest("[data-del-promo]");
+    if (edit) {
+      const p = promos.find(x => x.id === edit.dataset.editPromo);
+      if (!p) return;
+      editing.promo = p.id;
+      document.getElementById("pr-titulo").value = p.titulo || "";
+      document.getElementById("pr-desc").value = p.descripcion || "";
+      document.getElementById("pr-precio").value = hasPrice(p.precio) ? p.precio : "";
+      document.getElementById("pr-tipo").value = p.tipoPrecio === "persona" ? "persona" : "total";
+      document.getElementById("pr-vigencia").value = p.vigencia || "";
+      document.getElementById("pr-desde").value = p.publicarDesde || "";
+      document.getElementById("pr-img").value = (p.imagenes&&p.imagenes[0]) || p.imagenUrl || "";
+      document.getElementById("promo-form-title").textContent = "Editar promoción";
+      document.getElementById("promo-form-wrap").classList.remove("hidden");
+    }
+    if (del) {
+      if (!confirm("¿Eliminar promoción?")) return;
+      try { await deleteDoc(doc(db, "promociones", del.dataset.delPromo)); toast("Eliminada"); }
+      catch { toast("No se pudo eliminar", "error"); }
+    }
+  });
+  document.getElementById("promo-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    try {
+      let img = document.getElementById("pr-img").value.trim() || null;
+      const file = document.getElementById("pr-file").files[0];
+      if (file) img = await uploadImage(file);
+      const fields = {
+        titulo: document.getElementById("pr-titulo").value.trim(),
+        descripcion: document.getElementById("pr-desc").value.trim(),
+        vigencia: document.getElementById("pr-vigencia").value,
+        publicarDesde: document.getElementById("pr-desde").value || null,
+        precio: hasPrice(document.getElementById("pr-precio").value) ? Number(document.getElementById("pr-precio").value) : null,
+        tipoPrecio: document.getElementById("pr-tipo").value,
+        imagenUrl: img,
+        imagenes: img ? [img] : []
+      };
+      if (!fields.titulo || !fields.vigencia) { toast("Título y vigencia son obligatorios", "error"); return; }
+      if (editing.promo) await updateDoc(doc(db, "promociones", editing.promo), fields);
+      else await addDoc(collection(db, "promociones"), { ...fields, creadoEn: serverTimestamp() });
+      toast("Promoción guardada");
+      document.getElementById("promo-form-wrap").classList.add("hidden");
+      editing.promo = null;
+    } catch (err) { toast(err.message || "Error", "error"); }
+  });
+
+  /* Events */
+  function renderEvents() {
+    const el = document.getElementById("evento-list");
+    if (!events.length) { el.innerHTML = '<p class="text-stone text-sm">No hay eventos.</p>'; return; }
+    el.innerHTML = events.map(p => `
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-gold/15 bg-wine-panel/40 p-3">
+        <div class="flex-1 min-w-0">
+          <p class="text-cream font-medium truncate">${esc(p.titulo)}</p>
+          <p class="text-stone text-xs">${esc(p.fecha||"")} ${esc(p.hora||"")} · ${esc(p.lugar||"")}</p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" data-edit-ev="${p.id}" class="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-soft">Editar</button>
+          <button type="button" data-del-ev="${p.id}" class="rounded-full border border-garnet-light/50 px-3 py-1.5 text-xs text-red-300">Eliminar</button>
+        </div>
+      </div>`).join("");
+  }
+  document.getElementById("evento-new-btn").addEventListener("click", () => {
+    editing.evento = null;
+    document.getElementById("evento-form").reset();
+    document.getElementById("evento-form-title").textContent = "Nuevo evento";
+    document.getElementById("evento-form-wrap").classList.remove("hidden");
+  });
+  document.getElementById("evento-cancel").addEventListener("click", () => {
+    document.getElementById("evento-form-wrap").classList.add("hidden");
+  });
+  document.getElementById("evento-list").addEventListener("click", async (e) => {
+    const edit = e.target.closest("[data-edit-ev]");
+    const del = e.target.closest("[data-del-ev]");
+    if (edit) {
+      const p = events.find(x => x.id === edit.dataset.editEv);
+      if (!p) return;
+      editing.evento = p.id;
+      document.getElementById("ev-titulo").value = p.titulo || "";
+      document.getElementById("ev-desc").value = p.descripcion || "";
+      document.getElementById("ev-fecha").value = p.fecha || "";
+      document.getElementById("ev-hora").value = p.hora || "";
+      document.getElementById("ev-lugar").value = p.lugar || "";
+      document.getElementById("ev-precio").value = hasPrice(p.precio) ? p.precio : "";
+      document.getElementById("ev-tipo").value = p.tipoPrecio === "persona" ? "persona" : "total";
+      document.getElementById("ev-img").value = (p.imagenes&&p.imagenes[0]) || p.imagenUrl || "";
+      document.getElementById("evento-form-title").textContent = "Editar evento";
+      document.getElementById("evento-form-wrap").classList.remove("hidden");
+    }
+    if (del) {
+      if (!confirm("¿Eliminar evento?")) return;
+      try { await deleteDoc(doc(db, "eventos", del.dataset.delEv)); toast("Eliminado"); }
+      catch { toast("No se pudo eliminar", "error"); }
+    }
+  });
+  document.getElementById("evento-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    try {
+      let img = document.getElementById("ev-img").value.trim() || null;
+      const file = document.getElementById("ev-file").files[0];
+      if (file) img = await uploadImage(file);
+      const fields = {
+        titulo: document.getElementById("ev-titulo").value.trim(),
+        descripcion: document.getElementById("ev-desc").value.trim(),
+        fecha: document.getElementById("ev-fecha").value,
+        hora: document.getElementById("ev-hora").value,
+        lugar: document.getElementById("ev-lugar").value.trim(),
+        precio: hasPrice(document.getElementById("ev-precio").value) ? Number(document.getElementById("ev-precio").value) : null,
+        tipoPrecio: document.getElementById("ev-tipo").value,
+        imagenUrl: img,
+        imagenes: img ? [img] : []
+      };
+      if (!fields.titulo || !fields.fecha || !fields.hora || !fields.lugar) {
+        toast("Completá los campos obligatorios", "error"); return;
+      }
+      if (editing.evento) await updateDoc(doc(db, "eventos", editing.evento), fields);
+      else await addDoc(collection(db, "eventos"), { ...fields, creadoEn: serverTimestamp() });
+      toast("Evento guardado");
+      document.getElementById("evento-form-wrap").classList.add("hidden");
+      editing.evento = null;
+    } catch (err) { toast(err.message || "Error", "error"); }
+  });
+
+  /* Pedidos */
+  function renderPedidos() {
+    const term = (document.getElementById("pedido-search").value || "").toLowerCase();
+    const st = document.getElementById("pedido-filter").value;
+    let list = pedidos;
+    if (st) list = list.filter(p => p.estado === st);
+    if (term) list = list.filter(p =>
+      String(p.dni||"").includes(term) ||
+      String(p.codigoRetiro||"").toLowerCase().includes(term) ||
+      String(p.nombre||"").toLowerCase().includes(term)
+    );
+    const el = document.getElementById("pedido-list");
+    if (!list.length) { el.innerHTML = '<p class="text-stone text-sm">Sin pedidos.</p>'; return; }
+    el.innerHTML = list.map(p => {
+      const fecha = p.creadoEn?.toDate ? p.creadoEn.toDate().toLocaleString("es-AR") : "—";
+      const items = (p.items || []).map(i => `${esc(i.titulo)} ×${i.qty}`).join(", ");
+      return `<div class="rounded-xl border border-gold/15 bg-wine-panel/40 p-4">
+        <div class="flex flex-wrap justify-between gap-2 mb-2">
+          <p class="text-cream font-medium">${esc(p.nombre)} · código ${esc(p.codigoRetiro)}</p>
+          <span class="text-xs rounded-full px-2 py-0.5 border border-gold/30 text-gold-soft">${esc(p.estado)}</span>
+        </div>
+        <p class="text-stone text-xs mb-1">DNI ${esc(p.dni)} · Tel ${esc(p.telefono)} · ${esc(p.metodoPago)}</p>
+        <p class="text-stone text-xs mb-2">${items || "Sin detalle"}</p>
+        <div class="flex flex-wrap gap-2 items-center justify-between">
+          <p class="text-gold-soft font-display text-lg">${money(p.total)}</p>
+          <p class="text-stone text-xs">${fecha}</p>
+        </div>
+        ${p.estado === "no retirado" ? `<button type="button" data-retirar="${p.id}" class="mt-3 rounded-full border border-gold/40 px-4 py-1.5 text-xs text-gold-soft">Marcar retirado</button>` : ""}
+      </div>`;
+    }).join("");
+  }
+  document.getElementById("pedido-search").addEventListener("input", renderPedidos);
+  document.getElementById("pedido-filter").addEventListener("change", renderPedidos);
+  document.getElementById("pedido-list").addEventListener("click", async (e) => {
+    const btn = e.target.closest("[data-retirar]");
+    if (!btn) return;
+    try {
+      await updateDoc(doc(db, "pedidos", btn.dataset.retirar), { estado: "retirado" });
+      toast("Pedido marcado como retirado");
+    } catch { toast("No se pudo actualizar", "error"); }
+  });
+
+  /* Clientes */
+  function renderClientes() {
+    const term = (document.getElementById("cliente-search").value || "").toLowerCase();
+    const list = usuarios.filter(u => {
+      if (!term) return true;
+      return [u.nombre, u.apellido, u.dni, u.email].some(v => String(v||"").toLowerCase().includes(term));
+    });
+    const el = document.getElementById("cliente-list");
+    if (!list.length) { el.innerHTML = '<p class="text-stone text-sm">No hay clientes o no tenés permiso de lectura.</p>'; return; }
+    el.innerHTML = list.map(u => `
+      <button type="button" data-user="${u.id}" class="w-full text-left rounded-xl border border-gold/15 bg-wine-panel/40 p-3 hover:border-gold/40 transition-colors">
+        <p class="text-cream font-medium">${esc(u.nombre||"")} ${esc(u.apellido||"")}</p>
+        <p class="text-stone text-xs">${esc(u.email||"")} · DNI ${esc(u.dni||"—")} · ${typeof u.puntos==="number"?u.puntos+" pts":"sin puntos"}</p>
+      </button>`).join("");
+  }
+  document.getElementById("cliente-search").addEventListener("input", renderClientes);
+  document.getElementById("cliente-list").addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-user]");
+    if (!btn) return;
+    const u = usuarios.find(x => x.id === btn.dataset.user);
+    if (!u) return;
+    selectedUserId = u.id;
+    document.getElementById("cliente-detail").classList.remove("hidden");
+    document.getElementById("cd-nombre").textContent = `${u.nombre||""} ${u.apellido||""}`.trim() || "Sin nombre";
+    document.getElementById("cd-email").textContent = u.email || "";
+    document.getElementById("cd-dni").textContent = u.dni || "—";
+    document.getElementById("cd-puntos").textContent = typeof u.puntos === "number" ? u.puntos : 0;
+  });
+  document.getElementById("cd-close").addEventListener("click", () => {
+    document.getElementById("cliente-detail").classList.add("hidden");
+    selectedUserId = null;
+  });
+  document.getElementById("cd-puntos-btn").addEventListener("click", async () => {
+    if (!selectedUserId) return;
+    const delta = Number(document.getElementById("cd-puntos-delta").value);
+    if (!delta || isNaN(delta)) { toast("Ingresá un número de puntos", "error"); return; }
+    const u = usuarios.find(x => x.id === selectedUserId);
+    const current = typeof u?.puntos === "number" ? u.puntos : 0;
+    const next = Math.max(0, current + delta);
+    try {
+      await updateDoc(doc(db, "usuarios", selectedUserId), {
+        puntos: next,
+        actualizadoEn: serverTimestamp()
+      });
+      document.getElementById("cd-puntos").textContent = next;
+      document.getElementById("cd-puntos-delta").value = "";
+      toast(`Puntos actualizados: ${next}`);
+    } catch {
+      toast("No se pudieron actualizar los puntos (reglas de Firestore)", "error");
+    }
+  });
+
+  /* Canjes */
+  function renderCanjes() {
+    const el = document.getElementById("canje-list");
+    if (!canjes.length) { el.innerHTML = '<p class="text-stone text-sm">Todavía no hay canjes.</p>'; return; }
+    el.innerHTML = canjes.map(c => `
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-gold/15 bg-wine-panel/40 p-3">
+        <div class="flex-1 min-w-0">
+          <p class="text-cream font-medium truncate">${esc(c.titulo)}</p>
+          <p class="text-stone text-xs">${c.puntosNecesarios||0} pts · ${c.disponible===false?"Inactivo":"Disponible"}</p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" data-edit-cj="${c.id}" class="rounded-full border border-gold/40 px-3 py-1.5 text-xs text-gold-soft">Editar</button>
+          <button type="button" data-del-cj="${c.id}" class="rounded-full border border-garnet-light/50 px-3 py-1.5 text-xs text-red-300">Eliminar</button>
+        </div>
+      </div>`).join("");
+  }
+  document.getElementById("canje-new-btn").addEventListener("click", () => {
+    editing.canje = null;
+    document.getElementById("canje-form").reset();
+    document.getElementById("cj-disp").checked = true;
+    document.getElementById("canje-form-title").textContent = "Nuevo canje";
+    document.getElementById("canje-form-wrap").classList.remove("hidden");
+  });
+  document.getElementById("canje-cancel").addEventListener("click", () => {
+    document.getElementById("canje-form-wrap").classList.add("hidden");
+  });
+  document.getElementById("canje-list").addEventListener("click", async (e) => {
+    const edit = e.target.closest("[data-edit-cj]");
+    const del = e.target.closest("[data-del-cj]");
+    if (edit) {
+      const c = canjes.find(x => x.id === edit.dataset.editCj);
+      if (!c) return;
+      editing.canje = c.id;
+      document.getElementById("cj-titulo").value = c.titulo || "";
+      document.getElementById("cj-desc").value = c.descripcion || "";
+      document.getElementById("cj-puntos").value = c.puntosNecesarios || "";
+      document.getElementById("cj-disp").checked = c.disponible !== false;
+      document.getElementById("cj-img").value = c.imagenUrl || (c.imagenes&&c.imagenes[0]) || "";
+      document.getElementById("canje-form-title").textContent = "Editar canje";
+      document.getElementById("canje-form-wrap").classList.remove("hidden");
+    }
+    if (del) {
+      if (!confirm("¿Eliminar canje?")) return;
+      try { await deleteDoc(doc(db, "canjes", del.dataset.delCj)); toast("Eliminado"); }
+      catch { toast("No se pudo eliminar", "error"); }
+    }
+  });
+  document.getElementById("canje-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    try {
+      let img = document.getElementById("cj-img").value.trim() || null;
+      const file = document.getElementById("cj-file").files[0];
+      if (file) img = await uploadImage(file);
+      const fields = {
+        titulo: document.getElementById("cj-titulo").value.trim(),
+        descripcion: document.getElementById("cj-desc").value.trim(),
+        puntosNecesarios: Number(document.getElementById("cj-puntos").value),
+        disponible: document.getElementById("cj-disp").checked
+      };
+      if (img) { fields.imagenUrl = img; fields.imagenes = [img]; }
+      if (!fields.titulo || !fields.puntosNecesarios) { toast("Título y puntos obligatorios", "error"); return; }
+      if (editing.canje) await updateDoc(doc(db, "canjes", editing.canje), fields);
+      else await addDoc(collection(db, "canjes"), { ...fields, imagenUrl: img, imagenes: img?[img]:[], creadoEn: serverTimestamp() });
+      toast("Canje guardado");
+      document.getElementById("canje-form-wrap").classList.add("hidden");
+      editing.canje = null;
+    } catch (err) { toast(err.message || "Error", "error"); }
+  });
+
+  /* Ajustes */
+  document.getElementById("logo-save").addEventListener("click", async () => {
+    const file = document.getElementById("logo-file").files[0];
+    const st = document.getElementById("logo-status");
+    if (!file) { st.textContent = "Elegí una imagen"; return; }
+    st.textContent = "Subiendo…";
+    try {
+      const logoUrl = await uploadImage(file);
+      await setDoc(doc(db, "settings", "general"), { logoUrl, actualizadoEn: serverTimestamp() }, { merge: true });
+      st.textContent = "Logo actualizado";
+      toast("Logo guardado");
+    } catch (err) { st.textContent = err.message || "Error"; toast("Error al guardar logo", "error"); }
+  });
+  document.getElementById("story-save").addEventListener("click", async () => {
+    const url = document.getElementById("story-url").value.trim();
+    const st = document.getElementById("story-status");
+    if (url && !url.startsWith("https://")) { st.textContent = "Debe ser https://"; return; }
+    try {
+      await setDoc(doc(db, "settings", "general"), { videoUrl: url || "", actualizadoEn: serverTimestamp() }, { merge: true });
+      st.textContent = url ? "Video guardado" : "Video quitado";
+      toast(st.textContent);
+    } catch { toast("No se pudo guardar", "error"); }
+  });
+  document.getElementById("story-clear").addEventListener("click", async () => {
+    document.getElementById("story-url").value = "";
+    try {
+      await setDoc(doc(db, "settings", "general"), { videoUrl: "", actualizadoEn: serverTimestamp() }, { merge: true });
+      toast("Video quitado");
+    } catch { toast("Error", "error"); }
+  });
+</script>
+</body>
+</html>
