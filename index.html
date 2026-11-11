@@ -3,6 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- AGE-GATE: independiente de Tailwind, Firebase y del módulo principal -->
+<script>
+  (function () {
+    try { if (localStorage.getItem("cda_age_ok_v1") !== "1") document.documentElement.classList.add("age-locked"); }
+    catch (e) { document.documentElement.classList.add("age-locked"); }
+  })();
+</script>
+<style id="age-gate-css">
+  html.age-locked, html.age-locked body { overflow: hidden; }
+  html.age-locked body > *:not(#age-gate) { visibility: hidden !important; pointer-events: none !important; }
+  html:not(.age-locked) #age-gate { display: none !important; }
+  #age-gate { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1rem; overflow-y: auto; box-sizing: border-box; background-color: #140b0c; background-image: radial-gradient(ellipse 90% 60% at 15% -10%, rgba(124,31,47,.35), transparent 60%); color: #efe6d8; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.5; -webkit-text-size-adjust: 100%; }
+  #age-gate *, #age-gate *::before, #age-gate *::after { box-sizing: border-box; }
+  #age-gate .cda-age-card { width: 100%; max-width: 28rem; margin: auto; padding: 2rem 1.75rem; text-align: center; background: #26161a; border: 1px solid rgba(201,162,75,.25); border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,.6); }
+  #age-gate .cda-age-logo { width: 80px; height: 80px; margin: 0 auto 1.5rem; border-radius: 9999px; overflow: hidden; border: 2px solid rgba(201,162,75,.4); background: #140b0c; }
+  #age-gate .cda-age-logo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  #age-gate h1 { margin: 0 0 .5rem; font-family: Fraunces, Georgia, "Times New Roman", serif; font-weight: 500; font-size: 1.875rem; line-height: 1.15; color: #efe6d8; }
+  #age-gate .cda-age-q { margin: 0 0 1.5rem; font-family: Fraunces, Georgia, "Times New Roman", serif; font-style: italic; font-size: 1.125rem; color: #e6cf9c; }
+  #age-gate .cda-age-text { margin: 0 0 2rem; text-align: left; font-size: .875rem; color: #b4a293; }
+  #age-gate .cda-age-actions { display: flex; flex-direction: column; gap: .75rem; }
+  #age-gate button { font: inherit; cursor: pointer; width: 100%; padding: .9rem 1.5rem; border-radius: 9999px; font-weight: 500; transition: background-color .2s, transform .15s; }
+  #age-gate button:active { transform: scale(.98); }
+  #age-gate button:disabled { opacity: .55; cursor: not-allowed; }
+  #age-gate #age-yes-btn { border: 1px solid #c9a24b; background: #c9a24b; color: #140b0c; }
+  #age-gate #age-yes-btn:hover:not(:disabled) { background: #e6cf9c; }
+  #age-gate #age-no-btn { border: 1px solid rgba(201,162,75,.4); background: transparent; color: #e6cf9c; }
+  #age-gate #age-no-btn:hover:not(:disabled) { background: rgba(201,162,75,.1); }
+  #age-gate button:focus-visible { outline: 2px solid #c9a24b; outline-offset: 2px; }
+  #age-gate .cda-age-denied { margin-top: 1.5rem; padding: 1rem; text-align: left; border: 1px solid rgba(156,50,68,.45); border-radius: .75rem; background: rgba(20,11,12,.6); }
+  #age-gate .cda-age-denied[hidden] { display: none; }
+  #age-gate .cda-age-denied strong { display: block; margin-bottom: .5rem; color: #efe6d8; font-weight: 500; }
+  #age-gate .cda-age-denied p { margin: 0; font-size: .875rem; color: #b4a293; }
+  @media (min-width: 640px) {
+    #age-gate .cda-age-card { padding: 2.5rem; }
+    #age-gate h1 { font-size: 2.25rem; }
+    #age-gate .cda-age-actions { flex-direction: row; }
+  }
+</style>
 <title>Club del Anfitrión | Vinoteca en Bell Ville</title>
 <meta name="description" content="Club del Anfitrión: vinoteca y regalería en Bell Ville. Vinos de bodegas chicas, picadas, parrillas, braseros y eventos.">
 <meta name="application-name" content="Club del Anfitrión">
@@ -296,8 +334,6 @@
     .btn-press, #products-grid > article, #promos-grid > article, #eventos-grid > article { transition: none; }
   }
 
-  body.age-locked > *:not(#age-gate) { visibility: hidden !important; pointer-events: none !important; }
-  body.age-locked #age-gate { visibility: visible !important; pointer-events: auto !important; }
   #whatsapp-fab { transition: transform .2s ease, box-shadow .2s ease; }
   #whatsapp-fab:hover { box-shadow: 0 8px 24px -6px rgba(37,211,102,.55); }
   @media (max-width: 640px) {
@@ -396,25 +432,43 @@
 
 <body class="font-sans text-cream antialiased selection:bg-gold selection:text-wine-black">
 
-<!-- VERIFICACIÓN DE EDAD -->
-<div id="age-gate" class="fixed inset-0 z-[300] flex items-center justify-center px-4" role="dialog" aria-modal="true" aria-labelledby="age-gate-title" style="background-color:#140b0c;background-image:radial-gradient(ellipse 90% 60% at 15% -10%,rgba(124,31,47,.35),transparent 60%)">
-  <div class="w-full max-w-md rounded-2xl border border-gold/25 bg-wine-panel p-8 sm:p-10 text-center shadow-2xl">
-    <div class="mx-auto h-20 w-20 rounded-full overflow-hidden border-2 border-gold/40 mb-6">
-      <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión" width="80" height="80" class="logo-circle w-full h-full" decoding="async">
+<!-- VERIFICACIÓN DE EDAD (estilos en <head>, lógica en script clásico: no depende de Firebase ni de Tailwind) -->
+<div id="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-gate-title">
+  <div class="cda-age-card">
+    <div class="cda-age-logo">
+      <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión" width="80" height="80" decoding="async">
     </div>
-    <h1 id="age-gate-title" class="font-display text-3xl sm:text-4xl text-cream mb-2">Bienvenido a Club del Anfitrión</h1>
-    <p class="text-gold-soft label-serif text-lg mb-6">¿Sos mayor de 18 años?</p>
-    <p class="text-stone text-sm leading-relaxed mb-8 text-left">El consumo de bebidas alcohólicas está destinado exclusivamente a mayores de 18 años. El consumo de alcohol implica riesgos para la salud. Consumí con moderación y responsabilidad. Nunca conduzcas después de beber.</p>
-    <div class="flex flex-col sm:flex-row gap-3">
-      <button type="button" id="age-yes-btn" class="btn-press flex-1 rounded-full bg-gold px-6 py-3.5 text-wine-black font-medium hover:bg-gold-soft transition-colors">Sí, soy mayor de 18 años</button>
-      <button type="button" id="age-no-btn" class="btn-press flex-1 rounded-full border border-gold/40 px-6 py-3.5 text-gold-soft hover:bg-gold/10 transition-colors">No, soy menor de 18 años</button>
+    <h1 id="age-gate-title">Bienvenido a Club del Anfitrión</h1>
+    <p class="cda-age-q">¿Sos mayor de 18 años?</p>
+    <p class="cda-age-text">El consumo de bebidas alcohólicas está destinado exclusivamente a mayores de 18 años. El consumo de alcohol implica riesgos para la salud. Consumí con moderación y responsabilidad. Nunca conduzcas después de beber.</p>
+    <div class="cda-age-actions">
+      <button type="button" id="age-yes-btn">Sí, soy mayor de 18 años</button>
+      <button type="button" id="age-no-btn">No, soy menor de 18 años</button>
     </div>
-    <div id="age-denied" class="hidden mt-6 rounded-xl border border-garnet-light/40 bg-wine-black/60 p-4 text-left">
-      <p class="text-cream font-medium mb-2">Acceso restringido</p>
-      <p class="text-stone text-sm leading-relaxed">Este sitio comercializa bebidas alcohólicas y está destinado únicamente a mayores de 18 años. Si sos menor, te pedimos que abandones el sitio. Gracias por tu comprensión.</p>
+    <div id="age-denied" class="cda-age-denied" role="alert" hidden>
+      <strong>Acceso restringido</strong>
+      <p>Este sitio comercializa bebidas alcohólicas y está destinado únicamente a mayores de 18 años. Si sos menor, te pedimos que abandones el sitio. Gracias por tu comprensión.</p>
     </div>
   </div>
 </div>
+<script>
+  (function () {
+    var KEY = "cda_age_ok_v1", root = document.documentElement;
+    var gate = document.getElementById("age-gate");
+    if (!gate) return;
+    function unlock() { root.classList.remove("age-locked"); if (gate.parentNode) gate.parentNode.removeChild(gate); }
+    if (!root.classList.contains("age-locked")) { unlock(); return; }
+    var yes = document.getElementById("age-yes-btn"), no = document.getElementById("age-no-btn"), denied = document.getElementById("age-denied");
+    yes.addEventListener("click", function () {
+      try { localStorage.setItem(KEY, "1"); } catch (e) {}
+      unlock();
+    });
+    no.addEventListener("click", function () {
+      denied.hidden = false; yes.disabled = true; no.disabled = true;
+    });
+    try { yes.focus(); } catch (e) {}
+  })();
+</script>
 
 <div id="toast-container" aria-live="polite"></div>
 
@@ -939,80 +993,6 @@
   </div>
 </div>
 
-<div id="checkout-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6 overflow-y-auto">
-  <div class="w-full max-w-md rounded-2xl border border-gold/20 bg-wine-panel p-6 sm:p-8 relative my-auto">
-    <button id="checkout-modal-close" type="button" class="absolute top-4 right-4 text-stone hover:text-gold-soft" aria-label="Cerrar">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
-    </button>
-    <p class="label-serif text-gold-soft text-lg mb-1">Casi listo</p>
-    <h3 class="font-display text-2xl mb-6">Finalizar tu pedido</h3>
-
-    <form id="checkout-form" novalidate class="space-y-4">
-      <div>
-        <label for="chk-nombre" class="block text-sm text-stone mb-1.5">Nombre completo</label>
-        <input type="text" id="chk-nombre" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Ej: Juan Benítez">
-      </div>
-      <div>
-        <label for="chk-dni" class="block text-sm text-stone mb-1.5">DNI (para retiro en establecimiento)</label>
-        <input type="text" id="chk-dni" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Ej: 35123456">
-      </div>
-      <div>
-        <label for="chk-telefono" class="block text-sm text-stone mb-1.5">Número de teléfono</label>
-        <input type="tel" id="chk-telefono" required class="w-full rounded-lg bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-cream text-sm focus:border-gold" placeholder="Ej: 3537400000">
-      </div>
-
-      <div>
-        <label class="block text-sm text-stone mb-2">Método de pago</label>
-        <div class="grid grid-cols-2 gap-2 text-xs">
-          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
-            <input type="radio" name="metodo-pago" value="Mercado Pago" checked class="accent-gold">
-            <span class="text-cream">Mercado Pago - transferencia</span>
-          </label>
-          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
-            <input type="radio" name="metodo-pago" value="Transferencia" class="accent-gold">
-            <span class="text-cream">Mercado Pago - QR</span>
-          </label>
-          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
-            <input type="radio" name="metodo-pago" value="Mercado Pago QR" class="accent-gold">
-            <span class="text-cream">Tarjeta de Crédito</span>
-          </label>
-          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
-            <input type="radio" name="metodo-pago" value="Tarjeta de crédito" class="accent-gold">
-            <span class="text-cream">Tarjeta de Débito</span>
-          </label>
-          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
-            <input type="radio" name="metodo-pago" value="Tarjeta de débito" class="accent-gold">
-            <span class="text-cream">Efectivo</span>
-          </label>
-          <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gold/20 bg-wine-black/50 cursor-pointer hover:border-gold">
-            <input type="radio" name="metodo-pago" value="Efectivo" class="accent-gold">
-            <span class="text-cream">Otro</span>
-          </label>
-        </div>
-      </div>
-
-      <button type="submit" id="confirm-order-btn" class="btn-press w-full mt-4 rounded-full bg-gold px-6 py-3.5 text-wine-black font-medium hover:bg-gold-soft transition-colors text-base">
-        Confirmar compra
-      </button>
-    </form>
-  </div>
-</div>
-
-<div id="order-success-modal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
-  <div class="w-full max-w-md rounded-2xl border border-gold/30 bg-wine-panel p-8 text-center relative">
-    <h3 class="font-display text-3xl text-gold-soft mb-2">¡Pedido realizado!</h3>
-    <p id="success-items-summary" class="text-stone text-sm mb-4"></p>
-    <div class="bg-wine-black/60 border border-gold/20 rounded-xl p-4 my-4">
-      <p class="text-xs text-stone mb-1">Tu código de retiro:</p>
-      <p id="success-code-display" class="font-display text-3xl text-cream tracking-wider font-bold"></p>
-    </div>
-    <p class="text-stone text-xs leading-relaxed mb-6">Dale este código o tu DNI a la persona que te reciba en el establecimiento para retirar tu compra.</p>
-    <button id="success-close-btn" type="button" class="w-full rounded-full bg-gold px-6 py-3 text-wine-black font-medium hover:bg-gold-soft transition-colors">
-      Entendido
-    </button>
-  </div>
-</div>
-
 <!-- MODAL DETALLE DE PRODUCTO -->
 <div id="product-modal" class="hidden fixed inset-0 z-[95] items-center justify-center bg-black/85 backdrop-blur-sm px-4 py-6">
   <div class="w-full max-w-lg rounded-2xl border border-gold/20 bg-wine-panel relative overflow-hidden flex flex-col max-h-[90vh]">
@@ -1130,9 +1110,9 @@
     onAuthStateChanged, signOut, getAdditionalUserInfo
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
   import {
-    getFirestore, collection, addDoc, onSnapshot,
+    getFirestore, collection, onSnapshot,
     query, orderBy, serverTimestamp,
-    doc, updateDoc, deleteDoc, getDocs, getDoc, setDoc, where
+    doc, getDoc, setDoc
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
   /* ---- HELPERS GLOBALES ---- */
@@ -1170,7 +1150,6 @@
   const DOT_ON = "h-1.5 w-4 rounded-full bg-gold transition-all";
   const DOT_OFF = "h-1.5 w-1.5 rounded-full bg-cream/50 transition-all";
   const VIDEO_MAX_SECONDS = 180;
-  const MY_ORDER_IDS_KEY = "clubMyOrderIds";
   const LOGO_CACHE_KEY = "clubLogoUrl";
   const LOGO_MAX_BYTES = 10 * 1024 * 1024;
   const CUSTOM_CATEGORIES_KEY = "clubCategoriasCustom";
@@ -1187,7 +1166,7 @@
   };
 
   let app, db, auth, googleProvider;
-  let productsCollection, promosCollection, eventsCollection, ordersCollection;
+  let productsCollection, promosCollection, eventsCollection;
   
 
   try {
@@ -1199,7 +1178,6 @@
     productsCollection = collection(db, "productos");
     promosCollection = collection(db, "promociones");
     eventsCollection = collection(db, "eventos");
-    ordersCollection = collection(db, "pedidos");
   } catch (e) {
     console.error("[firebase init]", e);
     showToast("Error al inicializar Firebase. Recargá la página.", "error");
@@ -1868,84 +1846,6 @@
   document.getElementById("cart-close").addEventListener("click", toggleCart);
   cartOverlay.addEventListener("click", toggleCart);
 
-  const checkoutModal = document.getElementById("checkout-modal");
-  document.getElementById("checkout-modal-close").addEventListener("click", () => {
-    checkoutModal.classList.add("hidden");
-    checkoutModal.classList.remove("flex");
-  });
-
-  /* ---- PEDIDOS ---- */
-  function getMyOrderIds() {
-    try {
-      const list = JSON.parse(localStorage.getItem(MY_ORDER_IDS_KEY) || "[]");
-      return Array.isArray(list) ? list.filter(id => typeof id === "string") : [];
-    } catch (_) { return []; }
-  }
-  function rememberOrderId(id) {
-    try {
-      const ids = getMyOrderIds().filter(x => x !== id);
-      ids.unshift(id);
-      localStorage.setItem(MY_ORDER_IDS_KEY, JSON.stringify(ids.slice(0, 50)));
-    } catch (_) { }
-  }
-
-  document.getElementById("checkout-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById("chk-nombre").value.trim();
-    const dni = document.getElementById("chk-dni").value.trim();
-    const telefono = document.getElementById("chk-telefono").value.trim();
-    const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
-    if (!nombre || !dni || !telefono) { showToast("Completá todos los datos personales.", "error"); return; }
-
-    const codigoRetiro = Math.floor(100000 + Math.random() * 900000).toString();
-    let totalPrecio = 0;
-    const itemsComprados = [];
-    cart.forEach(item => {
-      const prod = latestProducts.find(p => p.id === item.id);
-      if (!prod) return;
-      const p = cartPriceFor(prod);
-      if (p !== null) totalPrecio += p * item.qty;
-      itemsComprados.push({ titulo: prod.titulo, qty: item.qty, precio: p });
-    });
-    if (itemsComprados.length === 0) { showToast("Los productos de tu carrito ya no están disponibles.", "error"); return; }
-
-    const nuevoPedido = {
-      nombre, dni, telefono, metodoPago, codigoRetiro,
-      items: itemsComprados,
-      total: totalPrecio,
-      estado: "no retirado",
-      uid: auth.currentUser ? auth.currentUser.uid : null,
-      creadoEn: serverTimestamp()
-    };
-
-    try {
-      const orderRef = await addDoc(ordersCollection, nuevoPedido);
-      rememberOrderId(orderRef.id);
-      checkoutModal.classList.add("hidden");
-      checkoutModal.classList.remove("flex");
-      document.getElementById("checkout-form").reset();
-      cart = [];
-      saveCart();
-      updateCartUI();
-      const firstItem = itemsComprados[0];
-      document.getElementById("success-items-summary").textContent = `${firstItem.qty}x ${firstItem.titulo}${itemsComprados.length > 1 ? ' y otros productos' : ''}`;
-      document.getElementById("success-code-display").textContent = codigoRetiro;
-      const successModal = document.getElementById("order-success-modal");
-      successModal.classList.remove("hidden");
-      successModal.classList.add("flex");
-      /* loadMyPurchases removed */
-    } catch (err) {
-      console.error("[checkout]", err);
-      showToast("Error al registrar la compra en Firebase.", "error");
-    }
-  });
-
-  document.getElementById("success-close-btn").addEventListener("click", () => {
-    document.getElementById("order-success-modal").classList.add("hidden");
-    document.getElementById("order-success-modal").classList.remove("flex");
-    window.location.hash = "#productos";
-  });
-
   /* ============================================================
    *  PRODUCTOS / PROMOS / EVENTOS — Snapshots
    * ============================================================ */
@@ -1991,6 +1891,20 @@
     });
   }
 
+  function safeRun(label, fn) {
+    try { fn(); return true; }
+    catch (e) { console.error("[render " + label + "]", e); return false; }
+  }
+  function getAllCatalogCategories() {
+    const set = new Set();
+    latestProducts.forEach((p) => {
+      if (!p || !p.titulo || !getMedia(p).length) return; /* solo categorías con productos visibles */
+      const c = String(p.categoria || "").trim();
+      if (c) set.add(c);
+    });
+    return [...set].sort((a, b) => a.localeCompare(b, "es"));
+  }
+
   function renderCatalogCategoryChips() {
     if (!catalogCategories) return;
     const cats = getAllCatalogCategories();
@@ -2033,7 +1947,7 @@
       );
     }
     if (catalogCategory) {
-      filtered = filtered.filter(p => p.categoria === catalogCategory);
+      filtered = filtered.filter(p => String(p.categoria || "").trim() === catalogCategory);
     }
     productsGrid.innerHTML = "";
     if (filtered.length === 0) {
@@ -2042,7 +1956,9 @@
     } else {
       productsEmpty.classList.add("hidden");
       filtered.forEach(p => {
-        if (p.titulo && getMedia(p).length) productsGrid.appendChild(renderProductCard(p));
+        try {
+          if (p.titulo && getMedia(p).length) productsGrid.appendChild(renderProductCard(p));
+        } catch (e) { console.error("[tarjeta producto]", p && p.id, e); }
       });
       startAutoSliders(productsGrid);
       setupCardVideoOverlays(productsGrid);
@@ -2091,9 +2007,12 @@
     onSnapshot(query(productsCollection, orderBy("creadoEn", "desc")), (snapshot) => {
       productsLoading.classList.add("hidden");
       latestProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      renderCatalogCategoryChips();
-      updateCartUI();
-      renderFilteredProducts();
+      safeRun("categorías", renderCatalogCategoryChips);
+      safeRun("carrito", updateCartUI);
+      if (!safeRun("catálogo", renderFilteredProducts)) {
+        productsEmpty.textContent = "No se pudo mostrar el catálogo. Recargá la página.";
+        productsEmpty.classList.remove("hidden");
+      }
       if (!snapshot.empty) {
         const urlParams = new URLSearchParams(window.location.search);
         const prodId = urlParams.get('producto');
@@ -2280,76 +2199,6 @@
     document.getElementById("event-modal").classList.add("hidden");
     document.getElementById("event-modal").classList.remove("flex");
   });
-
-  /* ============================================================
-   *  MIS COMPRAS
-   * ============================================================ */
-  const myPurchasesContainer = null;
-  const filterDniInput = null;
-  const filterDniBtn = null;
-  let purchasesRequest = 0;
-
-  async function fetchMyOrders() {
-    const byId = new Map();
-    const user = auth ? auth.currentUser : null;
-    if (user && ordersCollection) {
-      try {
-        const snap = await getDocs(query(ordersCollection, where("uid", "==", user.uid)));
-        snap.forEach(d => byId.set(d.id, { id: d.id, ...d.data() }));
-      } catch (e) { console.warn("[fetchMyOrders user]", e); }
-    }
-    const deviceIds = getMyOrderIds().filter(id => !byId.has(id));
-    const results = await Promise.allSettled(deviceIds.map(id => getDoc(doc(db, "pedidos", id))));
-    results.forEach(r => {
-      if (r.status === "fulfilled" && r.value.exists()) byId.set(r.value.id, { id: r.value.id, ...r.value.data() });
-    });
-    return [...byId.values()];
-  }
-
-  async function loadMyPurchases(searchDni = "") {
-    if (!myPurchasesContainer) return;
-    const request = ++purchasesRequest;
-    try {
-      let orders = await fetchMyOrders();
-      if (request !== purchasesRequest) return;
-      const now = Date.now();
-      const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
-      orders = orders.map(o => {
-        const vencido = o.creadoEn && o.creadoEn.toMillis && (now - o.creadoEn.toMillis() > threeDaysMs) && o.estado === "no retirado";
-        return vencido ? { ...o, estado: "cancelado (no retirado)" } : o;
-      });
-      orders.sort((a, b) => ((b.creadoEn && b.creadoEn.toMillis ? b.creadoEn.toMillis() : now) - (a.creadoEn && a.creadoEn.toMillis ? a.creadoEn.toMillis() : now)));
-      if (searchDni) orders = orders.filter(o => o.dni === searchDni || o.codigoRetiro === searchDni);
-      if (orders.length === 0) {
-        myPurchasesContainer.innerHTML = searchDni
-          ? '<p class="text-stone text-center py-8">No se encontraron compras con ese DNI o código.</p>'
-          : '<p class="text-stone text-center py-8">No hay compras registradas en este dispositivo o con ese DNI.</p>';
-        return;
-      }
-      myPurchasesContainer.innerHTML = "";
-      orders.forEach(ord => {
-        const estado = String(ord.estado || "");
-        const div = document.createElement("div");
-        div.className = "bg-wine-panel/60 border border-gold/15 rounded-2xl p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4";
-        div.innerHTML = `
-          <div>
-            <div class="flex items-center gap-3 mb-1">
-              <span class="text-gold-soft font-display text-xl">Código: ${escapeHtml(ord.codigoRetiro)}</span>
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium ${estado === 'retirado' ? 'bg-emerald-900/50 text-emerald-300' : 'bg-gold/20 text-gold-soft'}">${escapeHtml(estado.toUpperCase())}</span>
-            </div>
-            <p class="text-cream text-sm">Comprador: <strong>${escapeHtml(ord.nombre)}</strong> (DNI: ${escapeHtml(ord.dni)})</p>
-            <p class="text-stone text-xs mt-1">Método de pago: ${escapeHtml(ord.metodoPago)}</p>
-            <p class="text-stone text-xs">Total: ${formatPrice(ord.total)}</p>
-          </div>
-        `;
-        myPurchasesContainer.appendChild(div);
-      });
-    } catch (e) {
-      console.error("[mis compras]", e);
-      if (request === purchasesRequest) myPurchasesContainer.innerHTML = '<p class="text-stone text-center py-8">No pudimos cargar tus compras en este momento.</p>';
-    }
-  }
-  if (filterDniBtn) filterDniBtn.addEventListener("click", () => loadMyPurchases((filterDniInput && filterDniInput.value ? filterDniInput.value.trim() : "")));
 
   /* Panel admin: admin.html (independiente) */
 
@@ -2733,7 +2582,6 @@
     try { await signOut(auth); } catch (_) {}
     registering = false;
     renderAuthState(auth.currentUser);
-    /* mis compras en club-clientes */
     authRegisterForm.reset();
     authEmail.value = email;
     authPassword.value = "";
@@ -2825,30 +2673,9 @@
     onAuthStateChanged(auth, user => {
       if (registering) return;
       renderAuthState(user);
-      
-      /* mis compras en club-clientes */
-    });
+      });
   }
 
-
-  /* ---- AGE GATE ---- */
-  (function(){
-    const AGE_KEY = "cda_age_ok_v1";
-    const gate = document.getElementById("age-gate");
-    if (!gate) return;
-    try { if (localStorage.getItem(AGE_KEY) === "1") { gate.remove(); return; } } catch(_){}
-    document.body.classList.add("age-locked");
-    document.getElementById("age-yes-btn")?.addEventListener("click", () => {
-      try { localStorage.setItem(AGE_KEY, "1"); } catch(_){}
-      document.body.classList.remove("age-locked");
-      gate.remove();
-    });
-    document.getElementById("age-no-btn")?.addEventListener("click", () => {
-      document.getElementById("age-denied")?.classList.remove("hidden");
-      document.getElementById("age-yes-btn").disabled = true;
-      document.getElementById("age-no-btn").disabled = true;
-    });
-  })();
 
   /* ---- NAV CART ---- */
   document.getElementById("nav-cart-btn")?.addEventListener("click", () => {
@@ -2868,7 +2695,7 @@
 
   /* ---- CLUB: ahora vive en club-clientes.html ---- */
   // El perfil, puntos y canjes se gestionan en la página independiente.
-  // Se mantiene la autenticación de la tienda (auth) para carrito y pedidos.
+  // Se mantiene la autenticación de la tienda (auth) para el inicio de sesión del Club.
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
