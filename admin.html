@@ -52,7 +52,30 @@
 <div id="toast-box" aria-live="polite"></div>
 
 <!-- LOGIN -->
-<div id="login-screen" class="min-h-screen flex items-center justify-center px-4"
+<!-- VERIFICANDO -->
+<div id="verify-screen" class="min-h-screen flex items-center justify-center px-4"
+     style="background-image:radial-gradient(ellipse 90% 60% at 15% -10%,rgba(124,31,47,.35),transparent 60%)">
+  <div class="w-full max-w-md rounded-2xl border border-gold/25 bg-wine-panel p-8 sm:p-10 shadow-2xl text-center">
+    <div class="mx-auto h-16 w-16 rounded-full overflow-hidden border-2 border-gold/40 mb-6 bg-wine-black">
+      <img src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="" class="w-full h-full object-cover" style="border-radius:50%;object-fit:cover;">
+    </div>
+    <h1 class="font-display text-2xl mb-2">Verificando autorización</h1>
+    <p class="text-stone text-sm">Comprobando sesión y permisos…</p>
+  </div>
+</div>
+
+<!-- ACCESO DENEGADO -->
+<div id="denied-screen" class="hidden min-h-screen flex items-center justify-center px-4"
+     style="background-image:radial-gradient(ellipse 90% 60% at 15% -10%,rgba(124,31,47,.35),transparent 60%)">
+  <div class="w-full max-w-md rounded-2xl border border-gold/25 bg-wine-panel p-8 sm:p-10 shadow-2xl text-center">
+    <h1 class="font-display text-2xl mb-3">Esta cuenta no tiene acceso</h1>
+    <p class="text-stone text-sm mb-6 leading-relaxed">El panel de administración está reservado a cuentas autorizadas de Club del Anfitrión. Si creés que se trata de un error, contactá al administrador del sistema.</p>
+    <a href="https://clubdelanfitrion.com.ar/" class="btn-press inline-flex rounded-full bg-gold px-6 py-3 text-wine-black font-medium text-sm">Volver al catálogo</a>
+  </div>
+</div>
+
+
+<div id="login-screen" class="hidden min-h-screen flex items-center justify-center px-4"
      style="background-image:radial-gradient(ellipse 90% 60% at 15% -10%,rgba(124,31,47,.35),transparent 60%)">
   <div class="w-full max-w-md rounded-2xl border border-gold/25 bg-wine-panel p-8 sm:p-10 shadow-2xl">
     <div class="mx-auto h-16 w-16 rounded-full overflow-hidden border-2 border-gold/40 mb-6 bg-wine-black">
@@ -540,14 +563,39 @@
     return d.secure_url;
   }
 
+  function hideAllAuthScreens() {
+    ["verify-screen", "login-screen", "denied-screen", "app-screen"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add("hidden");
+    });
+  }
+  function showVerify() {
+    hideAllAuthScreens();
+    document.getElementById("verify-screen").classList.remove("hidden");
+  }
   function showLogin() {
+    hideAllAuthScreens();
     document.getElementById("login-screen").classList.remove("hidden");
-    document.getElementById("app-screen").classList.add("hidden");
+  }
+  function showDenied() {
+    hideAllAuthScreens();
+    document.getElementById("denied-screen").classList.remove("hidden");
   }
   function showApp(user) {
-    document.getElementById("login-screen").classList.add("hidden");
+    hideAllAuthScreens();
     document.getElementById("app-screen").classList.remove("hidden");
     document.getElementById("admin-email-label").textContent = user.email || user.uid;
+  }
+
+  async function hasAdminClaim(user) {
+    if (!user) return false;
+    try {
+      const token = await user.getIdTokenResult(true); // force refresh
+      return token.claims && token.claims.admin === true;
+    } catch (e) {
+      console.warn("[admin claim]", e);
+      return false;
+    }
   }
 
   document.getElementById("login-form").addEventListener("submit", async (e) => {
@@ -560,8 +608,9 @@
     btn.disabled = true;
     try {
       await signInWithEmailAndPassword(auth, email, pass);
+      // onAuthStateChanged se encargará de verificar el claim
     } catch (ex) {
-      err.textContent = "No se pudo ingresar. Verificá correo y contraseña de la cuenta de administrador en Firebase.";
+      err.textContent = "No se pudo ingresar. Verificá correo y contraseña.";
       err.classList.remove("hidden");
     } finally {
       btn.disabled = false;
@@ -571,12 +620,21 @@
 
   document.getElementById("logout-btn").addEventListener("click", () => signOut(auth));
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
+  showVerify();
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      showLogin();
+      return;
+    }
+    showVerify();
+    const ok = await hasAdminClaim(user);
+    if (ok) {
       showApp(user);
       startListeners();
     } else {
-      showLogin();
+      // Cerrar sesión para no dejar un token de usuario común activo en el panel
+      try { await signOut(auth); } catch (_) {}
+      showDenied();
     }
   });
 
