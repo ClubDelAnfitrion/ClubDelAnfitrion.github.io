@@ -1,5 +1,8 @@
-
 User-agent: *
 Allow: /
+Disallow: /admin.html
+Disallow: /club-clientes.html
+Disallow: /admin
+Disallow: /club-clientes
 
 Sitemap: https://clubdelanfitrion.com.ar/sitemap.xml
