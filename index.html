@@ -17,8 +17,18 @@
   #age-gate { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1rem; overflow-y: auto; box-sizing: border-box; background-color: #140b0c; background-image: radial-gradient(ellipse 90% 60% at 15% -10%, rgba(124,31,47,.35), transparent 60%); color: #efe6d8; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.5; -webkit-text-size-adjust: 100%; }
   #age-gate *, #age-gate *::before, #age-gate *::after { box-sizing: border-box; }
   #age-gate .cda-age-card { width: 100%; max-width: 28rem; margin: auto; padding: 2rem 1.75rem; text-align: center; background: #26161a; border: 1px solid rgba(201,162,75,.25); border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,.6); }
-  #age-gate .cda-age-logo { width: 80px; height: 80px; margin: 0 auto 1.5rem; border-radius: 9999px; overflow: hidden; border: 2px solid rgba(201,162,75,.4); background: #140b0c; }
-  #age-gate .cda-age-logo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  #age-gate .cda-age-logo {
+    width: 80px; height: 80px; margin: 0 auto 1.5rem;
+    border-radius: 50%; overflow: hidden;
+    border: 2px solid rgba(201,162,75,.4); background: #140b0c;
+    flex-shrink: 0; aspect-ratio: 1 / 1;
+  }
+  #age-gate .cda-age-logo img {
+    display: block; width: 80px; height: 80px;
+    max-width: 80px; max-height: 80px;
+    object-fit: cover; object-position: center;
+    border-radius: 50%;
+  }
   #age-gate h1 { margin: 0 0 .5rem; font-family: Fraunces, Georgia, "Times New Roman", serif; font-weight: 500; font-size: 1.875rem; line-height: 1.15; color: #efe6d8; }
   #age-gate .cda-age-q { margin: 0 0 1.5rem; font-family: Fraunces, Georgia, "Times New Roman", serif; font-style: italic; font-size: 1.125rem; color: #e6cf9c; }
   #age-gate .cda-age-text { margin: 0 0 2rem; text-align: left; font-size: .875rem; color: #b4a293; }
@@ -436,7 +446,7 @@
 <div id="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-gate-title">
   <div class="cda-age-card">
     <div class="cda-age-logo">
-      <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión" width="80" height="80" decoding="async">
+      <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="Club del Anfitrión" width="80" height="80" decoding="async" style="width:80px;height:80px;max-width:80px;max-height:80px;object-fit:cover;object-position:center;border-radius:50%;display:block;">
     </div>
     <h1 id="age-gate-title">Bienvenido a Club del Anfitrión</h1>
     <p class="cda-age-q">¿Sos mayor de 18 años?</p>
@@ -462,12 +472,60 @@
     yes.addEventListener("click", function () {
       try { localStorage.setItem(KEY, "1"); } catch (e) {}
       unlock();
+      try {
+        if (localStorage.getItem("cda_club_invite_v1") !== "1") {
+          var inv = document.getElementById("club-invite");
+          if (inv) inv.classList.remove("hidden");
+        }
+      } catch (e) {}
     });
     no.addEventListener("click", function () {
       denied.hidden = false; yes.disabled = true; no.disabled = true;
     });
     try { yes.focus(); } catch (e) {}
   })();
+</script>
+
+
+<!-- CLUB DE CLIENTES INVITE (post age-gate, once) -->
+<div id="club-invite" class="hidden fixed inset-0 z-[9990] flex items-center justify-center p-4" style="background:rgba(20,11,12,.88);backdrop-filter:blur(6px)">
+  <div class="w-full max-w-md rounded-2xl border border-gold/30 bg-wine-panel p-7 sm:p-9 text-center shadow-2xl">
+    <div class="mx-auto h-16 w-16 rounded-full overflow-hidden border-2 border-gold/40 mb-5 bg-wine-black">
+      <img data-site-logo src="https://i.postimg.cc/8zY0R1pd/images.jpg" alt="" width="64" height="64" style="width:64px;height:64px;object-fit:cover;border-radius:50%;display:block;">
+    </div>
+    <p class="label-serif text-gold-soft text-lg mb-2">Fidelización</p>
+    <h2 class="font-display text-2xl sm:text-3xl text-cream mb-4 text-balance">Te invitamos a formar parte de nuestro Club de Clientes</h2>
+    <p class="text-stone text-sm leading-relaxed mb-7 text-left">
+      Registrándote con tu correo electrónico podrás comenzar a acumular puntos en tus compras realizadas en nuestro establecimiento y acceder a beneficios y recompensas exclusivas.
+    </p>
+    <div class="flex flex-col gap-3">
+      <a href="club-clientes.html" id="club-invite-register" class="btn-press inline-flex justify-center rounded-full bg-gold px-6 py-3.5 text-wine-black font-medium text-sm">Registrarme ahora</a>
+      <button type="button" id="club-invite-later" class="rounded-full border border-gold/35 px-6 py-3 text-gold-soft text-sm hover:bg-gold/10 transition-colors">Quizás más tarde</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  function dismissClubInvite(){
+    try { localStorage.setItem("cda_club_invite_v1", "1"); } catch(_){}
+    var inv = document.getElementById("club-invite");
+    if (inv) inv.classList.add("hidden");
+  }
+  document.addEventListener("DOMContentLoaded", function(){
+    var later = document.getElementById("club-invite-later");
+    var reg = document.getElementById("club-invite-register");
+    if (later) later.addEventListener("click", dismissClubInvite);
+    if (reg) reg.addEventListener("click", function(){ dismissClubInvite(); });
+    try {
+      if (localStorage.getItem("cda_age_ok_v1") === "1" && localStorage.getItem("cda_club_invite_v1") !== "1") {
+        var inv = document.getElementById("club-invite");
+        if (inv) setTimeout(function(){ inv.classList.remove("hidden"); }, 400);
+      }
+    } catch(e){}
+  });
+})();
 </script>
 
 <div id="toast-container" aria-live="polite"></div>
@@ -970,7 +1028,7 @@
 </button>
 
 <div id="cart-overlay" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[80]"></div>
-<div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-wine-panel border-l border-gold/20 z-[85] transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+<div id="cart-panel" class="fixed inset-y-0 right-0 h-full w-full sm:max-w-md md:max-w-lg bg-wine-panel border-l border-gold/20 z-[85] transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl" role="dialog" aria-modal="true" aria-label="Carrito de compras">
   <div class="p-6 border-b border-gold/10 flex justify-between items-center bg-wine-dark">
     <h3 class="font-display text-2xl text-cream flex items-center gap-2">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -2015,8 +2073,8 @@
       }
       if (!snapshot.empty) {
         const urlParams = new URLSearchParams(window.location.search);
-        const prodId = urlParams.get('producto');
-        if (prodId) window.openProductDetail(prodId);
+        const prodId = urlParams.get("producto") || urlParams.get("product");
+        if (prodId) setTimeout(() => window.openProductDetail(prodId), 150);
       }
     }, (error) => {
       console.error("[productos]", error);
@@ -2033,6 +2091,14 @@
         if (promo.publicarDesde && promo.publicarDesde > today) return false;
         return true;
       });
+      // Deep-link promoción
+      try {
+        const up = new URLSearchParams(window.location.search);
+        const promoId = up.get("promo") || up.get("promocion");
+        if (promoId && latestPromos.some(p => p.id === promoId)) {
+          setTimeout(() => window.openPromoDetail(promoId), 200);
+        }
+      } catch (_) {}
       if (latestPromos.length === 0) promosEmpty.classList.remove("hidden");
       else {
         promosEmpty.classList.add("hidden");
@@ -2127,9 +2193,10 @@
     } else { priceTransferEl.textContent = ""; priceTransferEl.classList.add("hidden"); }
     document.getElementById("detail-desc").textContent = prod.descripcion || "";
     const outOfStock = prod.disponible === false;
+    const shareBtn = `<button type="button" data-share-type="producto" data-share-id="${prod.id}" data-share-title="${escapeHtml(prod.titulo||'')}" class="share-detail-btn rounded-full border border-gold/40 px-4 py-3 text-gold-soft text-sm shrink-0">Compartir</button>`;
     document.getElementById("detail-actions").innerHTML = outOfStock
-      ? `<div class="flex-1 rounded-full bg-wine-black/60 border border-garnet-light/60 px-6 py-3 text-center text-stone text-sm">Producto sin stock — consultanos por WhatsApp</div>`
-      : `<button type="button" onclick="window.addToCart('${prod.id}'); document.getElementById('product-modal').classList.add('hidden'); document.getElementById('product-modal').classList.remove('flex'); productCarousel.close();" class="btn-press flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-bold text-sm">Al carrito</button>`;
+      ? `<div class="flex-1 rounded-full bg-wine-black/60 border border-garnet-light/60 px-6 py-3 text-center text-stone text-sm">Producto sin stock — consultanos por WhatsApp</div>${shareBtn}`
+      : `<button type="button" onclick="window.addToCart('${prod.id}'); document.getElementById('product-modal').classList.add('hidden'); document.getElementById('product-modal').classList.remove('flex'); productCarousel.close();" class="btn-press flex-1 rounded-full bg-gold px-6 py-3 text-wine-black font-bold text-sm">Al carrito</button>${shareBtn}`;
     const modal = document.getElementById("product-modal");
     modal.classList.remove("hidden"); modal.classList.add("flex");
     document.getElementById("product-modal-body").scrollTop = 0;
@@ -2153,7 +2220,8 @@
     document.getElementById("promo-detail-vigencia").textContent = promo.vigencia ? `Vigencia hasta: ${formatISODate(promo.vigencia)}` : "";
     document.getElementById("promo-detail-desc").textContent = promo.descripcion || "";
     document.getElementById("promo-detail-actions").innerHTML = `
-      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
+      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20la%20promoci%C3%B3n:%20${encodeURIComponent(promo.titulo||'')}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Pedir</a>
+      <button type="button" data-share-type="promo" data-share-id="${promo.id}" data-share-title="${escapeHtml(promo.titulo||'')}" class="share-detail-btn rounded-full border border-gold/40 px-4 py-3 text-gold-soft text-sm shrink-0">Compartir</button>
     `;
     const modal = document.getElementById("promo-modal");
     modal.classList.remove("hidden"); modal.classList.add("flex");
@@ -2186,7 +2254,8 @@
     else priceEl.textContent = "Consultar precio";
     document.getElementById("event-detail-desc").textContent = ev.descripcion || "";
     document.getElementById("event-detail-actions").innerHTML = `
-      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20el%20evento:%20${encodeURIComponent(ev.titulo)}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Anotarme</a>
+      <a href="https://wa.me/${WHATSAPP_NUMBER}?text=%C2%A1Hola!%20Quiero%20consultar%20por%20el%20evento:%20${encodeURIComponent(ev.titulo||'')}" target="_blank" class="flex-1 rounded-full bg-gold px-6 py-3 text-wine-black text-center font-bold text-sm">Consultar / Anotarme</a>
+      <button type="button" data-share-type="evento" data-share-id="${ev.id}" data-share-title="${escapeHtml(ev.titulo||'')}" class="share-detail-btn rounded-full border border-gold/40 px-4 py-3 text-gold-soft text-sm shrink-0">Compartir</button>
     `;
     const modal = document.getElementById("event-modal");
     modal.classList.remove("hidden"); modal.classList.add("flex");
@@ -2696,6 +2765,46 @@
   /* ---- CLUB: ahora vive en club-clientes.html ---- */
   // El perfil, puntos y canjes se gestionan en la página independiente.
   // Se mantiene la autenticación de la tienda (auth) para el inicio de sesión del Club.
+
+  
+  /* ---- Deep links & share ---- */
+  function shareItem(type, id, title) {
+    const base = window.location.origin + window.location.pathname;
+    const param = type === "producto" ? "producto" : (type === "promo" ? "promo" : "evento");
+    const url = base + "?" + param + "=" + encodeURIComponent(id);
+    const text = (title || "Club del Anfitrión") + " — " + url;
+    if (navigator.share) {
+      navigator.share({ title: title || "Club del Anfitrión", text: title, url }).catch(() => {
+        window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+      });
+    } else {
+      window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+    }
+  }
+  window.shareItem = shareItem;
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".share-detail-btn");
+    if (!btn) return;
+    shareItem(btn.dataset.shareType, btn.dataset.shareId, btn.dataset.shareTitle || "");
+  });
+
+  // Evento deep-link after events load (listen once products/promos/events ready)
+  (function deepLinkBoot() {
+    const up = new URLSearchParams(window.location.search);
+    const evId = up.get("evento") || up.get("event");
+    if (!evId) return;
+    const tryOpen = () => {
+      if (typeof latestEvents !== "undefined" && latestEvents && latestEvents.some(e => e.id === evId)) {
+        window.openEventDetail(evId);
+        return true;
+      }
+      return false;
+    };
+    if (!tryOpen()) {
+      let n = 0;
+      const t = setInterval(() => { if (tryOpen() || ++n > 25) clearInterval(t); }, 300);
+    }
+  })();
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
