@@ -51,8 +51,8 @@
     #age-gate .cda-age-actions { flex-direction: row; }
   }
 </style>
-<title>Club del Anfitrión | Vinoteca en Bell Ville</title>
-<meta name="description" content="Club del Anfitrión: vinoteca y regalería en Bell Ville. Vinos de bodegas chicas, picadas, parrillas, braseros y eventos.">
+<title>Club del Anfitrión | Vinoteca Boutique y Regalería en Bell Ville</title>
+<meta name="description" content="Club del Anfitrión: vinoteca boutique y regalería en Bell Ville, Córdoba. Vinos de bodegas chicas, picadas, parrillas, braseros, eventos y pedidos online con retiro en el local.">
 <meta name="application-name" content="Club del Anfitrión">
 <meta name="apple-mobile-web-app-title" content="Club del Anfitrión">
 <meta name="format-detection" content="telephone=no">
@@ -67,6 +67,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://firestore.googleapis.com">
+<link rel="preconnect" href="https://res.cloudinary.com">
+<link rel="dns-prefetch" href="https://firestore.googleapis.com">
+<link rel="dns-prefetch" href="https://res.cloudinary.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -378,7 +382,7 @@
       "@type": "WebSite",
       "@id": "https://clubdelanfitrion.com.ar/#website",
       "name": "Club del Anfitrión",
-      "alternateName": ["Club del Anfitrion", "El Club del Anfitrión"],
+      "alternateName": ["Club del Anfitrión", "Club del Anfitrión Bell Ville", "clubdelanfitrion.com.ar", "El Club del Anfitrión"],
       "url": "https://clubdelanfitrion.com.ar/",
       "inLanguage": "es-AR",
       "publisher": { "@id": "https://clubdelanfitrion.com.ar/#organization" }
@@ -1015,6 +1019,9 @@
       
     </div>
   </div>
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-6 pb-8 border-t border-gold/10 mt-8">
+    <p id="site-credits" class="text-stone text-xs text-center">Página web desarrollada por <strong class="text-cream">Bautista López Oroda</strong> · <a href="mailto:bauuorodaa@gmail.com" class="text-gold-soft hover:underline">bauuorodaa@gmail.com</a></p>
+  </div>
 </footer>
 
 
@@ -1209,6 +1216,22 @@
   const DOT_OFF = "h-1.5 w-1.5 rounded-full bg-cream/50 transition-all";
   const VIDEO_MAX_SECONDS = 180;
   const LOGO_CACHE_KEY = "clubLogoUrl";
+
+  /* ---- Settings memory cache ---- */
+  const SETTINGS_CACHE_KEY = "cda_settings_v1";
+  function cacheSettings(data) {
+    try { sessionStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify({ t: Date.now(), d: data })); } catch(_){}
+  }
+  function readCachedSettings() {
+    try {
+      const raw = sessionStorage.getItem(SETTINGS_CACHE_KEY);
+      if (!raw) return null;
+      const o = JSON.parse(raw);
+      if (Date.now() - (o.t || 0) > 10 * 60 * 1000) return null; // 10 min
+      return o.d;
+    } catch(_) { return null; }
+  }
+
   const LOGO_MAX_BYTES = 10 * 1024 * 1024;
   const CUSTOM_CATEGORIES_KEY = "clubCategoriasCustom";
 
@@ -1256,6 +1279,17 @@
   const CLOUDINARY_UPLOAD_PRESET = "ClubDelAnfitrion";
   const CLOUDINARY_IMAGE_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
   const CLOUDINARY_VIDEO_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/video/upload`;
+
+  /* ---- Cloudinary auto-optimize (f_auto,q_auto) ---- */
+  function cldUrl(url, w) {
+    if (!url || typeof url !== "string") return url || "";
+    if (!url.includes("res.cloudinary.com") || url.includes("/upload/f_auto")) return url;
+    const width = w || 800;
+    return url.replace("/upload/", "/upload/f_auto,q_auto,w_" + width + "/");
+  }
+  function cldImg(url, w) { return cldUrl(url, w || 800); }
+  function cldHero(url) { return cldUrl(url, 1200); }
+
 
   async function uploadImageToCloudinary(file) {
     const formData = new FormData();
@@ -1366,10 +1400,14 @@
     }
     return typeof item.imagenUrl === "string" && item.imagenUrl.trim() ? [item.imagenUrl] : [];
   }
-  function getMedia(item) {
+  function getMedia(item, forModal) {
     const media = [];
-    getImages(item).forEach(img => media.push({ type: "image", url: img }));
+    const w = forModal ? 1200 : 800;
+    getImages(item).forEach(img => media.push({ type: "image", url: cldUrl(img, w) }));
     if (item.videoUrl) media.push({ type: "video", url: item.videoUrl });
+    if (item.videos && Array.isArray(item.videos)) {
+      item.videos.forEach(v => media.push({ type: "video", url: v }));
+    }
     return media;
   }
   function formatPromoPrice(promo) {
@@ -1611,7 +1649,7 @@
           </div>
         </div>`;
       }
-      return `<img src="${escapeHtml(m.url)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" class="w-full h-full object-cover${zoomCls}">`;
+      return `<img src="${escapeHtml(cldUrl(m.url, 800))}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" class="w-full h-full object-cover${zoomCls}">`;
     }
     const slides = media.map((m, i) => {
       const vis = i === 0 ? "opacity-100" : "opacity-0 pointer-events-none";
@@ -1623,7 +1661,7 @@
           </div>
         </div>`;
       }
-      return `<img data-slide data-media-type="image" src="${escapeHtml(m.url)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${vis}">`;
+      return `<img data-slide data-media-type="image" src="${escapeHtml(cldUrl(m.url, 800))}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${vis}">`;
     }).join("");
     const dots = media.map((_, i) => `<span data-dot class="${i === 0 ? DOT_ON : DOT_OFF}"></span>`).join("");
     return `<div data-auto-slider class="relative w-full h-full${zoomCls}">${slides}<div class="absolute bottom-3 inset-x-0 flex justify-center gap-1.5 pointer-events-none">${dots}</div></div>`;
@@ -2181,7 +2219,7 @@
     const prod = latestProducts.find(p => p.id === id);
     if (!prod) return;
     pauseAllVideos();
-    productCarousel.open(getMedia(prod));
+    productCarousel.open(getMedia(prod, true));
     document.getElementById("detail-title").textContent = prod.titulo;
     const priceEl = document.getElementById("detail-price");
     const priceTransferEl = document.getElementById("detail-price-transfer");
@@ -2213,7 +2251,7 @@
     const promo = latestPromos.find((p) => p.id === id);
     if (!promo) return;
     pauseAllVideos();
-    promoCarousel.open(getMedia(promo));
+    promoCarousel.open(getMedia(promo, true));
     document.getElementById("promo-detail-title").textContent = promo.titulo || "";
     const priceEl = document.getElementById("promo-detail-price");
     priceEl.textContent = hasValidPrice(promo.precio) ? formatPromoPrice(promo) : "Consultar precio";
@@ -2239,7 +2277,7 @@
     const ev = latestEvents.find((p) => p.id === id);
     if (!ev) return;
     pauseAllVideos();
-    eventCarousel.open(getMedia(ev));
+    eventCarousel.open(getMedia(ev, true));
     document.getElementById("event-detail-title").textContent = ev.titulo || "";
     const fecha = ev.fecha ? formatISODate(ev.fecha) : "";
     const hora = ev.hora || "";
@@ -2295,10 +2333,14 @@
     if (readout) readout.value = url;
     try { localStorage.setItem(LOGO_CACHE_KEY, url); } catch (_) { }
   }
-  try { applySiteLogo(localStorage.getItem(LOGO_CACHE_KEY)); } catch (_) { }
+  try {
+    const cachedSet = readCachedSettings();
+    if (cachedSet && cachedSet.logoUrl) applySiteLogo(cachedSet.logoUrl);
+    else applySiteLogo(localStorage.getItem(LOGO_CACHE_KEY));
+  } catch (_) { }
   if (SETTINGS_REF) {
     onSnapshot(SETTINGS_REF, (snap) => {
-      if (snap.exists()) { const sd = snap.data(); applySiteLogo(sd.logoUrl); applyStoryVideo(sd.videoUrl); }
+      if (snap.exists()) { const sd = snap.data(); cacheSettings(sd); applySiteLogo(sd.logoUrl); applyStoryVideo(sd.videoUrl); }
     }, (error) => console.warn("[settings]", error));
   }
 
@@ -2807,6 +2849,9 @@
   })();
 
   document.getElementById("year").textContent = new Date().getFullYear();
+  // Créditos del desarrollador
+  const creditEl = document.getElementById("site-credits");
+  if (creditEl) creditEl.innerHTML = 'Página web desarrollada por <strong>Bautista López Oroda</strong> · <a href="mailto:bauuorodaa@gmail.com" class="text-gold-soft hover:underline">bauuorodaa@gmail.com</a>';
 
   
 </script>
