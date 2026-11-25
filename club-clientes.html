@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!--
+  Club del Anfitrión · Club de Clientes (club-clientes.html)
+  Página web desarrollada por Bautista Lopéz Oroda · bauuorodaa@gmail.com
+-->
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -46,6 +50,37 @@
   #toast-box { position: fixed; top: 1rem; right: 1rem; z-index: 200; display: flex; flex-direction: column; gap: .5rem; }
   .toast { min-width: 240px; max-width: 340px; }
   .card { border: 1px solid rgba(201,162,75,.15); background: rgba(38,22,26,.55); border-radius: 1rem; }
+  .cred-card {
+    background: linear-gradient(145deg, #26161a 0%, #1e1114 50%, #140b0c 100%);
+    border: 1px solid rgba(201,162,75,.35);
+    box-shadow: 0 20px 40px -20px rgba(0,0,0,.7), inset 0 1px 0 rgba(201,162,75,.15);
+  }
+  .progress-bar {
+    height: 8px; border-radius: 9999px; background: rgba(201,162,75,.15); overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 9999px;
+    background: linear-gradient(90deg, #c9a24b, #e6cf9c);
+    transition: width .6s ease;
+  }
+  .trk { display: flex; align-items: flex-start; }
+  .trk-step { flex: 1; text-align: center; position: relative; font-size: 10px; line-height: 1.25; color: #b4a293; padding: 0 2px; }
+  .trk-dot {
+    width: 24px; height: 24px; border-radius: 9999px; margin: 0 auto 6px;
+    display: grid; place-items: center; border: 1px solid rgba(201,162,75,.4);
+    background: #140b0c; position: relative; z-index: 1; font-size: 11px;
+  }
+  .trk-step::before {
+    content: ""; position: absolute; top: 11px; left: -50%; width: 100%; height: 2px;
+    background: rgba(201,162,75,.25);
+  }
+  .trk-step:first-child::before { display: none; }
+  .trk-step.done { color: #e6cf9c; }
+  .trk-step.done .trk-dot { background: #c9a24b; color: #140b0c; border-color: #c9a24b; }
+  .trk-step.done::before, .trk-step.cur::before { background: #c9a24b; }
+  .trk-step.cur { color: #efe6d8; font-weight: 600; }
+  .trk-step.cur .trk-dot { border-color: #c9a24b; color: #e6cf9c; box-shadow: 0 0 0 3px rgba(201,162,75,.25); }
+  .modal-backdrop { background: rgba(20,11,12,.75); backdrop-filter: blur(6px); }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -134,6 +169,11 @@
           </div>
         </div>
         <div>
+          <label class="block text-sm text-stone mb-1">DNI (obligatorio)</label>
+          <input id="reg-dni" inputmode="numeric" required pattern="[0-9]{6,10}"
+                 class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm" placeholder="Solo números, 6 a 10 dígitos">
+        </div>
+        <div>
           <label class="block text-sm text-stone mb-1">Teléfono</label>
           <input id="reg-tel" type="tel" inputmode="tel" autocomplete="tel" required class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm" placeholder="Ej: 3537 51-3148">
         </div>
@@ -161,6 +201,41 @@
       <p class="text-stone text-sm" id="welcome-email"></p>
     </div>
 
+    <!-- Credencial Digital -->
+    <div class="cred-card rounded-2xl p-5 sm:p-6 mb-8 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-gold/5 -translate-y-1/2 translate-x-1/3"></div>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-5 relative">
+        <div class="flex-1">
+          <p class="text-stone text-xs uppercase tracking-wider mb-1">Credencial Digital del Anfitrión</p>
+          <p class="font-display text-2xl text-cream" id="cred-nombre">—</p>
+          <p class="text-stone text-sm mt-1">DNI <span id="cred-dni">—</span></p>
+          <div class="mt-4 flex items-end gap-4">
+            <div>
+              <p class="text-stone text-xs mb-0.5">Puntos</p>
+              <p class="font-display text-3xl text-gold-soft" id="cred-puntos">0</p>
+            </div>
+            <div>
+              <p class="text-stone text-xs mb-0.5">Nivel</p>
+              <p class="font-display text-xl text-cream" id="cred-nivel">Bronce</p>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="flex justify-between text-xs text-stone mb-1">
+              <span id="cred-nivel-label">Bronce</span>
+              <span id="cred-next-label">Plata · 500 pts</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="cred-progress" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="shrink-0 text-center">
+          <img id="cred-foto" src="" alt="" class="h-20 w-20 rounded-full object-cover border-2 border-gold/40 bg-wine-black mx-auto hidden">
+          <p class="text-stone text-[10px] mt-2 uppercase tracking-widest">Club del Anfitrión</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Summary cards -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
       <div class="card p-4 sm:p-5 text-center">
@@ -186,6 +261,7 @@
       <button type="button" data-tab="resumen" class="tab-btn active rounded-full border border-gold/25 px-4 py-2 text-sm text-stone">Resumen</button>
       <button type="button" data-tab="compras" class="tab-btn rounded-full border border-gold/25 px-4 py-2 text-sm text-stone">Mis compras</button>
       <button type="button" data-tab="canjes" class="tab-btn rounded-full border border-gold/25 px-4 py-2 text-sm text-stone">Canjes</button>
+      <button type="button" data-tab="actividad" class="tab-btn rounded-full border border-gold/25 px-4 py-2 text-sm text-stone">Tu actividad</button>
       <button type="button" data-tab="perfil" class="tab-btn rounded-full border border-gold/25 px-4 py-2 text-sm text-stone">Mis datos</button>
     </div>
 
@@ -195,7 +271,7 @@
         <h2 class="font-display text-xl mb-3">Tu actividad</h2>
         <ul class="text-stone text-sm space-y-2 leading-relaxed">
           <li>Los puntos se acreditan en el local al informar tu DNI en cada compra.</li>
-          <li>Los canjes se realizan en el establecimiento presentando tu DNI.</li>
+          <li>Los canjes se realizan en el establecimiento presentando tu voucher o DNI.</li>
           <li>Las compras que ves acá son las registradas en el sistema (pedidos online o carga en el local).</li>
         </ul>
       </div>
@@ -211,24 +287,34 @@
 
     <!-- Tab: Compras -->
     <div id="tab-compras" class="hidden space-y-3">
-      <p class="text-stone text-sm mb-2">Solo se muestran pedidos asociados a tu cuenta o a tu DNI cuando el sistema los tiene registrados.</p>
+      <p class="text-stone text-sm mb-2">Pedidos asociados a tu cuenta o a tu DNI. Podés cancelar mientras no hayan sido despachados.</p>
       <div id="orders-list" class="space-y-3"></div>
     </div>
 
     <!-- Tab: Canjes -->
     <div id="tab-canjes" class="hidden">
-      <p class="text-stone text-sm mb-4">Productos disponibles para canjear con puntos en el local.</p>
+      <p class="text-stone text-sm mb-4">Canjeá tus puntos por recompensas. Se genera un voucher único para presentar en el local.</p>
       <div id="canjes-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
       <div id="canjes-empty" class="hidden card p-6 text-center text-stone text-sm">
         Pronto vas a ver acá los productos de canje. Estate atento.
       </div>
+      <div id="mis-vouchers" class="mt-8 hidden">
+        <h3 class="font-display text-xl mb-3">Tus vouchers activos</h3>
+        <div id="vouchers-list" class="space-y-2"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Actividad -->
+    <div id="tab-actividad" class="hidden space-y-3">
+      <p class="text-stone text-sm mb-2">Historial de movimientos de puntos (compras, canjes y ajustes).</p>
+      <div id="actividad-list" class="space-y-2"></div>
     </div>
 
     <!-- Tab: Perfil -->
     <div id="tab-perfil" class="hidden">
       <div class="card p-5 sm:p-6 max-w-xl">
         <h2 class="font-display text-xl mb-4">Datos personales</h2>
-        <div class="flex items-center gap-4 mb-2 sm:col-span-2">
+        <div class="flex items-center gap-4 mb-4">
           <img id="pf-foto-preview" src="" alt="" class="h-20 w-20 rounded-full object-cover border-2 border-gold/40 bg-wine-black hidden">
           <div class="flex-1">
             <label class="block text-sm text-stone mb-1">Fotografía de perfil</label>
@@ -246,16 +332,16 @@
             <input id="pf-apellido" required class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
           </div>
           <div class="sm:col-span-2">
-            <label class="block text-sm text-stone mb-1">DNI</label>
+            <label class="block text-sm text-stone mb-1">DNI (obligatorio)</label>
             <input id="pf-dni" inputmode="numeric" required class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm" placeholder="Solo números">
           </div>
           <div class="sm:col-span-2">
             <label class="block text-sm text-stone mb-1">Correo</label>
             <input id="pf-email" type="email" disabled class="w-full rounded-xl bg-wine-black/40 border border-gold/10 px-4 py-2.5 text-sm text-stone">
-            <p class="text-stone text-xs mt-1">El correo se gestiona con Firebase Authentication. Para cambiarlo usá recuperación de cuenta o contactanos.</p>
+            <p class="text-stone text-xs mt-1">El correo se gestiona con Firebase Authentication.</p>
           </div>
           <div class="sm:col-span-2">
-            <label class="block text-sm text-stone mb-1">Teléfono (opcional)</label>
+            <label class="block text-sm text-stone mb-1">Teléfono</label>
             <input id="pf-tel" type="tel" class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-2.5 text-sm">
           </div>
           <div class="sm:col-span-2">
@@ -276,20 +362,59 @@
 <footer class="border-t border-gold/10 mt-16 py-8">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between gap-4 text-stone text-xs">
     <p>© <span id="year"></span> Club del Anfitrión · Bell Ville, Córdoba</p>
+    <p>Página web desarrollada por <a href="mailto:bauuorodaa@gmail.com" class="text-gold-soft hover:underline">Bautista Lopéz Oroda · bauuorodaa@gmail.com</a></p>
     <a href="https://clubdelanfitrion.com.ar/" class="hover:text-gold-soft">Volver a la tienda</a>
   </div>
 </footer>
+
+<!-- Modal cancelar pedido (cliente) -->
+<div id="cancel-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 modal-backdrop">
+  <div class="w-full max-w-md rounded-2xl bg-wine-panel border border-gold/25 p-6 shadow-2xl">
+    <h3 class="font-display text-xl text-cream mb-2">Cancelar mi pedido</h3>
+    <p class="text-stone text-sm mb-4">Escribí el motivo de la cancelación (obligatorio).</p>
+    <textarea id="cancel-motivo" rows="3" class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-3 text-sm text-cream mb-4" placeholder="Ej: Me equivoqué de producto, cambié de dirección…"></textarea>
+    <input type="hidden" id="cancel-order-id">
+    <div class="flex gap-3 justify-end">
+      <button type="button" id="cancel-close" class="rounded-full border border-gold/30 px-5 py-2 text-sm text-stone">Volver</button>
+      <button type="button" id="cancel-confirm" disabled class="rounded-full bg-garnet px-5 py-2 text-sm text-cream font-medium disabled:opacity-40">Confirmar cancelación</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal DNI obligatorio (Google primer ingreso) -->
+<div id="dni-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 modal-backdrop">
+  <div class="w-full max-w-md rounded-2xl bg-wine-panel border border-gold/25 p-6 shadow-2xl">
+    <h3 class="font-display text-xl text-cream mb-2">Completá tu DNI</h3>
+    <p class="text-stone text-sm mb-4">Para sumar puntos y canjear recompensas necesitamos tu DNI (solo números).</p>
+    <input id="dni-modal-input" inputmode="numeric" class="w-full rounded-xl bg-wine-black/60 border border-gold/20 px-4 py-3 text-sm text-cream mb-4" placeholder="DNI sin puntos ni espacios">
+    <div class="flex gap-3 justify-end">
+      <button type="button" id="dni-modal-save" class="rounded-full bg-gold px-5 py-2 text-sm text-wine-black font-medium">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal voucher -->
+<div id="voucher-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 modal-backdrop">
+  <div class="w-full max-w-sm rounded-2xl bg-wine-panel border border-gold/25 p-6 shadow-2xl text-center">
+    <p class="text-stone text-xs uppercase tracking-wider mb-2">Voucher de canje</p>
+    <p class="font-display text-2xl text-cream mb-1" id="voucher-titulo">—</p>
+    <p class="font-mono text-2xl text-gold-soft tracking-widest my-4" id="voucher-code">—</p>
+    <p class="text-stone text-sm mb-4">Presentá este código en el local junto con tu DNI.</p>
+    <button type="button" id="voucher-close" class="rounded-full bg-gold px-6 py-2 text-wine-black font-medium text-sm">Cerrar</button>
+  </div>
+</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
   import {
     getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword,
     createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile,
-    signOut, onAuthStateChanged
+    signOut, onAuthStateChanged, getAdditionalUserInfo
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
   import {
-    getFirestore, collection, doc, getDoc, getDocs, setDoc, query, where,
-    orderBy, onSnapshot, serverTimestamp
+    getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc,
+    query, where, orderBy, onSnapshot, serverTimestamp, runTransaction,
+    addDoc, limit
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -352,8 +477,11 @@
   let profile = null;
   let orders = [];
   let canjes = [];
+  let movimientos = [];
+  let vouchers = [];
   let unsubProfile = null;
   let unsubOrders = null;
+  let unsubMov = null;
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -379,6 +507,33 @@
     document.getElementById("member-view").classList.add("hidden");
     document.getElementById("header-auth-btn").textContent = "Iniciar sesión";
   }
+
+  function calcNivel(pts) {
+    const p = Number(pts) || 0;
+    if (p >= 2000) return { nivel: "Oro", next: null, progress: 100, nextLabel: "Nivel máximo" };
+    if (p >= 500) return { nivel: "Plata", next: 2000, progress: Math.min(100, ((p - 500) / 1500) * 100), nextLabel: "Oro · 2000 pts" };
+    return { nivel: "Bronce", next: 500, progress: Math.min(100, (p / 500) * 100), nextLabel: "Plata · 500 pts" };
+  }
+
+  function updateCredencial() {
+    const pts = typeof profile?.puntos === "number" ? profile.puntos : 0;
+    const { nivel, progress, nextLabel } = calcNivel(pts);
+    document.getElementById("cred-nombre").textContent = [profile?.nombre, profile?.apellido].filter(Boolean).join(" ") || "Anfitrión";
+    document.getElementById("cred-dni").textContent = profile?.dni || "—";
+    document.getElementById("cred-puntos").textContent = pts;
+    document.getElementById("cred-nivel").textContent = nivel;
+    document.getElementById("cred-nivel-label").textContent = nivel;
+    document.getElementById("cred-next-label").textContent = nextLabel;
+    document.getElementById("cred-progress").style.width = progress + "%";
+    const foto = document.getElementById("cred-foto");
+    if (profile?.fotoUrl) {
+      foto.src = profile.fotoUrl;
+      foto.classList.remove("hidden");
+    } else {
+      foto.classList.add("hidden");
+    }
+  }
+
   function showMember(user) {
     document.getElementById("guest-view").classList.add("hidden");
     document.getElementById("member-view").classList.remove("hidden");
@@ -387,8 +542,10 @@
     document.getElementById("welcome-email").textContent = user.email || "";
     document.getElementById("header-auth-btn").textContent = "Mi cuenta";
     fillProfileForm(user);
+    updateCredencial();
     renderSummary();
     renderOrders();
+    renderActividad();
   }
 
   function fillProfileForm(user) {
@@ -425,8 +582,47 @@
     const fecha = last.creadoEn?.toDate ? last.creadoEn.toDate().toLocaleString("es-AR") : "—";
     const items = (last.items || []).map(i => `${esc(i.titulo)} ×${i.qty}`).join(", ");
     box.innerHTML = `
-      <p class="text-cream mb-1">${fecha} · ${money(last.total)} · <span class="text-gold-soft">${esc(last.estado||"")}</span></p>
-      <p class="text-xs">Código ${esc(last.codigoRetiro||"—")} · ${items || "Sin detalle de ítems"}</p>`;
+      <p class="text-cream mb-1">${fecha} · ${money(last.total)} · <span class="text-gold-soft">${esc(last.estado || "")}</span></p>
+      <p class="text-xs">Código ${esc(last.codigoRetiro || last.id || "—")} · ${items || "Sin detalle de ítems"}</p>`;
+  }
+
+  const STATUS_ORDER = ["pendiente_pago", "esperando_transferencia", "pago_confirmado", "preparando", "en_camino", "listo_retiro", "entregado"];
+  const STATUS_LABELS = {
+    pendiente_pago: "Pendiente",
+    esperando_transferencia: "Pendiente",
+    pago_confirmado: "Confirmado",
+    preparando: "Preparando",
+    en_camino: "En camino",
+    listo_retiro: "Listo retiro",
+    entregado: "Entregado",
+    cancelado: "Cancelado"
+  };
+
+  function renderTrackBar(estado) {
+    if (estado === "cancelado") return "";
+    const st = estado === "esperando_transferencia" ? "pendiente_pago" : estado;
+    const steps = [
+      { key: "pendiente_pago", label: "Pendiente" },
+      { key: "pago_confirmado", label: "Confirmado" },
+      { key: "preparando", label: "Preparando" },
+      { key: "en_camino", label: "En camino" },
+      { key: "listo_retiro", label: "Listo" },
+      { key: "entregado", label: "Entregado" }
+    ];
+    const idx = steps.findIndex(s => s.key === st);
+    return `<div class="trk mt-3 mb-1">
+      ${steps.map((s, i) => {
+        let cls = "";
+        if (idx > i) cls = "done";
+        else if (idx === i) cls = "cur";
+        return `<div class="trk-step ${cls}"><div class="trk-dot">${idx > i ? "✓" : (i + 1)}</div>${s.label}</div>`;
+      }).join("")}
+    </div>`;
+  }
+
+  function canCancelOrder(o) {
+    const st = o.estado || "";
+    return ["pendiente_pago", "esperando_transferencia", "pago_confirmado"].includes(st);
   }
 
   function renderOrders() {
@@ -438,13 +634,20 @@
     el.innerHTML = orders.map(o => {
       const fecha = o.creadoEn?.toDate ? o.creadoEn.toDate().toLocaleString("es-AR") : "—";
       const items = (o.items || []).map(i => `<li>${esc(i.titulo)} × ${i.qty}${i.precio != null ? " · " + money(i.precio) : ""}</li>`).join("");
+      const st = o.estado || "";
+      const isCancel = st === "cancelado";
       return `<article class="card p-4 sm:p-5">
         <div class="flex flex-wrap justify-between gap-2 mb-2">
-          <p class="font-display text-lg text-cream">Código ${esc(o.codigoRetiro||"—")}</p>
-          <span class="text-xs rounded-full border border-gold/30 px-2 py-0.5 text-gold-soft">${esc((o.estado||"").toUpperCase())}</span>
+          <p class="font-display text-lg text-cream">Código ${esc(o.codigoRetiro || o.id || "—")}</p>
+          <span class="text-xs rounded-full border border-gold/30 px-2 py-0.5 ${isCancel ? "text-red-300 border-red-400/40" : "text-gold-soft"}">${esc((STATUS_LABELS[st] || st).toUpperCase())}</span>
         </div>
-        <p class="text-stone text-xs mb-2">${fecha} · ${esc(o.metodoPago||"")} · ${money(o.total)}</p>
-        <ul class="text-sm text-stone space-y-0.5 list-disc pl-4">${items || "<li>Sin detalle</li>"}</ul>
+        <p class="text-stone text-xs mb-2">${fecha} · ${esc(o.metodoPago || "")} · ${money(o.total)}</p>
+        ${isCancel && o.motivoCancelacion ? `<div class="mb-3 rounded-lg bg-garnet/30 border border-garnet-light/40 px-3 py-2 text-sm text-red-200"><strong>Pedido Cancelado</strong> — Motivo: ${esc(o.motivoCancelacion)}</div>` : ""}
+        ${!isCancel ? renderTrackBar(st) : ""}
+        ${o.codigoSeguimiento ? `<p class="text-xs text-gold-soft mt-2">Guía: <span class="font-mono">${esc(o.codigoSeguimiento)}</span>
+          <button type="button" data-copy="${esc(o.codigoSeguimiento)}" class="ml-2 underline text-stone hover:text-gold-soft">Copiar</button></p>` : ""}
+        <ul class="text-sm text-stone space-y-0.5 list-disc pl-4 mt-2">${items || "<li>Sin detalle</li>"}</ul>
+        ${canCancelOrder(o) ? `<button type="button" data-cancel-order="${esc(o.id)}" class="mt-3 rounded-full border border-garnet-light/50 px-4 py-1.5 text-xs text-red-300 hover:bg-garnet/20">Cancelar mi pedido</button>` : ""}
       </article>`;
     }).join("");
   }
@@ -460,52 +663,98 @@
       return;
     }
     empty.classList.add("hidden");
+    const ptsUser = typeof profile?.puntos === "number" ? profile.puntos : 0;
     grid.innerHTML = available.map(c => {
       const img = (c.imagenes && c.imagenes[0]) || c.imagenUrl || "";
+      const need = c.puntosNecesarios || 0;
+      const can = ptsUser >= need;
       return `<article class="card overflow-hidden flex flex-col">
         <div class="aspect-[4/3] bg-wine-black">${img ? `<img src="${esc(img)}" alt="" class="w-full h-full object-cover" loading="lazy">` : ""}</div>
         <div class="p-4 flex-1 flex flex-col">
-          <h3 class="font-display text-lg text-cream mb-1">${esc(c.titulo||"")}</h3>
-          <p class="text-stone text-sm flex-1 line-clamp-3">${esc(c.descripcion||"")}</p>
-          <p class="mt-3 text-gold-soft font-display text-xl">${c.puntosNecesarios||0} puntos</p>
-          <p class="text-stone text-xs mt-1">Canje en el local con tu DNI</p>
+          <h3 class="font-display text-lg text-cream mb-1">${esc(c.titulo || "")}</h3>
+          <p class="text-stone text-sm flex-1 line-clamp-3">${esc(c.descripcion || "")}</p>
+          <p class="mt-3 text-gold-soft font-display text-xl">${need} puntos</p>
+          <button type="button" data-canjear="${esc(c.id)}" data-pts="${need}" data-titulo="${esc(c.titulo || "")}"
+                  class="mt-3 btn-press rounded-full ${can ? "bg-gold text-wine-black" : "bg-wine-black/60 text-stone border border-gold/20 cursor-not-allowed"} px-4 py-2 text-sm font-medium"
+                  ${can ? "" : "disabled"}>
+            ${can ? "Canjear ahora" : "Puntos insuficientes"}
+          </button>
         </div>
       </article>`;
+    }).join("");
+  }
+
+  function renderVouchers() {
+    const box = document.getElementById("mis-vouchers");
+    const list = document.getElementById("vouchers-list");
+    if (!vouchers.length) {
+      box.classList.add("hidden");
+      return;
+    }
+    box.classList.remove("hidden");
+    list.innerHTML = vouchers.map(v => `
+      <div class="card p-4 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p class="text-cream font-medium">${esc(v.titulo)}</p>
+          <p class="text-stone text-xs">Código: <span class="font-mono text-gold-soft">${esc(v.codigo)}</span> · ${v.usado ? "Usado" : "Activo"}</p>
+        </div>
+        ${!v.usado ? `<button type="button" data-show-voucher="${esc(v.codigo)}" data-vt="${esc(v.titulo)}" class="rounded-full border border-gold/40 px-3 py-1 text-xs text-gold-soft">Ver voucher</button>` : ""}
+      </div>`).join("");
+  }
+
+  function renderActividad() {
+    const el = document.getElementById("actividad-list");
+    if (!movimientos.length) {
+      el.innerHTML = '<div class="card p-6 text-center text-stone text-sm">Todavía no hay movimientos de puntos.</div>';
+      return;
+    }
+    el.innerHTML = movimientos.map(m => {
+      const fecha = m.creadoEn?.toDate ? m.creadoEn.toDate().toLocaleString("es-AR") : "—";
+      const sign = m.puntos >= 0 ? "+" : "";
+      const color = m.puntos >= 0 ? "text-emerald-300" : "text-red-300";
+      return `<div class="card p-3 flex justify-between items-center gap-3">
+        <div>
+          <p class="text-cream text-sm">${esc(m.tipo || "movimiento")}${m.pedidoId ? " · Pedido" : ""}${m.titulo ? " · " + esc(m.titulo) : ""}</p>
+          <p class="text-stone text-xs">${fecha}</p>
+        </div>
+        <p class="font-display text-lg ${color}">${sign}${m.puntos}</p>
+      </div>`;
     }).join("");
   }
 
   async function loadUserData(user) {
     if (unsubProfile) { unsubProfile(); unsubProfile = null; }
     if (unsubOrders) { unsubOrders(); unsubOrders = null; }
+    if (unsubMov) { unsubMov(); unsubMov = null; }
 
-    // Perfil en tiempo real
     unsubProfile = onSnapshot(doc(db, "usuarios", user.uid), (snap) => {
       profile = snap.exists() ? snap.data() : null;
-      if (auth.currentUser) showMember(auth.currentUser);
+      if (auth.currentUser) {
+        showMember(auth.currentUser);
+        if (profile && !profile.dni) {
+          document.getElementById("dni-modal").classList.remove("hidden");
+        }
+      }
     }, (err) => {
       console.warn("[perfil]", err);
       profile = null;
       if (auth.currentUser) showMember(auth.currentUser);
     });
 
-    // Pedidos del usuario por uid
+    // Pedidos
     try {
       const byUid = await getDocs(query(collection(db, "pedidos"), where("uid", "==", user.uid)));
       const map = new Map();
       byUid.forEach(d => map.set(d.id, { id: d.id, ...d.data() }));
 
-      // Si hay DNI en perfil, también traer pedidos con ese DNI (carga en local)
-      const dni = profile?.dni || null;
-      // perfil puede no haber llegado aún; se re-consulta en snapshot de perfil vía re-render
-      // Intentamos de nuevo después de un momento si hace falta
       setTimeout(async () => {
-        const dniNow = (await getDoc(doc(db, "usuarios", user.uid))).data()?.dni;
-        if (dniNow) {
-          try {
+        try {
+          const dniNow = (await getDoc(doc(db, "usuarios", user.uid))).data()?.dni;
+          if (dniNow) {
             const byDni = await getDocs(query(collection(db, "pedidos"), where("dni", "==", String(dniNow))));
             byDni.forEach(d => map.set(d.id, { id: d.id, ...d.data() }));
-          } catch (_) {}
-        }
+          }
+        } catch (_) {}
         orders = [...map.values()].sort((a, b) => {
           const ta = a.creadoEn?.toMillis ? a.creadoEn.toMillis() : 0;
           const tb = b.creadoEn?.toMillis ? b.creadoEn.toMillis() : 0;
@@ -527,13 +776,46 @@
       orders = [];
       renderOrders();
     }
+
+    // Movimientos de puntos
+    try {
+      unsubMov = onSnapshot(
+        query(collection(db, "movimientos_puntos"), where("uid", "==", user.uid), orderBy("creadoEn", "desc"), limit(50)),
+        (snap) => {
+          movimientos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderActividad();
+        },
+        () => {
+          // fallback sin orderBy
+          getDocs(query(collection(db, "movimientos_puntos"), where("uid", "==", user.uid))).then(snap => {
+            movimientos = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+              .sort((a, b) => (b.creadoEn?.toMillis?.() || 0) - (a.creadoEn?.toMillis?.() || 0));
+            renderActividad();
+          });
+        }
+      );
+    } catch (_) {}
+
+    // Vouchers del usuario
+    try {
+      const vSnap = await getDocs(query(collection(db, "vouchers_canje"), where("uid", "==", user.uid)));
+      vouchers = vSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderVouchers();
+    } catch (_) {
+      vouchers = [];
+    }
   }
 
-  // Canjes públicos
-  onSnapshot(collection(db, "canjes"), (snap) => {
+  // Canjes / premios públicos
+  onSnapshot(collection(db, "premios_canje"), (snap) => {
     canjes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderCanjes();
-  }, () => {});
+  }, () => {
+    onSnapshot(collection(db, "canjes"), (snap) => {
+      canjes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderCanjes();
+    }, () => {});
+  });
 
   // Logo
   onSnapshot(doc(db, "settings", "general"), (snap) => {
@@ -550,6 +832,7 @@
       profile = null;
       orders = [];
       if (unsubProfile) { unsubProfile(); unsubProfile = null; }
+      if (unsubMov) { unsubMov(); unsubMov = null; }
       showGuest();
     }
   });
@@ -578,6 +861,7 @@
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const u = result.user;
+      const isNew = !!(getAdditionalUserInfo(result) || {}).isNewUser;
       const ref = doc(db, "usuarios", u.uid);
       const snap = await getDoc(ref);
       if (!snap.exists()) {
@@ -592,11 +876,32 @@
           creadoEn: serverTimestamp()
         });
         sendWelcomeEmail({ email: u.email, nombre });
+        // Pedir DNI
+        document.getElementById("dni-modal").classList.remove("hidden");
+      } else if (!snap.data().dni) {
+        document.getElementById("dni-modal").classList.remove("hidden");
       }
       toast("Sesión iniciada");
     } catch (e) {
       console.error(e);
       setAuthMsg("No se pudo iniciar con Google. Revisá dominios autorizados en Firebase.", true);
+    }
+  });
+
+  document.getElementById("dni-modal-save").addEventListener("click", async () => {
+    const dni = document.getElementById("dni-modal-input").value.trim().replace(/\D/g, "");
+    if (dni.length < 6 || dni.length > 10) {
+      toast("DNI inválido (6 a 10 dígitos)", "error");
+      return;
+    }
+    const user = auth.currentUser;
+    if (!user) return;
+    try {
+      await setDoc(doc(db, "usuarios", user.uid), { dni, actualizadoEn: serverTimestamp() }, { merge: true });
+      document.getElementById("dni-modal").classList.add("hidden");
+      toast("DNI guardado");
+    } catch (err) {
+      toast(err.message || "Error al guardar DNI", "error");
     }
   });
 
@@ -618,10 +923,12 @@
     e.preventDefault();
     const nombre = document.getElementById("reg-nombre").value.trim();
     const apellido = document.getElementById("reg-apellido").value.trim();
+    const dni = document.getElementById("reg-dni").value.trim().replace(/\D/g, "");
     const telefono = (document.getElementById("reg-tel")?.value || "").trim();
     const email = document.getElementById("reg-email").value.trim();
     const pass = document.getElementById("reg-pass").value;
     if (!nombre || !apellido) { setAuthMsg("Completá nombre y apellido.", true); return; }
+    if (dni.length < 6 || dni.length > 10) { setAuthMsg("DNI inválido (6 a 10 dígitos).", true); return; }
     if (!telefono || telefono.length < 6) { setAuthMsg("Ingresá un teléfono válido.", true); return; }
     if (pass.length < 6) { setAuthMsg("La contraseña debe tener al menos 6 caracteres.", true); return; }
     setAuthMsg("Creando cuenta…");
@@ -629,7 +936,7 @@
       const cred = await createUserWithEmailAndPassword(auth, email, pass);
       try { await updateProfile(cred.user, { displayName: `${nombre} ${apellido}` }); } catch (_) {}
       await setDoc(doc(db, "usuarios", cred.user.uid), {
-        nombre, apellido, telefono, email, puntos: 0, clubAdherido: true, creadoEn: serverTimestamp()
+        nombre, apellido, dni, telefono, email, puntos: 0, clubAdherido: true, creadoEn: serverTimestamp()
       }, { merge: true });
       await sendWelcomeEmail({ email, nombre });
       toast("Registro exitoso");
@@ -666,7 +973,7 @@
     btn.addEventListener("click", () => {
       document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      ["resumen", "compras", "canjes", "perfil"].forEach(id => {
+      ["resumen", "compras", "canjes", "actividad", "perfil"].forEach(id => {
         document.getElementById("tab-" + id).classList.toggle("hidden", id !== btn.dataset.tab);
       });
     });
@@ -709,6 +1016,128 @@
       msg.textContent = err.message || "No se pudo guardar. Revisá permisos de Firestore.";
       toast("Error al guardar", "error");
     }
+  });
+
+  /* Cancel order (cliente) */
+  document.getElementById("orders-list").addEventListener("click", (e) => {
+    const copyBtn = e.target.closest("[data-copy]");
+    if (copyBtn) {
+      navigator.clipboard?.writeText(copyBtn.dataset.copy).then(() => toast("Copiado")).catch(() => {});
+      return;
+    }
+    const cancelBtn = e.target.closest("[data-cancel-order]");
+    if (cancelBtn) {
+      document.getElementById("cancel-order-id").value = cancelBtn.dataset.cancelOrder;
+      document.getElementById("cancel-motivo").value = "";
+      document.getElementById("cancel-confirm").disabled = true;
+      document.getElementById("cancel-modal").classList.remove("hidden");
+    }
+  });
+
+  document.getElementById("cancel-motivo").addEventListener("input", (e) => {
+    document.getElementById("cancel-confirm").disabled = e.target.value.trim().length < 5;
+  });
+  document.getElementById("cancel-close").addEventListener("click", () => {
+    document.getElementById("cancel-modal").classList.add("hidden");
+  });
+  document.getElementById("cancel-confirm").addEventListener("click", async () => {
+    const id = document.getElementById("cancel-order-id").value;
+    const motivo = document.getElementById("cancel-motivo").value.trim();
+    if (motivo.length < 5) return;
+    const user = auth.currentUser;
+    if (!user) return;
+    try {
+      await updateDoc(doc(db, "pedidos", id), {
+        estado: "cancelado",
+        canceladoPor: "cliente",
+        motivoCancelacion: motivo,
+        fechaCancelacion: serverTimestamp(),
+        actualizadoEn: serverTimestamp()
+      });
+      document.getElementById("cancel-modal").classList.add("hidden");
+      toast("Pedido cancelado");
+      loadUserData(user);
+    } catch (err) {
+      toast(err.message || "No se pudo cancelar. Puede que el pedido ya haya sido despachado.", "error");
+    }
+  });
+
+  /* Canjear premio con transaction + voucher */
+  document.getElementById("canjes-grid").addEventListener("click", async (e) => {
+    const btn = e.target.closest("[data-canjear]");
+    if (!btn || btn.disabled) return;
+    const user = auth.currentUser;
+    if (!user) return;
+    const premioId = btn.dataset.canjear;
+    const need = Number(btn.dataset.pts) || 0;
+    const titulo = btn.dataset.titulo || "Premio";
+    if (!confirm(`¿Canjear "${titulo}" por ${need} puntos?`)) return;
+
+    btn.disabled = true;
+    btn.textContent = "Procesando…";
+    try {
+      const codigo = "VCH-" + Math.random().toString(36).slice(2, 8).toUpperCase() + Date.now().toString(36).slice(-4).toUpperCase();
+      await runTransaction(db, async (tx) => {
+        const userRef = doc(db, "usuarios", user.uid);
+        const userSnap = await tx.get(userRef);
+        if (!userSnap.exists()) throw new Error("Perfil no encontrado");
+        const pts = userSnap.data().puntos || 0;
+        if (pts < need) throw new Error("Puntos insuficientes");
+        tx.update(userRef, { puntos: pts - need, actualizadoEn: serverTimestamp() });
+        const vouchRef = doc(collection(db, "vouchers_canje"));
+        tx.set(vouchRef, {
+          uid: user.uid,
+          premioId,
+          titulo,
+          puntos: need,
+          codigo,
+          usado: false,
+          creadoEn: serverTimestamp()
+        });
+        const movRef = doc(collection(db, "movimientos_puntos"));
+        tx.set(movRef, {
+          uid: user.uid,
+          tipo: "canje",
+          puntos: -need,
+          titulo,
+          voucher: codigo,
+          creadoEn: serverTimestamp()
+        });
+      });
+      document.getElementById("voucher-titulo").textContent = titulo;
+      document.getElementById("voucher-code").textContent = codigo;
+      document.getElementById("voucher-modal").classList.remove("hidden");
+      toast("¡Canje exitoso!");
+      loadUserData(user);
+    } catch (err) {
+      toast(err.message || "No se pudo completar el canje", "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Canjear ahora";
+      renderCanjes();
+    }
+  });
+
+  document.getElementById("voucher-close").addEventListener("click", () => {
+    document.getElementById("voucher-modal").classList.add("hidden");
+  });
+
+  document.getElementById("vouchers-list")?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-show-voucher]");
+    if (!btn) return;
+    document.getElementById("voucher-titulo").textContent = btn.dataset.vt || "Premio";
+    document.getElementById("voucher-code").textContent = btn.dataset.showVoucher;
+    document.getElementById("voucher-modal").classList.remove("hidden");
+  });
+
+  // DNI solo números en registro
+  document.getElementById("reg-dni")?.addEventListener("input", (e) => {
+    const c = e.target.value.replace(/\D/g, "").slice(0, 10);
+    if (c !== e.target.value) e.target.value = c;
+  });
+  document.getElementById("pf-dni")?.addEventListener("input", (e) => {
+    const c = e.target.value.replace(/\D/g, "").slice(0, 10);
+    if (c !== e.target.value) e.target.value = c;
   });
 </script>
 </body>
