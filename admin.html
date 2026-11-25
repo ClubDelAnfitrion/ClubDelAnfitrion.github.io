@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!--
+  Club del Anfitrión · Panel de Administración (admin.html)
+  Página web desarrollada por Bautista Lopéz Oroda · bauuorodaa@gmail.com
+-->
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -36,101 +40,52 @@
   };
 </script>
 <style>
-  :root {
-    --wine: #722f37; --gold: #c59d5f; --surface: #f8f9fa;
-  }
+  :root { --wine: #722f37; --gold: #c59d5f; --surface: #f8f9fa; }
   html { scroll-behavior: smooth; }
   body { background: var(--surface); font-family: Inter, system-ui, sans-serif; color: #1a1a1a; }
   .font-display { font-family: Fraunces, Georgia, serif; }
-
-  /* Progress bar */
   #global-progress {
     position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
     background: linear-gradient(90deg, #722f37, #c59d5f, #722f37);
-    background-size: 200% 100%;
-    width: 0%; transition: width .35s cubic-bezier(.4,0,.2,1);
-    animation: progressShimmer 1.4s linear infinite;
-    pointer-events: none;
+    background-size: 200% 100%; width: 0%; transition: width .35s cubic-bezier(.4,0,.2,1);
+    animation: progressShimmer 1.4s linear infinite; pointer-events: none;
   }
   #global-progress.done { width: 100% !important; opacity: 0; transition: opacity .4s .2s, width 0s; }
-  @keyframes progressShimmer {
-    0% { background-position: 200% 0; } 100% { background-position: -200% 0; }
-  }
-
-  /* Skeleton shimmer */
+  @keyframes progressShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
   .skeleton {
     background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s ease infinite;
-    border-radius: 8px;
+    background-size: 200% 100%; animation: shimmer 1.4s ease infinite; border-radius: 8px;
   }
   @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-  /* Spinner */
   .spinner {
     width: 40px; height: 40px; border: 3px solid rgba(114,47,55,.15);
-    border-top-color: #722f37; border-radius: 50%;
-    animation: spin .8s linear infinite;
+    border-top-color: #722f37; border-radius: 50%; animation: spin .8s linear infinite;
   }
   .spinner-sm { width: 22px; height: 22px; border-width: 2px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Check animation */
   .check-circle {
-    width: 64px; height: 64px; border-radius: 50%;
-    background: #10b981; display: grid; place-items: center;
+    width: 64px; height: 64px; border-radius: 50%; background: #10b981; display: grid; place-items: center;
     transform: scale(0); animation: checkPop .45s cubic-bezier(.34,1.56,.64,1) forwards;
   }
-  @keyframes checkPop {
-    0% { transform: scale(0); } 60% { transform: scale(1.15); } 100% { transform: scale(1); }
-  }
+  @keyframes checkPop { 0% { transform: scale(0); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
   .check-mark { color: white; font-size: 28px; font-weight: 700; opacity: 0; animation: fadeIn .3s .25s forwards; }
   @keyframes fadeIn { to { opacity: 1; } }
-
-  /* Sidebar */
   .sidebar-link { transition: all .2s ease; }
   .sidebar-link.active {
     background: linear-gradient(135deg, rgba(114,47,55,.12), rgba(197,157,95,.08));
-    color: #722f37; border-color: rgba(114,47,55,.25);
-    font-weight: 600;
+    color: #722f37; border-color: rgba(114,47,55,.25); font-weight: 600;
   }
   .sidebar-link:hover:not(.active) { background: rgba(0,0,0,.03); color: #1a1a1a; }
-
-  /* Modal */
-  .modal-backdrop {
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    background: rgba(20,11,12,.55);
-  }
-  .modal-panel {
-    animation: modalIn .35s cubic-bezier(.16,1,.3,1);
-  }
-  @keyframes modalIn {
-    from { opacity: 0; transform: translateY(24px) scale(.97); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  /* Section transitions */
+  .modal-backdrop { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); background: rgba(20,11,12,.55); }
+  .modal-panel { animation: modalIn .35s cubic-bezier(.16,1,.3,1); }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(24px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
   .section-enter { animation: sectionIn .4s cubic-bezier(.16,1,.3,1); }
-  @keyframes sectionIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Drop zone */
-  .drop-zone {
-    border: 2px dashed rgba(114,47,55,.25);
-    transition: border-color .2s, background .2s;
-  }
-  .drop-zone.dragover {
-    border-color: #c59d5f;
-    background: rgba(197,157,95,.08);
-  }
-
-  /* Media thumbs */
+  @keyframes sectionIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .drop-zone { border: 2px dashed rgba(114,47,55,.25); transition: border-color .2s, background .2s; }
+  .drop-zone.dragover { border-color: #c59d5f; background: rgba(197,157,95,.08); }
   .media-thumb {
     position: relative; width: 88px; height: 88px; border-radius: 10px;
-    overflow: hidden; border: 2px solid transparent; cursor: pointer;
-    background: #f1f1f1;
+    overflow: hidden; border: 2px solid transparent; cursor: pointer; background: #f1f1f1;
   }
   .media-thumb.is-cover { border-color: #c59d5f; box-shadow: 0 0 0 2px rgba(197,157,95,.3); }
   .media-thumb img, .media-thumb video { width: 100%; height: 100%; object-fit: cover; }
@@ -146,41 +101,28 @@
     background: rgba(197,157,95,.92); color: #1a1a1a; font-size: 9px;
     font-weight: 700; text-align: center; padding: 2px; letter-spacing: .04em;
   }
-
-  /* Scrollbar */
   .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
   .scrollbar-thin::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
   .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
-
-  /* Mobile sidebar */
   @media (max-width: 1023px) {
     #sidebar { transform: translateX(-100%); }
     #sidebar.open { transform: translateX(0); }
   }
-
-  input:focus, textarea:focus, select:focus, button:focus-visible {
-    outline: 2px solid #c59d5f; outline-offset: 2px;
-  }
+  input:focus, textarea:focus, select:focus, button:focus-visible { outline: 2px solid #c59d5f; outline-offset: 2px; }
   .btn-press { transition: transform .15s ease, box-shadow .2s; }
   .btn-press:hover { transform: translateY(-1px); }
   .btn-press:active { transform: scale(.98); }
-
-  .stat-card {
-    background: #fff;
-    border: 1px solid rgba(0,0,0,.06);
-    box-shadow: 0 4px 20px -6px rgba(114,47,55,.08);
-  }
+  .stat-card { background: #fff; border: 1px solid rgba(0,0,0,.06); box-shadow: 0 4px 20px -6px rgba(114,47,55,.08); }
+  .order-card { border: 1px solid rgba(0,0,0,.08); background: #fff; border-radius: 1rem; }
+  .status-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 9999px; letter-spacing: .03em; }
 </style>
 </head>
 <body class="min-h-screen bg-surface text-ink antialiased">
 
-<!-- Global progress bar -->
 <div id="global-progress" aria-hidden="true"></div>
-
-<!-- Toast container -->
 <div id="toast-box" class="fixed top-4 right-4 z-[200] flex flex-col gap-2" aria-live="polite"></div>
 
-<!-- ========== VERIFY SCREEN ========== -->
+<!-- VERIFY -->
 <div id="verify-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-surface">
   <div class="text-center">
     <div class="mx-auto h-16 w-16 rounded-full overflow-hidden border-2 border-gold/40 mb-6 shadow-soft">
@@ -191,7 +133,7 @@
   </div>
 </div>
 
-<!-- ========== DENIED SCREEN ========== -->
+<!-- DENIED -->
 <div id="denied-screen" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-surface px-4">
   <div class="w-full max-w-md rounded-2xl bg-card border border-black/5 shadow-card p-8 sm:p-10 text-center">
     <div class="mx-auto h-14 w-14 rounded-full bg-wine/10 flex items-center justify-center mb-5">
@@ -208,7 +150,7 @@
   </div>
 </div>
 
-<!-- ========== LOGIN SCREEN ========== -->
+<!-- LOGIN -->
 <div id="login-screen" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-surface px-4"
      style="background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(114,47,55,.08),transparent)">
   <div class="w-full max-w-md rounded-2xl bg-card border border-black/5 shadow-card p-8 sm:p-10">
@@ -222,7 +164,7 @@
         <label for="login-email" class="block text-sm text-muted mb-1.5">Correo electrónico</label>
         <input id="login-email" type="email" autocomplete="username" required
                class="w-full rounded-xl bg-surface border border-black/10 px-4 py-3 text-sm focus:border-gold"
-               placeholder="admin@clubdelanfitrion.com.ar">
+               placeholder="clubdelanfitrion@gmail.com">
       </div>
       <div>
         <label for="login-pass" class="block text-sm text-muted mb-1.5">Contraseña</label>
@@ -245,12 +187,10 @@
   </div>
 </div>
 
-<!-- ========== APP (hidden until authorized) ========== -->
+<!-- APP -->
 <div id="app-screen" class="hidden min-h-screen lg:flex">
-  <!-- Overlay móvil -->
   <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"></div>
 
-  <!-- Sidebar -->
   <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-40 h-screen w-64 bg-white border-r border-black/6 flex flex-col transition-transform duration-300 shadow-soft">
     <div class="p-5 border-b border-black/6 flex items-center gap-3">
       <div class="h-10 w-10 rounded-full overflow-hidden border border-gold/40 shrink-0">
@@ -267,6 +207,9 @@
       <button type="button" data-section="dashboard" class="sidebar-link active w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-muted flex items-center gap-2.5">
         <span class="text-base">📊</span> Resumen
       </button>
+      <button type="button" data-section="pedidos" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-muted flex items-center gap-2.5">
+        <span class="text-base">📦</span> Pedidos Web y Envíos
+      </button>
       <button type="button" data-section="productos" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-muted flex items-center gap-2.5">
         <span class="text-base">🍷</span> Productos
       </button>
@@ -275,6 +218,12 @@
       </button>
       <button type="button" data-section="eventos" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-muted flex items-center gap-2.5">
         <span class="text-base">📅</span> Eventos
+      </button>
+      <button type="button" data-section="mesas" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-muted flex items-center gap-2.5">
+        <span class="text-base">🪑</span> Mesas y Reservas
+      </button>
+      <button type="button" data-section="premios" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-muted flex items-center gap-2.5">
+        <span class="text-base">🎁</span> Premios de Canje
       </button>
       <button type="button" data-section="cupones" class="sidebar-link w-full text-left rounded-xl border border-transparent px-3 py-2.5 text-sm text-muted flex items-center gap-2.5">
         <span class="text-base">🎟️</span> Cupones
@@ -292,7 +241,6 @@
     </div>
   </aside>
 
-  <!-- Main -->
   <div class="flex-1 min-w-0 flex flex-col min-h-screen">
     <header class="sticky top-0 z-20 bg-white/95 border-b border-black/6 backdrop-blur px-4 sm:px-6 h-14 flex items-center gap-3">
       <button type="button" id="menu-btn" class="lg:hidden p-2 text-ink" aria-label="Menú">
@@ -304,56 +252,42 @@
 
     <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
 
-      <!-- ========== DASHBOARD ========== -->
+      <!-- DASHBOARD -->
       <section id="sec-dashboard" class="space-y-6 section-enter">
-        <!-- Quick search -->
         <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-4 sm:p-5">
-          <label class="block text-sm font-medium text-ink mb-2">Buscador rápido de mostrador</label>
+          <label class="block text-sm font-medium text-ink mb-2">Buscador rápido de mostrador (socio por DNI / Nombre / Correo)</label>
           <div class="relative">
-            <input type="search" id="quick-search" placeholder="Buscar por nombre o código de barras…"
-                   class="w-full rounded-xl bg-surface border border-black/10 pl-11 pr-4 py-3 text-sm focus:border-gold"
-                   autocomplete="off">
+            <input type="search" id="quick-search" placeholder="DNI, nombre o correo del socio…"
+                   class="w-full rounded-xl bg-surface border border-black/10 pl-11 pr-4 py-3 text-sm focus:border-gold" autocomplete="off">
             <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           </div>
           <div id="quick-results" class="mt-3 space-y-2 hidden"></div>
         </div>
 
-        <!-- Metrics -->
         <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
           <div class="stat-card rounded-2xl p-4 sm:p-5">
             <p class="text-muted text-xs mb-1">Productos activos</p>
-            <p class="font-display text-2xl sm:text-3xl text-wine" id="stat-prod-activos">
-              <span class="skeleton inline-block w-12 h-8"></span>
-            </p>
+            <p class="font-display text-2xl sm:text-3xl text-wine" id="stat-prod-activos"><span class="skeleton inline-block w-12 h-8"></span></p>
             <p class="text-muted text-xs mt-1"><span id="stat-prod-pausados">—</span> pausados</p>
           </div>
           <div class="stat-card rounded-2xl p-4 sm:p-5">
             <p class="text-muted text-xs mb-1">Promos vigentes</p>
-            <p class="font-display text-2xl sm:text-3xl text-wine" id="stat-promos">
-              <span class="skeleton inline-block w-10 h-8"></span>
-            </p>
+            <p class="font-display text-2xl sm:text-3xl text-wine" id="stat-promos"><span class="skeleton inline-block w-10 h-8"></span></p>
           </div>
           <div class="stat-card rounded-2xl p-4 sm:p-5">
             <p class="text-muted text-xs mb-1">Próximo evento</p>
-            <p class="font-display text-lg sm:text-xl text-wine leading-tight" id="stat-evento">
-              <span class="skeleton inline-block w-24 h-6"></span>
-            </p>
+            <p class="font-display text-lg sm:text-xl text-wine leading-tight" id="stat-evento"><span class="skeleton inline-block w-24 h-6"></span></p>
           </div>
           <div class="stat-card rounded-2xl p-4 sm:p-5">
             <p class="text-muted text-xs mb-1">Cupones activos</p>
-            <p class="font-display text-2xl sm:text-3xl text-wine" id="stat-cupones">
-              <span class="skeleton inline-block w-10 h-8"></span>
-            </p>
+            <p class="font-display text-2xl sm:text-3xl text-wine" id="stat-cupones"><span class="skeleton inline-block w-10 h-8"></span></p>
           </div>
           <div class="stat-card rounded-2xl p-4 sm:p-5 col-span-2 lg:col-span-1">
             <p class="text-muted text-xs mb-1">Socios registrados</p>
-            <p class="font-display text-2xl sm:text-3xl text-wine" id="stat-socios">
-              <span class="skeleton inline-block w-12 h-8"></span>
-            </p>
+            <p class="font-display text-2xl sm:text-3xl text-wine" id="stat-socios"><span class="skeleton inline-block w-12 h-8"></span></p>
           </div>
         </div>
 
-        <!-- Quick actions -->
         <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-5">
           <h3 class="font-display text-lg mb-4">Accesos rápidos</h3>
           <div class="flex flex-wrap gap-2.5">
@@ -361,12 +295,36 @@
             <button type="button" data-quick="promo" class="btn-press rounded-full bg-gold px-5 py-2.5 text-ink text-sm font-medium hover:bg-gold-soft">+ Nueva Promoción</button>
             <button type="button" data-quick="evento" class="btn-press rounded-full border border-wine/30 px-5 py-2.5 text-wine text-sm font-medium hover:bg-wine/5">+ Nuevo Evento</button>
             <button type="button" data-quick="cupon" class="btn-press rounded-full border border-gold/40 px-5 py-2.5 text-gold-dark text-sm font-medium hover:bg-gold/10">+ Nuevo Cupón</button>
+            <button type="button" data-quick="mesa" class="btn-press rounded-full border border-black/10 px-5 py-2.5 text-muted text-sm hover:bg-black/5">+ Nueva Mesa</button>
+            <button type="button" data-quick="premio" class="btn-press rounded-full border border-black/10 px-5 py-2.5 text-muted text-sm hover:bg-black/5">+ Nuevo Premio</button>
             <button type="button" id="bulk-price-btn" class="btn-press rounded-full border border-black/10 px-5 py-2.5 text-muted text-sm hover:bg-black/5">Actualización masiva de precios</button>
           </div>
         </div>
       </section>
 
-      <!-- ========== PRODUCTOS ========== -->
+      <!-- PEDIDOS -->
+      <section id="sec-pedidos" class="hidden space-y-5">
+        <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+          <input type="search" id="ped-search" placeholder="Buscar por #CDA-XXXX, nombre, apellido o DNI…"
+                 class="flex-1 rounded-full bg-white border border-black/10 px-5 py-2.5 text-sm focus:border-gold shadow-soft">
+          <select id="ped-filter" class="rounded-full bg-white border border-black/10 px-4 py-2.5 text-sm focus:border-gold">
+            <option value="todos">Todos los estados</option>
+            <option value="pendiente_pago">Pendiente de pago</option>
+            <option value="pago_confirmado">Pago confirmado</option>
+            <option value="preparando">Preparando pedido</option>
+            <option value="en_camino">En camino / Despachado</option>
+            <option value="listo_retiro">Listo para retirar</option>
+            <option value="entregado">Entregado</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+        </div>
+        <div id="pedidos-list" class="space-y-3">
+          <div class="skeleton h-24 w-full"></div>
+          <div class="skeleton h-24 w-full"></div>
+        </div>
+      </section>
+
+      <!-- PRODUCTOS -->
       <section id="sec-productos" class="hidden space-y-5">
         <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
           <input type="search" id="prod-search" placeholder="Buscar producto o código de barras…"
@@ -376,11 +334,10 @@
         <div id="prod-list" class="space-y-2">
           <div class="skeleton h-20 w-full"></div>
           <div class="skeleton h-20 w-full"></div>
-          <div class="skeleton h-20 w-full"></div>
         </div>
       </section>
 
-      <!-- ========== PROMOS ========== -->
+      <!-- PROMOS -->
       <section id="sec-promos" class="hidden space-y-5">
         <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
           <input type="search" id="promo-search" placeholder="Buscar promoción…"
@@ -389,11 +346,10 @@
         </div>
         <div id="promo-list" class="space-y-2">
           <div class="skeleton h-16 w-full"></div>
-          <div class="skeleton h-16 w-full"></div>
         </div>
       </section>
 
-      <!-- ========== EVENTOS ========== -->
+      <!-- EVENTOS -->
       <section id="sec-eventos" class="hidden space-y-5">
         <div class="flex justify-end">
           <button type="button" id="evento-new-btn" class="btn-press rounded-full bg-wine px-5 py-2.5 text-white text-sm font-medium hover:bg-wine-dark">+ Nuevo evento</button>
@@ -403,7 +359,34 @@
         </div>
       </section>
 
-      <!-- ========== CUPONES ========== -->
+      <!-- MESAS Y RESERVAS -->
+      <section id="sec-mesas" class="hidden space-y-6">
+        <div class="flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
+          <h3 class="font-display text-xl">Mesas del salón</h3>
+          <button type="button" id="mesa-new-btn" class="btn-press rounded-full bg-wine px-5 py-2.5 text-white text-sm font-medium hover:bg-wine-dark">+ Nueva mesa</button>
+        </div>
+        <div id="mesas-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="skeleton h-40 w-full"></div>
+        </div>
+        <div class="hairline my-2"></div>
+        <h3 class="font-display text-xl">Reservas recibidas</h3>
+        <div id="reservas-list" class="space-y-2">
+          <div class="skeleton h-16 w-full"></div>
+        </div>
+      </section>
+
+      <!-- PREMIOS -->
+      <section id="sec-premios" class="hidden space-y-5">
+        <div class="flex justify-between items-center gap-3 flex-wrap">
+          <p class="text-muted text-sm">Recompensas canjeables por puntos en el local</p>
+          <button type="button" id="premio-new-btn" class="btn-press rounded-full bg-wine px-5 py-2.5 text-white text-sm font-medium hover:bg-wine-dark">+ Nuevo premio</button>
+        </div>
+        <div id="premios-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="skeleton h-40 w-full"></div>
+        </div>
+      </section>
+
+      <!-- CUPONES -->
       <section id="sec-cupones" class="hidden space-y-5">
         <div class="flex justify-between items-center gap-3 flex-wrap">
           <p class="text-muted text-sm">Códigos de descuento para el carrito de la tienda</p>
@@ -414,8 +397,35 @@
         </div>
       </section>
 
-      <!-- ========== AJUSTES ========== -->
+      <!-- AJUSTES -->
       <section id="sec-ajustes" class="hidden space-y-6">
+        <!-- Datos de cobro -->
+        <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-5 space-y-4">
+          <h3 class="font-display text-xl">Datos de cobro / Transferencia</h3>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-muted mb-1">Alias</label>
+              <input id="set-alias" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="Clubfmp" value="Clubfmp">
+            </div>
+            <div>
+              <label class="block text-sm text-muted mb-1">Titular</label>
+              <input id="set-titular" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="Carlini Fernando A." value="Carlini Fernando A.">
+            </div>
+            <div>
+              <label class="block text-sm text-muted mb-1">CUIT</label>
+              <input id="set-cuit" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="20-28757560-3" value="20-28757560-3">
+            </div>
+            <div>
+              <label class="block text-sm text-muted mb-1">Medio de pago / Banco</label>
+              <input id="set-medio" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="Mercado Pago" value="Mercado Pago">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm text-muted mb-1">CBU (opcional)</label>
+              <input id="set-cbu" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="0000000000000000000000">
+            </div>
+          </div>
+        </div>
+
         <!-- Logo -->
         <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-5 space-y-4">
           <h3 class="font-display text-xl">Logotipo del sitio</h3>
@@ -429,291 +439,330 @@
           </div>
         </div>
 
-        <!-- Video institucional -->
+        <!-- Video -->
         <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-5 space-y-3">
           <h3 class="font-display text-xl">Video institucional («Nuestra historia»)</h3>
-          <p class="text-muted text-sm">Subí un archivo MP4/WebM (máx. 100 MB). Se optimiza en Cloudinary.</p>
+          <p class="text-muted text-sm">Subí un archivo MP4/WebM (máx. 100 MB) o pegá un enlace de YouTube.</p>
           <div class="flex flex-wrap gap-3 items-center">
             <input id="story-file" type="file" accept="video/mp4,video/webm" class="text-sm text-muted">
-            <button type="button" id="story-save" class="btn-press rounded-full bg-wine px-4 py-2 text-white text-sm font-medium">Subir y guardar</button>
+            <input id="story-url" type="url" placeholder="o enlace YouTube / Cloudinary" class="flex-1 min-w-[200px] rounded-xl bg-surface border border-black/10 px-4 py-2 text-sm">
+            <button type="button" id="story-save" class="btn-press rounded-full bg-wine px-4 py-2 text-white text-sm font-medium">Subir / Guardar</button>
             <button type="button" id="story-clear" class="rounded-full border border-black/10 px-4 py-2 text-sm text-muted hover:bg-black/5">Quitar video</button>
           </div>
           <div id="story-preview-wrap" class="hidden mt-3">
-            <video id="story-preview" class="w-full max-w-md rounded-xl border border-black/10" controls playsinline></video>
+            <video id="story-preview" controls class="max-w-md rounded-xl border border-black/10"></video>
           </div>
           <p id="story-status" class="text-xs text-muted"></p>
         </div>
 
-        <!-- Horarios -->
+        <!-- Contacto y horarios -->
         <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-5 space-y-4">
-          <h3 class="font-display text-xl">Horarios de atención</h3>
-          <div class="grid sm:grid-cols-3 gap-4">
-            <div>
-              <label class="block text-sm text-muted mb-1.5">Lunes a Viernes</label>
-              <input id="h-lv" type="text" class="w-full rounded-lg bg-surface border border-black/10 px-3 py-2.5 text-sm" placeholder="9:00–12:30 / 17:00–21:00">
-            </div>
-            <div>
-              <label class="block text-sm text-muted mb-1.5">Sábados</label>
-              <input id="h-sa" type="text" class="w-full rounded-lg bg-surface border border-black/10 px-3 py-2.5 text-sm" placeholder="9:00–13:00 / 17:00–21:00">
-            </div>
-            <div>
-              <label class="block text-sm text-muted mb-1.5">Domingos / Feriados</label>
-              <input id="h-do" type="text" class="w-full rounded-lg bg-surface border border-black/10 px-3 py-2.5 text-sm" placeholder="10:30–12:30">
-            </div>
-          </div>
-        </div>
-
-        <!-- Contacto -->
-        <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-5 space-y-4">
-          <h3 class="font-display text-xl">Contacto y ubicación</h3>
+          <h3 class="font-display text-xl">Contacto y horarios</h3>
           <div class="grid sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm text-muted mb-1.5">WhatsApp / Teléfono</label>
-              <input id="set-whatsapp" type="tel" class="w-full rounded-lg bg-surface border border-black/10 px-3 py-2.5 text-sm" placeholder="5493537513148">
+              <label class="block text-sm text-muted mb-1">WhatsApp</label>
+              <input id="set-whatsapp" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="+5493537513148">
             </div>
             <div>
-              <label class="block text-sm text-muted mb-1.5">Correo electrónico</label>
-              <input id="set-email" type="email" class="w-full rounded-lg bg-surface border border-black/10 px-3 py-2.5 text-sm" placeholder="promociones.clubdelanfitrion@gmail.com">
+              <label class="block text-sm text-muted mb-1">Correo</label>
+              <input id="set-email" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" value="clubdelanfitrion@gmail.com">
             </div>
             <div class="sm:col-span-2">
-              <label class="block text-sm text-muted mb-1.5">Dirección</label>
-              <input id="set-address" type="text" class="w-full rounded-lg bg-surface border border-black/10 px-3 py-2.5 text-sm" placeholder="Córdoba 1309, Bell Ville, Córdoba">
+              <label class="block text-sm text-muted mb-1">Dirección</label>
+              <input id="set-address" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" value="Córdoba 1309, Bell Ville, Córdoba">
+            </div>
+            <div>
+              <label class="block text-sm text-muted mb-1">Horario Lun–Vie</label>
+              <input id="h-lv" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="10:00 – 20:00">
+            </div>
+            <div>
+              <label class="block text-sm text-muted mb-1">Horario Sábado</label>
+              <input id="h-sa" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="10:00 – 14:00">
+            </div>
+            <div>
+              <label class="block text-sm text-muted mb-1">Horario Domingo</label>
+              <input id="h-do" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="Cerrado">
             </div>
           </div>
-          <button type="button" id="settings-save" class="btn-press rounded-full bg-wine px-6 py-2.5 text-white text-sm font-medium">Guardar ajustes</button>
-          <p id="settings-status" class="text-xs text-muted"></p>
         </div>
 
-        <!-- Galería -->
-        <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-5 space-y-3">
-          <h3 class="font-display text-xl">Galería «Recorrido visual»</h3>
-          <p class="text-muted text-sm">Subí imágenes o videos cortos para la sección de galería de la tienda (máx. 8 ítems).</p>
-          <input id="gallery-files" type="file" accept="image/*,video/mp4,video/webm" multiple class="text-sm text-muted">
-          <div id="gallery-preview" class="flex flex-wrap gap-2 mt-2"></div>
-          <button type="button" id="gallery-save" class="btn-press rounded-full bg-wine px-4 py-2 text-white text-sm font-medium">Guardar galería</button>
-          <p id="gallery-status" class="text-xs text-muted"></p>
+        <!-- Envíos -->
+        <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-5 space-y-4">
+          <h3 class="font-display text-xl">Tarifas de envío</h3>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-muted mb-1">Cadetería Bell Ville ($)</label>
+              <input id="set-env-bv" type="number" min="0" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="1500">
+            </div>
+            <div>
+              <label class="block text-sm text-muted mb-1">Mínimo envío gratis Bell Ville ($)</label>
+              <input id="set-env-gratis" type="number" min="0" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="25000">
+            </div>
+            <div>
+              <label class="block text-sm text-muted mb-1">Andreani (texto o $)</label>
+              <input id="set-env-andreani" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="Cotizar según CP">
+            </div>
+            <div>
+              <label class="block text-sm text-muted mb-1">Vía Cargo (texto o $)</label>
+              <input id="set-env-viacargo" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="Cotizar según CP">
+            </div>
+          </div>
         </div>
 
-        <!-- Créditos -->
-        <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-5">
-          <h3 class="font-display text-xl mb-2">Créditos</h3>
-          <p class="text-muted text-sm leading-relaxed">
-            Página web desarrollada por <strong class="text-ink">Bautista López Oroda</strong><br>
-            Contacto: <a href="mailto:bauuorodaa@gmail.com" class="text-wine hover:underline">bauuorodaa@gmail.com</a>
-          </p>
+        <!-- Puntos -->
+        <div class="rounded-2xl bg-card border border-black/5 shadow-soft p-5 space-y-4">
+          <h3 class="font-display text-xl">Regla de puntos</h3>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-muted mb-1">Pesos por unidad de punto</label>
+              <input id="set-pesos-punto" type="number" min="1" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="100">
+            </div>
+            <div>
+              <label class="block text-sm text-muted mb-1">Puntos por unidad</label>
+              <input id="set-puntos-unidad" type="number" min="1" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="1">
+            </div>
+          </div>
+          <p class="text-muted text-xs">Ej: cada $100 = 1 punto.</p>
         </div>
+
+        <button type="button" id="settings-save" class="btn-press rounded-full bg-wine px-8 py-3 text-white font-medium">Guardar todos los ajustes</button>
       </section>
-
     </main>
+
+    <footer class="border-t border-black/6 py-4 px-6 text-center text-xs text-muted">
+      Página web desarrollada por <a href="mailto:bauuorodaa@gmail.com" class="text-wine hover:underline">Bautista Lopéz Oroda · bauuorodaa@gmail.com</a>
+    </footer>
   </div>
 </div>
 
-<!-- ========== ENTITY MODAL (Product / Promo / Event) ========== -->
-<div id="entity-modal" class="hidden fixed inset-0 z-[100] modal-backdrop flex items-center justify-center p-4 overflow-y-auto">
-  <div class="modal-panel w-full max-w-2xl bg-card rounded-2xl shadow-modal my-8 max-h-[92vh] flex flex-col">
-    <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-black/6 shrink-0">
-      <h3 class="font-display text-xl" id="entity-modal-title">Nuevo producto</h3>
-      <button type="button" id="entity-modal-close" class="text-muted hover:text-ink p-1 text-xl leading-none" aria-label="Cerrar">✕</button>
+<!-- MODAL CANCELAR PEDIDO -->
+<div id="cancel-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 modal-backdrop">
+  <div class="modal-panel w-full max-w-md rounded-2xl bg-white shadow-modal p-6">
+    <h3 class="font-display text-xl mb-2">Cancelar compra</h3>
+    <p class="text-muted text-sm mb-4">Escribí el motivo de la cancelación. Este texto se mostrará al cliente.</p>
+    <div class="flex flex-wrap gap-2 mb-3">
+      <button type="button" class="cancel-suggest rounded-full border border-black/10 px-3 py-1 text-xs hover:bg-black/5" data-motivo="Faltan datos de entrega">Faltan datos de entrega</button>
+      <button type="button" class="cancel-suggest rounded-full border border-black/10 px-3 py-1 text-xs hover:bg-black/5" data-motivo="Sin stock disponible">Sin stock disponible</button>
+      <button type="button" class="cancel-suggest rounded-full border border-black/10 px-3 py-1 text-xs hover:bg-black/5" data-motivo="Pago no acreditado">Pago no acreditado</button>
+      <button type="button" class="cancel-suggest rounded-full border border-black/10 px-3 py-1 text-xs hover:bg-black/5" data-motivo="Cliente solicitó cancelación">Cliente solicitó cancelación</button>
     </div>
-    <div class="overflow-y-auto scrollbar-thin flex-1 px-5 sm:px-6 py-5">
-      <form id="entity-form" class="space-y-4" novalidate>
-        <input type="hidden" id="ef-type">
-        <input type="hidden" id="ef-id">
+    <textarea id="cancel-motivo" rows="3" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-3 text-sm mb-4" placeholder="Motivo obligatorio (mín. 5 caracteres)…"></textarea>
+    <input type="hidden" id="cancel-order-id">
+    <div class="flex gap-3 justify-end">
+      <button type="button" id="cancel-close" class="rounded-full border border-black/10 px-5 py-2 text-sm text-muted">Volver</button>
+      <button type="button" id="cancel-confirm" disabled class="rounded-full bg-wine px-5 py-2 text-sm text-white font-medium disabled:opacity-40">Confirmar cancelación</button>
+    </div>
+  </div>
+</div>
 
-        <div>
-          <label class="block text-sm text-muted mb-1">Título *</label>
-          <input id="ef-titulo" required class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
-        </div>
+<!-- SAVE OVERLAY -->
+<div id="save-overlay" class="hidden fixed inset-0 z-[110] flex items-center justify-center modal-backdrop">
+  <div class="bg-white rounded-2xl shadow-modal p-8 text-center max-w-sm w-full">
+    <div id="save-spinner-wrap">
+      <div class="spinner mx-auto mb-4"></div>
+      <p id="save-msg" class="text-muted text-sm">Guardando…</p>
+    </div>
+    <div id="save-success-wrap" class="hidden">
+      <div class="check-circle mx-auto mb-4"><span class="check-mark">✓</span></div>
+      <p id="save-success-msg" class="font-medium mb-4">¡Guardado!</p>
+      <button type="button" id="save-close-btn" class="rounded-full bg-wine px-6 py-2 text-white text-sm">Cerrar</button>
+    </div>
+  </div>
+</div>
 
-        <div>
-          <label class="block text-sm text-muted mb-1">Descripción</label>
-          <textarea id="ef-desc" rows="3" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm"></textarea>
-        </div>
-
-        <!-- Product-only fields -->
-        <div id="ef-product-fields" class="grid sm:grid-cols-2 gap-4">
+<!-- ENTITY MODAL (product / promo / event / mesa / premio) -->
+<div id="entity-modal" class="hidden fixed inset-0 z-[90] flex items-center justify-center p-4 modal-backdrop overflow-y-auto">
+  <div class="modal-panel w-full max-w-2xl rounded-2xl bg-white shadow-modal p-6 my-8 max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between mb-4">
+      <h3 id="entity-modal-title" class="font-display text-xl">Nuevo</h3>
+      <button type="button" id="entity-modal-close" class="text-muted text-xl">✕</button>
+    </div>
+    <input type="hidden" id="ef-type">
+    <input type="hidden" id="ef-id">
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm text-muted mb-1">Título</label>
+        <input id="ef-titulo" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
+      </div>
+      <div>
+        <label class="block text-sm text-muted mb-1">Descripción</label>
+        <textarea id="ef-desc" rows="3" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm"></textarea>
+      </div>
+      <!-- Product fields -->
+      <div id="ef-product-fields" class="hidden space-y-3">
+        <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-sm text-muted mb-1">Código de barras (opcional)</label>
-            <input id="ef-barcode" type="text" inputmode="numeric" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm font-mono" placeholder="Ej: 7790000000000">
+            <label class="block text-sm text-muted mb-1">Código de barras</label>
+            <input id="ef-barcode" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
           </div>
           <div>
             <label class="block text-sm text-muted mb-1">Categoría</label>
-            <select id="ef-cat" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
-              <option value="">Sin categoría</option>
-            </select>
+            <select id="ef-cat" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm"></select>
           </div>
-          <div>
-            <label class="block text-sm text-muted mb-1">Precio de lista</label>
-            <input id="ef-precio" type="number" min="0" step="1" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
-          </div>
-          <div>
-            <label class="block text-sm text-muted mb-1">Precio efectivo / transferencia</label>
-            <input id="ef-precio-t" type="number" min="0" step="1" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
-          </div>
-          <div class="sm:col-span-2 flex items-center gap-2">
-            <input type="checkbox" id="ef-disp" checked class="accent-wine w-4 h-4">
-            <label for="ef-disp" class="text-sm">Disponible (en stock)</label>
-          </div>
-        </div>
-
-        <!-- Promo-only fields -->
-        <div id="ef-promo-fields" class="hidden grid sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm text-muted mb-1">Precio</label>
-            <input id="ef-pr-precio" type="number" min="0" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+            <input id="ef-precio" type="number" min="0" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
           </div>
           <div>
-            <label class="block text-sm text-muted mb-1">Tipo de precio</label>
-            <select id="ef-pr-tipo" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+            <label class="block text-sm text-muted mb-1">Precio transferencia</label>
+            <input id="ef-precio-t" type="number" min="0" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
+          </div>
+        </div>
+        <label class="inline-flex items-center gap-2 text-sm"><input id="ef-disp" type="checkbox" checked> Disponible</label>
+      </div>
+      <!-- Promo fields -->
+      <div id="ef-promo-fields" class="hidden space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm text-muted mb-1">Precio</label>
+            <input id="ef-pr-precio" type="number" min="0" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
+          </div>
+          <div>
+            <label class="block text-sm text-muted mb-1">Tipo precio</label>
+            <select id="ef-pr-tipo" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
               <option value="total">Total</option>
               <option value="persona">Por persona</option>
             </select>
           </div>
           <div>
-            <label class="block text-sm text-muted mb-1">Vigencia hasta *</label>
-            <input id="ef-pr-vigencia" type="date" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+            <label class="block text-sm text-muted mb-1">Vigencia</label>
+            <input id="ef-pr-vigencia" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="Hasta el 31/12">
           </div>
           <div>
-            <label class="block text-sm text-muted mb-1">Publicar desde (opcional)</label>
-            <input id="ef-pr-desde" type="date" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+            <label class="block text-sm text-muted mb-1">Publicar desde</label>
+            <input id="ef-pr-desde" type="date" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
           </div>
         </div>
-
-        <!-- Event-only fields -->
-        <div id="ef-event-fields" class="hidden grid sm:grid-cols-2 gap-4">
+      </div>
+      <!-- Event fields -->
+      <div id="ef-event-fields" class="hidden space-y-3">
+        <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-sm text-muted mb-1">Fecha *</label>
-            <input id="ef-ev-fecha" type="date" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+            <label class="block text-sm text-muted mb-1">Fecha</label>
+            <input id="ef-ev-fecha" type="date" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
           </div>
           <div>
-            <label class="block text-sm text-muted mb-1">Hora *</label>
-            <input id="ef-ev-hora" type="time" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+            <label class="block text-sm text-muted mb-1">Hora</label>
+            <input id="ef-ev-hora" type="time" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
           </div>
-          <div class="sm:col-span-2">
-            <label class="block text-sm text-muted mb-1">Lugar *</label>
-            <input id="ef-ev-lugar" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+          <div class="col-span-2">
+            <label class="block text-sm text-muted mb-1">Lugar</label>
+            <input id="ef-ev-lugar" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
           </div>
           <div>
             <label class="block text-sm text-muted mb-1">Precio</label>
-            <input id="ef-ev-precio" type="number" min="0" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+            <input id="ef-ev-precio" type="number" min="0" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
           </div>
           <div>
-            <label class="block text-sm text-muted mb-1">Tipo</label>
-            <select id="ef-ev-tipo" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+            <label class="block text-sm text-muted mb-1">Tipo precio</label>
+            <select id="ef-ev-tipo" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
               <option value="total">Total</option>
               <option value="persona">Por persona</option>
             </select>
           </div>
         </div>
-
-        <!-- Media manager -->
+      </div>
+      <!-- Mesa fields -->
+      <div id="ef-mesa-fields" class="hidden space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm text-muted mb-1">Capacidad mínima</label>
+            <input id="ef-mesa-min" type="number" min="1" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
+          </div>
+          <div>
+            <label class="block text-sm text-muted mb-1">Capacidad máxima</label>
+            <input id="ef-mesa-max" type="number" min="1" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
+          </div>
+          <div class="col-span-2">
+            <label class="block text-sm text-muted mb-1">Ubicación / sector</label>
+            <input id="ef-mesa-ubic" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="Salón principal, terraza…">
+          </div>
+        </div>
+        <label class="inline-flex items-center gap-2 text-sm"><input id="ef-mesa-disp" type="checkbox" checked> Disponible</label>
+      </div>
+      <!-- Premio fields -->
+      <div id="ef-premio-fields" class="hidden space-y-3">
         <div>
-          <label class="block text-sm text-muted mb-2">Multimedia (máx. 10 imágenes + 2 videos)</label>
-          <div id="media-drop" class="drop-zone rounded-xl p-6 text-center cursor-pointer">
-            <p class="text-sm text-muted mb-1">Arrastrá archivos aquí o hacé clic para seleccionar</p>
-            <p class="text-xs text-muted/70">JPG, PNG, WebP · MP4, WebM</p>
-            <input id="media-input" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" multiple class="hidden">
-          </div>
-          <div id="media-thumbs" class="flex flex-wrap gap-2 mt-3"></div>
+          <label class="block text-sm text-muted mb-1">Puntos necesarios</label>
+          <input id="ef-premio-pts" type="number" min="1" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
         </div>
-      </form>
+        <label class="inline-flex items-center gap-2 text-sm"><input id="ef-premio-disp" type="checkbox" checked> Disponible</label>
+      </div>
+      <!-- Media -->
+      <div>
+        <label class="block text-sm text-muted mb-2">Imágenes / Videos</label>
+        <div id="media-drop" class="drop-zone rounded-xl p-6 text-center text-muted text-sm cursor-pointer">
+          Arrastrá archivos o hacé clic para seleccionar
+        </div>
+        <input id="media-input" type="file" accept="image/*,video/*" multiple class="hidden">
+        <div id="media-thumbs" class="flex flex-wrap gap-2 mt-3"></div>
+      </div>
     </div>
-    <div class="px-5 sm:px-6 py-4 border-t border-black/6 flex gap-3 shrink-0">
-      <button type="button" id="entity-save" class="btn-press flex-1 rounded-full bg-wine px-5 py-3 text-white font-medium text-sm hover:bg-wine-dark">Guardar</button>
-      <button type="button" id="entity-cancel" class="rounded-full border border-black/10 px-5 py-3 text-sm text-muted hover:bg-black/5">Cancelar</button>
+    <div class="flex gap-3 justify-end mt-6">
+      <button type="button" id="entity-cancel" class="rounded-full border border-black/10 px-5 py-2 text-sm text-muted">Cancelar</button>
+      <button type="button" id="entity-save" class="btn-press rounded-full bg-wine px-6 py-2 text-white text-sm font-medium">Guardar</button>
     </div>
   </div>
 </div>
 
-<!-- ========== CUPON MODAL ========== -->
-<div id="cupon-modal" class="hidden fixed inset-0 z-[100] modal-backdrop flex items-center justify-center p-4">
-  <div class="modal-panel w-full max-w-md bg-card rounded-2xl shadow-modal">
-    <div class="flex items-center justify-between px-6 py-4 border-b border-black/6">
-      <h3 class="font-display text-xl" id="cupon-modal-title">Nuevo cupón</h3>
-      <button type="button" id="cupon-modal-close" class="text-muted hover:text-ink p-1 text-xl">✕</button>
+<!-- CUPON MODAL -->
+<div id="cupon-modal" class="hidden fixed inset-0 z-[90] flex items-center justify-center p-4 modal-backdrop">
+  <div class="modal-panel w-full max-w-md rounded-2xl bg-white shadow-modal p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 id="cupon-modal-title" class="font-display text-xl">Nuevo cupón</h3>
+      <button type="button" id="cupon-modal-close" class="text-muted">✕</button>
     </div>
-    <form id="cupon-form" class="px-6 py-5 space-y-4" novalidate>
+    <form id="cupon-form" class="space-y-3">
       <input type="hidden" id="cf-id">
       <div>
-        <label class="block text-sm text-muted mb-1">Código *</label>
-        <input id="cf-codigo" required class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm uppercase font-mono tracking-wider" placeholder="ANFITRION10">
+        <label class="block text-sm text-muted mb-1">Código</label>
+        <input id="cf-codigo" required class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm uppercase" placeholder="VERANO20">
       </div>
       <div class="grid grid-cols-2 gap-3">
         <div>
           <label class="block text-sm text-muted mb-1">Tipo</label>
-          <select id="cf-tipo" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
-            <option value="porcentaje">Porcentaje (%)</option>
-            <option value="fijo">Monto fijo ($)</option>
+          <select id="cf-tipo" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
+            <option value="porcentaje">Porcentaje</option>
+            <option value="fijo">Monto fijo</option>
           </select>
         </div>
         <div>
-          <label class="block text-sm text-muted mb-1">Valor *</label>
-          <input id="cf-valor" type="number" min="0" step="0.01" required class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+          <label class="block text-sm text-muted mb-1">Valor</label>
+          <input id="cf-valor" type="number" min="1" required class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
         </div>
       </div>
       <div>
-        <label class="block text-sm text-muted mb-1">Vencimiento (opcional)</label>
-        <input id="cf-vence" type="date" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
+        <label class="block text-sm text-muted mb-1">Vence (opcional)</label>
+        <input id="cf-vence" type="date" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
       </div>
-      <div class="flex items-center gap-2">
-        <input type="checkbox" id="cf-activo" checked class="accent-wine w-4 h-4">
-        <label for="cf-activo" class="text-sm">Activo</label>
-      </div>
-      <div class="flex gap-3 pt-2">
-        <button type="submit" class="btn-press flex-1 rounded-full bg-wine px-5 py-2.5 text-white font-medium text-sm">Guardar</button>
-        <button type="button" id="cupon-cancel" class="rounded-full border border-black/10 px-5 py-2.5 text-sm text-muted">Cancelar</button>
+      <label class="inline-flex items-center gap-2 text-sm"><input id="cf-activo" type="checkbox" checked> Activo</label>
+      <div class="flex gap-3 justify-end pt-2">
+        <button type="button" id="cupon-cancel" class="rounded-full border border-black/10 px-5 py-2 text-sm text-muted">Cancelar</button>
+        <button type="submit" class="btn-press rounded-full bg-wine px-6 py-2 text-white text-sm font-medium">Guardar</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- ========== BULK PRICE MODAL ========== -->
-<div id="bulk-modal" class="hidden fixed inset-0 z-[100] modal-backdrop flex items-center justify-center p-4">
-  <div class="modal-panel w-full max-w-md bg-card rounded-2xl shadow-modal p-6">
+<!-- BULK PRICE MODAL -->
+<div id="bulk-modal" class="hidden fixed inset-0 z-[90] flex items-center justify-center p-4 modal-backdrop">
+  <div class="modal-panel w-full max-w-md rounded-2xl bg-white shadow-modal p-6">
     <h3 class="font-display text-xl mb-4">Actualización masiva de precios</h3>
-    <div class="space-y-4">
+    <div class="space-y-3">
+      <div>
+        <label class="block text-sm text-muted mb-1">Porcentaje (+ o −)</label>
+        <input id="bulk-pct" type="number" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="10">
+      </div>
       <div>
         <label class="block text-sm text-muted mb-1">Categoría</label>
-        <select id="bulk-cat" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm">
-          <option value="__all__">Todas las categorías</option>
+        <select id="bulk-cat" class="w-full rounded-xl bg-surface border border-black/10 px-4 py-2.5 text-sm">
+          <option value="__all__">Todas</option>
         </select>
       </div>
-      <div>
-        <label class="block text-sm text-muted mb-1">Porcentaje (positivo = aumento, negativo = descuento)</label>
-        <input id="bulk-pct" type="number" step="0.1" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm" placeholder="Ej: 10 o -5">
-      </div>
-      <p class="text-xs text-muted">Se aplicará tanto al precio de lista como al de transferencia (si existe).</p>
-      <div class="flex gap-3">
-        <button type="button" id="bulk-apply" class="btn-press flex-1 rounded-full bg-wine px-5 py-2.5 text-white text-sm font-medium">Aplicar</button>
-        <button type="button" id="bulk-cancel" class="rounded-full border border-black/10 px-5 py-2.5 text-sm text-muted">Cancelar</button>
-      </div>
     </div>
-  </div>
-</div>
-
-<!-- ========== SAVE OVERLAY ========== -->
-<div id="save-overlay" class="hidden fixed inset-0 z-[150] modal-backdrop flex items-center justify-center p-4">
-  <div class="bg-card rounded-2xl shadow-modal p-8 text-center min-w-[280px]">
-    <div id="save-spinner-wrap">
-      <div class="spinner mx-auto mb-4"></div>
-      <p id="save-msg" class="text-sm text-muted">Guardando…</p>
-    </div>
-    <div id="save-success-wrap" class="hidden">
-      <div class="check-circle mx-auto mb-4"><span class="check-mark">✓</span></div>
-      <p id="save-success-msg" class="text-sm text-ink font-medium mb-5">¡Guardado correctamente!</p>
-      <button type="button" id="save-close-btn" class="btn-press rounded-full bg-wine px-6 py-2.5 text-white text-sm font-medium">Cerrar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ========== NEW CATEGORY PROMPT ========== -->
-<div id="cat-prompt" class="hidden fixed inset-0 z-[160] modal-backdrop flex items-center justify-center p-4">
-  <div class="bg-card rounded-2xl shadow-modal p-6 w-full max-w-sm">
-    <h3 class="font-display text-lg mb-3">Nueva categoría</h3>
-    <input id="cat-new-input" type="text" class="w-full rounded-lg bg-surface border border-black/10 px-4 py-2.5 text-sm mb-4" placeholder="Nombre de la categoría">
-    <div class="flex gap-2">
-      <button type="button" id="cat-new-ok" class="btn-press flex-1 rounded-full bg-wine px-4 py-2 text-white text-sm">Crear</button>
-      <button type="button" id="cat-new-cancel" class="rounded-full border border-black/10 px-4 py-2 text-sm text-muted">Cancelar</button>
+    <div class="flex gap-3 justify-end mt-6">
+      <button type="button" id="bulk-cancel" class="rounded-full border border-black/10 px-5 py-2 text-sm text-muted">Cancelar</button>
+      <button type="button" id="bulk-apply" class="btn-press rounded-full bg-wine px-6 py-2 text-white text-sm font-medium">Aplicar</button>
     </div>
   </div>
 </div>
@@ -724,11 +773,11 @@
     getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
   import {
-    getFirestore, collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc,
-    setDoc, onSnapshot, query, orderBy, serverTimestamp, writeBatch
+    getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc,
+    deleteDoc, query, where, orderBy, onSnapshot, serverTimestamp, writeBatch,
+    increment, limit
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-  /* ─── Config (intacta) ─── */
   const firebaseConfig = {
     apiKey: "AIzaSyALsNxhMyC-GSQULpcj3CpwbDr81alvC0M",
     authDomain: "clubdelanfitrion-8a6f1.firebaseapp.com",
@@ -738,56 +787,53 @@
     appId: "1:187086724994:web:59e14efb3c355bd794b99b",
     measurementId: "G-2DN0H1022S"
   };
-  const CLOUDINARY_CLOUD_NAME = "wb9mhrpv";
-  const CLOUDINARY_UPLOAD_PRESET = "ClubDelAnfitrion";
-  const CLOUDINARY_IMAGE_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
-  const CLOUDINARY_VIDEO_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/video/upload`;
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  /* ─── State ─── */
-  let products = [], promos = [], events = [], cupones = [], usuarios = [];
-  let categories = new Set();
-  let mediaFiles = []; // {file, previewUrl, type, isCover, existingUrl?}
-  let listening = false;
-  let currentSection = "dashboard";
+  const CLOUDINARY_CLOUD_NAME = "wb9mhrpv";
+  const CLOUDINARY_UPLOAD_PRESET = "ClubDelAnfitrion";
+  const CLOUDINARY_IMAGE_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+  const CLOUDINARY_VIDEO_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/video/upload`;
 
-  /* ─── Helpers ─── */
+  const ADMIN_EMAIL = "clubdelanfitrion@gmail.com";
+  const DEFAULT_BANK = {
+    alias: "Clubfmp",
+    titular: "Carlini Fernando A.",
+    cuit: "20-28757560-3",
+    medioPago: "Mercado Pago"
+  };
+
+  let products = [], promos = [], events = [], cupones = [], mesas = [], premios = [], pedidos = [], reservas = [];
+  let settings = {};
+  let mediaFiles = [];
+  let unsubPedidos = null;
+
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
-  const money = (n) => (n == null || n === "" || isNaN(Number(n))) ? "—" : new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(Number(n));
-  const hasPrice = (v) => v != null && v !== "" && !isNaN(Number(v)) && Number(v) >= 0;
-  const todayISO = () => new Date().toISOString().slice(0, 10);
+  const money = (n) => (n == null || isNaN(Number(n))) ? "—" : new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(Number(n));
+  const hasPrice = (v) => v != null && v !== "" && !isNaN(Number(v));
+  const cld = (url, w) => {
+    if (!url || typeof url !== "string") return "";
+    if (url.includes("res.cloudinary.com") && url.includes("/upload/")) {
+      return url.replace("/upload/", `/upload/c_fill,w_${w},q_auto,f_auto/`);
+    }
+    return url;
+  };
 
   function toast(msg, type = "ok") {
     const box = document.getElementById("toast-box");
     const el = document.createElement("div");
-    el.className = `toast rounded-xl border px-4 py-3 text-sm shadow-lg ${type === "error" ? "bg-wine text-white border-wine" : "bg-white border-black/10 text-ink"}`;
+    el.className = `rounded-xl border px-4 py-3 text-sm shadow-lg ${type === "error" ? "bg-red-50 border-red-200 text-red-800" : "bg-white border-black/10 text-ink"}`;
     el.textContent = msg;
     box.appendChild(el);
     setTimeout(() => el.remove(), 3800);
   }
 
-  /* Progress bar */
-  function progressStart() {
+  function showProgress(pct) {
     const bar = document.getElementById("global-progress");
-    bar.classList.remove("done");
-    bar.style.width = "0%";
-    requestAnimationFrame(() => { bar.style.width = "30%"; });
-    setTimeout(() => { bar.style.width = "60%"; }, 200);
-  }
-  function progressEnd() {
-    const bar = document.getElementById("global-progress");
-    bar.style.width = "100%";
-    setTimeout(() => bar.classList.add("done"), 300);
-  }
-
-  /* Cloudinary optimize helper for display */
-  function cld(url, w = 400) {
-    if (!url || typeof url !== "string") return "";
-    if (!url.includes("res.cloudinary.com")) return url;
-    return url.replace("/upload/", `/upload/f_auto,q_auto,w_${w}/`);
+    bar.style.width = pct + "%";
+    if (pct >= 100) { bar.classList.add("done"); setTimeout(() => { bar.style.width = "0"; bar.classList.remove("done"); }, 600); }
   }
 
   async function uploadFile(file, isVideo = false) {
@@ -796,189 +842,174 @@
     fd.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
     const endpoint = isVideo ? CLOUDINARY_VIDEO_URL : CLOUDINARY_IMAGE_URL;
     const r = await fetch(endpoint, { method: "POST", body: fd });
-    if (!r.ok) throw new Error("Error al subir a Cloudinary");
+    if (!r.ok) throw new Error("Error al subir archivo");
     const d = await r.json();
-    if (!d.secure_url) throw new Error("Cloudinary sin URL");
+    if (!d.secure_url) throw new Error("Cloudinary no devolvió URL");
     return d.secure_url;
   }
 
-  /* ─── Auth screens ─── */
-  function hideAllAuth() {
-    ["verify-screen", "login-screen", "denied-screen", "app-screen"].forEach(id => {
-      document.getElementById(id)?.classList.add("hidden");
-    });
-  }
-  function showVerify() { hideAllAuth(); document.getElementById("verify-screen").classList.remove("hidden"); }
-  function showLogin() { hideAllAuth(); document.getElementById("login-screen").classList.remove("hidden"); }
-  function showDenied() { hideAllAuth(); document.getElementById("denied-screen").classList.remove("hidden"); }
-  function showApp(user) {
-    hideAllAuth();
-    document.getElementById("app-screen").classList.remove("hidden");
-    document.getElementById("admin-email-label").textContent = user.email || user.uid;
-  }
-
-  async function hasAdminClaim(user) {
-    if (!user) return false;
-    try {
-      const token = await user.getIdTokenResult(true);
-      return !!(token.claims && token.claims.admin === true);
-    } catch (e) {
-      console.warn("[admin claim]", e);
-      return false;
+  /* Auth gate */
+  onAuthStateChanged(auth, async (user) => {
+    document.getElementById("verify-screen").classList.add("hidden");
+    if (!user) {
+      document.getElementById("login-screen").classList.remove("hidden");
+      document.getElementById("app-screen").classList.add("hidden");
+      document.getElementById("denied-screen").classList.add("hidden");
+      return;
     }
-  }
+    const isAdmin = user.email === ADMIN_EMAIL || (user.token && user.token.admin === true);
+    // Also check custom claims if available
+    let claimsAdmin = false;
+    try {
+      const token = await user.getIdTokenResult();
+      claimsAdmin = token.claims.admin === true;
+    } catch (_) {}
+    if (user.email === ADMIN_EMAIL || claimsAdmin) {
+      document.getElementById("login-screen").classList.add("hidden");
+      document.getElementById("denied-screen").classList.add("hidden");
+      document.getElementById("app-screen").classList.remove("hidden");
+      document.getElementById("admin-email-label").textContent = user.email || "";
+      bootData();
+    } else {
+      document.getElementById("login-screen").classList.add("hidden");
+      document.getElementById("app-screen").classList.add("hidden");
+      document.getElementById("denied-screen").classList.remove("hidden");
+    }
+  });
 
   document.getElementById("login-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("login-email").value.trim();
     const pass = document.getElementById("login-pass").value;
-    const err = document.getElementById("login-error");
+    const errEl = document.getElementById("login-error");
     const btn = document.getElementById("login-btn");
-    err.classList.add("hidden");
+    errEl.classList.add("hidden");
     btn.disabled = true;
-    progressStart();
     try {
       await signInWithEmailAndPassword(auth, email, pass);
-    } catch (ex) {
-      err.textContent = "No se pudo ingresar. Verificá correo y contraseña.";
-      err.classList.remove("hidden");
-      progressEnd();
+    } catch (err) {
+      errEl.textContent = "Correo o contraseña incorrectos.";
+      errEl.classList.remove("hidden");
     } finally {
       btn.disabled = false;
-      document.getElementById("login-pass").value = "";
     }
   });
 
   document.getElementById("logout-btn").addEventListener("click", () => signOut(auth));
 
-  showVerify();
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) { showLogin(); return; }
-    showVerify();
-    progressStart();
-    const ok = await hasAdminClaim(user);
-    progressEnd();
-    if (ok) {
-      showApp(user);
-      startListeners();
-    } else {
-      try { await signOut(auth); } catch (_) {}
-      showDenied();
-    }
-  });
-
-  /* ─── Navigation ─── */
-  const titles = {
-    dashboard: "Resumen", productos: "Productos", promos: "Promociones",
-    eventos: "Eventos", cupones: "Cupones de descuento", ajustes: "Ajustes del sitio"
+  /* Navigation */
+  const sectionTitles = {
+    dashboard: "Resumen",
+    pedidos: "Pedidos Web y Envíos",
+    productos: "Productos",
+    promos: "Promociones",
+    eventos: "Eventos",
+    mesas: "Mesas y Reservas",
+    premios: "Premios de Canje",
+    cupones: "Cupones",
+    ajustes: "Ajustes del sitio"
   };
-  document.getElementById("nav").addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-section]");
-    if (!btn) return;
-    const id = btn.dataset.section;
-    currentSection = id;
-    document.querySelectorAll(".sidebar-link").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    document.querySelectorAll("main > section").forEach(s => {
-      s.classList.add("hidden");
-      s.classList.remove("section-enter");
+
+  document.querySelectorAll("[data-section]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const sec = btn.dataset.section;
+      document.querySelectorAll("[data-section]").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      Object.keys(sectionTitles).forEach(id => {
+        const el = document.getElementById("sec-" + id);
+        if (el) el.classList.toggle("hidden", id !== sec);
+      });
+      document.getElementById("section-title").textContent = sectionTitles[sec] || sec;
+      if (window.innerWidth < 1024) {
+        document.getElementById("sidebar").classList.remove("open");
+        document.getElementById("sidebar-overlay").classList.add("hidden");
+      }
     });
-    const sec = document.getElementById("sec-" + id);
-    sec.classList.remove("hidden");
-    void sec.offsetWidth;
-    sec.classList.add("section-enter");
-    document.getElementById("section-title").textContent = titles[id] || id;
-    closeSidebar();
   });
 
-  function openSidebar() {
+  document.getElementById("menu-btn").addEventListener("click", () => {
     document.getElementById("sidebar").classList.add("open");
     document.getElementById("sidebar-overlay").classList.remove("hidden");
-  }
-  function closeSidebar() {
+  });
+  document.getElementById("sidebar-close").addEventListener("click", () => {
     document.getElementById("sidebar").classList.remove("open");
     document.getElementById("sidebar-overlay").classList.add("hidden");
-  }
-  document.getElementById("menu-btn").addEventListener("click", openSidebar);
-  document.getElementById("sidebar-close").addEventListener("click", closeSidebar);
-  document.getElementById("sidebar-overlay").addEventListener("click", closeSidebar);
-
-  /* ─── Quick actions from dashboard ─── */
-  document.querySelectorAll("[data-quick]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const t = btn.dataset.quick;
-      if (t === "producto") { switchSection("productos"); openEntityModal("product"); }
-      else if (t === "promo") { switchSection("promos"); openEntityModal("promo"); }
-      else if (t === "evento") { switchSection("eventos"); openEntityModal("event"); }
-      else if (t === "cupon") { switchSection("cupones"); openCuponModal(); }
-    });
   });
-  function switchSection(id) {
-    const btn = document.querySelector(`[data-section="${id}"]`);
-    if (btn) btn.click();
-  }
+  document.getElementById("sidebar-overlay").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("sidebar-overlay").classList.add("hidden");
+  });
 
-  /* ─── Listeners ─── */
-  function startListeners() {
-    if (listening) return;
-    listening = true;
-    progressStart();
-
-    onSnapshot(query(collection(db, "productos"), orderBy("creadoEn", "desc")), (snap) => {
+  /* Boot data */
+  function bootData() {
+    showProgress(20);
+    onSnapshot(collection(db, "productos"), (snap) => {
       products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      categories = new Set(products.map(p => p.categoria).filter(Boolean));
       renderProducts();
       updateStats();
-      fillCategorySelects();
-      progressEnd();
-    }, (e) => console.warn("[productos]", e));
-
+    });
     onSnapshot(collection(db, "promociones"), (snap) => {
       promos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       renderPromos();
       updateStats();
-    }, (e) => console.warn("[promos]", e));
-
+    });
     onSnapshot(collection(db, "eventos"), (snap) => {
       events = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      renderEvents();
+      renderEventos();
       updateStats();
-    }, (e) => console.warn("[eventos]", e));
-
+    });
     onSnapshot(collection(db, "cupones"), (snap) => {
       cupones = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       renderCupones();
       updateStats();
-    }, (e) => console.warn("[cupones]", e));
-
+    });
+    onSnapshot(collection(db, "mesas"), (snap) => {
+      mesas = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderMesas();
+    });
+    onSnapshot(collection(db, "premios_canje"), (snap) => {
+      premios = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderPremios();
+    }, () => {
+      // fallback collection name
+      onSnapshot(collection(db, "canjes"), (snap) => {
+        premios = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderPremios();
+      });
+    });
+    onSnapshot(collection(db, "reservas"), (snap) => {
+      reservas = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.creadoEn?.toMillis?.() || 0) - (a.creadoEn?.toMillis?.() || 0));
+      renderReservas();
+    });
     onSnapshot(collection(db, "usuarios"), (snap) => {
-      usuarios = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      updateStats();
-    }, (e) => console.warn("[usuarios]", e));
-
+      document.getElementById("stat-socios").textContent = snap.size;
+    });
     onSnapshot(doc(db, "settings", "general"), (snap) => {
-      if (!snap.exists()) return;
-      const d = snap.data();
-      if (d.logoUrl) {
-        ["login-logo", "side-logo", "logo-preview", "verify-logo"].forEach(id => {
+      settings = snap.exists() ? snap.data() : {};
+      fillSettingsForm();
+      if (settings.logoUrl) {
+        ["side-logo", "login-logo", "verify-logo", "logo-preview"].forEach(id => {
           const el = document.getElementById(id);
-          if (el) el.src = cld(d.logoUrl, 128);
+          if (el) el.src = settings.logoUrl;
         });
       }
-      if (d.videoUrl) {
-        const wrap = document.getElementById("story-preview-wrap");
-        const vid = document.getElementById("story-preview");
-        if (wrap && vid) { vid.src = d.videoUrl; wrap.classList.remove("hidden"); }
-      }
-      if (d.horarios) {
-        document.getElementById("h-lv").value = d.horarios.lv || "";
-        document.getElementById("h-sa").value = d.horarios.sa || "";
-        document.getElementById("h-do").value = d.horarios.do || "";
-      }
-      if (d.whatsapp) document.getElementById("set-whatsapp").value = d.whatsapp;
-      if (d.email) document.getElementById("set-email").value = d.email;
-      if (d.address) document.getElementById("set-address").value = d.address;
-    }, () => {});
+    });
+    // Pedidos live
+    if (unsubPedidos) unsubPedidos();
+    unsubPedidos = onSnapshot(query(collection(db, "pedidos"), orderBy("creadoEn", "desc"), limit(100)), (snap) => {
+      pedidos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderPedidos();
+    }, (err) => {
+      console.warn("[pedidos]", err);
+      // fallback without orderBy
+      onSnapshot(collection(db, "pedidos"), (snap) => {
+        pedidos = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+          .sort((a, b) => (b.creadoEn?.toMillis?.() || 0) - (a.creadoEn?.toMillis?.() || 0));
+        renderPedidos();
+      });
+    });
+    showProgress(100);
   }
 
   function updateStats() {
@@ -986,127 +1017,316 @@
     const pausados = products.length - activos;
     document.getElementById("stat-prod-activos").textContent = activos;
     document.getElementById("stat-prod-pausados").textContent = pausados;
-
-    const today = todayISO();
-    const vigentes = promos.filter(p => !p.vigencia || p.vigencia >= today).length;
-    document.getElementById("stat-promos").textContent = vigentes;
-
-    const nextEv = events
-      .filter(e => e.fecha && e.fecha >= today)
-      .sort((a, b) => a.fecha.localeCompare(b.fecha))[0];
-    document.getElementById("stat-evento").textContent = nextEv
-      ? `${nextEv.titulo?.slice(0, 28) || "Evento"}${nextEv.titulo?.length > 28 ? "…" : ""} · ${nextEv.fecha}`
-      : "Sin próximos";
-
+    document.getElementById("stat-promos").textContent = promos.filter(p => p.activo !== false).length;
     document.getElementById("stat-cupones").textContent = cupones.filter(c => c.activo !== false).length;
-    document.getElementById("stat-socios").textContent = usuarios.length;
+    const nextEv = events
+      .filter(e => e.fecha)
+      .sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)))[0];
+    document.getElementById("stat-evento").textContent = nextEv ? `${nextEv.titulo || "Evento"} · ${nextEv.fecha}` : "Sin eventos";
   }
 
-  function fillCategorySelects() {
-    const selects = [document.getElementById("ef-cat"), document.getElementById("bulk-cat")];
-    selects.forEach(sel => {
-      if (!sel) return;
-      const current = sel.value;
-      const isBulk = sel.id === "bulk-cat";
-      sel.innerHTML = isBulk
-        ? '<option value="__all__">Todas las categorías</option>'
-        : '<option value="">Sin categoría</option>';
-      [...categories].sort().forEach(c => {
-        const opt = document.createElement("option");
-        opt.value = c; opt.textContent = c;
-        sel.appendChild(opt);
-      });
-      if (!isBulk) {
-        const create = document.createElement("option");
-        create.value = "__new__"; create.textContent = "+ Crear nueva categoría…";
-        sel.appendChild(create);
-      }
-      if (current && [...sel.options].some(o => o.value === current)) sel.value = current;
-    });
-  }
-
-  document.getElementById("ef-cat")?.addEventListener("change", () => {
-    if (document.getElementById("ef-cat").value === "__new__") {
-      document.getElementById("ef-cat").value = "";
-      document.getElementById("cat-prompt").classList.remove("hidden");
-      document.getElementById("cat-new-input").value = "";
-      document.getElementById("cat-new-input").focus();
+  function fillSettingsForm() {
+    document.getElementById("set-alias").value = settings.alias || DEFAULT_BANK.alias;
+    document.getElementById("set-titular").value = settings.titular || DEFAULT_BANK.titular;
+    document.getElementById("set-cuit").value = settings.cuit || DEFAULT_BANK.cuit;
+    document.getElementById("set-medio").value = settings.medioPago || DEFAULT_BANK.medioPago;
+    document.getElementById("set-cbu").value = settings.cbu || "";
+    document.getElementById("set-whatsapp").value = settings.whatsapp || "+5493537513148";
+    document.getElementById("set-email").value = settings.email || "clubdelanfitrion@gmail.com";
+    document.getElementById("set-address").value = settings.address || "Córdoba 1309, Bell Ville, Córdoba";
+    document.getElementById("h-lv").value = settings.horarios?.lv || "";
+    document.getElementById("h-sa").value = settings.horarios?.sa || "";
+    document.getElementById("h-do").value = settings.horarios?.do || "";
+    document.getElementById("set-env-bv").value = settings.envios?.bellVille ?? "";
+    document.getElementById("set-env-gratis").value = settings.envios?.minGratis ?? "";
+    document.getElementById("set-env-andreani").value = settings.envios?.andreani || "";
+    document.getElementById("set-env-viacargo").value = settings.envios?.viaCargo || "";
+    if (settings.videoUrl) {
+      const wrap = document.getElementById("story-preview-wrap");
+      const vid = document.getElementById("story-preview");
+      vid.src = settings.videoUrl;
+      wrap.classList.remove("hidden");
     }
-  });
-  document.getElementById("cat-new-ok").addEventListener("click", () => {
-    const name = document.getElementById("cat-new-input").value.trim();
-    if (!name) return;
-    categories.add(name);
-    fillCategorySelects();
-    document.getElementById("ef-cat").value = name;
-    document.getElementById("cat-prompt").classList.add("hidden");
-  });
-  document.getElementById("cat-new-cancel").addEventListener("click", () => {
-    document.getElementById("cat-prompt").classList.add("hidden");
-  });
+  }
 
-  /* ─── Quick search ─── */
-  document.getElementById("quick-search").addEventListener("input", () => {
-    const term = document.getElementById("quick-search").value.trim().toLowerCase();
-    const box = document.getElementById("quick-results");
-    if (!term || term.length < 2) { box.classList.add("hidden"); box.innerHTML = ""; return; }
-    const matches = products.filter(p =>
-      String(p.titulo || "").toLowerCase().includes(term) ||
-      String(p.codigoBarras || "").includes(term) ||
-      String(p.barcode || "").includes(term)
-    ).slice(0, 8);
-    if (!matches.length) {
-      box.innerHTML = '<p class="text-muted text-sm py-2">Sin resultados</p>';
-      box.classList.remove("hidden");
+  /* ─── PEDIDOS ─── */
+  const STATUS_LABELS = {
+    pendiente_pago: "Pendiente de pago",
+    esperando_transferencia: "Pendiente de pago",
+    pago_confirmado: "Pago confirmado",
+    preparando: "Preparando pedido",
+    en_camino: "En camino / Despachado",
+    listo_retiro: "Listo para retirar",
+    entregado: "Entregado",
+    cancelado: "Cancelado",
+    no_retirado: "No retirado"
+  };
+  const STATUS_COLORS = {
+    pendiente_pago: "bg-amber-100 text-amber-800",
+    esperando_transferencia: "bg-amber-100 text-amber-800",
+    pago_confirmado: "bg-blue-100 text-blue-800",
+    preparando: "bg-indigo-100 text-indigo-800",
+    en_camino: "bg-purple-100 text-purple-800",
+    listo_retiro: "bg-emerald-100 text-emerald-800",
+    entregado: "bg-green-100 text-green-800",
+    cancelado: "bg-red-100 text-red-800"
+  };
+
+  function renderPedidos() {
+    const q = (document.getElementById("ped-search").value || "").toLowerCase().trim();
+    const filtro = document.getElementById("ped-filter").value;
+    let list = pedidos;
+    if (filtro !== "todos") {
+      list = list.filter(p => {
+        const st = p.estado || "";
+        if (filtro === "pendiente_pago") return st === "pendiente_pago" || st === "esperando_transferencia";
+        return st === filtro;
+      });
+    }
+    if (q) {
+      list = list.filter(p => {
+        const code = (p.codigoRetiro || p.id || "").toLowerCase();
+        const nombre = ((p.cliente?.nombre || "") + " " + (p.cliente?.apellido || "")).toLowerCase();
+        const dni = String(p.dni || "").toLowerCase();
+        return code.includes(q) || nombre.includes(q) || dni.includes(q);
+      });
+    }
+    const el = document.getElementById("pedidos-list");
+    if (!list.length) {
+      el.innerHTML = '<p class="text-muted text-sm py-8 text-center">No hay pedidos que coincidan.</p>';
       return;
     }
-    box.innerHTML = matches.map(p => {
-      const img = (p.imagenes && p.imagenes[0]) || p.imagenUrl || "";
-      return `<div class="flex items-center gap-3 rounded-xl border border-black/6 bg-surface p-2.5">
-        <img src="${esc(cld(img, 80))}" alt="" class="h-12 w-12 rounded-lg object-cover bg-white" onerror="this.style.opacity=0">
-        <div class="flex-1 min-w-0">
-          <p class="text-sm font-medium truncate">${esc(p.titulo)}</p>
-          <p class="text-xs text-muted">${p.disponible === false ? "Sin stock" : "Disponible"} · ${hasPrice(p.precio) ? money(p.precio) : "Consultar"}${hasPrice(p.precioTransferencia) ? " · Transf. " + money(p.precioTransferencia) : ""}</p>
-        </div>
-        <button type="button" data-qs-edit="${p.id}" class="text-xs text-wine font-medium px-2">Editar</button>
-      </div>`;
-    }).join("");
-    box.classList.remove("hidden");
-  });
-  document.getElementById("quick-results").addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-qs-edit]");
-    if (!btn) return;
-    const p = products.find(x => x.id === btn.dataset.qsEdit);
-    if (p) { switchSection("productos"); openEntityModal("product", p); }
-  });
-
-  /* ─── Products list ─── */
-  function renderProducts() {
-    const term = (document.getElementById("prod-search").value || "").toLowerCase();
-    const list = products.filter(p => !term ||
-      String(p.titulo || "").toLowerCase().includes(term) ||
-      String(p.codigoBarras || p.barcode || "").includes(term)
-    );
-    const el = document.getElementById("prod-list");
-    if (!list.length) { el.innerHTML = '<p class="text-muted text-sm py-6 text-center">No hay productos.</p>'; return; }
     el.innerHTML = list.map(p => {
-      const img = (p.imagenes && p.imagenes[0]) || p.imagenUrl || "";
-      return `<div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-black/6 bg-card p-3 shadow-soft">
-        <img src="${esc(cld(img, 120))}" alt="" class="h-14 w-14 rounded-lg object-cover bg-surface border border-black/5" onerror="this.style.opacity=.3">
-        <div class="flex-1 min-w-0">
-          <p class="font-medium truncate text-ink">${esc(p.titulo)}</p>
-          <p class="text-muted text-xs">${p.categoria ? esc(p.categoria) + " · " : ""}${hasPrice(p.precio) ? money(p.precio) : "Consultar"} · ${p.disponible === false ? '<span class="text-wine font-medium">SIN STOCK</span>' : "Disponible"}${p.codigoBarras || p.barcode ? " · " + esc(p.codigoBarras || p.barcode) : ""}</p>
+      const st = p.estado || "pendiente_pago";
+      const label = STATUS_LABELS[st] || st;
+      const color = STATUS_COLORS[st] || "bg-gray-100 text-gray-700";
+      const fecha = p.creadoEn?.toDate ? p.creadoEn.toDate().toLocaleString("es-AR") : "—";
+      const cliente = p.cliente || {};
+      const nombre = [cliente.nombre, cliente.apellido].filter(Boolean).join(" ") || "—";
+      const items = (p.items || []).map(i => `${esc(i.titulo)} ×${i.qty || 1}`).join(", ");
+      const tel = (cliente.telefono || "").replace(/\D/g, "");
+      const canCancel = !["cancelado", "entregado", "en_camino", "listo_retiro"].includes(st);
+      return `
+      <article class="order-card p-4 sm:p-5" data-id="${esc(p.id)}">
+        <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+          <div>
+            <p class="font-display text-lg text-ink">#${esc(p.codigoRetiro || p.id)}</p>
+            <p class="text-muted text-xs">${fecha} · ${esc(nombre)} · DNI ${esc(p.dni || "—")}</p>
+          </div>
+          <span class="status-badge ${color}">${esc(label)}</span>
         </div>
-        <div class="flex gap-2">
-          <button type="button" data-edit-prod="${p.id}" class="rounded-full border border-wine/25 px-3 py-1.5 text-xs text-wine hover:bg-wine/5">Editar</button>
-          <button type="button" data-del-prod="${p.id}" class="rounded-full border border-red-200 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50">Eliminar</button>
+        <p class="text-sm text-muted mb-2">${money(p.total)} · ${esc(p.metodoPago || "")}</p>
+        <p class="text-xs text-muted mb-3 line-clamp-2">${items || "Sin detalle"}</p>
+        ${st === "cancelado" && p.motivoCancelacion ? `<div class="mb-3 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-800"><strong>Motivo:</strong> ${esc(p.motivoCancelacion)}</div>` : ""}
+        <div class="flex flex-wrap gap-2 items-center mb-3">
+          <label class="text-xs text-muted">Estado:</label>
+          <select data-status="${esc(p.id)}" class="rounded-lg border border-black/10 px-2 py-1 text-xs">
+            <option value="pendiente_pago" ${st === "pendiente_pago" || st === "esperando_transferencia" ? "selected" : ""}>Pendiente de pago</option>
+            <option value="pago_confirmado" ${st === "pago_confirmado" ? "selected" : ""}>Pago confirmado</option>
+            <option value="preparando" ${st === "preparando" ? "selected" : ""}>Preparando</option>
+            <option value="en_camino" ${st === "en_camino" ? "selected" : ""}>En camino / Despachado</option>
+            <option value="listo_retiro" ${st === "listo_retiro" ? "selected" : ""}>Listo para retirar</option>
+            <option value="entregado" ${st === "entregado" ? "selected" : ""}>Entregado</option>
+            <option value="cancelado" ${st === "cancelado" ? "selected" : ""}>Cancelado</option>
+          </select>
+          <input type="text" data-tracking="${esc(p.id)}" value="${esc(p.codigoSeguimiento || "")}" placeholder="Nº guía Andreani/Vía Cargo"
+                 class="rounded-lg border border-black/10 px-2 py-1 text-xs w-40">
+          <button type="button" data-save-tracking="${esc(p.id)}" class="rounded-full border border-black/10 px-3 py-1 text-xs hover:bg-black/5">Guardar guía</button>
         </div>
-      </div>`;
+        <div class="flex flex-wrap gap-2">
+          ${st === "pendiente_pago" || st === "esperando_transferencia" ? `<button type="button" data-confirm="${esc(p.id)}" class="btn-press rounded-full bg-emerald-600 px-4 py-1.5 text-white text-xs font-medium">Confirmar compra</button>` : ""}
+          ${canCancel ? `<button type="button" data-cancel="${esc(p.id)}" class="rounded-full border border-red-200 px-4 py-1.5 text-red-600 text-xs">Cancelar compra</button>` : ""}
+          <button type="button" data-wa="${esc(p.id)}" class="rounded-full border border-green-300 bg-green-50 px-4 py-1.5 text-green-800 text-xs font-medium">Continuar por WhatsApp</button>
+        </div>
+      </article>`;
     }).join("");
   }
-  document.getElementById("prod-search").addEventListener("input", renderProducts);
-  document.getElementById("prod-new-btn").addEventListener("click", () => openEntityModal("product"));
-  document.getElementById("prod-list").addEventListener("click", async (e) => {
+
+  document.getElementById("ped-search").addEventListener("input", renderPedidos);
+  document.getElementById("ped-filter").addEventListener("change", renderPedidos);
+
+  document.getElementById("pedidos-list").addEventListener("click", async (e) => {
+    const confirmBtn = e.target.closest("[data-confirm]");
+    const cancelBtn = e.target.closest("[data-cancel]");
+    const waBtn = e.target.closest("[data-wa]");
+    const saveTrack = e.target.closest("[data-save-tracking]");
+    if (confirmBtn) {
+      const id = confirmBtn.dataset.confirm;
+      const p = pedidos.find(x => x.id === id);
+      if (!p) return;
+      if (!confirm("¿Confirmar pago y acreditar puntos?")) return;
+      showSaveOverlay("Confirmando compra…");
+      try {
+        await updateDoc(doc(db, "pedidos", id), {
+          estado: "pago_confirmado",
+          actualizadoEn: serverTimestamp()
+        });
+        // Acreditar puntos
+        if (p.uid) {
+          const pts = Math.floor(Number(p.total || 0) / (settings.pesosPorUnidad || 100)) * (settings.puntosPorUnidad || 1);
+          if (pts > 0) {
+            await updateDoc(doc(db, "usuarios", p.uid), {
+              puntos: increment(pts),
+              actualizadoEn: serverTimestamp()
+            });
+            await addDoc(collection(db, "movimientos_puntos"), {
+              uid: p.uid,
+              dni: p.dni || "",
+              tipo: "compra",
+              puntos: pts,
+              pedidoId: id,
+              creadoEn: serverTimestamp()
+            });
+          }
+        }
+        showSaveSuccess("¡Compra confirmada y puntos acreditados!");
+      } catch (err) {
+        hideSaveOverlay();
+        toast(err.message || "Error al confirmar", "error");
+      }
+    }
+    if (cancelBtn) {
+      document.getElementById("cancel-order-id").value = cancelBtn.dataset.cancel;
+      document.getElementById("cancel-motivo").value = "";
+      document.getElementById("cancel-confirm").disabled = true;
+      document.getElementById("cancel-modal").classList.remove("hidden");
+    }
+    if (saveTrack) {
+      const id = saveTrack.dataset.saveTracking;
+      const input = document.querySelector(`[data-tracking="${id}"]`);
+      const val = (input?.value || "").trim();
+      try {
+        await updateDoc(doc(db, "pedidos", id), { codigoSeguimiento: val, actualizadoEn: serverTimestamp() });
+        toast("Guía guardada");
+      } catch { toast("Error al guardar guía", "error"); }
+    }
+    if (waBtn) {
+      const id = waBtn.dataset.wa;
+      const p = pedidos.find(x => x.id === id);
+      if (!p) return;
+      openWhatsApp(p);
+    }
+  });
+
+  document.getElementById("pedidos-list").addEventListener("change", async (e) => {
+    const sel = e.target.closest("[data-status]");
+    if (!sel) return;
+    const id = sel.dataset.status;
+    const nuevo = sel.value;
+    if (nuevo === "cancelado") {
+      document.getElementById("cancel-order-id").value = id;
+      document.getElementById("cancel-motivo").value = "";
+      document.getElementById("cancel-confirm").disabled = true;
+      document.getElementById("cancel-modal").classList.remove("hidden");
+      // revert select until confirmed
+      const p = pedidos.find(x => x.id === id);
+      if (p) sel.value = p.estado || "pendiente_pago";
+      return;
+    }
+    try {
+      await updateDoc(doc(db, "pedidos", id), { estado: nuevo, actualizadoEn: serverTimestamp() });
+      toast("Estado actualizado");
+    } catch { toast("Error al actualizar estado", "error"); }
+  });
+
+  /* Cancel modal */
+  document.querySelectorAll(".cancel-suggest").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.getElementById("cancel-motivo").value = btn.dataset.motivo;
+      document.getElementById("cancel-confirm").disabled = false;
+    });
+  });
+  document.getElementById("cancel-motivo").addEventListener("input", (e) => {
+    document.getElementById("cancel-confirm").disabled = e.target.value.trim().length < 5;
+  });
+  document.getElementById("cancel-close").addEventListener("click", () => {
+    document.getElementById("cancel-modal").classList.add("hidden");
+  });
+  document.getElementById("cancel-confirm").addEventListener("click", async () => {
+    const id = document.getElementById("cancel-order-id").value;
+    const motivo = document.getElementById("cancel-motivo").value.trim();
+    if (motivo.length < 5) return;
+    showSaveOverlay("Cancelando…");
+    try {
+      await updateDoc(doc(db, "pedidos", id), {
+        estado: "cancelado",
+        canceladoPor: "admin",
+        motivoCancelacion: motivo,
+        fechaCancelacion: serverTimestamp(),
+        actualizadoEn: serverTimestamp()
+      });
+      document.getElementById("cancel-modal").classList.add("hidden");
+      showSaveSuccess("Pedido cancelado. El cliente verá el motivo.");
+    } catch (err) {
+      hideSaveOverlay();
+      toast(err.message || "Error", "error");
+    }
+  });
+
+  function openWhatsApp(p) {
+    const cliente = p.cliente || {};
+    let tel = String(cliente.telefono || "").replace(/\D/g, "");
+    if (tel.startsWith("54")) { /* ok */ }
+    else if (tel.startsWith("9") && tel.length >= 10) tel = "54" + tel;
+    else if (tel.length >= 8) tel = "549" + tel;
+    else { toast("Teléfono inválido", "error"); return; }
+
+    const nombre = [cliente.nombre, cliente.apellido].filter(Boolean).join(" ") || "Cliente";
+    const code = p.codigoRetiro || p.id;
+    const total = money(p.total);
+    const alias = settings.alias || DEFAULT_BANK.alias;
+    const titular = settings.titular || DEFAULT_BANK.titular;
+    const cuit = settings.cuit || DEFAULT_BANK.cuit;
+    const medio = settings.medioPago || DEFAULT_BANK.medioPago;
+    const items = (p.items || []).map(i => `${i.titulo} ×${i.qty || 1}`).join(", ");
+    const entrega = p.envio?.tipo || p.metodoPago || "retiro";
+    const dir = p.direccion || p.cliente?.direccion || "";
+    const guia = p.codigoSeguimiento || "";
+    const st = p.estado || "pendiente_pago";
+
+    let msg = "";
+    if (st === "pendiente_pago" || st === "esperando_transferencia") {
+      msg = `¡Hola ${nombre}! Te hablamos de *Club del Anfitrión* 🍷 para finalizar tu compra (*${code}*).\n\nTenemos este celular registrado para tu pedido. Necesitamos unos pasos más para finalizar la compra:\n\n1️⃣ Enviar *${total}* al alias con estos datos:\nAlias: *${alias}*\nTitular: *${titular}*\nCUIT: *${cuit}*\nMedio de pago: *${medio}*\n\n2️⃣ Una vez transferido, pasanos el comprobante a este número para continuar y coordinar la entrega (${entrega}${dir ? " · " + dir : ""}).\n\nDetalle: ${items}.`;
+    } else if (st === "pago_confirmado" || st === "preparando") {
+      msg = `¡Hola ${nombre}! Te hablamos de *Club del Anfitrión* 🍷. ¡Tu compra *${code}* ya está confirmada y estamos preparando tu pedido! Te avisamos apenas salga.`;
+    } else if (st === "en_camino") {
+      msg = `¡Hola ${nombre}! Te hablamos de *Club del Anfitrión* 🍷. ¡Tu pedido *${code}* ya está en camino!${guia ? `\nTransporte — Código de seguimiento: *${guia}*` : ""}\nPodés verlo en nuestra web en "Seguí tu envío".`;
+    } else if (st === "listo_retiro") {
+      msg = `¡Hola ${nombre}! Te hablamos de *Club del Anfitrión* 🍷. ¡Tu pedido *${code}* ya está listo para retirar por Córdoba 1309, Bell Ville!`;
+    } else if (st === "cancelado") {
+      msg = `¡Hola ${nombre}! Te hablamos de *Club del Anfitrión* 🍷 respecto a tu pedido *${code}*. Te informamos que la compra fue cancelada por el siguiente motivo: *${p.motivoCancelacion || "—"}*.`;
+    } else {
+      msg = `¡Hola ${nombre}! Te hablamos de *Club del Anfitrión* 🍷 sobre tu pedido *${code}*.`;
+    }
+
+    window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`, "_blank");
+  }
+
+  /* ─── PRODUCTS (simplified list + existing modal logic) ─── */
+  function renderProducts() {
+    const q = (document.getElementById("prod-search")?.value || "").toLowerCase();
+    let list = products;
+    if (q) list = list.filter(p => (p.titulo || "").toLowerCase().includes(q) || (p.codigoBarras || "").includes(q));
+    const el = document.getElementById("prod-list");
+    if (!list.length) { el.innerHTML = '<p class="text-muted text-sm py-6 text-center">Sin productos.</p>'; return; }
+    el.innerHTML = list.map(p => `
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-black/6 bg-card p-3 shadow-soft">
+        <div class="h-14 w-14 rounded-lg overflow-hidden bg-surface shrink-0">
+          ${p.imagenUrl || (p.imagenes && p.imagenes[0]) ? `<img src="${esc(cld(p.imagenUrl || p.imagenes[0], 100))}" class="w-full h-full object-cover" alt="">` : ""}
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-medium truncate">${esc(p.titulo)}</p>
+          <p class="text-muted text-xs">${money(p.precio)} ${p.disponible === false ? "· <span class='text-wine'>Pausado</span>" : ""}</p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" data-edit-prod="${p.id}" class="rounded-full border border-wine/25 px-3 py-1.5 text-xs text-wine">Editar</button>
+          <button type="button" data-del-prod="${p.id}" class="rounded-full border border-red-200 px-3 py-1.5 text-xs text-red-600">Eliminar</button>
+        </div>
+      </div>`).join("");
+  }
+  document.getElementById("prod-search")?.addEventListener("input", renderProducts);
+  document.getElementById("prod-new-btn")?.addEventListener("click", () => openEntityModal("product"));
+  document.getElementById("prod-list")?.addEventListener("click", async (e) => {
     const edit = e.target.closest("[data-edit-prod]");
     const del = e.target.closest("[data-del-prod]");
     if (edit) {
@@ -1114,57 +1334,45 @@
       if (p) openEntityModal("product", p);
     }
     if (del) {
-      if (!confirm("¿Eliminar este producto?")) return;
-      try {
-        await deleteDoc(doc(db, "productos", del.dataset.delProd));
-        toast("Producto eliminado");
-      } catch { toast("No se pudo eliminar (revisá reglas de Firestore)", "error"); }
-    }
-  });
-
-  /* ─── Promos list ─── */
-  function renderPromos() {
-    const term = (document.getElementById("promo-search").value || "").toLowerCase();
-    const list = promos.filter(p => !term || String(p.titulo || "").toLowerCase().includes(term));
-    const el = document.getElementById("promo-list");
-    if (!list.length) { el.innerHTML = '<p class="text-muted text-sm py-6 text-center">No hay promociones.</p>'; return; }
-    el.innerHTML = list.map(p => `
-      <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-black/6 bg-card p-3 shadow-soft">
-        <div class="flex-1 min-w-0">
-          <p class="font-medium truncate">${esc(p.titulo)}</p>
-          <p class="text-muted text-xs">Hasta ${esc(p.vigencia || "—")} · ${hasPrice(p.precio) ? money(p.precio) : "Consultar"}</p>
-        </div>
-        <div class="flex gap-2">
-          <button type="button" data-edit-promo="${p.id}" class="rounded-full border border-wine/25 px-3 py-1.5 text-xs text-wine">Editar</button>
-          <button type="button" data-del-promo="${p.id}" class="rounded-full border border-red-200 px-3 py-1.5 text-xs text-red-600">Eliminar</button>
-        </div>
-      </div>`).join("");
-  }
-  document.getElementById("promo-search").addEventListener("input", renderPromos);
-  document.getElementById("promo-new-btn").addEventListener("click", () => openEntityModal("promo"));
-  document.getElementById("promo-list").addEventListener("click", async (e) => {
-    const edit = e.target.closest("[data-edit-promo]");
-    const del = e.target.closest("[data-del-promo]");
-    if (edit) {
-      const p = promos.find(x => x.id === edit.dataset.editPromo);
-      if (p) openEntityModal("promo", p);
-    }
-    if (del) {
-      if (!confirm("¿Eliminar promoción?")) return;
-      try { await deleteDoc(doc(db, "promociones", del.dataset.delPromo)); toast("Eliminada"); }
+      if (!confirm("¿Eliminar producto?")) return;
+      try { await deleteDoc(doc(db, "productos", del.dataset.delProd)); toast("Eliminado"); }
       catch { toast("No se pudo eliminar", "error"); }
     }
   });
 
-  /* ─── Events list ─── */
-  function renderEvents() {
+  /* PROMOS */
+  function renderPromos() {
+    const el = document.getElementById("promo-list");
+    if (!promos.length) { el.innerHTML = '<p class="text-muted text-sm py-6 text-center">Sin promociones.</p>'; return; }
+    el.innerHTML = promos.map(p => `
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-black/6 bg-card p-3 shadow-soft">
+        <div class="flex-1 min-w-0">
+          <p class="font-medium">${esc(p.titulo)}</p>
+          <p class="text-muted text-xs">${money(p.precio)} · ${esc(p.vigencia || "")}</p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" data-edit-pr="${p.id}" class="rounded-full border border-wine/25 px-3 py-1.5 text-xs text-wine">Editar</button>
+          <button type="button" data-del-pr="${p.id}" class="rounded-full border border-red-200 px-3 py-1.5 text-xs text-red-600">Eliminar</button>
+        </div>
+      </div>`).join("");
+  }
+  document.getElementById("promo-new-btn")?.addEventListener("click", () => openEntityModal("promo"));
+  document.getElementById("promo-list")?.addEventListener("click", async (e) => {
+    const edit = e.target.closest("[data-edit-pr]");
+    const del = e.target.closest("[data-del-pr]");
+    if (edit) { const p = promos.find(x => x.id === edit.dataset.editPr); if (p) openEntityModal("promo", p); }
+    if (del) { if (!confirm("¿Eliminar?")) return; try { await deleteDoc(doc(db, "promociones", del.dataset.delPr)); toast("Eliminado"); } catch { toast("Error", "error"); } }
+  });
+
+  /* EVENTOS */
+  function renderEventos() {
     const el = document.getElementById("evento-list");
-    if (!events.length) { el.innerHTML = '<p class="text-muted text-sm py-6 text-center">No hay eventos.</p>'; return; }
+    if (!events.length) { el.innerHTML = '<p class="text-muted text-sm py-6 text-center">Sin eventos.</p>'; return; }
     el.innerHTML = events.map(p => `
       <div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-black/6 bg-card p-3 shadow-soft">
         <div class="flex-1 min-w-0">
-          <p class="font-medium truncate">${esc(p.titulo)}</p>
-          <p class="text-muted text-xs">${esc(p.fecha || "")} ${esc(p.hora || "")} · ${esc(p.lugar || "")}</p>
+          <p class="font-medium">${esc(p.titulo)}</p>
+          <p class="text-muted text-xs">${esc(p.fecha)} ${esc(p.hora || "")} · ${esc(p.lugar || "")}</p>
         </div>
         <div class="flex gap-2">
           <button type="button" data-edit-ev="${p.id}" class="rounded-full border border-wine/25 px-3 py-1.5 text-xs text-wine">Editar</button>
@@ -1172,22 +1380,123 @@
         </div>
       </div>`).join("");
   }
-  document.getElementById("evento-new-btn").addEventListener("click", () => openEntityModal("event"));
-  document.getElementById("evento-list").addEventListener("click", async (e) => {
+  document.getElementById("evento-new-btn")?.addEventListener("click", () => openEntityModal("event"));
+  document.getElementById("evento-list")?.addEventListener("click", async (e) => {
     const edit = e.target.closest("[data-edit-ev]");
     const del = e.target.closest("[data-del-ev]");
-    if (edit) {
-      const p = events.find(x => x.id === edit.dataset.editEv);
-      if (p) openEntityModal("event", p);
+    if (edit) { const p = events.find(x => x.id === edit.dataset.editEv); if (p) openEntityModal("event", p); }
+    if (del) { if (!confirm("¿Eliminar evento?")) return; try { await deleteDoc(doc(db, "eventos", del.dataset.delEv)); toast("Eliminado"); } catch { toast("Error", "error"); } }
+  });
+
+  /* MESAS */
+  function renderMesas() {
+    const el = document.getElementById("mesas-list");
+    if (!mesas.length) { el.innerHTML = '<p class="text-muted text-sm col-span-full py-6 text-center">Sin mesas configuradas.</p>'; return; }
+    el.innerHTML = mesas.map(m => {
+      const img = (m.imagenes && m.imagenes[0]) || m.imagenUrl || "";
+      return `<article class="rounded-xl border border-black/6 bg-card overflow-hidden shadow-soft">
+        <div class="aspect-[4/3] bg-surface">${img ? `<img src="${esc(cld(img, 400))}" class="w-full h-full object-cover" alt="">` : ""}</div>
+        <div class="p-3">
+          <p class="font-medium">${esc(m.nombre || m.titulo)}</p>
+          <p class="text-muted text-xs">${m.capacidadMin || m.capacidad || "?"}–${m.capacidadMax || m.capacidad || "?"} pers. · ${m.disponible === false ? "No disponible" : "Disponible"}</p>
+          <div class="flex gap-2 mt-2">
+            <button type="button" data-edit-mesa="${m.id}" class="rounded-full border border-wine/25 px-3 py-1 text-xs text-wine">Editar</button>
+            <button type="button" data-del-mesa="${m.id}" class="rounded-full border border-red-200 px-3 py-1 text-xs text-red-600">Eliminar</button>
+          </div>
+        </div>
+      </article>`;
+    }).join("");
+  }
+  document.getElementById("mesa-new-btn")?.addEventListener("click", () => openEntityModal("mesa"));
+  document.getElementById("mesas-list")?.addEventListener("click", async (e) => {
+    const edit = e.target.closest("[data-edit-mesa]");
+    const del = e.target.closest("[data-del-mesa]");
+    if (edit) { const m = mesas.find(x => x.id === edit.dataset.editMesa); if (m) openEntityModal("mesa", m); }
+    if (del) { if (!confirm("¿Eliminar mesa?")) return; try { await deleteDoc(doc(db, "mesas", del.dataset.delMesa)); toast("Eliminado"); } catch { toast("Error", "error"); } }
+  });
+
+  function renderReservas() {
+    const el = document.getElementById("reservas-list");
+    if (!reservas.length) { el.innerHTML = '<p class="text-muted text-sm py-6 text-center">Sin reservas.</p>'; return; }
+    el.innerHTML = reservas.slice(0, 50).map(r => {
+      const fecha = r.creadoEn?.toDate ? r.creadoEn.toDate().toLocaleString("es-AR") : "—";
+      return `<div class="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-black/6 bg-card p-3 shadow-soft">
+        <div class="flex-1 min-w-0">
+          <p class="font-medium">${esc(r.nombre)} · ${esc(r.personas)} pers.</p>
+          <p class="text-muted text-xs">${esc(r.fecha)} ${esc(r.horario)} · Mesa: ${esc(r.mesaNombre || "A confirmar")} · ${esc(r.estado || "pendiente")}</p>
+          <p class="text-muted text-xs">${esc(r.telefono)} · ${fecha}</p>
+        </div>
+        <div class="flex gap-2 flex-wrap">
+          <select data-res-status="${r.id}" class="rounded-lg border border-black/10 px-2 py-1 text-xs">
+            <option value="pendiente" ${r.estado === "pendiente" ? "selected" : ""}>Pendiente</option>
+            <option value="confirmada" ${r.estado === "confirmada" ? "selected" : ""}>Confirmada</option>
+            <option value="rechazada" ${r.estado === "rechazada" ? "selected" : ""}>Rechazada</option>
+          </select>
+          <select data-res-mesa="${r.id}" class="rounded-lg border border-black/10 px-2 py-1 text-xs">
+            <option value="">Sin mesa</option>
+            ${mesas.map(m => `<option value="${m.id}" ${r.mesaId === m.id ? "selected" : ""}>${esc(m.nombre || m.titulo)}</option>`).join("")}
+          </select>
+        </div>
+      </div>`;
+    }).join("");
+  }
+  document.getElementById("reservas-list")?.addEventListener("change", async (e) => {
+    const st = e.target.closest("[data-res-status]");
+    const ms = e.target.closest("[data-res-mesa]");
+    if (st) {
+      try { await updateDoc(doc(db, "reservas", st.dataset.resStatus), { estado: st.value, actualizadoEn: serverTimestamp() }); toast("Reserva actualizada"); }
+      catch { toast("Error", "error"); }
     }
-    if (del) {
-      if (!confirm("¿Eliminar evento?")) return;
-      try { await deleteDoc(doc(db, "eventos", del.dataset.delEv)); toast("Eliminado"); }
-      catch { toast("No se pudo eliminar", "error"); }
+    if (ms) {
+      const mesa = mesas.find(m => m.id === ms.value);
+      try {
+        await updateDoc(doc(db, "reservas", ms.dataset.resMesa), {
+          mesaId: ms.value || null,
+          mesaNombre: mesa ? (mesa.nombre || mesa.titulo) : null,
+          actualizadoEn: serverTimestamp()
+        });
+        toast("Mesa asignada");
+      } catch { toast("Error", "error"); }
     }
   });
 
-  /* ─── Cupones ─── */
+  /* PREMIOS */
+  function renderPremios() {
+    const el = document.getElementById("premios-list");
+    if (!premios.length) { el.innerHTML = '<p class="text-muted text-sm col-span-full py-6 text-center">Sin premios de canje.</p>'; return; }
+    el.innerHTML = premios.map(c => {
+      const img = (c.imagenes && c.imagenes[0]) || c.imagenUrl || "";
+      return `<article class="rounded-xl border border-black/6 bg-card overflow-hidden shadow-soft">
+        <div class="aspect-[4/3] bg-surface">${img ? `<img src="${esc(cld(img, 400))}" class="w-full h-full object-cover" alt="">` : ""}</div>
+        <div class="p-3">
+          <p class="font-medium">${esc(c.titulo)}</p>
+          <p class="text-gold font-display text-lg">${c.puntosNecesarios || 0} pts</p>
+          <div class="flex gap-2 mt-2">
+            <button type="button" data-edit-premio="${c.id}" class="rounded-full border border-wine/25 px-3 py-1 text-xs text-wine">Editar</button>
+            <button type="button" data-del-premio="${c.id}" class="rounded-full border border-red-200 px-3 py-1 text-xs text-red-600">Eliminar</button>
+          </div>
+        </div>
+      </article>`;
+    }).join("");
+  }
+  document.getElementById("premio-new-btn")?.addEventListener("click", () => openEntityModal("premio"));
+  document.getElementById("premios-list")?.addEventListener("click", async (e) => {
+    const edit = e.target.closest("[data-edit-premio]");
+    const del = e.target.closest("[data-del-premio]");
+    if (edit) { const c = premios.find(x => x.id === edit.dataset.editPremio); if (c) openEntityModal("premio", c); }
+    if (del) {
+      if (!confirm("¿Eliminar premio?")) return;
+      try {
+        await deleteDoc(doc(db, "premios_canje", del.dataset.delPremio));
+        toast("Eliminado");
+      } catch {
+        try { await deleteDoc(doc(db, "canjes", del.dataset.delPremio)); toast("Eliminado"); }
+        catch { toast("Error", "error"); }
+      }
+    }
+  });
+
+  /* CUPONES */
   function renderCupones() {
     const el = document.getElementById("cupon-list");
     if (!cupones.length) { el.innerHTML = '<p class="text-muted text-sm py-6 text-center">Todavía no hay cupones.</p>'; return; }
@@ -1208,28 +1517,19 @@
         </div>
       </div>`).join("");
   }
-  document.getElementById("cupon-new-btn").addEventListener("click", () => openCuponModal());
-  document.getElementById("cupon-list").addEventListener("click", async (e) => {
+  document.getElementById("cupon-new-btn")?.addEventListener("click", () => openCuponModal());
+  document.getElementById("cupon-list")?.addEventListener("click", async (e) => {
     const edit = e.target.closest("[data-edit-cj]");
     const del = e.target.closest("[data-del-cj]");
     const tog = e.target.closest("[data-toggle-cj]");
-    if (edit) {
-      const c = cupones.find(x => x.id === edit.dataset.editCj);
-      if (c) openCuponModal(c);
-    }
+    if (edit) { const c = cupones.find(x => x.id === edit.dataset.editCj); if (c) openCuponModal(c); }
     if (tog) {
       const c = cupones.find(x => x.id === tog.dataset.toggleCj);
       if (!c) return;
-      try {
-        await updateDoc(doc(db, "cupones", c.id), { activo: c.activo === false });
-        toast(c.activo === false ? "Cupón activado" : "Cupón pausado");
-      } catch { toast("Error al actualizar", "error"); }
+      try { await updateDoc(doc(db, "cupones", c.id), { activo: c.activo === false }); toast(c.activo === false ? "Activado" : "Pausado"); }
+      catch { toast("Error", "error"); }
     }
-    if (del) {
-      if (!confirm("¿Eliminar cupón?")) return;
-      try { await deleteDoc(doc(db, "cupones", del.dataset.delCj)); toast("Eliminado"); }
-      catch { toast("No se pudo eliminar", "error"); }
-    }
+    if (del) { if (!confirm("¿Eliminar cupón?")) return; try { await deleteDoc(doc(db, "cupones", del.dataset.delCj)); toast("Eliminado"); } catch { toast("Error", "error"); } }
   });
 
   function openCuponModal(existing = null) {
@@ -1242,9 +1542,7 @@
     document.getElementById("cupon-modal-title").textContent = existing ? "Editar cupón" : "Nuevo cupón";
     document.getElementById("cupon-modal").classList.remove("hidden");
   }
-  function closeCuponModal() {
-    document.getElementById("cupon-modal").classList.add("hidden");
-  }
+  function closeCuponModal() { document.getElementById("cupon-modal").classList.add("hidden"); }
   document.getElementById("cupon-modal-close").addEventListener("click", closeCuponModal);
   document.getElementById("cupon-cancel").addEventListener("click", closeCuponModal);
   document.getElementById("cupon-form").addEventListener("submit", async (e) => {
@@ -1269,19 +1567,26 @@
     }
   });
 
-  /* ─── Entity Modal (product / promo / event) ─── */
+  /* ENTITY MODAL */
   function openEntityModal(type, existing = null) {
     document.getElementById("ef-type").value = type;
     document.getElementById("ef-id").value = existing?.id || "";
-    document.getElementById("ef-titulo").value = existing?.titulo || "";
+    document.getElementById("ef-titulo").value = existing?.titulo || existing?.nombre || "";
     document.getElementById("ef-desc").value = existing?.descripcion || "";
 
-    document.getElementById("ef-product-fields").classList.toggle("hidden", type !== "product");
-    document.getElementById("ef-promo-fields").classList.toggle("hidden", type !== "promo");
-    document.getElementById("ef-event-fields").classList.toggle("hidden", type !== "event");
+    ["product", "promo", "event", "mesa", "premio"].forEach(t => {
+      const el = document.getElementById("ef-" + t + "-fields");
+      if (el) el.classList.toggle("hidden", type !== t);
+    });
 
-    const titles = { product: existing ? "Editar producto" : "Nuevo producto", promo: existing ? "Editar promoción" : "Nueva promoción", event: existing ? "Editar evento" : "Nuevo evento" };
-    document.getElementById("entity-modal-title").textContent = titles[type];
+    const titles = {
+      product: existing ? "Editar producto" : "Nuevo producto",
+      promo: existing ? "Editar promoción" : "Nueva promoción",
+      event: existing ? "Editar evento" : "Nuevo evento",
+      mesa: existing ? "Editar mesa" : "Nueva mesa",
+      premio: existing ? "Editar premio" : "Nuevo premio"
+    };
+    document.getElementById("entity-modal-title").textContent = titles[type] || "Editar";
 
     if (type === "product") {
       document.getElementById("ef-barcode").value = existing?.codigoBarras || existing?.barcode || "";
@@ -1304,28 +1609,43 @@
       document.getElementById("ef-ev-precio").value = hasPrice(existing?.precio) ? existing.precio : "";
       document.getElementById("ef-ev-tipo").value = existing?.tipoPrecio === "persona" ? "persona" : "total";
     }
+    if (type === "mesa") {
+      document.getElementById("ef-mesa-min").value = existing?.capacidadMin || existing?.capacidad || "";
+      document.getElementById("ef-mesa-max").value = existing?.capacidadMax || existing?.capacidad || "";
+      document.getElementById("ef-mesa-ubic").value = existing?.ubicacion || "";
+      document.getElementById("ef-mesa-disp").checked = existing ? existing.disponible !== false : true;
+    }
+    if (type === "premio") {
+      document.getElementById("ef-premio-pts").value = existing?.puntosNecesarios || "";
+      document.getElementById("ef-premio-disp").checked = existing ? existing.disponible !== false : true;
+    }
 
-    // Media
     mediaFiles = [];
-    const existingMedia = [];
     const imgs = existing?.imagenes || (existing?.imagenUrl ? [existing.imagenUrl] : []);
     const vids = existing?.videos || [];
-    imgs.forEach((url, i) => existingMedia.push({ existingUrl: url, type: "image", isCover: i === 0, previewUrl: cld(url, 200) }));
-    vids.forEach(url => existingMedia.push({ existingUrl: url, type: "video", isCover: false, previewUrl: url }));
-    mediaFiles = existingMedia;
+    imgs.forEach((url, i) => mediaFiles.push({ existingUrl: url, type: "image", isCover: i === 0, previewUrl: cld(url, 200) }));
+    vids.forEach(url => mediaFiles.push({ existingUrl: url, type: "video", isCover: false, previewUrl: url }));
     renderMediaThumbs();
-
     document.getElementById("entity-modal").classList.remove("hidden");
   }
   function closeEntityModal() {
     document.getElementById("entity-modal").classList.add("hidden");
-    mediaFiles.forEach(m => { if (m.previewUrl && m.previewUrl.startsWith("blob:")) URL.revokeObjectURL(m.previewUrl); });
+    mediaFiles.forEach(m => { if (m.previewUrl?.startsWith("blob:")) URL.revokeObjectURL(m.previewUrl); });
     mediaFiles = [];
   }
   document.getElementById("entity-modal-close").addEventListener("click", closeEntityModal);
   document.getElementById("entity-cancel").addEventListener("click", closeEntityModal);
 
-  /* Media drop zone */
+  function fillCategorySelects() {
+    const cats = [...new Set(products.map(p => p.categoria).filter(Boolean))].sort();
+    const sel = document.getElementById("ef-cat");
+    const bulk = document.getElementById("bulk-cat");
+    const opts = '<option value="">Sin categoría</option>' + cats.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
+    if (sel) sel.innerHTML = opts;
+    if (bulk) bulk.innerHTML = '<option value="__all__">Todas</option>' + cats.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join("");
+  }
+
+  /* Media */
   const dropZone = document.getElementById("media-drop");
   const mediaInput = document.getElementById("media-input");
   dropZone.addEventListener("click", () => mediaInput.click());
@@ -1336,24 +1656,16 @@
     dropZone.classList.remove("dragover");
     addMediaFiles([...e.dataTransfer.files]);
   });
-  mediaInput.addEventListener("change", () => {
-    addMediaFiles([...mediaInput.files]);
-    mediaInput.value = "";
-  });
+  mediaInput.addEventListener("change", () => { addMediaFiles([...mediaInput.files]); mediaInput.value = ""; });
 
   function addMediaFiles(files) {
-    const imgCount = mediaFiles.filter(m => m.type === "image").length;
-    const vidCount = mediaFiles.filter(m => m.type === "video").length;
     for (const file of files) {
       const isVideo = file.type.startsWith("video/");
       const isImage = file.type.startsWith("image/");
       if (!isVideo && !isImage) continue;
-      if (isImage && imgCount + mediaFiles.filter(m => m.type === "image" && m.file).length >= 10) { toast("Máximo 10 imágenes", "error"); continue; }
-      if (isVideo && vidCount + mediaFiles.filter(m => m.type === "video" && m.file).length >= 2) { toast("Máximo 2 videos", "error"); continue; }
-      const previewUrl = URL.createObjectURL(file);
       mediaFiles.push({
         file,
-        previewUrl,
+        previewUrl: URL.createObjectURL(file),
         type: isVideo ? "video" : "image",
         isCover: mediaFiles.length === 0
       });
@@ -1361,14 +1673,11 @@
     if (mediaFiles.length && !mediaFiles.some(m => m.isCover)) mediaFiles[0].isCover = true;
     renderMediaThumbs();
   }
-
   function renderMediaThumbs() {
     const box = document.getElementById("media-thumbs");
     box.innerHTML = mediaFiles.map((m, i) => `
       <div class="media-thumb ${m.isCover ? "is-cover" : ""}" data-idx="${i}">
-        ${m.type === "video"
-          ? `<video src="${esc(m.previewUrl)}" muted></video>`
-          : `<img src="${esc(m.previewUrl)}" alt="">`}
+        ${m.type === "video" ? `<video src="${esc(m.previewUrl)}" muted></video>` : `<img src="${esc(m.previewUrl)}" alt="">`}
         <button type="button" class="remove-btn" data-rm="${i}">✕</button>
         ${m.isCover ? '<span class="cover-badge">PORTADA</span>' : ""}
       </div>`).join("");
@@ -1385,13 +1694,12 @@
       return;
     }
     const thumb = e.target.closest(".media-thumb");
-    if (thumb && thumb.dataset.idx != null) {
+    if (thumb?.dataset.idx != null) {
       mediaFiles.forEach((m, i) => { m.isCover = i === Number(thumb.dataset.idx); });
       renderMediaThumbs();
     }
   });
 
-  /* Save entity */
   document.getElementById("entity-save").addEventListener("click", async () => {
     const type = document.getElementById("ef-type").value;
     const id = document.getElementById("ef-id").value;
@@ -1400,13 +1708,12 @@
 
     showSaveOverlay("Subiendo archivos…");
     try {
-      // Upload new media
       const imageUrls = [];
       const videoUrls = [];
       let coverIdx = 0;
       for (let i = 0; i < mediaFiles.length; i++) {
         const m = mediaFiles[i];
-        if (m.isCover) coverIdx = imageUrls.length + (m.type === "image" ? 0 : imageUrls.length);
+        if (m.isCover && m.type === "image") coverIdx = imageUrls.length;
         if (m.existingUrl) {
           if (m.type === "image") imageUrls.push(m.existingUrl);
           else videoUrls.push(m.existingUrl);
@@ -1417,14 +1724,12 @@
           else videoUrls.push(url);
         }
       }
-      // Ensure cover is first image
       if (imageUrls.length && coverIdx > 0 && coverIdx < imageUrls.length) {
         const [cover] = imageUrls.splice(coverIdx, 1);
         imageUrls.unshift(cover);
       }
 
       document.getElementById("save-msg").textContent = "Guardando datos…";
-
       let fields = {
         titulo,
         descripcion: document.getElementById("ef-desc").value.trim(),
@@ -1442,7 +1747,7 @@
         fields.disponible = document.getElementById("ef-disp").checked;
         if (id) await updateDoc(doc(db, "productos", id), fields);
         else await addDoc(collection(db, "productos"), { ...fields, creadoEn: serverTimestamp() });
-        showSaveSuccess("¡Producto cargado correctamente!");
+        showSaveSuccess("¡Producto guardado!");
       } else if (type === "promo") {
         fields.precio = hasPrice(document.getElementById("ef-pr-precio").value) ? Number(document.getElementById("ef-pr-precio").value) : null;
         fields.tipoPrecio = document.getElementById("ef-pr-tipo").value;
@@ -1451,7 +1756,7 @@
         if (!fields.vigencia) { hideSaveOverlay(); toast("La vigencia es obligatoria", "error"); return; }
         if (id) await updateDoc(doc(db, "promociones", id), fields);
         else await addDoc(collection(db, "promociones"), { ...fields, creadoEn: serverTimestamp() });
-        showSaveSuccess("¡Promoción cargada correctamente!");
+        showSaveSuccess("¡Promoción guardada!");
       } else if (type === "event") {
         fields.fecha = document.getElementById("ef-ev-fecha").value;
         fields.hora = document.getElementById("ef-ev-hora").value;
@@ -1461,7 +1766,28 @@
         if (!fields.fecha || !fields.hora || !fields.lugar) { hideSaveOverlay(); toast("Fecha, hora y lugar son obligatorios", "error"); return; }
         if (id) await updateDoc(doc(db, "eventos", id), fields);
         else await addDoc(collection(db, "eventos"), { ...fields, creadoEn: serverTimestamp() });
-        showSaveSuccess("¡Evento cargado correctamente!");
+        showSaveSuccess("¡Evento guardado!");
+      } else if (type === "mesa") {
+        fields.nombre = titulo;
+        fields.capacidadMin = Number(document.getElementById("ef-mesa-min").value) || null;
+        fields.capacidadMax = Number(document.getElementById("ef-mesa-max").value) || null;
+        fields.capacidad = fields.capacidadMax;
+        fields.ubicacion = document.getElementById("ef-mesa-ubic").value.trim();
+        fields.disponible = document.getElementById("ef-mesa-disp").checked;
+        fields.activa = true;
+        if (id) await updateDoc(doc(db, "mesas", id), fields);
+        else await addDoc(collection(db, "mesas"), { ...fields, creadoEn: serverTimestamp() });
+        showSaveSuccess("¡Mesa guardada!");
+      } else if (type === "premio") {
+        fields.puntosNecesarios = Number(document.getElementById("ef-premio-pts").value) || 0;
+        fields.disponible = document.getElementById("ef-premio-disp").checked;
+        if (id) {
+          try { await updateDoc(doc(db, "premios_canje", id), fields); }
+          catch { await updateDoc(doc(db, "canjes", id), fields); }
+        } else {
+          await addDoc(collection(db, "premios_canje"), { ...fields, creadoEn: serverTimestamp() });
+        }
+        showSaveSuccess("¡Premio guardado!");
       }
       closeEntityModal();
     } catch (err) {
@@ -1471,7 +1797,7 @@
     }
   });
 
-  /* ─── Save overlay ─── */
+  /* Save overlay */
   function showSaveOverlay(msg) {
     document.getElementById("save-msg").textContent = msg || "Guardando…";
     document.getElementById("save-spinner-wrap").classList.remove("hidden");
@@ -1483,20 +1809,16 @@
     document.getElementById("save-success-wrap").classList.remove("hidden");
     document.getElementById("save-success-msg").textContent = msg;
   }
-  function hideSaveOverlay() {
-    document.getElementById("save-overlay").classList.add("hidden");
-  }
+  function hideSaveOverlay() { document.getElementById("save-overlay").classList.add("hidden"); }
   document.getElementById("save-close-btn").addEventListener("click", hideSaveOverlay);
 
-  /* ─── Bulk price ─── */
-  document.getElementById("bulk-price-btn").addEventListener("click", () => {
+  /* Bulk price */
+  document.getElementById("bulk-price-btn")?.addEventListener("click", () => {
     fillCategorySelects();
     document.getElementById("bulk-modal").classList.remove("hidden");
   });
-  document.getElementById("bulk-cancel").addEventListener("click", () => {
-    document.getElementById("bulk-modal").classList.add("hidden");
-  });
-  document.getElementById("bulk-apply").addEventListener("click", async () => {
+  document.getElementById("bulk-cancel")?.addEventListener("click", () => document.getElementById("bulk-modal").classList.add("hidden"));
+  document.getElementById("bulk-apply")?.addEventListener("click", async () => {
     const pct = Number(document.getElementById("bulk-pct").value);
     if (!pct || isNaN(pct)) { toast("Ingresá un porcentaje válido", "error"); return; }
     const cat = document.getElementById("bulk-cat").value;
@@ -1522,8 +1844,8 @@
     }
   });
 
-  /* ─── Settings ─── */
-  document.getElementById("logo-save").addEventListener("click", async () => {
+  /* Settings save */
+  document.getElementById("logo-save")?.addEventListener("click", async () => {
     const file = document.getElementById("logo-file").files[0];
     const st = document.getElementById("logo-status");
     if (!file) { st.textContent = "Elegí una imagen"; return; }
@@ -1531,7 +1853,7 @@
     try {
       const logoUrl = await uploadFile(file);
       await setDoc(doc(db, "settings", "general"), { logoUrl, actualizadoEn: serverTimestamp() }, { merge: true });
-      showSaveSuccess("¡Ajustes guardados correctamente!");
+      showSaveSuccess("¡Logo actualizado!");
       st.textContent = "Logo actualizado";
     } catch (err) {
       hideSaveOverlay();
@@ -1540,20 +1862,24 @@
     }
   });
 
-  document.getElementById("story-save").addEventListener("click", async () => {
+  document.getElementById("story-save")?.addEventListener("click", async () => {
     const file = document.getElementById("story-file").files[0];
+    const urlInput = document.getElementById("story-url").value.trim();
     const st = document.getElementById("story-status");
-    if (!file) { st.textContent = "Elegí un archivo de video"; return; }
-    if (file.size > 100 * 1024 * 1024) { st.textContent = "Máximo 100 MB"; return; }
-    showSaveOverlay("Subiendo video (puede demorar)…");
+    if (!file && !urlInput) { st.textContent = "Elegí un archivo o pegá una URL"; return; }
+    showSaveOverlay("Guardando video…");
     try {
-      const videoUrl = await uploadFile(file, true);
+      let videoUrl = urlInput;
+      if (file) {
+        if (file.size > 100 * 1024 * 1024) { hideSaveOverlay(); st.textContent = "Máximo 100 MB"; return; }
+        videoUrl = await uploadFile(file, true);
+      }
       await setDoc(doc(db, "settings", "general"), { videoUrl, actualizadoEn: serverTimestamp() }, { merge: true });
       const wrap = document.getElementById("story-preview-wrap");
       const vid = document.getElementById("story-preview");
       vid.src = videoUrl;
       wrap.classList.remove("hidden");
-      showSaveSuccess("¡Ajustes guardados correctamente!");
+      showSaveSuccess("¡Video guardado!");
       st.textContent = "Video guardado";
     } catch (err) {
       hideSaveOverlay();
@@ -1561,7 +1887,7 @@
       toast("Error al subir video", "error");
     }
   });
-  document.getElementById("story-clear").addEventListener("click", async () => {
+  document.getElementById("story-clear")?.addEventListener("click", async () => {
     try {
       await setDoc(doc(db, "settings", "general"), { videoUrl: "", actualizadoEn: serverTimestamp() }, { merge: true });
       document.getElementById("story-preview-wrap").classList.add("hidden");
@@ -1570,20 +1896,40 @@
     } catch { toast("Error", "error"); }
   });
 
-  document.getElementById("settings-save").addEventListener("click", async () => {
+  document.getElementById("settings-save")?.addEventListener("click", async () => {
     showSaveOverlay("Guardando ajustes…");
     try {
       await setDoc(doc(db, "settings", "general"), {
+        alias: document.getElementById("set-alias").value.trim() || DEFAULT_BANK.alias,
+        titular: document.getElementById("set-titular").value.trim() || DEFAULT_BANK.titular,
+        cuit: document.getElementById("set-cuit").value.trim() || DEFAULT_BANK.cuit,
+        medioPago: document.getElementById("set-medio").value.trim() || DEFAULT_BANK.medioPago,
+        cbu: document.getElementById("set-cbu").value.trim() || null,
         horarios: {
           lv: document.getElementById("h-lv").value.trim(),
           sa: document.getElementById("h-sa").value.trim(),
           do: document.getElementById("h-do").value.trim()
         },
         whatsapp: document.getElementById("set-whatsapp").value.trim(),
-        email: document.getElementById("set-email").value.trim(),
+        email: document.getElementById("set-email").value.trim() || "clubdelanfitrion@gmail.com",
         address: document.getElementById("set-address").value.trim(),
+        envios: {
+          bellVille: Number(document.getElementById("set-env-bv").value) || null,
+          minGratis: Number(document.getElementById("set-env-gratis").value) || null,
+          andreani: document.getElementById("set-env-andreani").value.trim() || null,
+          viaCargo: document.getElementById("set-env-viacargo").value.trim() || null
+        },
         actualizadoEn: serverTimestamp()
       }, { merge: true });
+
+      const pesos = Number(document.getElementById("set-pesos-punto").value) || 100;
+      const pts = Number(document.getElementById("set-puntos-unidad").value) || 1;
+      await setDoc(doc(db, "settings", "puntos"), {
+        pesosPorUnidad: pesos,
+        puntosPorUnidad: pts,
+        actualizadoEn: serverTimestamp()
+      }, { merge: true });
+
       showSaveSuccess("¡Ajustes guardados correctamente!");
     } catch {
       hideSaveOverlay();
@@ -1591,33 +1937,74 @@
     }
   });
 
-  /* Gallery */
-  let galleryPending = [];
-  document.getElementById("gallery-files").addEventListener("change", () => {
-    galleryPending = [...document.getElementById("gallery-files").files].slice(0, 8);
-    const box = document.getElementById("gallery-preview");
-    box.innerHTML = galleryPending.map(f => {
-      const url = URL.createObjectURL(f);
-      return f.type.startsWith("video/")
-        ? `<video src="${url}" class="h-16 w-16 rounded-lg object-cover" muted></video>`
-        : `<img src="${url}" class="h-16 w-16 rounded-lg object-cover">`;
-    }).join("");
+  /* Quick actions */
+  document.querySelectorAll("[data-quick]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const t = btn.dataset.quick;
+      if (t === "producto") openEntityModal("product");
+      else if (t === "promo") openEntityModal("promo");
+      else if (t === "evento") openEntityModal("event");
+      else if (t === "cupon") openCuponModal();
+      else if (t === "mesa") openEntityModal("mesa");
+      else if (t === "premio") openEntityModal("premio");
+    });
   });
-  document.getElementById("gallery-save").addEventListener("click", async () => {
-    if (!galleryPending.length) { toast("Elegí archivos", "error"); return; }
-    showSaveOverlay("Subiendo galería…");
-    try {
-      const items = [];
-      for (const f of galleryPending) {
-        const isVid = f.type.startsWith("video/");
-        const url = await uploadFile(f, isVid);
-        items.push({ url, type: isVid ? "video" : "image" });
+
+  /* Quick search socios */
+  let quickTimer = null;
+  document.getElementById("quick-search")?.addEventListener("input", (e) => {
+    clearTimeout(quickTimer);
+    const q = e.target.value.trim().toLowerCase();
+    const box = document.getElementById("quick-results");
+    if (q.length < 2) { box.classList.add("hidden"); box.innerHTML = ""; return; }
+    quickTimer = setTimeout(async () => {
+      try {
+        const snap = await getDocs(collection(db, "usuarios"));
+        const hits = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(u => {
+          const nombre = ((u.nombre || "") + " " + (u.apellido || "")).toLowerCase();
+          const dni = String(u.dni || "");
+          const email = (u.email || "").toLowerCase();
+          return nombre.includes(q) || dni.includes(q) || email.includes(q);
+        }).slice(0, 8);
+        if (!hits.length) {
+          box.innerHTML = '<p class="text-muted text-sm">Sin resultados</p>';
+        } else {
+          box.innerHTML = hits.map(u => `
+            <div class="flex items-center justify-between gap-3 rounded-xl border border-black/8 bg-white p-3">
+              <div>
+                <p class="font-medium text-sm">${esc(u.nombre)} ${esc(u.apellido)}</p>
+                <p class="text-muted text-xs">DNI ${esc(u.dni || "—")} · ${esc(u.email || "")} · ${u.puntos ?? 0} pts</p>
+              </div>
+              <div class="flex gap-1">
+                <button type="button" data-add-pts="${u.id}" class="rounded-full bg-wine px-3 py-1 text-white text-xs">+ Puntos</button>
+              </div>
+            </div>`).join("");
+        }
+        box.classList.remove("hidden");
+      } catch {
+        box.innerHTML = '<p class="text-muted text-sm">Error al buscar</p>';
+        box.classList.remove("hidden");
       }
-      await setDoc(doc(db, "settings", "general"), { galeria: items, actualizadoEn: serverTimestamp() }, { merge: true });
-      showSaveSuccess("¡Ajustes guardados correctamente!");
-      document.getElementById("gallery-status").textContent = `${items.length} ítems guardados`;
+    }, 300);
+  });
+
+  document.getElementById("quick-results")?.addEventListener("click", async (e) => {
+    const btn = e.target.closest("[data-add-pts]");
+    if (!btn) return;
+    const uid = btn.dataset.addPts;
+    const monto = prompt("Monto de la compra ($):");
+    if (!monto || isNaN(Number(monto))) return;
+    const pesos = settings.pesosPorUnidad || 100;
+    const ptsUnidad = settings.puntosPorUnidad || 1;
+    const pts = Math.floor(Number(monto) / pesos) * ptsUnidad;
+    if (pts <= 0) { toast("Monto insuficiente para generar puntos", "error"); return; }
+    try {
+      await updateDoc(doc(db, "usuarios", uid), { puntos: increment(pts), actualizadoEn: serverTimestamp() });
+      await addDoc(collection(db, "movimientos_puntos"), {
+        uid, tipo: "compra", puntos: pts, monto: Number(monto), creadoEn: serverTimestamp()
+      });
+      toast(`+${pts} puntos acreditados`);
     } catch (err) {
-      hideSaveOverlay();
       toast(err.message || "Error", "error");
     }
   });
