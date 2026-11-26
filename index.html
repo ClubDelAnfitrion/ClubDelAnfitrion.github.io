@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
   Club del Anfitrión · Tienda principal (index.html)
-  Página web desarrollada por Bautista Lopéz Oroda · bauuorodaa@gmail.com
+  Página web desarrollada por Bautista López Oroda · bauuorodaa@gmail.com
 -->
 <html lang="es">
 <head>
@@ -57,7 +57,7 @@
 <meta name="geo.region" content="AR-X">
 <meta name="geo.placename" content="Bell Ville, Córdoba">
 <meta name="keywords" content="vinoteca, regalería, fuegos, eventos, vinos, Bell Ville, Córdoba, Club del Anfitrión, bodegas boutique, reservas, picadas, degustaciones, parrillas, braseros">
-<meta name="author" content="Bautista Lopéz Oroda">
+<meta name="author" content="Bautista López Oroda">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#140b0c">
 <link rel="canonical" href="https://clubdelanfitrion.com.ar/">
@@ -288,6 +288,17 @@
 <link id="site-favicon" rel="icon" href="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
 <link id="site-apple-icon" rel="apple-touch-icon" href="https://i.postimg.cc/wvcKQ7jq/Whats-App-Image-2026-10-12-at-22-04-06.jpg">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+<style>
+  html.pp-boot main > section{display:none!important}
+  html.pp-boot main::before{content:"Cargando producto…";display:block;padding:9rem 1rem;text-align:center;color:#a8a29e}
+  .pp-hide{display:none!important}
+  .pp-zoom img{transition:transform .15s ease-out}
+  @media (hover:hover){ .pp-zoom:hover img{transform:scale(1.9)} }
+  .pp-thumb{flex:0 0 auto;width:64px;height:64px;border-radius:.6rem;overflow:hidden;border:2px solid transparent;background:#000;opacity:.75}
+  .pp-thumb.on{border-color:#c9a45c;opacity:1}
+  .pp-thumb img,.pp-thumb video{width:100%;height:100%;object-fit:cover}
+</style>
+<script>try{if(/[?&](producto|product)=/.test(location.search))document.documentElement.classList.add("pp-boot")}catch(e){}</script>
 </head>
 
 <body class="font-sans text-cream antialiased selection:bg-gold selection:text-wine-black">
@@ -390,6 +401,15 @@
 </aside>
 
 <main>
+<div id="producto-page" class="hidden pt-24 pb-20 bg-wine-black min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+    <div class="flex flex-wrap items-center gap-3 py-5">
+      <button id="pp-back" type="button" class="rounded-full border border-gold/50 px-4 py-2 text-sm text-gold-soft hover:bg-gold/10">← Volver al catálogo</button>
+      <nav id="pp-bc" aria-label="Ruta de navegación" class="text-xs text-stone flex flex-wrap items-center gap-1.5"></nav>
+    </div>
+    <div id="pp-content"></div>
+  </div>
+</div>
 <!-- ============ HERO ============ -->
 <section id="inicio" class="relative min-h-screen flex items-end overflow-hidden">
   <div class="absolute inset-0">
@@ -689,7 +709,7 @@
     </div>
   </div>
   <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-6 pb-8 border-t border-gold/10 mt-8">
-    <p class="text-stone text-xs text-center">Página web desarrollada por <strong class="text-cream">Bautista Lopéz Oroda</strong> · <a href="mailto:bauuorodaa@gmail.com" class="text-gold-soft hover:underline">bauuorodaa@gmail.com</a></p>
+    <p class="text-stone text-xs text-center">Página web desarrollada por <strong class="text-cream">Bautista López Oroda</strong> · <a href="mailto:bauuorodaa@gmail.com" class="text-gold-soft hover:underline">bauuorodaa@gmail.com</a></p>
   </div>
 </footer>
 
@@ -847,13 +867,14 @@
           <div><label for="auth-reg-dni" class="lbl">DNI</label><input id="auth-reg-dni" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" class="field" placeholder="Solo números" required></div>
           <div><label for="auth-reg-tel" class="lbl">Teléfono</label><input id="auth-reg-tel" type="tel" autocomplete="tel" class="field" placeholder="Ej: 3537 51-3148"></div>
           <div><label for="auth-reg-email" class="lbl">Correo electrónico</label><input id="auth-reg-email" type="email" autocomplete="email" class="field" placeholder="tu@correo.com" required></div>
-          <div><label for="auth-reg-password" class="lbl">Contraseña</label><input id="auth-reg-password" type="password" autocomplete="new-password" class="field" required></div>
+          <div id="auth-reg-pass-wrap"><label for="auth-reg-password" class="lbl">Contraseña</label><input id="auth-reg-password" type="password" autocomplete="new-password" class="field" required></div>
           <button id="auth-register-btn" type="submit" class="w-full rounded-full bg-gold px-4 py-3 text-wine-black font-medium hover:bg-gold-soft disabled:opacity-60 disabled:cursor-not-allowed">Crear cuenta</button>
         </form>
         <p class="text-xs text-stone text-center">¿Ya tenés cuenta? <button id="auth-show-login" type="button" class="text-gold-soft underline">Iniciá sesión</button></p>
       </div>
     </div>
     <p id="auth-message" role="status" aria-live="polite" class="mt-4 text-sm text-gold-soft"></p>
+    <div id="auth-notice" class="hidden" role="alert"></div>
   </div>
 </div>
 
@@ -886,13 +907,13 @@
 <script type="module">
   /* ============================================================
    *  CLUB DEL ANFITRIÓN — MÓDULO PRINCIPAL
-   *  Página web desarrollada por Bautista Lopéz Oroda · bauuorodaa@gmail.com
+   *  Página web desarrollada por Bautista López Oroda · bauuorodaa@gmail.com
    * ============================================================ */
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
   import {
     getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword,
     signInWithEmailAndPassword, sendPasswordResetEmail, updateProfile,
-    onAuthStateChanged, signOut, getAdditionalUserInfo
+    onAuthStateChanged, signOut, getAdditionalUserInfo, deleteUser
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
   import {
     getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
@@ -913,6 +934,8 @@
   const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
   const fmtDate = (iso) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ""); return m ? `${m[3]}/${m[2]}/${m[1]}` : (iso || ""); };
   const tsMillis = (x) => (x && typeof x.toMillis === "function") ? x.toMillis() : 0;
+  const DNI_SALT = "cda|";
+  const sha256Hex = async (s) => { const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)); return [...new Uint8Array(b)].map((x) => x.toString(16).padStart(2, "0")).join(""); };
   const withTimeout = (p, ms = 4500) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), ms))]);
 
   function showToast(message, type = "success") {
@@ -941,6 +964,7 @@
     sabados: "09:00 a 13:00 / 17:00 a 21:00",
     domingosFeriados: "10:30 a 12:30"
   };
+  const PAGO_DEFAULT = { alias: "Clubfmp", titular: "Carlini Fernando A.", cuit: "20-28757560-3", banco: "Mercado Pago", cbu: "" };
   const SLIDE_INTERVAL_MS = 2500;
   const PAGE_SIZE = 24;
   const LOGO_CACHE_KEY = "clubLogoUrl";
@@ -1247,10 +1271,13 @@
   } catch (_) {}
 
   /* Ajustes: settings/general (panel actual) y ajustes/general (si existe) se combinan */
-  const settingsSrc = { general: {}, ajustes: {} };
+  const settingsSrc = { general: {}, ajustes: {}, pago: {}, envios: {} };
+  const nz = (o) => Object.fromEntries(Object.entries(o || {}).filter(([, v]) => v !== "" && v !== null && v !== undefined));
   function mergeSettings(key, data) {
     settingsSrc[key] = data || {};
     const merged = Object.assign({}, settingsSrc.general, settingsSrc.ajustes);
+    merged.pago = Object.assign({}, PAGO_DEFAULT, nz(settingsSrc.general.pago), nz(settingsSrc.pago));
+    merged.envios = Object.assign({}, nz(settingsSrc.general.envios), nz(settingsSrc.envios));
     try { sessionStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify({ t: Date.now(), d: JSON.parse(JSON.stringify(merged)) })); } catch (_) {}
     applySettings(merged);
     if (typeof renderCart === "function") renderCart();
@@ -1258,6 +1285,8 @@
   if (db) {
     onSnapshot(doc(db, "settings", "general"), (snap) => { if (snap.exists()) mergeSettings("general", snap.data()); }, (e) => console.warn("[settings]", e));
     onSnapshot(doc(db, "ajustes", "general"), (snap) => { if (snap.exists()) mergeSettings("ajustes", snap.data()); }, (e) => console.warn("[ajustes]", e));
+    onSnapshot(doc(db, "settings", "pago"), (snap) => mergeSettings("pago", snap.exists() ? snap.data() : {}), (e) => console.warn("[pago]", e));
+    onSnapshot(doc(db, "settings", "envios"), (snap) => mergeSettings("envios", snap.exists() ? snap.data() : {}), (e) => console.warn("[envios]", e));
     onSnapshot(doc(db, "settings", "puntos"), (snap) => { S.puntosCfg = snap.exists() ? snap.data() : null; if (typeof renderCart === "function") renderCart(); }, (e) => console.warn("[puntos]", e));
   }
   $("year").textContent = new Date().getFullYear();
@@ -1374,7 +1403,7 @@
     card.innerHTML = `
       <div class="media-box aspect-[4/5] overflow-hidden bg-wine-black relative" role="button" tabindex="0" data-act="detail" data-kind="promo" data-id="${esc(x.id)}" aria-label="Ver ${esc(x.titulo)}">${cardMediaHTML(x, x.titulo)}</div>
       <div class="p-6 flex flex-col flex-1">
-        ${x.vigencia ? `<p class="text-gold-soft text-xs font-medium mb-1">Vigente hasta ${fmtDate(x.vigencia)}</p>` : ""}
+        ${x.vigencia ? `<p class="text-gold-soft text-xs font-medium mb-1">Vigente hasta ${esc(fmtDate(x.vigencia))}</p>` : ""}
         <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors title-clamp" data-act="detail" data-kind="promo" data-id="${esc(x.id)}">${esc(x.titulo)}</h3>
         <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${esc(x.descripcion || "")}</p>
         <p class="mt-4 mb-4 text-gold-soft font-display ${hasPrice(x.precio) ? "text-2xl" : "text-lg"}">${esc(promoPriceText(x))}</p>
@@ -1391,7 +1420,7 @@
     card.innerHTML = `
       <div class="media-box aspect-[4/5] overflow-hidden bg-wine-black relative" role="button" tabindex="0" data-act="detail" data-kind="evento" data-id="${esc(ev.id)}" aria-label="Ver ${esc(ev.titulo)}">${cardMediaHTML(ev, ev.titulo)}</div>
       <div class="p-6 flex flex-col flex-1">
-        ${ev.fecha ? `<p class="text-gold-soft text-xs font-medium mb-1">${fmtDate(ev.fecha)}${ev.hora ? " · " + esc(ev.hora) + " hs" : ""}</p>` : ""}
+        ${ev.fecha ? `<p class="text-gold-soft text-xs font-medium mb-1">${esc(fmtDate(ev.fecha))}${ev.hora ? " · " + esc(ev.hora) + " hs" : ""}</p>` : ""}
         <h3 class="font-display text-xl mb-1.5 text-cream cursor-pointer hover:text-gold-soft transition-colors title-clamp" data-act="detail" data-kind="evento" data-id="${esc(ev.id)}">${esc(ev.titulo)}</h3>
         <p class="text-stone text-sm leading-relaxed flex-1 desc-clamp">${esc(ev.descripcion || "")}</p>
         ${ev.lugar ? `<a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="text-gold-soft text-xs underline hover:text-gold mt-2 inline-block">${esc(ev.lugar)} ↗</a>` : ""}
@@ -1472,7 +1501,8 @@
     const up = new URLSearchParams(window.location.search);
     const id = kind === "producto" ? (up.get("producto") || up.get("product")) : kind === "promo" ? (up.get("promo") || up.get("promocion")) : (up.get("evento") || up.get("event"));
     if (!id) { deepLinkDone[kind] = true; return; }
-    if (items.some((x) => x.id === id)) { deepLinkDone[kind] = true; setTimeout(() => openDetail(kind, id), 200); }
+    if (items.some((x) => x.id === id)) { deepLinkDone[kind] = true; if (kind === "producto") openProductPage(id, false); else setTimeout(() => openDetail(kind, id), 200); }
+    else if (kind === "producto" && S.loaded.productos) { deepLinkDone[kind] = true; document.documentElement.classList.remove("pp-boot"); showToast("Ese producto ya no está disponible.", "error"); }
   }
 
   retryFns.productos = watchCollection("productos", {
@@ -1564,6 +1594,7 @@
   detailModal.addEventListener("click", (e) => { if (e.target === detailModal) closeDetail(); });
 
   function openDetail(kind, id) {
+    if (kind === "producto") { openProductPage(id, true); return; }
     const item = (kind === "producto" ? S.products : kind === "promo" ? S.promos : S.events).find((x) => x.id === id);
     if (!item) return;
     dm.media = getMedia(item, 1200); dm.i = 0;
@@ -1593,6 +1624,149 @@
     $("detail-desc").textContent = item.descripcion || "";
     openModal(detailModal);
   }
+
+
+  /* ============================================================
+   *  FICHA COMPLETA DE PRODUCTO (página con link compartible ?producto=ID)
+   * ============================================================ */
+  const PG = { open: false, id: null, p: null, qty: 1, media: [], i: 0, title: document.title };
+  const pgEl = $("producto-page"), pgBox = $("pp-content");
+  setTimeout(() => document.documentElement.classList.remove("pp-boot"), 12000);
+  const pgHideSections = (on) => document.querySelectorAll("main > section").forEach((s) => s.classList.toggle("pp-hide", on));
+  const pgUrl = (id) => `${window.location.origin}${window.location.pathname}?producto=${encodeURIComponent(id)}`;
+
+  function pgStock(p) {
+    if (!isAvailable(p)) return { txt: "Sin stock", cls: "text-red-300" };
+    if (isNum(p.stock) && p.stock > 0 && p.stock <= 5) return { txt: `¡Últimas ${esc(p.stock)} ${p.stock === 1 ? "unidad" : "unidades"}!`, cls: "text-gold-soft" };
+    return { txt: "Stock disponible", cls: "text-emerald-300" };
+  }
+  function pgGalleryHTML() {
+    const p = PG.p, t = esc(p.titulo);
+    if (!PG.media.length) return `<div class="aspect-square rounded-2xl border border-gold/15 bg-wine-panel/50 grid place-items-center text-gold/40 text-sm">Sin imágenes</div>`;
+    const m = PG.media[PG.i];
+    const mainEl = m.type === "video"
+      ? `<video src="${esc(m.url)}" controls playsinline class="w-full h-full object-contain bg-black"></video>`
+      : `<img src="${esc(m.url)}" alt="${t}" class="w-full h-full object-contain" draggable="false">`;
+    const thumbs = PG.media.map((x, i) => `<button type="button" data-pp="thumb" data-i="${i}" class="pp-thumb${i === PG.i ? " on" : ""}" aria-label="Ver imagen ${i + 1}">${x.type === "video" ? `<span class="grid place-items-center w-full h-full text-gold-soft text-xl">▶</span>` : `<img src="${esc(cldUrl(x.raw || x.url, 160))}" alt="" loading="lazy">`}</button>`).join("");
+    return `<div class="flex flex-col-reverse md:flex-row gap-3">
+      <div class="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto md:max-h-[560px] pb-1">${thumbs}</div>
+      <div class="flex-1 min-w-0"><div id="pp-main" data-pp="main" class="${m.type === "video" ? "" : "pp-zoom cursor-zoom-in"} relative aspect-square rounded-2xl overflow-hidden border border-gold/15 bg-black">${mainEl}</div>
+      ${m.type === "image" ? `<p class="text-stone text-[11px] mt-2 text-center">Pasá el mouse para hacer zoom · Tocá para ampliar</p>` : ""}</div>
+    </div>`;
+  }
+  function renderProductPage() {
+    const p = PG.p, lp = listPrice(p), tp = transferPrice(p), avail = isAvailable(p), st = pgStock(p);
+    const sku = p.sku || p.codigoBarras || "";
+    const price = lp !== null && tp !== null && tp < lp
+      ? `<p class="text-stone text-sm">Precio de lista: <span class="line-through">${fmt(lp)}</span></p><p class="text-gold-soft font-display text-4xl mt-1">${fmt(tp)}</p><p class="mt-2"><span class="transfer-chip">Precio con transferencia / efectivo</span></p>`
+      : (lp !== null ? `<p class="text-gold-soft font-display text-4xl">${fmt(lp)}</p>` + (tp !== null ? `<p class="mt-2"><span class="transfer-chip">Transferencia / efectivo: <strong>${fmt(tp)}</strong></span></p>` : "")
+        : tp !== null ? `<p class="text-gold-soft font-display text-4xl">${fmt(tp)}</p><p class="mt-2"><span class="transfer-chip">Precio transferencia / efectivo</span></p>`
+        : `<p class="text-stone font-display text-2xl">Consultar precio</p>`);
+    const canBuy = avail && (lp !== null || tp !== null), top = maxQty(p);
+    const consult = `https://wa.me/${WA}?text=${encodeURIComponent("¡Hola! Quiero consultar por: " + (p.titulo || ""))}`;
+    const buy = canBuy
+      ? `<div class="flex items-center gap-3 mt-6"><span class="text-stone text-sm">Cantidad</span>
+          <div class="inline-flex items-center rounded-full border border-gold/30"><button type="button" data-pp="qminus" class="px-4 py-2 text-gold-soft" aria-label="Menos">−</button><span id="pp-qty" class="min-w-[32px] text-center text-cream">1</span><button type="button" data-pp="qplus" class="px-4 py-2 text-gold-soft" aria-label="Más">+</button></div>
+          ${isNum(p.stock) && p.stock > 0 ? `<span class="text-stone text-xs">(${esc(top)} disponibles)</span>` : ""}</div>
+        <div class="flex flex-col sm:flex-row gap-3 mt-5">
+          <button type="button" data-pp="add" class="btn-press flex-1 rounded-full bg-gold px-6 py-4 text-wine-black font-bold uppercase text-sm hover:bg-gold-soft">Agregar al carrito</button>
+          <button type="button" data-pp="buy" class="btn-press flex-1 rounded-full border border-gold px-6 py-4 text-gold-soft font-bold uppercase text-sm hover:bg-gold/10">Comprar ahora</button></div>`
+      : `<div class="mt-6 rounded-xl border border-garnet-light/50 bg-wine-black/50 p-4 text-sm text-stone">${avail ? "Este producto se consulta por WhatsApp." : "Sin stock por el momento."}</div>
+         <a href="${consult}" target="_blank" rel="noopener noreferrer" class="mt-4 inline-block rounded-full bg-gold px-6 py-3 text-wine-black font-bold text-sm">Consultar por WhatsApp</a>`;
+    const specKeys = [["Bodega", p.bodega], ["Categoría", p.categoria], ["Presentación", p.presentacion || p.volumen || p.formato], ["Varietal", p.varietal || p.cepa], ["Añada", p.anio || p["añada"]], ["Origen", p.origen], ["Graduación", p.graduacion], ["Código / SKU", sku]].filter(([, v]) => v !== undefined && v !== null && String(v).trim() !== "");
+    const specs = specKeys.length ? `<table class="w-full text-sm mt-3"><tbody>${specKeys.map(([k, v]) => `<tr class="border-b border-gold/10"><th class="text-left font-normal text-stone py-2 pr-4 w-1/3">${esc(k)}</th><td class="text-cream py-2">${esc(v)}</td></tr>`).join("")}</tbody></table>` : "";
+    pgBox.innerHTML = `
+      <div class="grid lg:grid-cols-[1.15fr_1fr] gap-8 lg:gap-12">
+        <div id="pp-gal">${pgGalleryHTML()}</div>
+        <div>
+          <p class="text-xs text-stone mb-2">${sku ? `Código: ${esc(sku)} · ` : ""}<span class="${st.cls} font-medium">${st.txt}</span></p>
+          <h1 class="font-display text-3xl sm:text-4xl text-cream leading-tight">${esc(p.titulo)}</h1>
+          ${p.bodega ? `<p class="text-gold/80 text-sm mt-2">${esc(p.bodega)}</p>` : ""}
+          <div class="mt-6 pt-6 border-t border-gold/15">${price}</div>
+          ${buy}
+          <div class="flex flex-wrap gap-3 mt-6 pt-6 border-t border-gold/15">
+            <button type="button" data-pp="wa" class="rounded-full border border-gold/40 px-4 py-2 text-gold-soft text-sm hover:bg-gold/10">Compartir por WhatsApp</button>
+            <button type="button" data-pp="copy" class="rounded-full border border-cream/20 px-4 py-2 text-cream text-sm hover:bg-cream/10">Copiar link</button>
+          </div>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 mt-12 pt-10 border-t border-gold/15">
+        <div><h2 class="font-display text-2xl text-gold-soft mb-3">Descripción</h2><p class="text-stone leading-relaxed whitespace-pre-line">${esc(p.descripcion || "Consultanos por WhatsApp para más información de este producto.")}</p></div>
+        <div><h2 class="font-display text-2xl text-gold-soft mb-1">Especificaciones</h2>${specs || `<p class="text-stone text-sm">Sin especificaciones cargadas.</p>`}</div>
+      </div>
+      <div id="pp-related-wrap" class="mt-14 pt-10 border-t border-gold/15 hidden"><h2 class="font-display text-2xl text-gold-soft mb-6">Productos relacionados</h2><div id="pp-related" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"></div></div>`;
+    const cat = String(p.categoria || "").trim();
+    const rel = cat ? S.products.filter((x) => x.id !== p.id && x.titulo && x.oculto !== true && String(x.categoria || "").trim() === cat).sort((a, b) => (isAvailable(b) ? 1 : 0) - (isAvailable(a) ? 1 : 0)).slice(0, 4) : [];
+    if (rel.length) { const g = $("pp-related"); rel.forEach((x) => { try { g.appendChild(productCard(x)); } catch (_) {} }); startAutoSliders(g); $("pp-related-wrap").classList.remove("hidden"); }
+    $("pp-bc").innerHTML = [`<a href="#inicio" class="hover:text-gold-soft">Inicio</a>`, `<a href="#productos" class="hover:text-gold-soft">Catálogo</a>`,
+      cat ? `<button type="button" data-pp="cat" data-v="${esc(cat)}" class="hover:text-gold-soft underline-offset-2 hover:underline">${esc(cat)}</button>` : "",
+      p.bodega ? `<span>${esc(p.bodega)}</span>` : "", `<span class="text-cream">${esc(p.titulo)}</span>`].filter(Boolean).join(`<span class="text-gold/40">›</span>`);
+  }
+  function openProductPage(id, push) {
+    const p = S.products.find((x) => x.id === id);
+    if (!p || p.oculto === true) return false;
+    if (!PG.open) PG.title = document.title;
+    PG.p = p; PG.id = id; PG.qty = 1; PG.media = getMedia(p, 1200); PG.i = 0;
+    renderProductPage();
+    pgHideSections(true); pgEl.classList.remove("hidden"); document.documentElement.classList.remove("pp-boot");
+    if (push) { try { history.pushState({ producto: id }, "", `?producto=${encodeURIComponent(id)}`); } catch (_) {} }
+    PG.open = true;
+    document.title = `${p.titulo} | Club del Anfitrión`;
+    window.scrollTo(0, 0);
+    return true;
+  }
+  function closeProductPage(mode) {
+    if (!PG.open) return;
+    PG.open = false; pgEl.classList.add("hidden"); pgHideSections(false);
+    pgBox.querySelectorAll("video").forEach((v) => { try { v.pause(); } catch (_) {} });
+    pgBox.innerHTML = ""; document.title = PG.title;
+    if (mode === "pop") return;
+    try { if (mode === "silent") history.replaceState(null, "", window.location.pathname); else history.pushState(null, "", window.location.pathname); } catch (_) {}
+    if (mode !== "silent") { const t = $("productos"); if (t) setTimeout(() => t.scrollIntoView(), 30); }
+  }
+  window.addEventListener("popstate", () => {
+    const id = new URLSearchParams(window.location.search).get("producto");
+    if (id && S.products.some((x) => x.id === id)) openProductPage(id, false); else closeProductPage("pop");
+  });
+  $("pp-back").addEventListener("click", () => closeProductPage());
+  document.addEventListener("click", (e) => { if (PG.open && e.target.closest('a[href^="#"]')) closeProductPage("silent"); });
+  pgBox.addEventListener("mousemove", (e) => {
+    const box = e.target.closest("#pp-main"); if (!box) return;
+    const img = box.querySelector("img"); if (!img) return;
+    const r = box.getBoundingClientRect();
+    img.style.transformOrigin = `${((e.clientX - r.left) / r.width) * 100}% ${((e.clientY - r.top) / r.height) * 100}%`;
+  });
+  function pgSetImage(i) {
+    PG.i = (i + PG.media.length) % PG.media.length;
+    $("pp-gal").innerHTML = pgGalleryHTML();
+  }
+  function pgQty(delta) {
+    const top = maxQty(PG.p);
+    PG.qty = Math.max(1, Math.min(top, PG.qty + delta));
+    const q = $("pp-qty"); if (q) q.textContent = String(PG.qty);
+  }
+  pgEl.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-pp]"); if (!b || !PG.p) return;
+    const p = PG.p;
+    switch (b.dataset.pp) {
+      case "thumb": pgSetImage(Number(b.dataset.i) || 0); break;
+      case "main": {
+        const m = PG.media[PG.i];
+        if (m && m.type === "image") { const imgs = PG.media.filter((x) => x.type === "image"); openLightbox(imgs.map((x) => x.raw || x.url), imgs.findIndex((x) => x === m)); }
+        break;
+      }
+      case "qminus": pgQty(-1); break;
+      case "qplus": pgQty(1); break;
+      case "add": addToCart(p.id, PG.qty); break;
+      case "buy": if (addToCart(p.id, PG.qty)) { closeProductPage("silent"); openCheckout(); } break;
+      case "wa": window.open("https://wa.me/?text=" + encodeURIComponent(`${p.titulo} — ${pgUrl(p.id)}`), "_blank", "noopener"); break;
+      case "copy":
+        if (navigator.clipboard) navigator.clipboard.writeText(pgUrl(p.id)).then(() => showToast("Enlace copiado al portapapeles.")).catch(() => showToast("No se pudo copiar el enlace.", "error"));
+        else showToast(pgUrl(p.id));
+        break;
+      case "cat": S.category = b.dataset.v || ""; S.visible = PAGE_SIZE; renderCategoryChips(); renderProducts(); closeProductPage("silent"); { const t = $("productos"); if (t) setTimeout(() => t.scrollIntoView(), 30); } break;
+    }
+  });
 
   /* ---------- Lightbox ---------- */
   const lb = { box: $("image-lightbox"), img: $("lightbox-img"), list: [], i: 0 };
@@ -1642,17 +1816,19 @@
   function cartLines() { return cart.map((item) => ({ item, p: S.products.find((p) => p.id === item.id) })).filter((l) => l.p); }
   function maxQty(p) { return isNum(p.stock) && p.stock > 0 ? Math.floor(p.stock) : 99; }
 
-  function addToCart(id) {
+  function addToCart(id, qty) {
     const p = S.products.find((x) => x.id === id);
-    if (!p) return;
-    if (!isAvailable(p)) { showToast("Producto sin stock.", "error"); return; }
+    if (!p) return false;
+    if (!isAvailable(p)) { showToast("Producto sin stock.", "error"); return false; }
+    const n = Math.max(1, Math.floor(Number(qty) || 1)), top = maxQty(p);
     const ex = cart.find((i) => i.id === id);
     if (ex) {
-      if (ex.qty >= maxQty(p)) { showToast("Alcanzaste el stock disponible de este producto.", "error"); return; }
-      ex.qty++;
-    } else cart.push({ id, qty: 1 });
+      if (ex.qty >= top) { showToast("Alcanzaste el stock disponible de este producto.", "error"); return false; }
+      ex.qty = Math.min(top, ex.qty + n);
+    } else cart.push({ id, qty: Math.min(top, n) });
     saveCart(); renderCart();
     showToast("Agregado al carrito.");
+    return true;
   }
   function changeQty(id, delta) {
     const ex = cart.find((i) => i.id === id); if (!ex) return;
@@ -1673,7 +1849,11 @@
     const c = S.puntosCfg || {};
     const pe = Number(c.pesosPorUnidad) >= 1 ? Number(c.pesosPorUnidad) : 1000;
     const pu = Number(c.puntosPorUnidad) >= 1 ? Number(c.puntosPorUnidad) : 1;
-    return Math.floor(Math.max(0, Number(amount) || 0) / pe) * pu;
+    let mult = 1;
+    const lv = Array.isArray(c.niveles) ? c.niveles.filter((n) => n && Number(n.mult) > 0 && Number(n.desde) >= 0).sort((a, b) => Number(a.desde) - Number(b.desde)) : [];
+    const have = Number(profileCache && profileCache.data && profileCache.data.puntos) || 0;
+    lv.forEach((n) => { if (have >= Number(n.desde)) mult = Number(n.mult); });
+    return Math.floor(Math.floor(Math.max(0, Number(amount) || 0) / pe) * pu * mult);
   };
 
   function setCartLoading(on) {
@@ -1741,7 +1921,7 @@
             <p class="mt-2 text-gold-soft font-display text-xl">${pp === null ? "Consultar precio" : fmt(pp)}${struck}${transferPrice(p) !== null ? ' <span class="text-[11px] text-stone font-sans">transf./efectivo</span>' : ""}</p>
             <div class="mt-3 flex items-center gap-3">
               <button type="button" data-act="qty" data-id="${esc(item.id)}" data-delta="-1" class="qty-btn" aria-label="Restar una unidad">−</button>
-              <span class="text-cream text-sm font-medium min-w-[24px] text-center" aria-live="polite">${item.qty}</span>
+              <span class="text-cream text-sm font-medium min-w-[24px] text-center" aria-live="polite">${esc(item.qty)}</span>
               <button type="button" data-act="qty" data-id="${esc(item.id)}" data-delta="1" class="qty-btn" aria-label="Sumar una unidad">+</button>
             </div>
             <div class="mt-3 space-y-1.5 pt-3 border-t border-gold/10">
@@ -1763,7 +1943,7 @@
         <div class="flex-1 min-w-0">
           <p class="text-cream font-medium">Club del Anfitrión — Sumá puntos con esta compra</p>
           ${user
-            ? `<p class="text-stone text-sm mt-1">Con este carrito sumás <strong class="text-gold-soft">${pts} ${pts === 1 ? "punto" : "puntos"}</strong>. Se acreditan cuando confirmamos tu pago.</p>`
+            ? `<p class="text-stone text-sm mt-1">Con este carrito sumás <strong class="text-gold-soft">${esc(pts)} ${pts === 1 ? "punto" : "puntos"}</strong>. Se acreditan cuando confirmamos tu pago.</p>`
             : `<p class="text-stone text-sm mt-1">Iniciá sesión o registrate para acumular puntos y canjearlos por premios.</p><button type="button" data-act="open-auth" class="mt-3 rounded-full border border-gold/50 px-4 py-2 text-gold-soft text-sm hover:bg-gold hover:text-wine-black transition-colors">Iniciar sesión / Registrarme</button>`}
         </div>
       </div>`;
@@ -1971,7 +2151,7 @@
       const t = calcTotals();
       body.innerHTML = `
         <h4 class="font-display text-xl mb-3">Resumen del pedido</h4>
-        <ul class="space-y-2 mb-5 text-sm">${t.lines.map(({ item, p }) => `<li class="flex justify-between gap-3"><span class="text-stone">${item.qty} × ${esc(p.titulo)}</span><span class="text-cream shrink-0">${fmt((payPrice(p) ?? 0) * item.qty)}</span></li>`).join("")}</ul>
+        <ul class="space-y-2 mb-5 text-sm">${t.lines.map(({ item, p }) => `<li class="flex justify-between gap-3"><span class="text-stone">${esc(item.qty)} × ${esc(p.titulo)}</span><span class="text-cream shrink-0">${fmt((payPrice(p) ?? 0) * item.qty)}</span></li>`).join("")}</ul>
         <div id="co-totals">${totalsHTML(t)}</div>
         <div class="mt-5 rounded-xl border border-gold/25 bg-gold/5 p-4 text-sm text-stone leading-relaxed">
           <p class="text-gold-soft font-medium mb-1">Pago por transferencia bancaria · 0% de comisión</p>
@@ -2145,7 +2325,7 @@
   };
 
   /* ---- Espera de la transferencia: reloj de 30 min + onSnapshot en tiempo real ---- */
-  const PAID_STATES = ["pagado", "confirmado", "acreditado", "preparando", "en_preparacion", "listo", "listo_retiro", "despachado", "enviado", "en_camino", "entregado", "retirado"];
+  const PAID_STATES = ["pago_confirmado", "preparando", "en_camino", "listo_retiro", "entregado", "pagado", "confirmado", "acreditado", "en_preparacion", "listo", "despachado", "enviado", "retirado"];
   const ORDER_WAIT_MS = 30 * 60 * 1000;
   const orderWatch = { code: null, unsub: null, timer: null };
   function stopOrderWatch() {
@@ -2168,7 +2348,7 @@
     stopOrderWatch();
     orderWatch.code = code;
     orderWatch.timer = setInterval(tickOrderTimer, 1000);
-    orderWatch.unsub = onSnapshot(doc(db, "pedidos", code), (snap) => {
+    orderWatch.unsub = onSnapshot(doc(db, "seguimiento", code), (snap) => {
       if (!snap.exists()) return;
       const d = snap.data();
       if (PAID_STATES.includes(String(d.estado || "").toLowerCase())) onOrderPaid(code, d);
@@ -2182,18 +2362,18 @@
       await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_WELCOME_TEMPLATE_ID, {
         to_email: email, user_email: email, to_name: (d.cliente && d.cliente.nombre) || email.split("@")[0],
         email_titulo: `¡Recibimos tu pago! Pedido #${code}`,
-        email_mensaje: `Acreditamos tu transferencia por ${fmt2(d.montoTransferencia || d.total)}. Tu pedido #${code} ya está confirmado.` + (pts > 0 ? ` Con esta compra sumás ${pts} ${pts === 1 ? "punto" : "puntos"} del Club del Anfitrión.` : "") + ` Podés seguirlo en clubdelanfitrion.com.ar con tu código y tu DNI.`
+        email_mensaje: `Acreditamos tu transferencia por ${fmt2(d.montoTransferencia || d.total)}. Tu pedido #${code} ya está confirmado.` + (pts > 0 ? ` Con esta compra sumás ${esc(pts)} ${pts === 1 ? "punto" : "puntos"} del Club del Anfitrión.` : "") + ` Podés seguirlo en clubdelanfitrion.com.ar con tu código y tu DNI.`
       });
     } catch (e) { console.warn("[email pedido]", e); }
   }
   function onOrderPaid(code, d) {
     if (orderWatch.code !== code) return;
-    const pts = pointsFor(Number(d.total) || 0);
+    const pts = pointsFor(Number(d.total) || (co.order && co.order.total) || 0);
     const live = co.order && co.order.code === code;
     if (live) { co.order.paid = true; co.order.pts = pts; }
     stopOrderWatch();
     showToast(`¡Pago acreditado! Tu pedido #${code} está confirmado.`);
-    sendPaidEmail(code, d, pts);
+    sendPaidEmail(code, live ? { cliente: co.order.cliente, montoTransferencia: co.order.monto, total: co.order.total } : d, pts);
     if (live && co.open) renderCheckout();
   }
 
@@ -2219,7 +2399,7 @@
     const expiresAt = Date.now() + ORDER_WAIT_MS;
     const order = {
       uid: user ? user.uid : null,
-      estado: quote ? "pendiente_cotizacion" : "esperando_transferencia",
+      estado: quote ? "pendiente_cotizacion" : "pendiente_pago",
       metodoPago: "transferencia",
       cliente: { nombre: f.nombre.trim(), apellido: f.apellido.trim(), dni: digits(f.dni), telefono: f.tel.trim(), email: f.email.trim() },
       dni: digits(f.dni),
@@ -2232,6 +2412,7 @@
       expiraEn: quote ? null : Timestamp.fromMillis(expiresAt),
       puntosEstimados: pointsFor(totalFinal),
       origen: "web",
+      dniVinculado: digits(f.dni), puntosAcreditados: false, stockDescontado: false,
       creadoEn: serverTimestamp()
     };
     let code = null, lastErr = null;
@@ -2246,6 +2427,13 @@
       co.error = lastErr && lastErr.message === "timeout" ? "La conexión está lenta y no pudimos confirmar el pedido. Revisá tu conexión e intentá de nuevo." : "No pudimos registrar tu pedido. Intentá de nuevo o escribinos por WhatsApp.";
       renderCheckout(); return;
     }
+    /* Colección pública de seguimiento: sin DNI, dirección ni teléfono (solo hash del DNI) */
+    try {
+      const dniHash = await sha256Hex(DNI_SALT + digits(f.dni));
+      const segDoc = { estado: order.estado, metodoPago: "transferencia", tipoEntrega: t.ship.tipo || "retiro", dniHash, transporte: t.ship.carrier || null, codigoSeguimiento: null, montoTransferencia: monto, expiraEn: order.expiraEn, creadoEn: serverTimestamp(), actualizadoEn: serverTimestamp() };
+      try { await withTimeout(setDoc(doc(db, "seguimiento", code), segDoc), 9000); }
+      catch (e1) { await withTimeout(setDoc(doc(db, "seguimiento", code), segDoc), 9000); }
+    } catch (segErr) { console.warn("[seguimiento]", segErr); showToast("Tu pedido se registró, pero el seguimiento online puede demorar. Guardá tu código.", "error"); }
     try { localStorage.setItem("cda_last_order", code); } catch (_) {}
     co.order = { code, quote, total: totalFinal, monto, items: order.items, envioLabel: t.ship.label, cliente: order.cliente, expiresAt: quote ? null : expiresAt, paid: false, expired: false, pts: order.puntosEstimados };
     cart = []; saveCart();
@@ -2255,7 +2443,7 @@
   }
 
   function renderSuccess(body, foot) {
-    const o = co.order, pago = S.settings.pago || {};
+    const o = co.order, pago = Object.assign({}, PAGO_DEFAULT, S.settings.pago || {});
     const copyRow = (label, val, btn) => val ? `<div class="flex items-center justify-between gap-3 py-2 border-b border-gold/10 last:border-0"><div class="min-w-0"><p class="text-stone text-xs">${label}</p><p class="text-cream text-sm break-all">${esc(val)}</p></div><button type="button" data-copy="${esc(val)}" class="shrink-0 rounded-full border border-gold/40 px-3 py-1.5 text-gold-soft text-xs">${btn || "Copiar"}</button></div>` : "";
     const clubBlock = auth && auth.currentUser
       ? `<p class="text-stone text-sm">Para sumar puntos, indicá tu DNI cuando retires o recibas tu pedido. Podés ver tu compra en tu <a href="club-clientes.html" class="text-gold-soft underline">Club de Clientes</a>.</p>`
@@ -2270,7 +2458,7 @@
           <h4 class="font-display text-3xl text-gold-soft mb-1">¡Pago acreditado!</h4>
           <p class="text-stone text-sm">Pedido <strong class="text-cream tracking-wider">#${esc(o.code)}</strong> confirmado. Te enviamos el detalle a ${esc(o.cliente.email)}.</p>
         </div>
-        ${o.pts > 0 ? `<div class="rounded-xl border border-gold/30 bg-gold/5 p-4 text-center mb-4"><p class="text-gold-soft font-display text-2xl">+${o.pts} ${o.pts === 1 ? "punto" : "puntos"}</p><p class="text-stone text-xs mt-1">${auth && auth.currentUser ? "Se suman a tu cuenta del Club de Clientes." : "Registrate con el mismo DNI para reclamarlos en el Club de Clientes."}</p></div>` : ""}
+        ${o.pts > 0 ? `<div class="rounded-xl border border-gold/30 bg-gold/5 p-4 text-center mb-4"><p class="text-gold-soft font-display text-2xl">+${esc(o.pts)} ${o.pts === 1 ? "punto" : "puntos"}</p><p class="text-stone text-xs mt-1">${auth && auth.currentUser ? "Se suman a tu cuenta del Club de Clientes." : "Registrate con el mismo DNI para reclamarlos en el Club de Clientes."}</p></div>` : ""}
         <div class="rounded-xl border border-gold/15 p-4"><p class="text-cream text-sm font-medium mb-2">Club de Clientes</p>${clubBlock}</div>`;
       foot.innerHTML = trackBtn + `<button type="button" id="co-done" class="btn-press flex-1 rounded-full bg-gold px-5 py-3 text-wine-black font-medium">Seguir comprando</button>`;
       return;
@@ -2336,12 +2524,19 @@
   function trackStage(d) {
     const e = String(d.estado || "").toLowerCase();
     if (["entregado", "retirado"].includes(e)) return 4;
-    if (["listo", "listo_retiro", "despachado", "enviado", "en_camino"].includes(e)) return 3;
+    if (["listo_retiro", "listo", "en_camino", "despachado", "enviado"].includes(e)) return 3;
     if (["preparando", "en_preparacion"].includes(e)) return 2;
-    if (["pagado", "confirmado", "acreditado"].includes(e)) return 1;
+    if (["pago_confirmado", "pagado", "confirmado", "acreditado"].includes(e)) return 1;
     return 0;
   }
+  function normTrack(d) {
+    if (d && (d.tipoEntrega !== undefined || d.dniHash !== undefined)) {
+      return { estado: d.estado, envio: { tipo: d.tipoEntrega, transportista: d.transporte }, guia: d.codigoSeguimiento, montoTransferencia: d.montoTransferencia, total: d.montoTransferencia, items: [] };
+    }
+    return d;
+  }
   function renderTrack(d, code) {
+    d = normTrack(d);
     const tipo = d.envio && d.envio.tipo, est = String(d.estado || "").toLowerCase();
     const steps = ["Pedido recibido", "Pago acreditado", "Preparando", tipo === "nacional" ? "Despachado" : tipo === "domicilio_local" ? "En camino" : "Listo para retirar", tipo === "retiro" || !tipo ? "Retirado" : "Entregado"];
     const cur = trackStage(d);
@@ -2377,13 +2572,13 @@
     if (c.length < 4) { msg.textContent = "Ingresá el código de tu pedido (ej: #CDA-AB12CD)."; return; }
     if (dni.length < 7) { msg.textContent = "Ingresá el DNI / CUIT con el que hiciste la compra."; return; }
     if (!db) { msg.textContent = "No hay conexión con el servidor. Recargá la página."; return; }
-    const code = "CDA-" + c, ref = doc(db, "pedidos", code);
+    const code = "CDA-" + c, ref = doc(db, "seguimiento", code);
     btn.disabled = true; btn.textContent = "Buscando…";
     if (trackUnsub) { try { trackUnsub(); } catch (_) {} trackUnsub = null; }
     try {
       const snap = await withTimeout(getDoc(ref), 9000);
       const d = snap.exists() ? snap.data() : null;
-      const ok = d && (String(d.dni || "") === dni || String(d.cliente && d.cliente.dni || "") === dni);
+      const ok = d && d.dniHash && d.dniHash === (await sha256Hex(DNI_SALT + dni));
       if (!ok) { $("track-result").innerHTML = ""; msg.textContent = "No encontramos un pedido con esos datos. Revisá el código y el DNI."; }
       else {
         renderTrack(d, code);
@@ -2514,10 +2709,13 @@
   const registerSuccessModal = $("register-success-modal");
   const GOOGLE_LABEL = "Iniciar sesión con Google";
   let authBusy = false, resetCooldownUntil = 0;
+  let needsCompletion = null, routedUid = null, registering = false, justSignedIn = false, googleMode = false;
+  const REG_LABEL = ($("auth-register-btn").textContent || "Crear cuenta").trim();
 
-  function setAuthMessage(text, isError = false) { authMessage.textContent = text; authMessage.className = `mt-4 text-sm ${isError ? "text-red-300" : "text-gold-soft"}`; }
+  function setAuthMessage(text, isError = false) { const nt = $("auth-notice"); if (nt) { nt.classList.add("hidden"); nt.innerHTML = ""; } authMessage.textContent = text; authMessage.className = `mt-4 text-sm ${isError ? "text-red-300" : "text-gold-soft"}`; }
   function setAuthBusy(busy) { authBusy = busy; authFields.setAttribute("aria-busy", busy ? "true" : "false"); authFields.querySelectorAll("button").forEach((b) => { b.disabled = busy; }); }
-  function showAuthView(view) {
+  function showAuthView(view, keepMode) {
+    if (!keepMode) setGoogleMode(false);
     authLoginView.classList.toggle("hidden", view !== "login");
     authRegisterView.classList.toggle("hidden", view !== "register");
     authStatus.textContent = view === "register" ? "Completá tus datos para crear tu cuenta." : "Ingresá o creá tu cuenta para continuar.";
@@ -2525,7 +2723,7 @@
   }
   function openAuthModal(view) {
     openModal(authModal);
-    if (!auth || !auth.currentUser) showAuthView(view || "login"); else setAuthMessage("");
+    if (needsCompletion && auth && auth.currentUser) openGoogleCompletion(needsCompletion.user, needsCompletion.nm, needsCompletion.prof); else if (!auth || !auth.currentUser) showAuthView(view || "login"); else setAuthMessage("");
   }
   const closeAuthModal = () => closeModal(authModal);
   function authErrorMessage(error) {
@@ -2548,15 +2746,107 @@
   $("auth-show-login").addEventListener("click", () => { const t = $("auth-reg-email").value.trim(); if (t && !authEmail.value) authEmail.value = t; showAuthView("login"); authEmail.focus(); });
 
   const splitName = (n) => { const p = String(n || "").trim().split(/\s+/).filter(Boolean); return { nombre: p[0] || "", apellido: p.slice(1).join(" ") }; };
+  const normTel = (t) => { let d = digits(t); if (d.startsWith("54")) d = d.slice(2); if (d.startsWith("9")) d = d.slice(1); if (d.startsWith("0")) d = d.slice(1); return d.length > 10 ? d.slice(-10) : d; };
+  const maskEmail = (e) => { const [u, dom] = String(e || "").split("@"); if (!dom) return "•••"; return u.slice(0, 2) + "•••@" + dom; };
+  const lookupKey = { mail: (e) => "mail_" + String(e).trim().toLowerCase(), dni: (d) => "dni_" + d, tel: (t) => "tel_" + normTel(t) };
+
+  /* Índice de unicidad (usuarios_lookup): undefined = no se pudo consultar, null = no existe */
+  async function getLookup(key) {
+    try { const s = await withTimeout(getDoc(doc(db, "usuarios_lookup", key)), 8000); return s.exists() ? s.data() : null; }
+    catch (e) { console.warn("[lookup]", e); return undefined; }
+  }
+  async function writeLookups(user, { dni, telefono }) {
+    if (!db || !user || !user.email) return;
+    const jobs = [["mail", lookupKey.mail(user.email)]];
+    if (dni) jobs.push(["dni", lookupKey.dni(dni)]);
+    if (telefono && normTel(telefono).length >= 6) jobs.push(["tel", lookupKey.tel(telefono)]);
+    for (const [tipo, key] of jobs) {
+      try {
+        const ex = await getDoc(doc(db, "usuarios_lookup", key));
+        if (ex.exists()) continue;
+        await setDoc(doc(db, "usuarios_lookup", key), { uid: user.uid, email: String(user.email).toLowerCase(), tipo, creadoEn: serverTimestamp() });
+      } catch (e) { console.warn("[lookup write]", key, e); }
+    }
+  }
+  async function findDuplicate({ dni, telefono }, selfUid) {
+    const d = await getLookup(lookupKey.dni(dni));
+    if (d && d.uid !== selfUid) return { campo: "DNI", email: d.email };
+    const t = normTel(telefono).length >= 6 ? await getLookup(lookupKey.tel(telefono)) : null;
+    if (t && t.uid !== selfUid) return { campo: "número de teléfono", email: t.email };
+    return null;
+  }
+
+  function showAuthNotice(text, tone, action) {
+    const box = $("auth-notice"); authMessage.textContent = "";
+    box.className = `mt-4 rounded-xl border p-4 text-sm leading-relaxed text-cream ${tone === "warn" ? "border-gold/50 bg-gold/10" : "border-gold/25 bg-wine-black/40"}`;
+    box.innerHTML = ""; const p = document.createElement("p"); p.textContent = text; box.appendChild(p);
+    if (action) {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = action.label;
+      b.className = "mt-3 rounded-full border border-gold/50 px-4 py-1.5 text-xs text-gold-soft hover:bg-gold/10";
+      b.addEventListener("click", action.onClick); box.appendChild(b);
+    }
+  }
+  async function showDuplicateNotice(dup) {
+    let sent = false;
+    try { await sendPasswordResetEmail(auth, dup.email); sent = true; } catch (e) { console.warn("[reset dup]", e); }
+    const masked = maskEmail(dup.email);
+    showAuthNotice(`Ya existe una cuenta con este ${dup.campo}, ¿deseás restablecer la contraseña? ` +
+      (sent ? `Enviamos los pasos de restablecer la contraseña al mail ${masked}` : `No pudimos enviar el correo a ${masked}. Probá con "¿Olvidaste tu contraseña?".`), "warn");
+  }
+  function showWelcomeBanner(text) {
+    const old = document.getElementById("cda-welcome"); if (old) old.remove();
+    const el = document.createElement("div"); el.id = "cda-welcome"; el.setAttribute("role", "status");
+    el.className = "fixed top-24 left-1/2 -translate-x-1/2 z-[140] max-w-[92vw] rounded-2xl border border-gold/50 bg-wine-panel px-5 py-3 text-sm text-gold-soft shadow-2xl fade-in text-center";
+    el.textContent = text; document.body.appendChild(el);
+    setTimeout(() => { el.style.transition = "opacity .4s"; el.style.opacity = "0"; setTimeout(() => el.remove(), 450); }, 5200);
+  }
+  function setGoogleMode(on) {
+    googleMode = !!on;
+    const w = $("auth-reg-pass-wrap"); if (w) w.classList.toggle("hidden", googleMode);
+    $("auth-reg-email").readOnly = googleMode;
+    $("auth-reg-password").required = !googleMode;
+    $("auth-register-btn").textContent = googleMode ? "Activar mi cuenta" : REG_LABEL;
+  }
+  function openGoogleCompletion(user, nm, prof) {
+    needsCompletion = { user, nm, prof };
+    openModal(authModal);
+    authProfile.classList.add("hidden"); authFields.classList.remove("hidden");
+    showAuthView("register", true); setGoogleMode(true);
+    $("auth-reg-nombre").value = nm.nombre || ""; $("auth-reg-apellido").value = nm.apellido || "";
+    $("auth-reg-email").value = user.email || "";
+    $("auth-reg-dni").value = (prof && prof.dni) || ""; $("auth-reg-tel").value = (prof && prof.telefono) || "";
+    authStatus.textContent = `¡Bienvenido${nm.nombre ? ", " + nm.nombre : ""}! Completá tus datos para activar tu cuenta`;
+    try { (nm.apellido ? $("auth-reg-dni") : $("auth-reg-apellido")).focus(); } catch (_) {}
+  }
+
+  /* Tras iniciar sesión (Google o correo): ¿perfil completo con DNI y teléfono? */
+  async function routeUser(user) {
+    if (!user || routedUid === user.uid || !db) return;
+    routedUid = user.uid;
+    let prof = null;
+    try { const s = await withTimeout(getDoc(doc(db, "usuarios", user.uid)), 8000); prof = s.exists() ? s.data() : null; }
+    catch (e) { console.warn("[routeUser]", e); routedUid = null; return; }
+    const fresh = splitName(user.displayName);
+    const nombre = (prof && prof.nombre) || fresh.nombre;
+    if (prof && prof.dni && prof.telefono) {
+      needsCompletion = null;
+      writeLookups(user, prof);
+      if (justSignedIn) { justSignedIn = false; closeAuthModal(); showWelcomeBanner(`¡Bienvenido de vuelta, ${nombre || "!"}!`.replace(", !", "!")); }
+      return;
+    }
+    justSignedIn = false;
+    const nm = { nombre: (prof && prof.nombre) || fresh.nombre, apellido: (prof && prof.apellido) || fresh.apellido };
+    showWelcomeBanner(`¡Bienvenido, ${nm.nombre || user.email}! Completá tus datos para activar tu cuenta`);
+    openGoogleCompletion(user, nm, prof);
+  }
+
   async function ensureUserProfile(user, { nombre, apellido, telefono, dni }) {
     try {
       const ref = doc(db, "usuarios", user.uid);
       const snap = await getDoc(ref);
-      if (snap.exists()) return true;
-      const data = { nombre, apellido, email: user.email || "", puntos: 0, clubAdherido: true, creadoEn: serverTimestamp() };
-      if (telefono) data.telefono = telefono;
-      if (dni) data.dni = dni;
-      await setDoc(ref, data);
+      if (snap.exists()) await setDoc(ref, { nombre, apellido, dni, telefono, email: user.email || "", perfilCompleto: true, actualizadoEn: serverTimestamp() }, { merge: true });
+      else await setDoc(ref, { nombre, apellido, email: user.email || "", puntos: 0, clubAdherido: true, dni, telefono, perfilCompleto: true, creadoEn: serverTimestamp() });
+      profileCache = null;
       return true;
     } catch (e) { console.warn("[profile]", e); return false; }
   }
@@ -2574,38 +2864,67 @@
   $("auth-google-btn").addEventListener("click", async () => {
     if (authBusy) return;
     if (!auth) { setAuthMessage("Firebase no inicializó. Recargá la página.", true); return; }
-    setAuthBusy(true); $("auth-google-label").textContent = "Conectando..."; setAuthMessage("Conectando con Google...");
+    setAuthBusy(true); $("auth-google-label").textContent = "Conectando..."; setAuthMessage("Conectando con Google..."); justSignedIn = true;
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      const isNew = !!(getAdditionalUserInfo(result) || {}).isNewUser;
-      const nm = splitName(result.user.displayName);
-      await ensureUserProfile(result.user, nm);
-      closeAuthModal(); showToast("Sesión iniciada con Google.");
-      if (isNew) sendWelcomeEmail({ email: result.user.email, nombre: nm.nombre });
-    } catch (error) { console.error("[google auth]", error); setAuthMessage(authErrorMessage(error), true); }
+      setAuthBusy(false);
+      await routeUser(result.user);
+    } catch (error) { justSignedIn = false; console.error("[google auth]", error); setAuthMessage(authErrorMessage(error), true); }
     finally { $("auth-google-label").textContent = GOOGLE_LABEL; setAuthBusy(false); }
   });
+
+  async function completeGoogleProfile({ nombre, apellido, telefono, dni }) {
+    const user = auth.currentUser;
+    if (!user) { setAuthBusy(false); setAuthMessage("Tu sesión expiró. Iniciá sesión de nuevo.", true); return; }
+    setAuthMessage("Verificando datos...");
+    const dup = await findDuplicate({ dni, telefono }, user.uid);
+    if (dup) {
+      await showDuplicateNotice(dup);
+      const hadDoc = !!(needsCompletion && needsCompletion.prof);
+      if (!hadDoc) { routedUid = null; needsCompletion = null; try { await deleteUser(user); } catch (_) { try { await signOut(auth); } catch (__) {} } }
+      setAuthBusy(false); return;
+    }
+    const warnings = [];
+    try { if (!user.displayName) await updateProfile(user, { displayName: `${nombre} ${apellido}` }); } catch (_) {}
+    if (!(await ensureUserProfile(user, { nombre, apellido, telefono, dni }))) { setAuthBusy(false); setAuthMessage("No pudimos guardar tus datos. Intentá de nuevo.", true); return; }
+    await writeLookups(user, { dni, telefono });
+    const isNewDoc = !(needsCompletion && needsCompletion.prof);
+    needsCompletion = null; routedUid = user.uid;
+    $("auth-register-form").reset(); setGoogleMode(false); setAuthBusy(false); closeAuthModal();
+    renderAuthState(user);
+    showWelcomeBanner(`¡Cuenta activada! Bienvenido, ${nombre}.`);
+    if (isNewDoc) sendWelcomeEmail({ email: user.email, nombre });
+  }
 
   $("auth-register-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     if (authBusy) return;
-    if (!auth) { setAuthMessage("Firebase no inicializó.", true); return; }
+    if (!auth || !db) { setAuthMessage("Firebase no inicializó.", true); return; }
     const nombre = $("auth-reg-nombre").value.trim(), apellido = $("auth-reg-apellido").value.trim();
     const telefono = $("auth-reg-tel").value.trim(), email = $("auth-reg-email").value.trim(), password = $("auth-reg-password").value;
     const dni = digits($("auth-reg-dni").value);
     if (!nombre || !apellido) return setAuthMessage("Ingresá nombre y apellido.", true);
     if (!/^\d{7,8}$/.test(dni)) return setAuthMessage("Ingresá tu DNI (7 u 8 números, sin puntos).", true);
+    if (normTel(telefono).length < 8) return setAuthMessage("Ingresá tu teléfono (código de área + número).", true);
     if (!isEmail(email)) return setAuthMessage("Correo inválido.", true);
-    if (!password || password.length < 6) return setAuthMessage("Contraseña de mínimo 6 caracteres.", true);
-    setAuthBusy(true); setAuthMessage("Creando cuenta...");
+    if (!googleMode && (!password || password.length < 6)) return setAuthMessage("Contraseña de mínimo 6 caracteres.", true);
+    setAuthBusy(true);
+    if (googleMode) { await completeGoogleProfile({ nombre, apellido, telefono, dni }); return; }
+    setAuthMessage("Verificando datos...");
+    const dup = await findDuplicate({ dni, telefono }, null);
+    if (dup) { await showDuplicateNotice(dup); setAuthBusy(false); return; }
+    setAuthMessage("Creando cuenta...");
+    registering = true;
     let cred;
     try { cred = await createUserWithEmailAndPassword(auth, email, password); }
-    catch (error) { setAuthBusy(false); setAuthMessage(authErrorMessage(error), true); return; }
+    catch (error) { registering = false; setAuthBusy(false); setAuthMessage(authErrorMessage(error), true); return; }
     const user = cred.user, warnings = [];
     try { await updateProfile(user, { displayName: `${nombre} ${apellido}` }); } catch (_) {}
     if (!(await ensureUserProfile(user, { nombre, apellido, telefono, dni }))) warnings.push("No se guardó el perfil.");
+    await writeLookups(user, { dni, telefono });
     if (!(await sendWelcomeEmail({ email: user.email, nombre }))) warnings.push("No se pudo enviar el mail de bienvenida.");
-    $("auth-register-form").reset(); setAuthBusy(false); closeAuthModal();
+    routedUid = user.uid; registering = false;
+    $("auth-register-form").reset(); setAuthBusy(false); closeAuthModal(); renderAuthState(user);
     $("register-success-text").textContent = `Usuario registrado con éxito. ¡Bienvenido, ${nombre}!`;
     const warn = $("register-success-warning");
     if (warnings.length) { warn.textContent = warnings.join(" "); warn.classList.remove("hidden"); } else warn.classList.add("hidden");
@@ -2620,9 +2939,13 @@
     const email = authEmail.value.trim();
     if (!isEmail(email)) return setAuthMessage("Correo inválido.", true);
     if (!authPassword.value) return setAuthMessage("Ingresá tu contraseña.", true);
-    setAuthBusy(true); setAuthMessage("Iniciando sesión...");
-    try { await signInWithEmailAndPassword(auth, email, authPassword.value); authPassword.value = ""; closeAuthModal(); showToast("Sesión iniciada."); }
-    catch (error) { console.error("[login]", error); setAuthMessage(authErrorMessage(error), true); }
+    setAuthBusy(true); setAuthMessage("Iniciando sesión..."); justSignedIn = true;
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, authPassword.value);
+      authPassword.value = ""; setAuthBusy(false);
+      await routeUser(cred.user);
+      if (!needsCompletion) closeAuthModal();
+    } catch (error) { justSignedIn = false; console.error("[login]", error); setAuthMessage(authErrorMessage(error), true); }
     finally { setAuthBusy(false); }
   });
 
@@ -2632,15 +2955,24 @@
     if (!isEmail(email)) return setAuthMessage("Ingresá un correo válido.", true);
     if (Date.now() < resetCooldownUntil) return setAuthMessage("Esperá unos segundos.", true);
     setAuthBusy(true);
-    try { await sendPasswordResetEmail(auth, email); resetCooldownUntil = Date.now() + 30000; setAuthMessage("Si existe una cuenta, recibirás las instrucciones."); }
-    catch (error) {
-      if (error.code === "auth/user-not-found") { resetCooldownUntil = Date.now() + 30000; setAuthMessage("Si existe una cuenta, recibirás las instrucciones."); }
-      else setAuthMessage(authErrorMessage(error), true);
-    } finally { setAuthBusy(false); }
+    try {
+      const hit = await getLookup(lookupKey.mail(email));
+      if (hit === null) {
+        showAuthNotice("No hay una cuenta registrada con este correo, ¿deseás registrarte?", "info", {
+          label: "Crear cuenta",
+          onClick: () => { $("auth-reg-email").value = email; showAuthView("register"); $("auth-reg-nombre").focus(); }
+        });
+        return;
+      }
+      await sendPasswordResetEmail(auth, email);
+      resetCooldownUntil = Date.now() + 30000;
+      showAuthNotice(`Enviamos los pasos para restablecer la contraseña a ${email}`, "info");
+    } catch (error) { setAuthMessage(authErrorMessage(error), true); }
+    finally { setAuthBusy(false); }
   });
 
   $("auth-signout-btn").addEventListener("click", async () => {
-    try { await signOut(auth); showAuthView("login"); setAuthMessage("Sesión cerrada."); } catch (_) { setAuthMessage("No se pudo cerrar la sesión.", true); }
+    try { routedUid = null; needsCompletion = null; await signOut(auth); showAuthView("login"); setAuthMessage("Sesión cerrada."); } catch (_) { setAuthMessage("No se pudo cerrar la sesión.", true); }
   });
 
   function renderAuthState(user) {
@@ -2656,7 +2988,7 @@
       authProfile.classList.add("hidden"); authFields.classList.remove("hidden");
     }
   }
-  if (auth) onAuthStateChanged(auth, (user) => { profileCache = null; renderAuthState(user); renderCart(); if (user && co.open && co.step === 1 && !co.order) fillFromProfile(); });
+  if (auth) onAuthStateChanged(auth, (user) => { profileCache = null; renderAuthState(user); renderCart(); if (user) { if (!registering) routeUser(user); } else { routedUid = null; needsCompletion = null; } if (user && co.open && co.step === 1 && !co.order) fillFromProfile(); });
 
   /* ============================================================
    *  DELEGACIÓN DE EVENTOS GLOBAL
@@ -2694,6 +3026,7 @@
       else if (!detailModal.classList.contains("hidden")) closeDetail();
       else if (cartOpen) closeCart();
       else if (drawer.dataset.open === "1") setDrawer(false);
+      else if (PG.open) closeProductPage();
       return;
     }
     if (!detailModal.classList.contains("hidden") && lb.box.classList.contains("hidden")) {
