@@ -413,9 +413,10 @@
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
   import {
     getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc,
-    query, where, orderBy, onSnapshot, serverTimestamp, runTransaction,
+    query, where, orderBy, onSnapshot, serverTimestamp,
     addDoc, limit
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-functions.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyALsNxhMyC-GSQULpcj3CpwbDr81alvC0M",
@@ -430,6 +431,8 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
+  const functions = getFunctions(app, "us-central1");
+  const redeemRewardFn = httpsCallable(functions, "redeemReward");
   const googleProvider = new GoogleAuthProvider();
   googleProvider.setCustomParameters({ prompt: "select_account" });
 
@@ -1062,7 +1065,7 @@
     }
   });
 
-  /* Canjear premio con transaction + voucher */
+  /* Canjear premio vía Cloud Function redeemReward (seguro, atómico) */
   document.getElementById("canjes-grid").addEventListener("click", async (e) => {
     const btn = e.target.closest("[data-canjear]");
     if (!btn || btn.disabled) return;
@@ -1076,41 +1079,20 @@
     btn.disabled = true;
     btn.textContent = "Procesando…";
     try {
-      const codigo = "VCH-" + Math.random().toString(36).slice(2, 8).toUpperCase() + Date.now().toString(36).slice(-4).toUpperCase();
-      await runTransaction(db, async (tx) => {
-        const userRef = doc(db, "usuarios", user.uid);
-        const userSnap = await tx.get(userRef);
-        if (!userSnap.exists()) throw new Error("Perfil no encontrado");
-        const pts = userSnap.data().puntos || 0;
-        if (pts < need) throw new Error("Puntos insuficientes");
-        tx.update(userRef, { puntos: pts - need, actualizadoEn: serverTimestamp() });
-        const vouchRef = doc(collection(db, "vouchers_canje"));
-        tx.set(vouchRef, {
-          uid: user.uid,
-          premioId,
-          titulo,
-          puntos: need,
-          codigo,
-          usado: false,
-          creadoEn: serverTimestamp()
-        });
-        const movRef = doc(collection(db, "movimientos_puntos"));
-        tx.set(movRef, {
-          uid: user.uid,
-          tipo: "canje",
-          puntos: -need,
-          titulo,
-          voucher: codigo,
-          creadoEn: serverTimestamp()
-        });
-      });
-      document.getElementById("voucher-titulo").textContent = titulo;
-      document.getElementById("voucher-code").textContent = codigo;
+      const clientRequestId = "r_" + user.uid + "_" + premioId + "_" + Date.now();
+      const result = await redeemRewardFn({ premioId, clientRequestId });
+      const data = result && result.data ? result.data : {};
+      if (!data.ok || !data.codigo) throw new Error("Respuesta inválida del servidor");
+      document.getElementById("voucher-titulo").textContent = data.titulo || titulo;
+      document.getElementById("voucher-code").textContent = data.codigo;
       document.getElementById("voucher-modal").classList.remove("hidden");
-      toast("¡Canje exitoso!");
+      toast(data.duplicate ? "Canje ya registrado" : "¡Canje exitoso!");
       loadUserData(user);
     } catch (err) {
-      toast(err.message || "No se pudo completar el canje", "error");
+      const msg = (err && err.message) || "No se pudo completar el canje";
+      // Firebase Functions HttpsError llega como err.code / err.message
+      const clean = msg.replace(/^FirebaseError:\s*/i, "").replace(/^[^:]+:\s*/, "");
+      toast(clean || msg, "error");
     } finally {
       btn.disabled = false;
       btn.textContent = "Canjear ahora";
