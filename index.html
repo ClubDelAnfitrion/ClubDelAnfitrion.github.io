@@ -920,6 +920,7 @@
     collection, onSnapshot, addDoc, serverTimestamp, Timestamp,
     doc, getDoc, getDocs, setDoc
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-functions.js";
 
   /* ---------- Helpers ---------- */
   const $ = (id) => document.getElementById(id);
@@ -990,7 +991,7 @@
   const CLOUDINARY_IMAGE_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
   const CLOUDINARY_VIDEO_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/video/upload`;
 
-  let app, db, auth, googleProvider;
+  let app, db, auth, googleProvider, functions, createOrderFn;
   try {
     app = initializeApp(firebaseConfig);
     /* Long-polling automático: evita que el catálogo "no cargue" en redes que bloquean WebChannel/WebSocket */
@@ -1007,6 +1008,8 @@
     auth = getAuth(app);
     googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({ prompt: "select_account" });
+    functions = getFunctions(app, "us-central1");
+    createOrderFn = httpsCallable(functions, "createOrder");
   } catch (e) {
     console.error("[firebase init]", e);
     showToast("Error al inicializar Firebase. Recargá la página.", "error");
@@ -2385,61 +2388,88 @@
     if (t.lines.some(({ p }) => !isAvailable(p))) { co.error = "Hay productos sin stock en tu carrito."; renderCheckout(); return; }
     for (let s = 1; s <= 2; s++) { const m = validateStep(s); if (m) { co.step = s; co.error = m; renderCheckout(); return; } }
     if (!db) { co.error = "No hay conexión con el servidor. Recargá la página."; renderCheckout(); return; }
+    if (!createOrderFn) { co.error = "Servicio de pedidos no disponible. Recargá la página."; renderCheckout(); return; }
 
     co.busy = true; co.error = ""; renderCheckout();
     const f = co.f, zone = computeZone(), user = auth && auth.currentUser;
-    const centavos = Math.floor(Math.random() * 99) + 1;     /* .01 a .99 */
     const quote = t.ship.aCotizar;
-    const dir = f.entrega === "retiro" ? null : {
-      cp: f.cp.trim(), localidad: f.localidad.trim(), provincia: zone === "local" ? "Córdoba" : f.provincia,
-      calle: f.calle.trim(), altura: f.altura.trim(), piso: f.piso.trim() || null, barrio: f.barrio.trim() || null, referencias: f.ref.trim() || null
-    };
     const totalFinal = t.total === null ? t.sub - t.desc : t.total;
-    const monto = quote ? null : Math.round(Math.round(totalFinal) * 100 + centavos) / 100;
-    const expiresAt = Date.now() + ORDER_WAIT_MS;
-    const order = {
-      uid: user ? user.uid : null,
-      estado: quote ? "pendiente_cotizacion" : "pendiente_pago",
+    const clientRequestId = "o_" + (user ? user.uid : "guest") + "_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
+
+    // Mapear tipo de entrega al contrato de la Function
+    let tipoEntrega = "retiro";
+    if (f.entrega === "retiro") tipoEntrega = "retiro";
+    else if (zone === "local") tipoEntrega = "cadeteria";
+    else if (t.ship.carrier === "andreani" || (t.ship.tipo || "").includes("andreani")) tipoEntrega = "andreani";
+    else if (t.ship.carrier === "via_cargo" || (t.ship.tipo || "").includes("via")) tipoEntrega = "via_cargo";
+    else tipoEntrega = t.ship.tipo || "cadeteria";
+
+    const payload = {
+      items: t.lines.map(({ item, p }) => ({ id: p.id, qty: item.qty })),
       metodoPago: "transferencia",
-      cliente: { nombre: f.nombre.trim(), apellido: f.apellido.trim(), dni: digits(f.dni), telefono: f.tel.trim(), email: f.email.trim() },
+      tipoEntrega,
+      cliente: {
+        nombre: (f.nombre.trim() + " " + f.apellido.trim()).trim(),
+        telefono: f.tel.trim(),
+        email: f.email.trim()
+      },
       dni: digits(f.dni),
-      items: t.lines.map(({ item, p }) => ({ id: p.id, titulo: String(p.titulo), qty: item.qty, precio: payPrice(p) })),
-      subtotal: t.sub, descuento: t.desc, cupon: co.coupon ? co.coupon.codigo : null,
-      envio: { tipo: t.ship.tipo, transportista: t.ship.carrier, costo: t.ship.cost, aCotizar: quote, direccion: dir },
-      total: totalFinal,
-      montoTransferencia: monto,
-      centavos: quote ? null : centavos,
-      expiraEn: quote ? null : Timestamp.fromMillis(expiresAt),
-      puntosEstimados: pointsFor(totalFinal),
-      origen: "web",
-      dniVinculado: digits(f.dni), puntosAcreditados: false, stockDescontado: false,
-      creadoEn: serverTimestamp()
+      direccion: f.entrega === "retiro" ? null : [f.calle.trim(), f.altura.trim(), f.piso.trim(), f.barrio.trim()].filter(Boolean).join(" "),
+      cp: f.cp.trim() || null,
+      localidad: f.localidad.trim() || null,
+      provincia: zone === "local" ? "Córdoba" : (f.provincia || null),
+      cuponCodigo: co.coupon ? co.coupon.codigo : null,
+      notas: f.ref ? f.ref.trim() : null,
+      clientRequestId,
+      // Metadatos para enriquecer el pedido en el servidor (centavos / cotización)
+      aCotizar: !!quote,
+      clientSubtotal: t.sub,
+      clientDescuento: t.desc,
+      clientEnvioCosto: t.ship.cost
     };
-    let code = null, lastErr = null;
-    for (let attempt = 0; attempt < 3 && !code; attempt++) {
-      const c = genCode();
-      try { await withTimeout(setDoc(doc(db, "pedidos", c), Object.assign({ codigoRetiro: c }, order)), 12000); code = c; }
-      catch (err) { lastErr = err; if (!(err && err.code === "permission-denied")) break; }
-    }
-    if (!code) {
-      console.error("[pedido]", lastErr);
-      co.busy = false;
-      co.error = lastErr && lastErr.message === "timeout" ? "La conexión está lenta y no pudimos confirmar el pedido. Revisá tu conexión e intentá de nuevo." : "No pudimos registrar tu pedido. Intentá de nuevo o escribinos por WhatsApp.";
-      renderCheckout(); return;
-    }
-    /* Colección pública de seguimiento: sin DNI, dirección ni teléfono (solo hash del DNI) */
+
     try {
-      const dniHash = await sha256Hex(DNI_SALT + digits(f.dni));
-      const segDoc = { estado: order.estado, metodoPago: "transferencia", tipoEntrega: t.ship.tipo || "retiro", dniHash, transporte: t.ship.carrier || null, codigoSeguimiento: null, montoTransferencia: monto, expiraEn: order.expiraEn, creadoEn: serverTimestamp(), actualizadoEn: serverTimestamp() };
-      try { await withTimeout(setDoc(doc(db, "seguimiento", code), segDoc), 9000); }
-      catch (e1) { await withTimeout(setDoc(doc(db, "seguimiento", code), segDoc), 9000); }
-    } catch (segErr) { console.warn("[seguimiento]", segErr); showToast("Tu pedido se registró, pero el seguimiento online puede demorar. Guardá tu código.", "error"); }
-    try { localStorage.setItem("cda_last_order", code); } catch (_) {}
-    co.order = { code, quote, total: totalFinal, monto, items: order.items, envioLabel: t.ship.label, cliente: order.cliente, expiresAt: quote ? null : expiresAt, paid: false, expired: false, pts: order.puntosEstimados };
-    cart = []; saveCart();
-    if (!quote) watchOrder(code);
-    renderCart();
-    co.busy = false; renderCheckout(); coModal.scrollTop = 0; tickOrderTimer();
+      const result = await withTimeout(createOrderFn(payload), 20000);
+      const data = result && result.data ? result.data : {};
+      if (!data.ok || !data.codigo) throw new Error("Respuesta inválida del servidor");
+
+      const code = data.codigo;
+      const serverTotal = typeof data.total === "number" ? data.total : totalFinal;
+      // Usar monto y centavos del servidor (createOrder) para que coincidan con Firestore
+      const monto = quote ? null : (typeof data.montoTransferencia === "number" ? data.montoTransferencia : serverTotal);
+      const expiresAt = Date.now() + ORDER_WAIT_MS;
+
+      try { localStorage.setItem("cda_last_order", code); } catch (_) {}
+
+      co.order = {
+        code,
+        quote,
+        total: serverTotal,
+        monto: monto,
+        items: t.lines.map(({ item, p }) => ({ id: p.id, titulo: String(p.titulo), qty: item.qty, precio: payPrice(p) })),
+        envioLabel: t.ship.label,
+        cliente: { nombre: f.nombre.trim(), apellido: f.apellido.trim(), dni: digits(f.dni), telefono: f.tel.trim(), email: f.email.trim() },
+        expiresAt: quote ? null : expiresAt,
+        paid: false,
+        expired: false,
+        pts: pointsFor(serverTotal)
+      };
+      cart = []; saveCart();
+      if (!quote) watchOrder(code);
+      renderCart();
+      co.busy = false; renderCheckout(); coModal.scrollTop = 0; tickOrderTimer();
+    } catch (err) {
+      console.error("[pedido]", err);
+      co.busy = false;
+      let msg = (err && err.message) || "No pudimos registrar tu pedido. Intentá de nuevo o escribinos por WhatsApp.";
+      if (msg === "timeout" || (err && err.message === "timeout")) {
+        msg = "La conexión está lenta y no pudimos confirmar el pedido. Revisá tu conexión e intentá de nuevo.";
+      }
+      // Limpiar prefijos de Firebase Functions
+      msg = String(msg).replace(/^FirebaseError:\s*/i, "").replace(/^[^:]+:\s*/, "");
+      co.error = msg;
+      renderCheckout();
+    }
   }
 
   function renderSuccess(body, foot) {
